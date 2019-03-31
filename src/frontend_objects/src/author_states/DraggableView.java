@@ -1,5 +1,6 @@
 package author_states;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -19,26 +20,35 @@ public abstract class DraggableView extends AuthorView {
      * @author Mary Stuart Elder
      */
 
-    private double startSceneX, startSceneY;
-    private double startXOffset, startYOffset;
+    private double myStartSceneX, myStartSceneY;
+    private double myStartXOffset, myStartYOffset;
+    private ImageView myImageView;
 
     /**
-     * Method is called by subclasses to set up the mouse actions for their views
-     * Superclass references the universal mousePressed and mouseDragged methods, since all views will move around when dragged
-     * Mouse release will be different for each subclass, since different circumstances will impact where the view lands on release
-     * @param view ImageView object for the method to call upon
+     * Called by subclasses of DraggableView to format myImageView
+     * Subclass specific mouseReleased methods are used in setMouseActions
+     * @param imageName String, name of the image file
+     * @param imageStyle String, references a CSS style for the image to take
+     * @param xSize double, horizontal size of image
+     * @param ySize double, vertical size of image
      */
-    public void setMouseActions(ImageView view){
-        view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
-        view.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent));
-        view.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent));
+    public void makeFormattedView(String imageName, String imageStyle, double xSize, double ySize){
+        var localImage = new Image(imageName);
+        var view = new ImageView(localImage);
+        view.setId(imageStyle);
+        view.setFitWidth(xSize);
+        view.setFitHeight(ySize);
+        setMouseActions(view);
+        myImageView = view;
     }
 
     /**
-     * Only mouseReleased is an abstract method because all DraggableViews will be clicked and moved, but each individual subclass behaves differently on release
-     * @param event MouseEvent
+     * Called by other classes to get the visual representation of this class
+     * @return ImageView
      */
-    public abstract void mouseReleased(MouseEvent event);
+    public ImageView getView(){
+        return myImageView;
+    }
 
     /**
      * Used by subclasses of DraggableView to get the view's start x position
@@ -46,7 +56,7 @@ public abstract class DraggableView extends AuthorView {
      * @return double Start position X
      */
     public double getStartX(){
-        return startXOffset;
+        return myStartXOffset;
     }
 
     /**
@@ -55,7 +65,31 @@ public abstract class DraggableView extends AuthorView {
      * @return double Start position Y
      */
     public double getStartY(){
-        return startYOffset;
+        return myStartYOffset;
+    }
+
+    /**
+     * Used by subclasses of DraggableView
+     * Only mouseReleased is an abstract method because all DraggableViews will be clicked and moved, but each individual subclass behaves differently on release
+     * Ex. if a class wants the object to return to the initial position when the imageview is dropped:
+     *  @Override
+     *  public void mouseReleased(MouseEvent event){
+     *      ((ImageView)(event.getSource())).setTranslateX(getStartX());
+     *      ((ImageView)(event.getSource())).setTranslateY(getStartY());
+     *  }
+     * @param event MouseEvent
+     */
+    public abstract void mouseReleased(MouseEvent event);
+
+    /**
+     * Method is called by subclasses to set up the mouse actions for their views
+     * Superclass references the universal mousePressed and mouseDragged methods, since all views will move around when dragged
+     * Mouse release will be different for each subclass, since different circumstances will impact where the view lands on release
+     */
+    private void setMouseActions(ImageView view){
+        view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
+        view.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent));
+        view.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent));
     }
 
     /**
@@ -63,10 +97,10 @@ public abstract class DraggableView extends AuthorView {
      * @param event MouseEvent
      */
     private void mousePressed(MouseEvent event){
-        startSceneX = event.getSceneX();
-        startSceneY = event.getSceneY();
-        startXOffset = ((ImageView)(event.getSource())).getTranslateX();
-        startYOffset = ((ImageView)(event.getSource())).getTranslateY();
+        myStartSceneX = event.getSceneX();
+        myStartSceneY = event.getSceneY();
+        myStartXOffset = ((ImageView)(event.getSource())).getTranslateX();
+        myStartYOffset = ((ImageView)(event.getSource())).getTranslateY();
     }
 
     /**
@@ -74,10 +108,10 @@ public abstract class DraggableView extends AuthorView {
      * @param event MouseEvent
      */
     private void mouseDragged(MouseEvent event){
-        double offsetX = event.getSceneX() - startSceneX;
-        double offsetY = event.getSceneY() - startSceneY;
-        double newTranslateX = startXOffset + offsetX;
-        double newTranslateY = startYOffset + offsetY;
+        double offsetX = event.getSceneX() - myStartSceneX;
+        double offsetY = event.getSceneY() - myStartSceneY;
+        double newTranslateX = myStartXOffset + offsetX;
+        double newTranslateY = myStartYOffset + offsetY;
 
         ((ImageView)(event.getSource())).setTranslateX(newTranslateX);
         ((ImageView)(event.getSource())).setTranslateY(newTranslateY);

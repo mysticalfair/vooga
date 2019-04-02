@@ -1,4 +1,4 @@
-package author_states;
+package frontend_objects;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

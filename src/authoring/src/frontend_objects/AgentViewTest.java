@@ -1,4 +1,4 @@
-package author_states;
+package frontend_objects;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 public class AgentViewTest{
 
     /**
-     * Extends DraggableView for dragging the tower image into the map
+     * Extends frontend_objects.DraggableView for dragging the tower image into the map
      * @author Mary Stuart Elder
      */
 

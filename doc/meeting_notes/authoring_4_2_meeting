@@ -1,0 +1,4 @@
+# Design Decisions Made
+* Basic structure
+    * StackPane containing a BorderPane and a Pane stacked on top of each other
+    

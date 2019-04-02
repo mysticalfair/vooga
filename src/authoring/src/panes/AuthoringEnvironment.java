@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 public class AuthoringEnvironment extends Application {
 
     static final String TITLE = "Vooginas!";
-    static final int DEFAULT_WIDTH = 800;
-    static final int DEFAULT_HEIGHT = 600;
+    static final double DEFAULT_WIDTH = 800;
+    static final double DEFAULT_HEIGHT = 600;
 
     private StackPane stackPane;
     private BorderPane borderPane;
@@ -27,7 +27,7 @@ public class AuthoringEnvironment extends Application {
         Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
         AgentPane agentPane = new AgentPane();
-        agentPane.accessNode(node -> borderPane.setRight(node));
+        agentPane.accessContainer(node -> borderPane.setRight(node));
 
         stage.setTitle(TITLE);
         stage.setScene(mainScene);

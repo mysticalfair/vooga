@@ -1,16 +1,60 @@
 package panes;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 import java.util.function.Consumer;
 
 public abstract class AuthoringPane implements IAuthoringPane {
 
-    protected Node node;
+    static final double HANDLE_THICKNESS = 20;
+    static final double HANDLE_ROUNDING_DIAMETER = 20;
 
-    public void accessNode(Consumer<Node> accessMethod) {
-        accessMethod.accept(node);
+    private Pane container;
+    private Pane hvbox;
+    private boolean vertical;
+    private Pane handle;
+    private Pane content;
+
+    public AuthoringPane() {
+        container = new Pane();
+        handle = new Pane();
+        content = new Pane();
+        setVertical(true);
+    }
+
+    public void accessContainer(Consumer<Pane> accessMethod) {
+        accessMethod.accept(container);
+    }
+
+    protected void setVertical(boolean vertical) {
+        if (this.vertical == vertical) {
+            return;
+        }
+
+        this.vertical = vertical;
+        container.getChildren().clear();
+
+        if (vertical) {
+            hvbox = new VBox();
+            hvbox.getChildren().addAll(handle, content);
+            handle.prefWidthProperty().bind(hvbox.prefWidthProperty());
+        }
+        else {
+            hvbox = new HBox();
+            hvbox.getChildren().addAll(handle, content);
+            handle.prefHeightProperty().bind(hvbox.prefHeightProperty());
+        }
+
+        container.getChildren().add(hvbox);
+    }
+
+    protected ObservableList<Node> getContentChildren() {
+        return content.getChildren();
     }
 
 }

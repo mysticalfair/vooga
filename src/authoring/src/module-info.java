@@ -5,4 +5,5 @@ module authoring {
     requires javafx.media;
 
     exports frontend_objects;
+    exports panes;
 }

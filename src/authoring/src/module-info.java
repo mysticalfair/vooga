@@ -3,4 +3,6 @@ module authoring {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
+
+    exports frontend_objects;
 }

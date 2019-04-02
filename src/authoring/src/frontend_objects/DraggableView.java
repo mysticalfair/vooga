@@ -1,4 +1,4 @@
-package author_states;
+package frontend_objects;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 public abstract class DraggableView extends AuthorView {
 
     /**
-     * Superclass for all AuthorView objects intended to be dragged into the map
+     * Superclass for all frontend_objects.AuthorView objects intended to be dragged into the map
      * Enables ImageViews to be placeable in the map (or draggable)
      * Subclasses must implement their own version of mouseReleased
      *  Ex. if a class wants the object to return to the initial position when the imageview is dropped:
@@ -25,7 +25,7 @@ public abstract class DraggableView extends AuthorView {
     private ImageView myImageView;
 
     /**
-     * Called by subclasses of DraggableView to format myImageView
+     * Called by subclasses of frontend_objects.DraggableView to format myImageView
      * Subclass specific mouseReleased methods are used in setMouseActions
      * @param imageName String, name of the image file
      * @param imageStyle String, references a CSS style for the image to take
@@ -51,7 +51,7 @@ public abstract class DraggableView extends AuthorView {
     }
 
     /**
-     * Used by subclasses of DraggableView to get the view's start x position
+     * Used by subclasses of frontend_objects.DraggableView to get the view's start x position
      * If a subclass has to return to the start position, this will allow it
      * @return double Start position X
      */
@@ -60,7 +60,7 @@ public abstract class DraggableView extends AuthorView {
     }
 
     /**
-     * Used by subclasses of DraggableView to get the view's start y position
+     * Used by subclasses of frontend_objects.DraggableView to get the view's start y position
      * If a subclass has to return to the start position, this will allow it
      * @return double Start position Y
      */
@@ -69,7 +69,7 @@ public abstract class DraggableView extends AuthorView {
     }
 
     /**
-     * Used by subclasses of DraggableView
+     * Used by subclasses of frontend_objects.DraggableView
      * Only mouseReleased is an abstract method because all DraggableViews will be clicked and moved, but each individual subclass behaves differently on release
      * Ex. if a class wants the object to return to the initial position when the imageview is dropped:
      *  @Override

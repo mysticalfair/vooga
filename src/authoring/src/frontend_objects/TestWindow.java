@@ -30,7 +30,7 @@ public class TestWindow extends Application {
         structure.setCenter(new Text("Hi there"));
         AgentViewTest agent = new AgentViewTest("Tower.jpg");
         pane.getChildren().add(agent.getView());
-        return new Scene(bigPane, 400, 400);
+        return new Scene(bigPane, 800, 500);
     }
 
 

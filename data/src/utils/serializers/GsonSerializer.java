@@ -1,4 +1,4 @@
-package utils.gson;
+package utils.serializers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

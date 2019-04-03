@@ -1,7 +1,7 @@
 package utils;
 
-import utils.gson.GsonSerializer;
-import utils.gson.XStreamSerializer;
+import utils.serializers.GsonSerializer;
+import utils.serializers.XStreamSerializer;
 
 public class SerializerFactory {
 

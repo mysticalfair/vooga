@@ -25,7 +25,7 @@ public abstract class NetworkInterfacer {
     private Object parent;
 
     public NetworkInterfacer(Object parentObject) {
-        serializer = SerializerFactory.buildInstance();
+        serializer = SerializerFactory.buildXMLInstance();
         parent = parentObject;
     }
 

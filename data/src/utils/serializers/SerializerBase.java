@@ -1,4 +1,4 @@
-package utils.gson;
+package utils.serializers;
 
 import utils.SerializationException;
 import utils.Serializer;

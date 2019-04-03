@@ -1,25 +1,24 @@
 package engine;
 
-import state.IAgent;
-import state.IObjective;
-import state.State;
-
-import java.util.List;
+import state.Agent.IAgentComplete;
+import state.Objective.IObjectiveComplete;
+import state.StateComplete;
 
 /**
+ * @Author:Luke_Truitt
  * @author David Miron
  * @author Jamie Palka
  */
 public class Game {
 
-    private State state;
+    private StateComplete state;
 
     private void step() {
 
-        for (IAgent agent: state.getAgents())
-            agent.update(state.getAgents());
+        for (IAgentComplete agent: state.getMutableAgents())
+            agent.update(state.getMutableAgents());
 
-        for (IObjective objective: state.getObjectives())
+        for (IObjectiveComplete objective: state.getMutableObjectives())
             objective.execute(state);
 
         sendState();

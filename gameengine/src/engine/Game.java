@@ -1,19 +1,23 @@
 package engine;
 
 import state.IAgent;
+import state.IObjective;
+import state.State;
 
 import java.util.List;
 
 public class Game {
 
-    private List<IAgent> agents;
-
-
+    private State state;
 
     private void step() {
 
-        for (IAgent agent: agents)
-            agent.update(agents);
+        for (IAgent agent: state.getAgents())
+            agent.update(state.getAgents());
+
+        for (IObjective objective: state.getObjectives())
+            objective.execute(state);
+
 
     }
 

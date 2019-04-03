@@ -1,9 +1,9 @@
 package engine;
 
-import state.Agent.IAgentComplete;
-import state.Objective.IObjectiveComplete;
-import state.StateComplete;
-// Major Source: http://entropyinteractive.com/2011/02/game-engine-design-the-game-loop/
+import state.Agent.IAgent;
+import state.Objective.IObjective;
+import state.State;
+
 /**
  * @Author Jorge Raad
  * @Author Luke Truitt
@@ -13,7 +13,7 @@ import state.StateComplete;
 public class Game {
 
     private boolean runFlag = false;
-    private StateComplete state;
+    private State state;
 
     public void run(String gameFile, double deltaTime){
         runFlag = true;
@@ -50,10 +50,10 @@ public class Game {
 
     private void step() {
 
-        for (IAgentComplete agent: state.getMutableAgents())
+        for (IAgent agent: state.getMutableAgents())
             agent.update(state.getMutableAgents());
 
-        for (IObjectiveComplete objective: state.getMutableObjectives())
+        for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);
 
         sendState();

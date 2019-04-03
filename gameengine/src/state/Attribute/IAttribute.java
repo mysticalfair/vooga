@@ -2,13 +2,14 @@ package state.Attribute;
 
 /**
  * @Author:Luke_Truitt
- * These are things like Health, Money, Settings, etc.
+ * Components of an attribute that only the back-end and author need
  */
-public interface IAttribute {
+public interface IAttribute extends IPlayerAttribute {
 
-    // Returns the specified name of the attribute (ie "Money")
-    String getName();
+    void setId(int id);
+    // Set the name of the Attribute
+    void setName(String name);
 
-    // Returns the value of the attribute (ie 34)
-    int getValue();
+    // Set it's value
+    void setValue(int value);
 }

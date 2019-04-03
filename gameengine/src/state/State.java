@@ -1,20 +1,99 @@
 package state;
 
+import state.Agent.IPlayerAgent;
 import state.Agent.IAgent;
-import state.Agent.IAgentComplete;
+import state.Attribute.IPlayerAttribute;
 import state.Attribute.IAttribute;
-import state.Attribute.IAttributeComplete;
+import state.Objective.IPlayerObjective;
 import state.Objective.IObjective;
 
 import java.util.ArrayList;
 import java.util.List;
- /**
+
+/**
  * @Author:Luke_Truitt
- * Overall, shared components of the different state types
+ * Version of state that is passed to player
  */
-public abstract class State implements IState {
-  protected List<IAgent> immutableAgentsOptions;
-  protected List<IAgent> immutableAgentsCurrent;
-  protected List<IObjective> immutableObjectivesCurrent;
-  protected List<IAttribute> immutableAttributesCurrent;
+public class State implements IState {
+
+    private List<IAgent> agentsOptions;
+    private List<IAgent> agentsCurrent;
+    private List<IObjective> objectivesCurrent;
+    private List<IAttribute> attributesCurrent;
+
+    public State(List<IAgent> agentsOptions, List<IAgent> agentsCurrent,
+                 List<IObjective> objectivesCurrent, List<IAttribute> attributesCurrent) {
+        this.agentsOptions = agentsOptions;
+        this.agentsCurrent = agentsCurrent;
+        this.objectivesCurrent = objectivesCurrent;
+        this.attributesCurrent = attributesCurrent;
+    }
+
+    /**
+     * For Engine
+     */
+    public List<IAgent> getMutableOptions() {
+        return this.agentsOptions;
+    }
+
+    public void setOptionAgents(List<IAgent> agentOptions) {
+        this.agentsOptions = agentOptions;
+    }
+
+    public List<IAgent> getMutableAgents() {
+        return this.agentsCurrent;
+    }
+
+    public void setCurrentAgents(List<IAgent> agentCurrent) {
+        this.agentsCurrent = agentCurrent;
+    }
+
+    public List<IObjective> getMutableObjectives() {
+        return this.objectivesCurrent;
+    }
+
+    public void setObjectives(List<IObjective> objectivesCurrent) {
+        this.objectivesCurrent = objectivesCurrent;
+    }
+
+    public List<IAttribute> getMutableAttributes() { return this.attributesCurrent; }
+
+    public void setAttributes(List<IAttribute> attributesCurrent) {
+        this.attributesCurrent = attributesCurrent;
+    }
+
+    /**
+     * For Author
+     */
+    public void defineAgent(IAgent agent) {
+        this.agentsOptions.add(agent);
+    }
+    public void placeAgent(IAgent agent) {
+        this.agentsCurrent.add(agent);
+    }
+    public void defineObjective(IObjective objective) {
+        this.objectivesCurrent.add(objective);
+    }
+    public void defineAttribute(IAttribute attribute) {
+        this.attributesCurrent.add(attribute);
+    }
+
+    /**
+     * For Player - Iterate through and update your copy based on the corresponding ID.
+     */
+    public Iterable<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.agentsOptions); }
+
+    public Iterable<IPlayerAgent> getImmutableAgents() {
+        return List.copyOf(this.agentsCurrent);
+    }
+
+    public Iterable<IPlayerObjective> getImmutableObjectives() {
+        return List.copyOf(this.objectivesCurrent);
+    }
+
+    public Iterable<IPlayerAttribute> getImmutableAttributes() {
+        return List.copyOf(this.attributesCurrent);
+    }
+
+
 }

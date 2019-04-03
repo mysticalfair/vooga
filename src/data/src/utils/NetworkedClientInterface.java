@@ -1,4 +1,7 @@
 package utils;
+
+import java.io.IOException;
+
 /**
  * Interface which will be implemented as well as the interface for whatever player,
  * gameengine, or other interface this class is representing.
@@ -7,13 +10,13 @@ package utils;
 public interface NetworkedClientInterface {
 
     /**
-     * Binds a port to listen for connections, and return any incoming traffic to the object that instantiated it.
+     * Disconnects the client from the server it is currently connected to.
      */
-    public void bindPort(int port);
+    public void disconnect();
 
     /**
      * Connects this client to a listening client on the specified ip and port. Returns false on unable to connect.
      */
-    public boolean connect(String ip, int port);
+    public void connect(String ip, int port) throws IOException;
 
 }

@@ -24,6 +24,7 @@ public abstract class AuthoringPane implements IAuthoringPane {
         container = new Pane();
         handle = new Pane();
         content = new Pane();
+        setVertical(true);
     }
 
     public void accessContainer(Consumer<Pane> accessMethod) {

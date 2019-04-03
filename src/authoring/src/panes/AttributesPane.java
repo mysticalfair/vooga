@@ -8,7 +8,6 @@ public class AttributesPane extends AuthoringPane {
 
     public AttributesPane() {
         super();
-        setVertical(true);
         VBox attributesVBox = new VBox();
         attributesVBox.getChildren().add(new Text("Testing text in attributes pane"));
         getContentChildren().add(attributesVBox);

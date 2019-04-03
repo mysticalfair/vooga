@@ -12,7 +12,6 @@ public class AgentPane extends AuthoringPane {
 
     public AgentPane() {
         super();
-        setVertical(true);
         VBox vbox = new VBox();
         vbox.getChildren().add(new Text("hi there!"));
         vbox.getChildren().add(new Button("hi back!"));

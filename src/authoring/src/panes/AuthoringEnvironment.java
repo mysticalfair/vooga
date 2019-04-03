@@ -24,11 +24,27 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
-        Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        initAllPanes();
+        initStage(stage);
+    }
 
+    private void initAllPanes() {
+        initAgentPane();
+        initAttributesPane();
+    }
+
+    private void initAgentPane() {
         AgentPane agentPane = new AgentPane();
         agentPane.accessContainer(node -> borderPane.setRight(node));
+    }
 
+    private void initAttributesPane() {
+        AttributesPane attributesPane = new AttributesPane();
+        attributesPane.accessContainer(node -> borderPane.setLeft(node));
+    }
+
+    private void initStage(Stage stage) {
+        Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         stage.setTitle(TITLE);
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);

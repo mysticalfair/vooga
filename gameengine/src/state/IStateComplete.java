@@ -1,8 +1,11 @@
 package state;
 
+import java.util.List;
+
 /**
- * @author David Miron
- * @author Jamie Palka
+ * @Author:Luke_Truitt
+ * This is the version of State used by
  */
-public interface IStateAuthoring extends IState {
+public interface IStateComplete extends IState {
+    List<IAgentComplete> getMutableAgents();
 }

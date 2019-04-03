@@ -9,5 +9,5 @@ import java.util.List;
 public interface IState {
     int getHealth();
     List<IObjective> getObjectives();
-    List<IAgent> getAgents();
+    List<IAgent> getImmutableAgents();
 }

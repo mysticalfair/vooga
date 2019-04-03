@@ -1,32 +1,20 @@
 package state;
 
+import state.Agent.IAgent;
+import state.Agent.IAgentComplete;
+import state.Attribute.IAttribute;
+import state.Attribute.IAttributeComplete;
+import state.Objective.IObjective;
+
 import java.util.ArrayList;
 import java.util.List;
  /**
  * @Author:Luke_Truitt
+ * Overall, shared components of the different state types
  */
-public class State implements IStateComplete {
-
-    private List<IAgentComplete> agentsOptions;
-    private List<IAgentComplete> agentsCurrent;
-    private List<IObjective> objectivesCurrent;
-    private Map<IAttributes> attributesCurrent;
-    @Override
-    public List<IAgent> getImmutableAgents() {
-        List<IAgent> immutableAgentsCurrent = new ArrayList<>();
-        for ( IAgentComplete agent : this.agentsCurrent ) {
-            immutableAgentsCurrent.add(agent.toImmutable());
-        }
-        return immutableAgentsCurrent;
-    }
-
-    @Override
-    public List<IAgentComplete> getMutableAgents() {
-        return this.agentsCurrent;
-    }
-
-    @Override
-    public List<IObjective> getObjectives() {
-        return null; // TODO
-    }
+public abstract class State implements IState {
+  protected List<IAgent> immutableAgentsOptions;
+  protected List<IAgent> immutableAgentsCurrent;
+  protected List<IObjective> immutableObjectivesCurrent;
+  protected List<IAttribute> immutableAttributesCurrent;
 }

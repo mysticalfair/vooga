@@ -1,16 +1,24 @@
 package state.Agent;
 
+import state.Attack.IAttack;
+import state.Behavior.IBehavior;
+
 import java.awt.*;
+import java.util.List;
 
 /**
  * @Author:Luke_Truitt
- * This is the list of stuff that the player will have access to.
+ * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent {
-
-    Point getXY();
-    String getImageURL();
-    Boolean getIsAttacking();
-    int getHealth();
-
+public interface IAgent extends IPlayerAgent {
+    void setId(int id);
+    void setXY(Point location);
+    void setImageURL(String image);
+    void setIsAttacking(boolean attacking);
+    void setHealth(int health);
+    IBehavior getBehavior();
+    void setBehavior(IBehavior behavior);
+    IAttack getAttack();
+    void setAttack(IAttack attack);
+    void update(List<IAgent> agents);
 }

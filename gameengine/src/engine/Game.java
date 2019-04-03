@@ -1,8 +1,8 @@
 package engine;
 
-import state.Agent.IAgentComplete;
-import state.Objective.IObjectiveComplete;
-import state.StateComplete;
+import state.Agent.IAgent;
+import state.Objective.IObjective;
+import state.State;
 
 /**
  * @Author:Luke_Truitt
@@ -11,14 +11,14 @@ import state.StateComplete;
  */
 public class Game {
 
-    private StateComplete state;
+    private State state;
 
     private void step() {
 
-        for (IAgentComplete agent: state.getMutableAgents())
+        for (IAgent agent: state.getMutableAgents())
             agent.update(state.getMutableAgents());
 
-        for (IObjectiveComplete objective: state.getMutableObjectives())
+        for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);
 
         sendState();

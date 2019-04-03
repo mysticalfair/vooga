@@ -1,15 +1,20 @@
 package state.Objective;
 
-
+import state.IPlayerState;
 
 /**
  * @Author:Luke_Truitt
- * Version of Objective passed to Player so they can display a few aspects
+ * Extension of Objective that Engine and Author have access to.
  */
+public interface IObjective extends IPlayerObjective {
 
-public interface IObjective {
+    void setId(int id);
+    // Set the title of the objective
+    void setTitle(String title);
 
-    String getTitle();
-    boolean getMet();
+    // Set whether or no the objective has been met
+    void setMet(boolean met);
 
+    // Set whether or not the objective has been met.
+    void execute(IPlayerState state);
 }

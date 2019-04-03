@@ -6,6 +6,10 @@ import state.State;
 
 import java.util.List;
 
+/**
+ * @author David Miron
+ * @author Jamie Palka
+ */
 public class Game {
 
     private State state;

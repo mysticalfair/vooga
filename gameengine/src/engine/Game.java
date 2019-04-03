@@ -18,7 +18,15 @@ public class Game {
         for (IObjective objective: state.getObjectives())
             objective.execute(state);
 
+        sendState();
 
+    }
+
+    /**
+     * Send the state to the Player
+     */
+    private void sendState() {
+        // TODO
     }
 
 }

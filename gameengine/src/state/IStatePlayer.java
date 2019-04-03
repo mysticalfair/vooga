@@ -1,4 +1,4 @@
 package state;
 
-public class IStatePlayer extends IState {
+public interface IStatePlayer extends IState {
 }

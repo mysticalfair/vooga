@@ -1,4 +1,4 @@
 package state;
 
-public class IState {
+public interface IState {
 }

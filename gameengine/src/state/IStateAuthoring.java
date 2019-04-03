@@ -1,4 +1,4 @@
 package state;
 
-public class IStateAuthoring extends IState {
+public interface IStateAuthoring extends IState {
 }

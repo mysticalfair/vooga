@@ -24,7 +24,6 @@ public abstract class AuthoringPane implements IAuthoringPane {
         container = new Pane();
         handle = new Pane();
         content = new Pane();
-        setVertical(true);
     }
 
     public void accessContainer(Consumer<Pane> accessMethod) {
@@ -41,15 +40,14 @@ public abstract class AuthoringPane implements IAuthoringPane {
 
         if (vertical) {
             hvbox = new VBox();
-            hvbox.getChildren().addAll(handle, content);
             handle.prefWidthProperty().bind(hvbox.prefWidthProperty());
         }
         else {
             hvbox = new HBox();
-            hvbox.getChildren().addAll(handle, content);
             handle.prefHeightProperty().bind(hvbox.prefHeightProperty());
         }
 
+        hvbox.getChildren().addAll(handle, content);
         container.getChildren().add(hvbox);
     }
 

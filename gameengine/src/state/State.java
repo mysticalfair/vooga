@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class State implements IStateAuthoring, IStatePlayer {
 
+    private List<IAgent> agentsOptions;
+    private List<IAgent> agentsCurrent;
+    private List<IObjective> objectivesCurrent;
+
     @Override
     public List<IAgent> getAgents() {
         return null; // TODO

@@ -5,4 +5,5 @@ package state;
  * @author Jamie Palka
  */
 public interface IStatePlayer extends IState {
+
 }

@@ -1,9 +1,12 @@
 package state;
 
-import java.util.List;
+import java.awt.*;
 
 public interface IAgent {
 
-    void update(List<IAgent> agents);
+    Point getXY();
+    String getImageURL();
+    Boolean getIsAttacking();
+    int getHealth();
 
 }

@@ -7,5 +7,7 @@ import java.util.List;
  * @author Jamie Palka
  */
 public interface IState {
+    int getHealth();
+    List<IObjective> getObjectives();
     List<IAgent> getAgents();
 }

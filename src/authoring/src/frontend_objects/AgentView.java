@@ -1,8 +1,5 @@
 package frontend_objects;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-
 public class AgentView extends DraggableView {
 
     /**
@@ -14,14 +11,27 @@ public class AgentView extends DraggableView {
     public static final int SIZE = 100;
 
     public AgentView(String imageName){
-        makeFormattedView(imageName, STYLE, SIZE, SIZE);
+        super();
+        formatView(imageName, STYLE, SIZE, SIZE);
     }
 
-    @Override
-    public void mouseReleased(MouseEvent event){
-        if( event.getSceneX() > 300 ){
-            ((ImageView)(event.getSource())).setTranslateX(getStartX());
-            ((ImageView)(event.getSource())).setTranslateY(getStartY());
-        }
+    public AgentView(AgentView otherAgent){
+        super(otherAgent);
     }
+
+    /*
+    Need the DraggableView classes to have methods that allow the View to be dragged anywhere
+    In the case of Agents:
+        If you've released the mouse and an agent can be placed, a copy of the Agent should be stored in both the original location and the final location
+
+    Attributes of an AgentView
+        Characteristics of an Agent
+            Size
+            Speed?
+            Health
+            Whatever
+        Image associated with it
+        Location
+
+     */
 }

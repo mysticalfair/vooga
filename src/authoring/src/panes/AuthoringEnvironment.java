@@ -1,10 +1,20 @@
 package panes;
 
+import frontend_objects.AgentView;
+import frontend_objects.DraggableView;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AuthoringEnvironment extends Application {
 
@@ -15,6 +25,8 @@ public class AuthoringEnvironment extends Application {
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
+    private AgentPane agentPane;
+    private Pane handlePane;
 
     public static void main(String[] args){
         launch(args);
@@ -25,6 +37,7 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
+        handlePane = new Pane();
         initAllPanes();
         initStage(stage);
     }
@@ -35,19 +48,51 @@ public class AuthoringEnvironment extends Application {
         initAttributesPane();
     }
 
+    /*
+    When any Agent is clicked, it should set off a procedure:
+        Store initial location
+        Remove DraggableImage from AgentPane, add to Handle pane (?)
+     */
+    /**
+     * Accepts a list of roots from any pane the ImageView used to be located/needs to be removed from
+     * Also accepts a list of roots from any pane the ImageView should be added to
+     * @param fromGroups
+     * @param toGroupsMap
+     */
+    public void transferAgentView(AgentView agentView, List<ObservableList<Node>> fromGroups, Map<Point2D,ObservableList<Node>> toGroupsMap){
+        for(ObservableList<Node> group: fromGroups){
+            group.remove(agentView.getView());
+        }
+        for(Map.Entry<Point2D, ObservableList<Node>> entry: toGroupsMap.entrySet()){
+            AgentView newView = new AgentView(agentView);
+            newView.getView().setX(entry.getKey().getX());
+            newView.getView().setY(entry.getKey().getY());
+            entry.getValue().add(newView.getView());
+        }
+    }
+
     private void initAgentPane() {
-        AgentPane agentPane = new AgentPane(this);
+        agentPane = new AgentPane();
         agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
     }
 
+    // Ignore for now, sample setup for the transfer Agent method
+    private void messWithAgent(AgentView agent){
+        ObservableList<Node> fromGroup = agentPane.getContentChildren();
+        Map<Point2D,ObservableList<Node>> toGroupsMap = new HashMap<>();
+        toGroupsMap.put(new Point2D(agent.getView().getX(), agent.getView().getY()), agentPane.getContentChildren());
+        toGroupsMap.put(new Point2D(agent.getView().getX() - 30, agent.getView().getY() - 30), handlePane.getChildren());
+        transferAgentView(agent, List.of(fromGroup), toGroupsMap);
+    }
+
     private void initAttributesPane() {
-        AttributesPane attributesPane = new AttributesPane(this);
+        AttributesPane attributesPane = new AttributesPane();
         attributesPane.accessContainer(node -> borderPane.setLeft(node));
     }
 
     private void initConsolePane() {
-        consolePane = new ConsolePane(this);
+        consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
     }
 
@@ -57,12 +102,8 @@ public class AuthoringEnvironment extends Application {
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        //stage.getScene().getStylesheets().add("Blue.css");
+        stage.getScene().getStylesheets().add("Blue.css");
         stage.show();
-    }
-
-    private void printMessage(String message){
-        System.out.println(message);
     }
 
 }

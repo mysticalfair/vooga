@@ -10,11 +10,12 @@ import java.util.function.Consumer;
 
 public class AgentPane extends AuthoringPane {
 
-    public AgentPane() {
-        super();
-        VBox vbox = new VBox();
+    private VBox vbox;
+
+    public AgentPane(AuthoringEnvironment author) {
+        super(author);
+        vbox = new VBox();
         vbox.getChildren().add(new Text("hi there!"));
-        vbox.getChildren().add(new Button("hi back!"));
         vbox.getChildren().add(new Text("This text is housed within a VBox\nthat is housed within the\nAuthoringPane's content's children."));
         getContentChildren().add(vbox);
     }
@@ -26,7 +27,9 @@ public class AgentPane extends AuthoringPane {
 
     @Override
     public void addButton(String label, EventHandler action) {
-
+        var button = new Button(label);
+        button.setOnAction(action);
+        vbox.getChildren().add(button);
     }
 
 }

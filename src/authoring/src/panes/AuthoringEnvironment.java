@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class AuthoringEnvironment extends Application {
 
     static final String TITLE = "Vooginas!";
-    static final double DEFAULT_WIDTH = 800;
+    static final double DEFAULT_WIDTH = 1000;
     static final double DEFAULT_HEIGHT = 600;
 
     private StackPane stackPane;

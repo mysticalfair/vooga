@@ -6,8 +6,8 @@ import javafx.scene.text.Text;
 
 public class AttributesPane extends AuthoringPane {
 
-    public AttributesPane() {
-        super();
+    public AttributesPane(AuthoringEnvironment author) {
+        super(author);
         VBox attributesVBox = new VBox();
         attributesVBox.getChildren().add(new Text("Testing text in attributes pane"));
         getContentChildren().add(attributesVBox);

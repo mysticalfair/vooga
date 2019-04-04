@@ -19,13 +19,11 @@ public abstract class AuthoringPane implements IAuthoringPane {
     private boolean vertical;
     private Pane handle;
     private Pane content;
-    private AuthoringEnvironment authorEnvironment;
 
-    public AuthoringPane(AuthoringEnvironment author) {
+    public AuthoringPane() {
         container = new Pane();
         handle = new Pane();
         content = new Pane();
-        authorEnvironment = author;
         setVertical(true);
     }
 
@@ -56,10 +54,6 @@ public abstract class AuthoringPane implements IAuthoringPane {
 
     protected ObservableList<Node> getContentChildren() {
         return content.getChildren();
-    }
-
-    protected AuthoringEnvironment getAuthor(){
-        return authorEnvironment;
     }
 
 }

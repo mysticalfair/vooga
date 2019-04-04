@@ -14,6 +14,7 @@ public class AuthoringEnvironment extends Application {
 
     private StackPane stackPane;
     private BorderPane borderPane;
+    private ConsolePane consolePane;
 
     public static void main(String[] args){
         launch(args);
@@ -29,18 +30,25 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
+        initConsolePane();
         initAgentPane();
         initAttributesPane();
     }
 
     private void initAgentPane() {
-        AgentPane agentPane = new AgentPane();
+        AgentPane agentPane = new AgentPane(this);
+        agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
     }
 
     private void initAttributesPane() {
-        AttributesPane attributesPane = new AttributesPane();
+        AttributesPane attributesPane = new AttributesPane(this);
         attributesPane.accessContainer(node -> borderPane.setLeft(node));
+    }
+
+    private void initConsolePane() {
+        consolePane = new ConsolePane(this);
+        consolePane.accessContainer(node -> borderPane.setBottom(node));
     }
 
     private void initStage(Stage stage) {
@@ -51,6 +59,10 @@ public class AuthoringEnvironment extends Application {
         stage.setMinHeight(DEFAULT_HEIGHT);
         //stage.getScene().getStylesheets().add("Blue.css");
         stage.show();
+    }
+
+    private void printMessage(String message){
+        System.out.println(message);
     }
 
 }

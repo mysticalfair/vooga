@@ -1,5 +1,6 @@
 package state.actiondecision;
 
+import state.action.IAction;
 import state.agent.IAgent;
 
 import java.util.List;
@@ -10,6 +11,11 @@ import java.util.List;
  * @author Jorge Raad
  */
 public class OnTeamCollision extends OnCollision {
+
+    public OnTeamCollision(IAgent baseAgent, IAction action){
+        super(baseAgent, action);
+    }
+
     @Override
     public void execute(List<IAgent> agents) {
         super.execute(getAgentsOnTeam(baseAgent.getTeam(), agents));

@@ -9,11 +9,17 @@ import java.util.List;
 /**
  * Class to decide when to do an action, and execute that action if necessary
  * @author David Miron
+ * @author Jorge Raad
  */
 public abstract class ActionDecision {
 
     protected IAgent baseAgent;
     protected IAction action;
+
+    protected ActionDecision(IAgent baseAgent, IAction action){
+        this.baseAgent = baseAgent;
+        this.action = action;
+    }
 
     /**
      * Run an action if some condition is true

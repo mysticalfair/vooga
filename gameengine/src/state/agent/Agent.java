@@ -16,8 +16,7 @@ public class Agent implements IAgent {
     private int id;
     private Point location;
     private String imageURL;
-
-    protected MovementAction movementBehavior;
+    
     protected List<ActionDecision> actionDecisions;
 
     /**

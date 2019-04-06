@@ -4,7 +4,6 @@ import state.action.ApplyAgentOperationAction;
 import state.actiondecision.ClosestAgentWithinRangeInterval;
 import state.agent.agents.healthagents.HealthAgent;
 import state.agentoperation.DamageOperation;
-import state.movementbehavior.DynamicMovement;
 
 /**
  * Agent to represent a melee attacking agent
@@ -12,8 +11,7 @@ import state.movementbehavior.DynamicMovement;
  */
 public class MeleeAgent extends HealthAgent {
 
-    public MeleeAgent(DynamicMovement movement, double attackInterval, int attackRange, int damage) {
-        this.movementBehavior = movement;
+    public MeleeAgent(double attackInterval, int attackRange, int damage) {
         this.actionDecisions.add(
                 new ClosestAgentWithinRangeInterval(this,
                                                     attackInterval,

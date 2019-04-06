@@ -13,6 +13,12 @@ public interface IAgent {
     void update(List<IAgent> agents);
 
     /**
+     * Move the current agent a specified distance
+     * @param movement The vector representing the movement
+     */
+    void move(Point movement);
+
+    /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */

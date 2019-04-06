@@ -36,7 +36,7 @@ public class Agent implements IAgent {
      * Move the current agent a specified distance
      * @param movement The vector representing the movement
      */
-    private void move(Point movement) {
+    public void move(Point movement) {
         this.location.translate(movement.x, movement.y);
     }
 

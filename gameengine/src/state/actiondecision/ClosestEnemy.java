@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * ActionDecision to run an action on the closest enemy.
+ * Specific case of ClosestAgent where the agents considered are just the enemies.
  * @author Jorge Raad
  */
 public class ClosestEnemy extends ClosestAgent {

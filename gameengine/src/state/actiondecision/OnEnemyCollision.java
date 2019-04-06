@@ -4,6 +4,11 @@ import state.agent.IAgent;
 
 import java.util.List;
 
+/**
+ * ActionDecision that executes its Action whenever it collides with an enemy.
+ * Special case of OnCollision where only enemy agents are considered.
+ * @author Jorge Raad
+ */
 public class OnEnemyCollision extends OnCollision{
 
     @Override

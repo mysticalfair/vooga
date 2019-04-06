@@ -4,6 +4,10 @@ import state.agent.IAgent;
 
 import java.util.List;
 
+/**
+ * ActionDecision to run an action on the closest Agent.
+ * @author Jorge Raad
+ */
 public class ClosestAgent extends ActionDecision{
 
     @Override

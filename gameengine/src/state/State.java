@@ -1,13 +1,11 @@
 package state;
 
-import state.Agent.IPlayerAgent;
-import state.Agent.IAgent;
-import state.Attribute.IPlayerAttribute;
-import state.Attribute.IAttribute;
-import state.Objective.IPlayerObjective;
-import state.Objective.IObjective;
+import state.agent.IAgent;
+import state.attribute.IPlayerAttribute;
+import state.attribute.IAttribute;
+import state.objective.IPlayerObjective;
+import state.objective.IObjective;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

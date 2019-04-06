@@ -1,4 +1,4 @@
-package state.Objective;
+package state.objective;
 
 import state.IPlayerState;
 

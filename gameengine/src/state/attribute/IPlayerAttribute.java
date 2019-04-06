@@ -1,4 +1,4 @@
-package state.Attribute;
+package state.attribute;
 
 /**
  * @Author:Luke_Truitt

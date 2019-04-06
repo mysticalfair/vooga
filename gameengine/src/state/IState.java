@@ -1,8 +1,8 @@
 package state;
 
-import state.Agent.IAgent;
-import state.Attribute.IAttribute;
-import state.Objective.IObjective;
+import state.agent.IAgent;
+import state.attribute.IAttribute;
+import state.objective.IObjective;
 
 import java.util.List;
 

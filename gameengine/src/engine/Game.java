@@ -1,7 +1,7 @@
 package engine;
 
-import state.Agent.IAgent;
-import state.Objective.IObjective;
+import state.agent.IAgent;
+import state.objective.IObjective;
 import state.State;
 
 /**

@@ -15,6 +15,11 @@ public class Game {
     private boolean runFlag = false;
     private State state;
 
+    /**
+     * Once called, begins continually running the game until stop() is called on it.
+     * @param gameFile String containing file path of the stored game
+     * @param deltaTime amount of time that will be allowed to pass between update calls
+     */
     public void run(String gameFile, double deltaTime){
         runFlag = true;
         startup();

@@ -12,6 +12,7 @@ import java.util.List;
 public class Always extends ActionDecision {
     @Override
     public void execute(List<IAgent> agents) {
-        action.execute(baseAgent);
+        // TODO: What to pass here? Action already has baseAgent
+        action.execute(null);
     }
 }

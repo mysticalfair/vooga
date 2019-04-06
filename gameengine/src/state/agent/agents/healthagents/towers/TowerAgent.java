@@ -5,7 +5,6 @@ import state.agent.agents.healthagents.HealthAgent;
 public class TowerAgent extends HealthAgent {
 
     public TowerAgent() {
-        this.movementBehavior = new StaticMovement();
     }
 
 }

@@ -1,10 +1,7 @@
 package state;
 
-import state.Agent.IPlayerAgent;
-import state.Attribute.IPlayerAttribute;
-import state.Objective.IPlayerObjective;
-
-import java.util.List;
+import state.attribute.IPlayerAttribute;
+import state.objective.IPlayerObjective;
 
 /**
  * @Author:Luke_Truitt

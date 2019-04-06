@@ -1,8 +1,8 @@
 package state.actiondecision;
 
+import state.action.IAction;
 import state.agent.IAgent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +11,15 @@ import java.util.List;
  * @author Jorge Raad
  */
 public class ClosestEnemy extends ClosestAgent {
+
+    /**
+     * Create ActionDecision that will run action on closest agent to some base agent
+     * @param baseAgent The agent to test distance from
+     * @param action The action to run
+     */
+    public ClosestEnemy(IAgent baseAgent, IAction action) {
+        super(baseAgent, action);
+    }
 
     @Override
     public void execute(List<IAgent> agents) {

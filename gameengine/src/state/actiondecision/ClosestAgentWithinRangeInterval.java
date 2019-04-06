@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * ActionDecision to run an action on the closest agent within a range, within some interval
  * @author David Miron
+ * @author Jorge Raad
  */
 public class ClosestAgentWithinRangeInterval extends IntervalDecision {
 
@@ -46,7 +47,19 @@ public class ClosestAgentWithinRangeInterval extends IntervalDecision {
      * @param agents List of agents to compare
      * @return The closest Agent, or null if there are no agents within a range
      */
-    private IAgent getClosestAgentWithinRange(List<IAgent> agents) {
-        return null; // TODO Implement
+    protected IAgent getClosestAgentWithinRange(List<IAgent> agents) {
+        if (agents.size() < 1) {
+            return null;
+        }
+        IAgent closest = agents.get(0);
+        for (IAgent agent : agents) {
+            if (baseAgent.calculateDistance(agent) < baseAgent.calculateDistance(closest)) {
+                closest = agent;
+            }
+        }
+        if (baseAgent.calculateDistance(closest) >= range) {
+            return closest;
+        }
+        return null;
     }
 }

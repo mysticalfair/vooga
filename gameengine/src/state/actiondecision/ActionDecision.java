@@ -11,6 +11,7 @@ import java.util.List;
  */
 public abstract class ActionDecision {
 
+    protected IAgent baseAgent;
     protected IAction action;
 
     /**

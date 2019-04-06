@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class ClosestAgentWithinRangeInterval extends IntervalDecision {
 
-    private IAgent baseAgent;
     private int range;
 
     /**

@@ -21,13 +21,13 @@ public abstract class ActionDecision {
      */
     public abstract void execute(List<IAgent> agents);
 
-    protected List<IAgent> getEnemyAgents(List<IAgent> allAgents){
-        List<IAgent> enemies = new ArrayList<>();
+    protected List<IAgent> getAgentsOnTeam(String team, List<IAgent> allAgents){
+        List<IAgent> teamAgents = new ArrayList<>();
         for(IAgent agent : allAgents){
-            if(!agent.getTeam().equals(baseAgent.getTeam())){
-                enemies.add(agent);
+            if(!agent.getTeam().equals(team)){
+                teamAgents.add(agent);
             }
         }
-        return enemies;
+        return teamAgents;
     }
 }

@@ -26,7 +26,10 @@ public class ClosestEnemyWithinRangeInterval extends ClosestAgentWithinRangeInte
      */
     @Override
     public void execute(List<IAgent> agents) {
-        IAgent closestAgent = getClosestAgentWithinRange(getEnemyAgents(agents));
+        List<IAgent> enemyAgents = agents;
+        enemyAgents.removeAll(getAgentsOnTeam(baseAgent.getTeam(), agents));
+        // enemyAgents now contains only Agents on teams different from the base Agent's
+        IAgent closestAgent = getClosestAgentWithinRange(enemyAgents);
         if (intervalHasPassed() && closestAgent != null) {
             action.execute(closestAgent);
             resetInterval();

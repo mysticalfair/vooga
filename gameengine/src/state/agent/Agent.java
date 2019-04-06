@@ -16,7 +16,8 @@ public class Agent implements IAgent {
     private int id;
     private Point location;
     private String imageURL;
-    
+    private String team;
+
     protected List<ActionDecision> actionDecisions;
 
     /**
@@ -38,6 +39,32 @@ public class Agent implements IAgent {
     private void move(Point movement) {
         this.location.translate(movement.x, movement.y);
     }
+
+    /**
+     * Returns the location of the Agent.
+     * @return Point containing location of the Agent
+     */
+    public Point getLocation(){
+        return location;
+    }
+
+    /**
+     * Returns the team of the Agent.
+     * @return String containing team of the Agent
+     */
+    public String getTeam(){
+        return team;
+    }
+
+    /**
+     * Returns the distance between this Agent and the given Agent
+     * @param agent Agent to which the distance will be calculated
+     * @return distance
+     */
+    public double calculateDistance(Agent agent){
+        return location.distance(agent.getLocation());
+    }
+
 
 
 }

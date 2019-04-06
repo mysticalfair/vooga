@@ -61,7 +61,7 @@ public class Agent implements IAgent {
      * @param agent Agent to which the distance will be calculated
      * @return distance
      */
-    public double calculateDistance(Agent agent){
+    public double calculateDistance(IAgent agent){
         return location.distance(agent.getLocation());
     }
 

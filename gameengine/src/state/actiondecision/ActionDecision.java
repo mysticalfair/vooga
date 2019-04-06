@@ -3,6 +3,7 @@ package state.actiondecision;
 import state.action.IAction;
 import state.agent.IAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,4 +21,13 @@ public abstract class ActionDecision {
      */
     public abstract void execute(List<IAgent> agents);
 
+    protected List<IAgent> getEnemyAgents(List<IAgent> allAgents){
+        List<IAgent> enemies = new ArrayList<>();
+        for(IAgent agent : allAgents){
+            if(!agent.getTeam().equals(baseAgent.getTeam())){
+                enemies.add(agent);
+            }
+        }
+        return enemies;
+    }
 }

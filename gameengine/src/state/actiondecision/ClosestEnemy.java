@@ -20,17 +20,6 @@ public class ClosestEnemy extends ActionDecision {
 
     // TODO: Resolve duplicate code. Unable to use inheritance to avoid repeated code because of distinction between
     //  interval and non-interval ActionDecision.
-
-    private List<IAgent> getEnemyAgents(List<IAgent> allAgents){
-        List<IAgent> enemies = new ArrayList<>();
-        for(IAgent agent : allAgents){
-            if(!agent.getTeam().equals(baseAgent.getTeam())){
-                enemies.add(agent);
-            }
-        }
-        return enemies;
-    }
-
     protected IAgent getClosestAgent(List<IAgent> agents) {
         if (agents.size() < 1) {
             return null;

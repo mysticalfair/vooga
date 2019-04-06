@@ -32,14 +32,4 @@ public class ClosestEnemyWithinRangeInterval extends ClosestAgentWithinRangeInte
             resetInterval();
         }
     }
-
-    private List<IAgent> getEnemyAgents(List<IAgent> allAgents){
-        List<IAgent> enemies = new ArrayList<>();
-        for(IAgent agent : allAgents){
-            if(!agent.getTeam().equals(baseAgent.getTeam())){
-                enemies.add(agent);
-            }
-        }
-        return enemies;
-    }
 }

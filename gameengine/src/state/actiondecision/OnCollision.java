@@ -25,9 +25,9 @@ public class OnCollision extends ActionDecision{
     protected IAgent getHitAgent (List<IAgent> agents){
         for(IAgent agent : agents){
             // TODO : Check collision.
-            if(){
-                return agent;
-            }
+//            if(){
+//                return agent;
+//            }
         }
         return null;
     }

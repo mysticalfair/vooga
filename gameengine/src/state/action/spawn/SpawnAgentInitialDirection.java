@@ -31,31 +31,24 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     /**
      * Spawn the spawnAgent at the location of the baseAgent. Uses clone method, which allows the new agent to take on all
      * properties of the pre-defined spawnAgent that an instantiation of a SpawnAgentInitialDirection action will own.
-     * @param agent The spawnAgent will be given a direction that points towards this agent.
+     * @param agent The spawnAgent will be given a movement with the destination of this agent.
      */
     @Override
     public void execute(IAgent agent) throws CloneNotSupportedException {
 
-        // each agent already has its lists and types. just change some parameters of that. initial direction.
-        // make sure the movement actionDecision is given the correct velocity.
-
-        // TODO what if the agent spawning has multiple MovementActions? Would this happen? Assuming movement actions are pre-defined
-        //      in the list. Assuming each movement action's destination/direction is defined by an agent.
-
         Agent newAgent = spawnAgent.clone();
-        newAgent.setDirection(agent);
 
-
-
-        /*
-
-        Agent newAgent = this.agent.clone();
-        newAgent.setDirection(   agent.getPosition()   );
-
-        or something like this
-
+        /**
+         * TODO - when an agent is spawned, its different types of ActionDecisions with embedded Actions
+         *  (including all its possible movement types will be pre-defined.
+         *  Depending on the type of baseAgent, the spawnAgent will need to set the destination for a specific one of its ActionDecisions.
+         *  Need to decide on a way to implement this/store this information beforehand.
+         *  Once figure that out, add a new method in IAgent to access the ActionDecisionList.
+         *  Concepts to think about:
+         *          - when spawn it, how does it know which ActionDecision to use? Ex: if it has 2 always ActionDecisions.
+         *          - Assuming each movement action's destination/direction is defined by an agent.
+         *          - Assuming speed of each agent type is pre-defined somewhere.
+         *          - Need the SpawnAgent abstract class?
          */
-        Agent agentWithVelocity = null;
-        spawnAgent(agentWithVelocity);
     }
 }

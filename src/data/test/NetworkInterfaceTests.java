@@ -4,6 +4,8 @@ import utils.NetworkedClientInterface;
 import utils.NetworkedServerInterface;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,10 +41,21 @@ public class NetworkInterfaceTests {
         client.storeArgs(args);
         Thread.sleep(200);
         assertEquals(2, iface.getArgs().length);
-        args = new String[] {"arg0", "arg1", "arg2", "arg3"};
-        client.storeArgs(args);
+        client.storeArgs("arg0", "arg1", "arg2", "arg3");
         Thread.sleep(200);
         assertEquals(4, iface.getArgs().length);
+    }
+
+    @Test
+    public void testArgTypes() throws InterruptedException {
+        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        client.storeObjects(0, "String", 0.0, new Date());
+        Thread.sleep(200);
+        Object[] returned = iface.getObjects();
+        assertEquals((Integer)0, returned[0]);
+        assertEquals("String", returned[1]);
+        assertEquals(0.0, returned[2]);
+        assertEquals(Date.class, returned[3].getClass());
     }
 
     public static void main(String[] args) {

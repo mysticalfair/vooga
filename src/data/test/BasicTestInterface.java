@@ -12,4 +12,7 @@ public interface BasicTestInterface {
 
     public String[] getArgs();
 
+    public void storeObjects(Object... objects);
+
+    public Object[] getObjects();
 }

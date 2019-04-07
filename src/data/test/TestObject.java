@@ -6,10 +6,22 @@ public class TestObject implements BasicTestInterface {
 
     private String string;
     private String[] args;
+    private Object[] objects;
 
     public TestObject() {
         string = "";
         args = new String[0];
+        objects = new Object[0];
+    }
+
+    @Override
+    public void storeObjects(Object... objects) {
+        this.objects = objects;
+    }
+
+    @Override
+    public Object[] getObjects() {
+        return objects;
     }
 
     @Override

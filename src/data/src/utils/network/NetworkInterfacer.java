@@ -65,9 +65,11 @@ public abstract class NetworkInterfacer {
         Runnable runnable = () -> {
             while (true) {
                 try {
-                    while (objectInputStream.available() > 0) {
-                        INetRequest request = (INetRequest) objectInputStream.readObject();
-                        callParent(request);
+                    Object request = objectInputStream.readObject();
+                    while (request != null) {
+                        INetRequest requestObject = (INetRequest) request;
+                        callParent(requestObject);
+                        request = objectInputStream.readObject();
                     }
                     Thread.sleep(50);
                 } catch (Exception ex) {
@@ -91,15 +93,16 @@ public abstract class NetworkInterfacer {
     }
 
     protected void createStreams() throws IOException {
-        objectInputStream = new ObjectInputStream(socket.getInputStream());
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectOutputStream.flush();
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
         createInputReaderThread();
     }
 
     private Object[] deserializeParams(String[] params) throws SerializationException {
         Object[] arr = new Object[params.length];
         for (int i = 0; i < params.length; i++) {
-            arr[i] = serializer.deserialize(params[i], null);
+            arr[i] = serializer.deserialize(params[i], String.class);
         }
         return arr;
     }

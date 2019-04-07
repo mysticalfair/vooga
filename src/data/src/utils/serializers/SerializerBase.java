@@ -19,7 +19,7 @@ public abstract class SerializerBase implements Serializer {
     }
 
     @Override
-    public Serializable load(File fileLocation, Class<? extends Serializable> objectType) throws SerializationException, IOException {
+    public Object load(File fileLocation, Class<? extends Serializable> objectType) throws SerializationException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
         StringBuilder builder = new StringBuilder();
         String curline = reader.readLine();

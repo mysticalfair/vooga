@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import utils.SerializationException;
 import utils.Serializer;
 
-import java.io.*;
+import java.io.Serializable;
 
 public class GsonSerializer extends SerializerBase implements Serializer {
 

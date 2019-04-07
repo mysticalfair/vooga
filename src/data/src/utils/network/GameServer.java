@@ -13,7 +13,14 @@ public class GameServer extends NetworkInterfacer implements NetworkedServerInte
 
     public GameServer(Object parent, int port) throws IOException {
         super(parent);
-        accept(port);
+        var newThread = new Thread(() -> {
+            try {
+                accept(port);
+            } catch (IOException ex) {
+                Thread.currentThread().interrupt();
+            }
+        });
+        newThread.start();
     }
 
     @Override

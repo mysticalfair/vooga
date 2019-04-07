@@ -6,6 +6,7 @@
 .idea/
 out/
 local.properties
+META-INF/
 
 # Generic Android ignores #
 ###########################
@@ -30,6 +31,7 @@ gen/
 *.exe
 *.o
 *.so
+*.MF
 
 # Packages #
 ############

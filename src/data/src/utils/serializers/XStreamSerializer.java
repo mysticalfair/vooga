@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import utils.SerializationException;
 import utils.Serializer;
 
-import java.io.*;
+import java.io.Serializable;
 
 public class XStreamSerializer extends SerializerBase implements Serializer {
 
@@ -25,9 +25,9 @@ public class XStreamSerializer extends SerializerBase implements Serializer {
     }
 
     @Override
-    public Serializable deserialize(String object, Class<? extends Serializable> objectType) throws SerializationException {
+    public Object deserialize(String object, Class<? extends Serializable> objectType) throws SerializationException {
         try {
-            return (Serializable) xStream.fromXML(object);
+            return xStream.fromXML(object);
         } catch (Exception exception) {
             throw new SerializationException(DESERIALIZATION_ERR + exception.getMessage());
         }

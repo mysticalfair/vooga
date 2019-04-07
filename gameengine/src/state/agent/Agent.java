@@ -3,18 +3,20 @@ package state.agent;
 import state.actiondecision.ActionDecision;
 import state.action.movement.MovementAction;
 
-import java.awt.Point;
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
  * @author David Miron
  * @author Luke_Truitt
+ * @author Jamie Palka
  * Agent used by backend and authoring
  */
 public class Agent implements IAgent {
 
     private int id;
-    private Point location;
+    private Point2D.Double location;
     private String imageURL;
     private String team;
 
@@ -36,15 +38,15 @@ public class Agent implements IAgent {
      * Move the current agent a specified distance
      * @param movement The vector representing the movement
      */
-    public void move(Point movement) {
-        this.location.translate(movement.x, movement.y);
+    public void move(Point2D.Double movement) {
+        this.location.setLocation(location.getX() + movement.getX(), location.getY() + movement.getY());
     }
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    public Point getLocation(){
+    public Point2D.Double getLocation(){
         return location;
     }
 

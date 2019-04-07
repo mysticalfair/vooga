@@ -1,6 +1,7 @@
 package state.agent;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -16,13 +17,13 @@ public interface IAgent {
      * Move the current agent a specified distance
      * @param movement The vector representing the movement
      */
-    void move(Point movement);
+    void move(Point2D.Double movement);
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    Point getLocation();
+    Point2D getLocation();
 
     /**
      * Returns the team of the Agent.

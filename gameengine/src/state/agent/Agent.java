@@ -13,7 +13,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent {
+public class Agent implements IAgent, Cloneable {
 
     private int id;
     private Point2D.Double location;
@@ -78,6 +78,15 @@ public class Agent implements IAgent {
      */
     public double calculateDistance(IAgent agent){
         return location.distance(agent.getLocation());
+    }
+
+    /**
+     * Clones the agent
+     * @return a copy of the this agent
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 

@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
  */
 public class SpawnAgentInitialDirection extends SpawnAgent {
 
-    private Agent spawnAgent = new Agent()
+    private Agent spawnAgent;
     private Agent baseAgent;
 
     /**
@@ -29,16 +29,16 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     }
 
     /**
-     * Spawn the spawnAgent at the location of the baseAgent.
+     * Spawn the spawnAgent at the location of the baseAgent. Uses clone method, which allows the new agent to take on all
+     * properties of the pre-defined spawnAgent that an instantiation of a SpawnAgentInitialDirection action will own.
      * @param agent The spawnAgent will be given a direction that points towards this agent.
      */
     @Override
-    public void execute(IAgent agent) {
+    public void execute(IAgent agent) throws CloneNotSupportedException {
 
-        // TODO create a new action decision and movement action and assign it to new agent creating. call spawnAgent to do so
+        // each agent already has its lists and types. just change some parameters of that
 
-
-
+        Agent newAgent = spawnAgent.clone();
         /*
 
         Agent newAgent = this.agent.clone();

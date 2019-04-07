@@ -9,6 +9,6 @@ import state.agent.IAgent;
  */
 public abstract class Action implements IAction {
 
-    public abstract void execute(IAgent agent);
+    public abstract void execute(IAgent agent) throws CloneNotSupportedException;
 
 }

@@ -8,11 +8,9 @@ import java.lang.reflect.Method;
  */
 public class NetworkedInterfaceWrapper implements InvocationHandler {
 
-    private Object parentObject;
     private NetworkInterfacer networkInstance;
 
-    public NetworkedInterfaceWrapper(Object parentObject, NetworkInterfacer networkInstance) {
-        this.parentObject = parentObject;
+    public NetworkedInterfaceWrapper(NetworkInterfacer networkInstance) {
         this.networkInstance = networkInstance;
     }
 
@@ -25,7 +23,8 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
         } else {
             // else, send the request to the other side.
             networkInstance.sendRequest(method, args);
-            // Currently none of the API have return objects. If they do, we need to figure that out here.
+            // Currently none of the API have return objects.
+            // If they do, we need to figure that out here.
             return null;
         }
     }

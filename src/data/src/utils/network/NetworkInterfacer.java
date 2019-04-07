@@ -17,6 +17,8 @@ import java.util.List;
 
 public abstract class NetworkInterfacer {
 
+    private static final String ERROR_IN_CLOSING_CONNECTION = "Error in closing connection! ";
+    private static final String COULD_NOT_BE_SERIALIZED = "could not be serialized!";
     protected Serializer serializer;
     protected Socket socket;
     protected ObjectOutputStream objectOutputStream;
@@ -35,7 +37,7 @@ public abstract class NetworkInterfacer {
             try {
                 arr.add(serializer.serialize((Serializable)object));
             } catch (SerializationException ex) {
-                System.out.println(object.toString() + "could not be serialized!");
+                System.out.println(object.toString() + COULD_NOT_BE_SERIALIZED);
             }
         });
         String[] objects = arr.toArray(String[]::new);
@@ -43,7 +45,6 @@ public abstract class NetworkInterfacer {
         objectOutputStream.writeObject(request);
     }
 
-    // TODO change this from printstacktrace
     public void disconnect() {
         try {
             if (socket != null) {
@@ -53,8 +54,16 @@ public abstract class NetworkInterfacer {
                 readerThread.interrupt();
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            // Because this is running in a separate thread, we cannot bubble exceptions and have
+            // the user see them.
+            System.out.println(ERROR_IN_CLOSING_CONNECTION + ex.getMessage());
+        } finally {
+            readerThread.interrupt();
         }
+    }
+
+    public boolean isConnected() {
+        return socket != null && socket.isConnected();
     }
 
     /**
@@ -65,21 +74,26 @@ public abstract class NetworkInterfacer {
         Runnable runnable = () -> {
             while (true) {
                 try {
-                    Object request = objectInputStream.readObject();
-                    while (request != null) {
-                        INetRequest requestObject = (INetRequest) request;
-                        callParent(requestObject);
-                        request = objectInputStream.readObject();
-                    }
+                    readRequests();
                     Thread.sleep(50);
                 } catch (Exception ex) {
-                    //TODO: log somewhere
-                    ex.printStackTrace();
+                    // Again, this is a separate thread so we cannot pass this along to the user/GUI.
+                    // Log the exception and try to continue.
+                    System.out.println("Error in trying to process request from network. Error: \n" + ex.getMessage());
                 }
             }
         };
         readerThread = new Thread(runnable);
         readerThread.start();
+    }
+
+    private void readRequests() throws IOException, ClassNotFoundException, SerializationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InterruptedException {
+        Object request = objectInputStream.readObject();
+        while (request != null) {
+            INetRequest requestObject = (INetRequest) request;
+            callParent(requestObject);
+            request = objectInputStream.readObject();
+        }
     }
 
     protected Object callParent(INetRequest request) throws SerializationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -94,7 +108,7 @@ public abstract class NetworkInterfacer {
 
     protected void createStreams() throws IOException {
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        objectOutputStream.flush();
+        objectOutputStream.flush(); // flush to send header for initialiation of input stream
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         createInputReaderThread();
     }

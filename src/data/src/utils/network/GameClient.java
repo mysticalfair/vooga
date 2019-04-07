@@ -18,7 +18,9 @@ public class GameClient extends NetworkInterfacer implements NetworkedClientInte
 
     @Override
     public void connect(String ip, int port) throws IOException {
-        socket = new Socket(ip, port);
-        createStreams();
+        if (socket != null && !socket.isConnected()) {
+            socket = new Socket(ip, port);
+            createStreams();
+        }
     }
 }

@@ -1,5 +1,7 @@
 package state.agent;
 
+import state.action.movement.MovementAction;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -38,4 +40,11 @@ public interface IAgent {
      * @return distance
      */
     double calculateDistance(IAgent agent);
+
+    /**
+     * Returns the distance between this Agent and the given Agent
+     * @param agent Agent to which the distance will be calculated
+     * @return distance
+     */
+    void setDirection(Agent agent);
 }

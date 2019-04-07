@@ -6,6 +6,7 @@ import state.action.movement.MovementAction;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;
+import java.lang.reflect.*;
 
 /**
  * @author David Miron
@@ -85,8 +86,9 @@ public class Agent implements IAgent, Cloneable {
      * @return a copy of the this agent
      */
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Agent clone() throws CloneNotSupportedException {
+        return (Agent)super.clone();
+        // TODO is this hacky or ok
     }
 
 

@@ -36,9 +36,17 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     @Override
     public void execute(IAgent agent) throws CloneNotSupportedException {
 
-        // each agent already has its lists and types. just change some parameters of that
+        // each agent already has its lists and types. just change some parameters of that. initial direction.
+        // make sure the movement actionDecision is given the correct velocity.
+
+        // TODO what if the agent spawning has multiple MovementActions? Would this happen? Assuming movement actions are pre-defined
+        //      in the list. Assuming each movement action's destination/direction is defined by an agent.
 
         Agent newAgent = spawnAgent.clone();
+        newAgent.setDirection(agent);
+
+
+
         /*
 
         Agent newAgent = this.agent.clone();

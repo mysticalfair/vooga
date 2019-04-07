@@ -4,6 +4,7 @@ import state.agent.Agent;
 import state.agent.IAgent;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Action to spawn an agent, at the location of a base agent, with a direction pointing to the agent given in the execute method.
@@ -13,7 +14,7 @@ import java.awt.*;
  */
 public class SpawnAgentInitialDirection extends SpawnAgent {
 
-    private Agent spawnAgent;
+    private Agent spawnAgent = new Agent()
     private Agent baseAgent;
 
     /**
@@ -34,11 +35,10 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     @Override
     public void execute(IAgent agent) {
 
-        double xDisplacement = (agent.getLocation().getX() - baseAgent.getLocation().getX());
-        double yDisplacement = (agent.getLocation().getY() - baseAgent.getLocation().getY());
-        Point movement = new Point(xDisplacement, yDisplacement);
-        baseAgent.move(movement);
-        // TODO Set initial velocity of agent and call spawnAgent
+        // TODO create a new action decision and movement action and assign it to new agent creating. call spawnAgent to do so
+
+
+
         /*
 
         Agent newAgent = this.agent.clone();

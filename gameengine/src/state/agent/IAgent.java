@@ -6,8 +6,9 @@ import java.util.List;
 
 /**
  * @author Jorge Raad
- * @author:Luke_Truitt
+ * @author Luke Truitt
  * @author David Miron
+ * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
 public interface IAgent {
@@ -23,7 +24,7 @@ public interface IAgent {
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    Point2D getLocation();
+    Point2D.Double getLocation();
 
     /**
      * Returns the team of the Agent.

@@ -23,6 +23,19 @@ public class Agent implements IAgent {
     protected List<ActionDecision> actionDecisions;
 
     /**
+     * Agent constructor.
+     * @param id agent ID
+     * @param location initial location
+     * @param team the agent's respective team
+     */
+    public Agent(int id, Point2D.Double location, String team) {
+        this.id = id;
+        this.location = location;
+        this.team = team;
+        // TODO set imageURL somewhere
+    }
+
+    /**
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */

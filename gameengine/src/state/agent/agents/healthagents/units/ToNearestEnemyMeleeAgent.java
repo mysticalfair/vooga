@@ -1,6 +1,6 @@
 package state.agent.agents.healthagents.units;
 
-import state.action.movement.ToAgentMovement;
+import state.action.movement.MoveStraightToAgent;
 import state.actiondecision.ClosestEnemy;
 
 /**
@@ -12,7 +12,7 @@ public class ToNearestEnemyMeleeAgent extends MeleeAgent {
     public ToNearestEnemyMeleeAgent(double attackInterval, int attackRange, int damage, int speed) {
         // MeleeAgent takes care of attacking logic
         super(attackInterval, attackRange, damage);
-        // add new ClosestEnemy Action Decision which passes the closest enemy to ToAgentMovement
-        actionDecisions.add(new ClosestEnemy(this, new ToAgentMovement(this, speed)));
+        // add new ClosestEnemy Action Decision which passes the closest enemy to MoveStraightToAgent
+        actionDecisions.add(new ClosestEnemy(this, new MoveStraightToAgent(this, speed)));
     }
 }

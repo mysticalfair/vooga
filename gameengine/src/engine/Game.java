@@ -5,8 +5,8 @@ import state.objective.IObjective;
 import state.State;
 
 /**
- * @Author Jorge Raad
- * @Author Luke Truitt
+ * @author Jorge Raad
+ * @author Luke Truitt
  * @author David Miron
  * @author Jamie Palka
  */

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * @author Jorge Raad
- * @Author:Luke_Truitt
+ * @author:Luke_Truitt
  * @author David Miron
  * These are the extensions for the full agent. The one authoring and engine need.
  */

@@ -10,16 +10,16 @@ import state.agent.IAgent;
  * @author Jamie Palka
  * @author Jorge Raad
  */
-public class SpawnAgentInitialDirectionAction extends SpawnAgentAction {
+public class SpawnAgentInitialDirection extends SpawnAgent {
 
     private Agent spawnAgent;
 
     /**
-     * Create a SpawnAgentInitialDirectionAction
+     * Create a SpawnAgentInitialDirection
      * @param baseAgent The spawn agent is created at the location of this agent
      * @param spawnAgent The agent to spawn
      */
-    public SpawnAgentInitialDirectionAction(Agent baseAgent, Agent spawnAgent) {
+    public SpawnAgentInitialDirection(Agent baseAgent, Agent spawnAgent) {
         this.spawnAgent = spawnAgent;
     }
 

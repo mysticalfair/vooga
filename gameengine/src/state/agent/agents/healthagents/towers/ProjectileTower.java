@@ -1,6 +1,6 @@
 package state.agent.agents.healthagents.towers;
 
-import state.action.spawn.SpawnAgentInitialDirectionAction;
+import state.action.spawn.SpawnAgentInitialDirection;
 import state.actiondecision.ClosestAgentWithinRangeInterval;
 import state.agent.agents.nohealthagents.projectiles.ProjectileAgent;
 
@@ -12,7 +12,7 @@ public class ProjectileTower extends TowerAgent {
                 new ClosestAgentWithinRangeInterval(this,
                                                     shootingInterval,
                                                     shootingRange,
-                                                    new SpawnAgentInitialDirectionAction(this, projectile)));
+                                                    new SpawnAgentInitialDirection(this, projectile)));
     }
 
 }

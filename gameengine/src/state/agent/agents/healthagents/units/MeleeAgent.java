@@ -1,6 +1,6 @@
 package state.agent.agents.healthagents.units;
 
-import state.action.ApplyAgentOperationAction;
+import state.action.ApplyAgentOperation;
 import state.actiondecision.ClosestAgentWithinRangeInterval;
 import state.agent.agents.healthagents.HealthAgent;
 import state.agentoperation.DamageOperation;
@@ -16,7 +16,7 @@ public class MeleeAgent extends HealthAgent {
                 new ClosestAgentWithinRangeInterval(this,
                                                     attackInterval,
                                                     attackRange,
-                                                    new ApplyAgentOperationAction(
+                                                    new ApplyAgentOperation(
                                                             new DamageOperation(damage)
                                                     ))
         );

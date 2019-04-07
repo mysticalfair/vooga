@@ -4,15 +4,22 @@ import state.agent.IAgent;
 
 import java.awt.*;
 
-public class ToAgentMovement extends MovementAction {
+/**
+ * Allows an agent to move straight to a specified target agent.
+ * @author David Miron
+ */
+public class MoveStraightToAgent extends MovementAction {
     IAgent baseAgent;
 
-    public ToAgentMovement(IAgent baseAgent, int speed) {
+    public MoveStraightToAgent(IAgent baseAgent, int speed) {
         this.speed = speed;
         this.baseAgent = baseAgent;
     }
 
-
+    /**
+     * Move the baseAgent to the target agent in a straight line.
+     * @param agent The agent to move to.
+     */
     @Override
     public void execute(IAgent agent) {
         Point movement = new Point();

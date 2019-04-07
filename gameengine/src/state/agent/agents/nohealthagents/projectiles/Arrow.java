@@ -1,6 +1,6 @@
 package state.agent.agents.nohealthagents.projectiles;
 
-import state.action.ApplyAgentOperationAction;
+import state.action.ApplyAgentOperation;
 import state.actiondecision.Always;
 import state.actiondecision.OnEnemyCollision;
 import state.agentoperation.DamageOperation;
@@ -16,7 +16,7 @@ public class Arrow extends ProjectileAgent{
         //  This requires discussion of Agent constructors and possible factory that will be creating them.
         //  Also, how will direction be set by tower?
         this.actionDecisions.add(new OnEnemyCollision(this,
-                new ApplyAgentOperationAction(new DamageOperation(damage))));
+                new ApplyAgentOperation(new DamageOperation(damage))));
         this.actionDecisions.add(new Always(this, new StraightLineMovement()));
     }
 }

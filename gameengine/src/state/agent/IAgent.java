@@ -40,4 +40,16 @@ public interface IAgent {
      * @return distance
      */
     double calculateDistance(IAgent agent);
+
+    /**
+     * Decreases the health value of the agent.
+     * @param healthDeduction amount by which to deduct the health of the agent.
+     */
+    void loseHealth(int healthDeduction);
+
+    /**
+     * Increases the health value of the agent.
+     * @param healthIncrease amount by which to increase the health of the agent.
+     */
+    void gainHealth(int healthIncrease);
 }

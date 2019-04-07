@@ -16,6 +16,6 @@ public class HealingOperation extends AgentOperation {
      */
     @Override
     public void operateOn(IAgent agent) {
-        // TODO: Complete this, something like agent.loseHealth(damage) or something
+        agent.gainHealth(healing);
     }
 }

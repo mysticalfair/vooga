@@ -20,6 +20,7 @@ public class Agent implements IAgent, Cloneable {
     private Point2D.Double location;
     private String imageURL;
     private String team;
+    private int health;
 
     protected List<ActionDecision> actionDecisions;
 
@@ -29,10 +30,11 @@ public class Agent implements IAgent, Cloneable {
      * @param location initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, Point2D.Double location, String team) {
+    public Agent(int id, Point2D.Double location, String team, int health) {
         this.id = id;
         this.location = location;
         this.team = team;
+        this.health = health;
         // TODO set imageURL somewhere
     }
 
@@ -89,6 +91,22 @@ public class Agent implements IAgent, Cloneable {
     public Agent clone() throws CloneNotSupportedException {
         return (Agent)super.clone();
         // TODO is this hacky or ok
+    }
+
+    /**
+     * Decreases the health value of the agent.
+     * @param healthDeduction amount by which to deduct the health of the agent.
+     */
+    public void loseHealth(int healthDeduction) {
+        health -= healthDeduction;
+    }
+
+    /**
+     * Increases the health value of the agent.
+     * @param healthIncrease amount by which to increase the health of the agent.
+     */
+    public void gainHealth(int healthIncrease) {
+        health += healthIncrease;
     }
 
 

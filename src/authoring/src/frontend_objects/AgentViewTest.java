@@ -17,7 +17,7 @@ public class AgentViewTest{
 
     public AgentViewTest(String imageName){
         myImage = new DraggableImage();
-        myImage.makeFormattedView(imageName, STYLE, SIZE, SIZE);
+        //myImage.makeFormattedView(imageName, STYLE, SIZE, SIZE);
     }
 
     public ImageView getView(){

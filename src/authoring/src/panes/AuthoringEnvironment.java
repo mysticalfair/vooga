@@ -1,14 +1,20 @@
 package panes;
 
 import frontend_objects.AgentView;
+import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -25,6 +31,7 @@ public class AuthoringEnvironment extends Application {
     private ConsolePane consolePane;
     private AgentPane agentPane;
     private Pane handlePane;
+    private Canvas map;
 
     public static void main(String[] args){
         launch(args);
@@ -36,14 +43,19 @@ public class AuthoringEnvironment extends Application {
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
         handlePane = new Pane();
+        map = new Canvas(250, 250);
+        GraphicsContext gc = map.getGraphicsContext2D();
+        gc.fillRect(75,75,250,250);
+        gc.setFill(Color.BLACK);
+        borderPane.setCenter(map);
         initAllPanes();
         initStage(stage);
     }
 
     private void initAllPanes() {
         initConsolePane();
-        initAgentPane();
         initAttributesPane();
+        initAgentPane();
     }
 
     /*
@@ -54,9 +66,9 @@ public class AuthoringEnvironment extends Application {
     /**
      * Accepts a list of roots from any pane the ImageView used to be located/needs to be removed from
      * Also accepts a list of roots from any pane the ImageView should be added to
-     * @param fromGroups
-     * @param toGroupsMap
+     *
      */
+    /*
     public void transferAgentView(AgentView agentView, List<ObservableList<Node>> fromGroups, Map<Point2D,ObservableList<Node>> toGroupsMap){
         for(ObservableList<Node> group: fromGroups){
             group.remove(agentView.getView());
@@ -67,11 +79,10 @@ public class AuthoringEnvironment extends Application {
             newView.getView().setY(entry.getKey().getY());
             entry.getValue().add(newView.getView());
         }
-    }
+    }*/
 
     private void initAgentPane() {
         agentPane = new AgentPane();
-//        agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
     }
 

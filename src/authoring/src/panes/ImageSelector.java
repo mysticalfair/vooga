@@ -1,8 +1,6 @@
 package panes;
 
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -18,32 +16,17 @@ import java.io.File;
 
 public class ImageSelector {
 
-    public ImageView getUserImage(){
+    public Image getUserImage(){
         var fileChooser = new FileChooser();
         // TODO: Change to properties file
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files","*.bmp", "*.png", "*.jpg", "*.gif"));
         File file = fileChooser.showOpenDialog(new Stage());
+        Image image = null;
         if (file != null) {
             String imagePath = file.toURI().toString();
-            Image image = new Image(imagePath);
-            ImageView view = new ImageView(image);
-            return view;
-            //BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-            //BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-            //return backgroundImage;
+            image = new Image(imagePath);
         }
-        else{
-            nullFileAlert();
-            return getUserImage();
-        }
-    }
-
-    private void nullFileAlert(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText("Please Select a File");
-        alert.setContentText("You didn't select a file!");
-        alert.showAndWait();
+        return image;
     }
 }

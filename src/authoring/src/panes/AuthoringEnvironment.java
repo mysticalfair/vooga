@@ -85,6 +85,7 @@ public class AuthoringEnvironment extends Application {
     private void initConsolePane() {
         consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
+        consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void mousePressedOnClone(CloneableAgentView agent) {

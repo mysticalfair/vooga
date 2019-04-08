@@ -28,6 +28,7 @@ public class ActionDecision {
      */
     public void execute(List<IAgent> agents) {
         List<IAgent> agentsFiltered = new ArrayList<>(agents);
+
         for (ICondition condition: conditions)
             agentsFiltered = condition.getValid(agentsFiltered);
 

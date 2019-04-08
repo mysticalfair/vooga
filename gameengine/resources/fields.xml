@@ -1,0 +1,11 @@
+<fieldDefinitions>
+
+    <field>int</field>
+    <field>double</field>
+    <field>actionDecision</field>
+    <field>agentOperation</field>
+    <field>action</field>
+    <field>intList</field>
+    <field>agentOperation</field>
+
+</fieldDefinitions>

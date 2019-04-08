@@ -1,21 +1,12 @@
 package panes;
 
-import frontend_objects.AgentView;
-import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
-import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class AgentPane extends AuthoringPane {
 

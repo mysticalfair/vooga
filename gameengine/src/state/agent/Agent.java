@@ -111,6 +111,12 @@ public class Agent implements IAgent, Cloneable {
         health += healthIncrease;
     }
 
-
-
+    /**
+     * Determines if two agents are intersecting.
+     * @param agent check if this agent is intersecting with this agent.
+     */
+    public boolean intersect(IAgent agent) {
+        // TODO implement this
+        return true;
+    }
 }

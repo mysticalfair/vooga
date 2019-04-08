@@ -52,4 +52,11 @@ public interface IAgent {
      * @param healthIncrease amount by which to increase the health of the agent.
      */
     void gainHealth(int healthIncrease);
+
+
+    /**
+     * Determines if two agents are intersecting.
+     * @param agent check if this agent is intersecting with this agent.
+     */
+    boolean intersect(IAgent agent);
 }

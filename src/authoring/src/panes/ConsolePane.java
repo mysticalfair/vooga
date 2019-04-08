@@ -28,10 +28,10 @@ public class ConsolePane extends AuthoringPane{
 
     }
 
-    @Override
-    public void addButton(String label, EventHandler action) {
-
-    }
+//    @Override
+//    public void addButton(String label, EventHandler action) {
+//
+//    }
 
     /**
      * This method can be called externally to notify the user of environment changes.

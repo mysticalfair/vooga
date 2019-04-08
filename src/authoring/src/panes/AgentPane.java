@@ -26,11 +26,11 @@ public class AgentPane extends AuthoringPane {
 
     }
 
-    @Override
-    public void addButton(String label, EventHandler action) {
-        var button = new Button(label);
-        button.setOnAction(action);
-        vbox.getChildren().add(button);
-    }
+//    @Override
+//    public void addButton(String label, EventHandler action) {
+//        var button = new Button(label);
+//        button.setOnAction(action);
+//        vbox.getChildren().add(button);
+//    }
 
 }

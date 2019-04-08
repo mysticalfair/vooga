@@ -1,7 +1,6 @@
 package panes;
 
 import frontend_objects.AgentView;
-import frontend_objects.DraggableView;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
@@ -12,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,17 +71,8 @@ public class AuthoringEnvironment extends Application {
 
     private void initAgentPane() {
         agentPane = new AgentPane();
-        agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
+//        agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
-    }
-
-    // Ignore for now, sample setup for the transfer Agent method
-    private void messWithAgent(AgentView agent){
-        ObservableList<Node> fromGroup = agentPane.getContentChildren();
-        Map<Point2D,ObservableList<Node>> toGroupsMap = new HashMap<>();
-        toGroupsMap.put(new Point2D(agent.getView().getX(), agent.getView().getY()), agentPane.getContentChildren());
-        toGroupsMap.put(new Point2D(agent.getView().getX() - 30, agent.getView().getY() - 30), handlePane.getChildren());
-        transferAgentView(agent, List.of(fromGroup), toGroupsMap);
     }
 
     private void initAttributesPane() {

@@ -11,13 +11,8 @@ public class AttributesPane extends AuthoringPane {
         super();
         scrollPane = new ScrollPane();
         DefineAgentForm defineAgentForm = new DefineAgentForm();
-        defineAgentForm.accessVBox(vBox -> scrollPane.setContent(vBox));
+        defineAgentForm.accessContainer(container -> scrollPane.setContent(container));
         getContentChildren().add(scrollPane);
-
-    }
-
-    @Override
-    public void setStylesheet(String url) {
 
     }
 

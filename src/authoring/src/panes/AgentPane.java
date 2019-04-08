@@ -21,11 +21,6 @@ public class AgentPane extends AuthoringPane {
         getContentChildren().add(vbox);
     }
 
-    @Override
-    public void setStylesheet(String url) {
-
-    }
-
 //    @Override
 //    public void addButton(String label, EventHandler action) {
 //        var button = new Button(label);

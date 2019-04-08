@@ -1,18 +1,19 @@
 package panes.attributes;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import panes.AccessibleContainer;
 import panes.AuthoringUtil;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 
-public class DefineAgentForm {
+public class DefineAgentForm implements AccessibleContainer {
 
     static final String DEFAULT_IMAGE_FILENAME = "default_image.jpg";
     static final double IMAGE_FIELD_SIZE = 100;
@@ -23,15 +24,25 @@ public class DefineAgentForm {
     private ChoiceBox<String> agentTypeField;
     private TextField nameField, widthField, heightField;
     private ImageView imageField;
+    private Accordion accordion;
 
     public DefineAgentForm() {
         rb = ResourceBundle.getBundle("Authoring");
         vBox = new VBox();
 
         vBox.getChildren().add(initCommonFields());
+
+        accordion = new Accordion();
+        TitledPane t = new TitledPane();
+        ActionDecisionForm adf = new ActionDecisionForm(rb);
+        adf.accessContainer(container -> t.setContent(container));
+        t.textProperty().bind(adf.getTitleProperty());
+        accordion.getPanes().addAll(t);
+        vBox.getChildren().add(accordion);
     }
 
-    public void accessVBox(Consumer<Pane> accessMethod) {
+    @Override
+    public void accessContainer(Consumer<Pane> accessMethod) {
         accessMethod.accept(vBox);
     }
 
@@ -44,7 +55,7 @@ public class DefineAgentForm {
 
 
         // Agent type
-        Text typeLabel = new Text(rb.getString("Type"));
+        Label typeLabel = new Label(rb.getString("Type"));
         agentTypeField = new ChoiceBox<>();
         agentTypeField.getItems().addAll("Davido", "Jamie", "Jorge", "Luke");
         gridPane.add(typeLabel, 0, 0);
@@ -52,7 +63,7 @@ public class DefineAgentForm {
 
 
         // Name
-        Text nameLabel = new Text(rb.getString("Name"));
+        Label nameLabel = new Label(rb.getString("Name"));
         nameField = new TextField();
         nameField.setPromptText(rb.getString("NamePrompt"));
         gridPane.add(nameLabel, 0, 1);
@@ -79,10 +90,10 @@ public class DefineAgentForm {
 
 
         // Width and height
-        Text widthLabel = new Text(rb.getString("Width"));
+        Label widthLabel = new Label(rb.getString("Width"));
         widthField = new TextField();
         widthField.setPromptText(rb.getString("WidthHeightPrompt"));
-        Text heightLabel = new Text(rb.getString("Height"));
+        Label heightLabel = new Label(rb.getString("Height"));
         heightField = new TextField();
         heightField.setPromptText(rb.getString("WidthHeightPrompt"));
         gridPane.add(widthLabel, 2, 2);

@@ -23,11 +23,6 @@ public class ConsolePane extends AuthoringPane{
         return consolePane;
     }
 
-    @Override
-    public void setStylesheet(String url) {
-
-    }
-
 //    @Override
 //    public void addButton(String label, EventHandler action) {
 //

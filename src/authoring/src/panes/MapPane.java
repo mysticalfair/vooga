@@ -1,13 +1,15 @@
 package panes;
 
 import frontend_objects.AgentView;
+import frontend_objects.DraggableAgentView;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapPane extends AuthoringPane {
 
-    private ArrayList<AgentView> agentList;
+    private List<DraggableAgentView> agentList;
     private Pane mapPane;
 
     public MapPane(){
@@ -16,13 +18,18 @@ public class MapPane extends AuthoringPane {
         getContentChildren().add(mapPane);
     }
 
-    public void addAgent(AgentView agent){
+    public void addAgent(DraggableAgentView agent){
         agentList.add(agent);
-        getContentChildren().add(agent.getView());
+        mapPane.getChildren().add(agent);
+    }
+
+    public void removeAgent(DraggableAgentView agent) {
+        agentList.remove(agent);
     }
 
     private void initMapPane(){
-        mapPane = new Pane();
+        mapPane = new StackPane();
+        agentList = new ArrayList<>();
     }
 
     @Override

@@ -12,6 +12,7 @@ public class AgentView extends ImageView {
     //public static final String STYLE = "img";
     public static final int SIZE = 100;
 
+
     public AgentView(){
         super();
         this.setFitWidth(SIZE);

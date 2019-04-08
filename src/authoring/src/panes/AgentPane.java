@@ -1,10 +1,9 @@
 package panes;
 
-import frontend_objects.DraggableAgentView;
+import frontend_objects.CloneableAgentView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class AgentPane extends AuthoringPane {
     private VBox vbox;
     private ScrollPane scrollInventory;
     private GridPane inventory;
-    private List<DraggableAgentView> agentList;
+    private List<CloneableAgentView> agentList;
 
     public AgentPane() {
         super();
@@ -31,7 +30,6 @@ public class AgentPane extends AuthoringPane {
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT);
         vbox.getChildren().add(scrollInventory);
-        //etContentChildren().add(scrollInventory);
     }
 
     private void initInventory() {
@@ -41,9 +39,9 @@ public class AgentPane extends AuthoringPane {
         int rowIterator = 0;
         int colIterator = 0;
         for (int i = 0; i < 20; i++) {
-            DraggableAgentView testAgent = new DraggableAgentView("Tower.jpg", colIterator, rowIterator, inventory);
-            inventory.add(testAgent, colIterator, rowIterator);
-            agentList.add(testAgent);
+            CloneableAgentView newAgent = new CloneableAgentView("Tower.jpg");
+            inventory.add(newAgent, colIterator, rowIterator);
+            agentList.add(newAgent);
             colIterator++;
             if (colIterator > 1) {
                 colIterator = 0;
@@ -55,7 +53,7 @@ public class AgentPane extends AuthoringPane {
         scrollInventory.setContent(inventory);
     }
 
-    public List<DraggableAgentView> getAgentList() {
+    public List<CloneableAgentView> getAgentList() {
         return agentList;
     }
 
@@ -63,16 +61,12 @@ public class AgentPane extends AuthoringPane {
         return inventory;
     }
 
+    public VBox getContainerVBox() {
+        return vbox;
+    }
+
     @Override
     public void setStylesheet(String url) {
 
     }
-
-//    @Override
-//    public void addButton(String label, EventHandler action) {
-//        var button = new Button(label);
-//        button.setOnAction(action);
-//        vbox.getChildren().add(button);
-//    }
-
 }

@@ -39,6 +39,11 @@ public class DraggableAgentView extends AgentView {
         setMouseActions(this);
     }
 
+    public DraggableAgentView(CloneableAgentView agent) {
+        super(agent.getUrl());
+        this.url = agent.getUrl();
+    }
+
     /**
      * Called by subclasses of frontend_objects.DraggableView to format myImageView
      * Subclass specific mouseReleased methods are used in setMouseActions

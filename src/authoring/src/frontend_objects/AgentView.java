@@ -11,12 +11,12 @@ public class AgentView extends DraggableView {
     public static final int SIZE = 100;
 
     public AgentView(String imageName){
-        super();
+        super(true);
         formatView(imageName, STYLE, SIZE, SIZE);
     }
 
     public AgentView(AgentView otherAgent){
-        super(otherAgent);
+        super(otherAgent, true);
     }
 
     /*

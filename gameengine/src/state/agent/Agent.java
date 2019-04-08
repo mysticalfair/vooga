@@ -23,6 +23,7 @@ public class Agent implements IAgent, Cloneable {
     private int health;
     private int width;
     private int height;
+    private int direction;
 
     protected List<ActionDecision> actionDecisions;
 
@@ -32,11 +33,13 @@ public class Agent implements IAgent, Cloneable {
      * @param location initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, Point2D.Double location, String team, int health) {
+    public Agent(int id, Point2D.Double location, String team, int health, int width, int height) {
         this.id = id;
         this.location = location;
         this.team = team;
         this.health = health;
+        this.width = width;
+        this.height = height;
         // TODO set imageURL somewhere
     }
 

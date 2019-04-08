@@ -2,6 +2,10 @@ package state.agentoperation;
 
 import state.agent.IAgent;
 
+/**
+ * Subclass of AgentOperation that changes the speed of an agent.
+ * @author Jamie Palka
+ */
 public class ChangeSpeed extends AgentOperation {
 
     private int speedChange;
@@ -17,8 +21,6 @@ public class ChangeSpeed extends AgentOperation {
     @Override
     public void operateOn(IAgent agent) {
 
-        // TODO speed of WHICH ActionDecision/Action pair?? Again, we need to somehow define a current or preferred action
-        //  or something. This issue came up with spawning agents as well.
 
     }
 }

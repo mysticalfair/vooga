@@ -5,6 +5,7 @@ import state.agent.IAgent;
 /**
  * Subclass of AgentOperation that does damage to an agent
  * @author David Miron
+ * @author Jamie Palka
  */
 public class DamageOperation extends AgentOperation {
 

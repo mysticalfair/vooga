@@ -2,6 +2,10 @@ package state.agentoperation;
 
 import state.agent.IAgent;
 
+/**
+ * Subclass of AgentOperation that heals an agent
+ * @author Jamie Palka
+ */
 public class HealingOperation extends AgentOperation {
 
     private int healing;

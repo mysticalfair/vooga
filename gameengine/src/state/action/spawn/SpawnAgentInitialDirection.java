@@ -38,15 +38,10 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
 
         Agent newAgent = spawnAgent.clone();
 
-        /**
-         * TODO - when an agent is spawned, its different types of ActionDecisions with embedded Actions
-         *  (including all its possible movement types will be pre-defined.
-         *  SpawnAgent will need to set the destination its ActionDecision that holds movement.
-         *  Once figure that out, add a new method in IAgent to access the ActionDecisionList.
-         *  Concepts to think about -
-         *          - Assuming each movement action's destination/direction is defined by an agent.
-         *          If don't want that, take a point in the contructor of the Action and ignore the agent taken into the execution function.
-         *          - Need the SpawnAgent abstract class?
-         */
+        // TODO use an ActionDecision to change direction of Agent (an instance variable).
+        //      movement will use that direction accordingly.
+        //      Assuming each movement action's destination/direction is defined by an agent.
+        //      If don't want that, take a point in the contructor of the Action and ignore the agent taken into the execution function.
     }
+
 }

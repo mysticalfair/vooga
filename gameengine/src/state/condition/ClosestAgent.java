@@ -1,6 +1,7 @@
-package state.actiondecision;
+package state.condition;
 
 import state.action.IAction;
+import state.actiondecision.ActionDecision;
 import state.agent.IAgent;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * ActionDecision to run an action on the closest Agent.
  * @author Jorge Raad
  */
-public class ClosestAgent extends ActionDecision{
+public class ClosestAgent extends ActionDecision {
 
     public ClosestAgent(IAgent baseAgent, IAction action) {
         super(baseAgent, action);

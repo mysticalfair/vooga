@@ -1,7 +1,7 @@
 package state.agent.agents.healthagents.units;
 
 import state.action.ApplyAgentOperation;
-import state.actiondecision.ClosestAgentWithinRangeInterval;
+import state.condition.ClosestAgentWithinRangeInterval;
 import state.agent.agents.healthagents.HealthAgent;
 import state.agentoperation.DamageOperation;
 

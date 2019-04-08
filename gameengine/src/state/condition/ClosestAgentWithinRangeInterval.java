@@ -1,4 +1,4 @@
-package state.actiondecision;
+package state.condition;
 
 import state.action.IAction;
 import state.agent.IAgent;

@@ -1,6 +1,7 @@
-package state.actiondecision;
+package state.condition;
 
 import state.action.IAction;
+import state.actiondecision.ActionDecision;
 
 /**
  * ActionDecision type to run an action at a specific interval

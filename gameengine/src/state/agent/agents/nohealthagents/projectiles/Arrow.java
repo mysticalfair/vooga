@@ -1,8 +1,7 @@
 package state.agent.agents.nohealthagents.projectiles;
 
 import state.action.ApplyAgentOperation;
-import state.actiondecision.Always;
-import state.actiondecision.OnEnemyCollision;
+import state.condition.OnEnemyCollision;
 import state.agentoperation.DamageOperation;
 
 /**

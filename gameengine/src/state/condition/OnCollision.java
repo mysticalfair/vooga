@@ -1,6 +1,7 @@
-package state.actiondecision;
+package state.condition;
 
 import state.action.IAction;
+import state.actiondecision.ActionDecision;
 import state.agent.IAgent;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * ActionDecision that executes its Action whenever it collides with another agent.
  * @author Jorge Raad
  */
-public class OnCollision extends ActionDecision{
+public class OnCollision extends ActionDecision {
 
     public OnCollision(IAgent baseAgent, IAction action){
         super(baseAgent, action);

@@ -41,13 +41,11 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
         /**
          * TODO - when an agent is spawned, its different types of ActionDecisions with embedded Actions
          *  (including all its possible movement types will be pre-defined.
-         *  Depending on the type of baseAgent, the spawnAgent will need to set the destination for a specific one of its ActionDecisions.
-         *  Need to decide on a way to implement this/store this information beforehand.
+         *  SpawnAgent will need to set the destination its ActionDecision that holds movement.
          *  Once figure that out, add a new method in IAgent to access the ActionDecisionList.
-         *  Concepts to think about:
-         *          - when spawn it, how does it know which ActionDecision to use? Ex: if it has 2 always ActionDecisions.
+         *  Concepts to think about -
          *          - Assuming each movement action's destination/direction is defined by an agent.
-         *          - Assuming speed of each agent type is pre-defined somewhere.
+         *          If don't want that, take a point in the contructor of the Action and ignore the agent taken into the execution function.
          *          - Need the SpawnAgent abstract class?
          */
     }

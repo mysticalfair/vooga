@@ -1,7 +1,7 @@
 package state.agent.agents.healthagents.units;
 
 import state.action.movement.MoveStraightToAgent;
-import state.condition.ClosestEnemy;
+import state.condition.previous_to_remove.ClosestEnemy;
 
 /**
  * Agent to represent a melee attacking agent that moves towards the nearest enemy

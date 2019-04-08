@@ -1,7 +1,7 @@
 package state.agent.agents.healthagents.towers;
 
 import state.action.spawn.SpawnAgentInitialDirection;
-import state.condition.ClosestAgentWithinRangeInterval;
+import state.condition.previous_to_remove.ClosestAgentWithinRangeInterval;
 import state.agent.agents.nohealthagents.projectiles.ProjectileAgent;
 
 public class ProjectileTower extends TowerAgent {

@@ -1,4 +1,4 @@
-package state.condition;
+package state.condition.previous_to_remove;
 
 import state.action.IAction;
 import state.actiondecision.ActionDecision;

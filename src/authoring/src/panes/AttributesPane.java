@@ -1,6 +1,5 @@
 package panes;
 
-import javafx.event.EventHandler;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -19,9 +18,8 @@ public class AttributesPane extends AuthoringPane {
 
     }
 
-    @Override
-    public void addButton(String label, EventHandler action) {
-
-    }
+    //@Override
+    //public void addButton(String label, EventHandler action) {
+    //}
 
 }

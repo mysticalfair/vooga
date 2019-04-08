@@ -1,9 +1,8 @@
 package frontend_objects;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
-public abstract class DraggableView extends AuthorView {
+public abstract class DraggableView {
 
     /**
      * Superclass for all frontend_objects.AuthorView objects intended to be dragged into the map
@@ -16,33 +15,27 @@ public abstract class DraggableView extends AuthorView {
      *         ((ImageView)(event.getSource())).setTranslateY(getStartY());
      *     }
      * Resource consulted for draggable images: http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * @author Mary Stuart Elder
+     * @author Mary Stuart Elder and Eric Lin
      */
 
     private DraggableImage myDraggableImage;
     private String imageFile;
     private String style;
-    private boolean draggable;
 
-    public DraggableView(boolean drag){
-        draggable = drag;
+    public DraggableView(){
         myDraggableImage = new DraggableImage();
     }
 
-    public DraggableView(DraggableView otherView, boolean drag){
-        this(drag);
+    public DraggableView(DraggableView otherView){
+        myDraggableImage = new DraggableImage();
         imageFile = otherView.getImageName();
         style = otherView.getImageStyle();
         var xSize = otherView.getView().getFitWidth();
         var ySize = otherView.getView().getFitHeight();
-        myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
+        //myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
     }
 
-    public void initializeViewPosition(MouseEvent event){
-        myDraggableImage.initializeViewPosition(event);
-    }
-
-        protected String getImageName(){
+    protected String getImageName(){
         return imageFile;
     }
 
@@ -53,10 +46,7 @@ public abstract class DraggableView extends AuthorView {
     protected void formatView(String imageName, String styleName, double xSize, double ySize){
         imageFile = imageName;
         style = styleName;
-        myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
-        if(draggable){
-            myDraggableImage.setMouseActions(myDraggableImage.getView());
-        }
+        //myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
     }
 
     /**

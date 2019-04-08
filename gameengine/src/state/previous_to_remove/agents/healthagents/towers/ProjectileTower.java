@@ -1,8 +1,8 @@
-package state.agent.agents.healthagents.towers;
+package state.previous_to_remove.agents.healthagents.towers;
 
 import state.action.spawn.SpawnAgentInitialDirection;
-import state.condition.previous_to_remove.ClosestAgentWithinRangeInterval;
-import state.agent.agents.nohealthagents.projectiles.ProjectileAgent;
+import state.previous_to_remove.ClosestAgentWithinRangeInterval;
+import state.previous_to_remove.agents.nohealthagents.projectiles.ProjectileAgent;
 
 public class ProjectileTower extends TowerAgent {
 

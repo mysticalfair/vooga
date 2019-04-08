@@ -1,4 +1,4 @@
-package state.agent.agents.nohealthagents.projectiles;
+package state.previous_to_remove.agents.nohealthagents.projectiles;
 
 import state.agent.Agent;
 

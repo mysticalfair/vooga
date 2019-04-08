@@ -1,4 +1,4 @@
-package state.agent.agents.healthagents;
+package state.previous_to_remove.agents.healthagents;
 
 import state.agent.Agent;
 

@@ -1,8 +1,8 @@
-package state.agent.agents.healthagents.units;
+package state.previous_to_remove.agents.healthagents.units;
 
 import state.action.ApplyAgentOperation;
-import state.condition.previous_to_remove.ClosestAgentWithinRangeInterval;
-import state.agent.agents.healthagents.HealthAgent;
+import state.previous_to_remove.ClosestAgentWithinRangeInterval;
+import state.previous_to_remove.agents.healthagents.HealthAgent;
 import state.agentoperation.DamageOperation;
 
 /**

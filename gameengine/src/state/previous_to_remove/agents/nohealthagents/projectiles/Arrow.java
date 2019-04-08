@@ -1,7 +1,7 @@
-package state.agent.agents.nohealthagents.projectiles;
+package state.previous_to_remove.agents.nohealthagents.projectiles;
 
 import state.action.ApplyAgentOperation;
-import state.condition.previous_to_remove.OnEnemyCollision;
+import state.previous_to_remove.OnEnemyCollision;
 import state.agentoperation.DamageOperation;
 
 /**

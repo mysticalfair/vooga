@@ -1,8 +1,7 @@
-package panes;
+package panes.attributes;
 
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import panes.AuthoringPane;
 
 public class AttributesPane extends AuthoringPane {
 
@@ -10,8 +9,9 @@ public class AttributesPane extends AuthoringPane {
 
     public AttributesPane() {
         super();
-        DefineAgentBox defineAgentBox = new DefineAgentBox();
-        defineAgentBox.accessVBox(vBox -> scrollPane.setContent(vBox));
+        scrollPane = new ScrollPane();
+        DefineAgentForm defineAgentForm = new DefineAgentForm();
+        defineAgentForm.accessVBox(vBox -> scrollPane.setContent(vBox));
         getContentChildren().add(scrollPane);
 
     }

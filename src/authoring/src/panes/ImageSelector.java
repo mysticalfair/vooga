@@ -18,7 +18,7 @@ import java.io.File;
 
 public class ImageSelector {
 
-    public ImageView getUserImage(){
+    public Image getUserImage(){
         var fileChooser = new FileChooser();
         // TODO: Change to properties file
         fileChooser.getExtensionFilters().addAll(
@@ -27,8 +27,8 @@ public class ImageSelector {
         if (file != null) {
             String imagePath = file.toURI().toString();
             Image image = new Image(imagePath);
-            ImageView view = new ImageView(image);
-            return view;
+            //ImageView view = new ImageView(image);
+            return image;
             //BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
             //BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //return backgroundImage;

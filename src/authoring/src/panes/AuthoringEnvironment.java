@@ -4,22 +4,26 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class AuthoringEnvironment extends Application {
 
-    static final String TITLE = "Vooginas!";
-    static final double DEFAULT_WIDTH = 1000;
-    static final double DEFAULT_HEIGHT = 600;
+    public static final String TITLE = "Vooginas!";
+    public static final double DEFAULT_WIDTH = 1000;
+    public static final double DEFAULT_HEIGHT = 600;
+    public static final double DEFAULT_BACKGROUND_WIDTH = 200;
+    public static final double DEFAULT_BACKGROUND_HEIGHT = 200;
+
 
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
     private AgentPane agentPane;
+    private MapPane mapPane;
     private Pane handlePane;
     private Canvas map;
 
@@ -46,6 +50,7 @@ public class AuthoringEnvironment extends Application {
         initConsolePane();
         initAttributesPane();
         initAgentPane();
+        initMapPane();
     }
 
     /*
@@ -76,6 +81,11 @@ public class AuthoringEnvironment extends Application {
         agentPane.accessContainer(node -> borderPane.setRight(node));
     }
 
+    private void initMapPane() {
+        mapPane = new MapPane();
+        mapPane.accessContainer(node -> borderPane.setCenter(node));
+    }
+
     private void initAttributesPane() {
         AttributesPane attributesPane = new AttributesPane();
         attributesPane.accessContainer(node -> borderPane.setLeft(node));
@@ -83,6 +93,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initConsolePane() {
         consolePane = new ConsolePane();
+        consolePane.addButton("Set background", e -> mapPane.formatBackground());
         consolePane.accessContainer(node -> borderPane.setBottom(node));
     }
 

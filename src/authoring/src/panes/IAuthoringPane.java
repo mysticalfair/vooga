@@ -8,6 +8,6 @@ import java.util.function.Consumer;
 
 public interface IAuthoringPane {
     public void setStylesheet(String url);
-    public void addButton(String label, EventHandler action);
+//    public void addButton(String label, EventHandler action);
 //    void addToParent(Consumer<Node> addMethod);
 }

@@ -2,7 +2,7 @@ package frontend_objects;
 
 import javafx.scene.image.ImageView;
 
-public abstract class DraggableView extends AuthorView {
+public abstract class DraggableView {
 
     /**
      * Superclass for all frontend_objects.AuthorView objects intended to be dragged into the map

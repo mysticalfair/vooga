@@ -21,6 +21,8 @@ public class Agent implements IAgent, Cloneable {
     private String imageURL;
     private String team;
     private int health;
+    private int width;
+    private int height;
 
     protected List<ActionDecision> actionDecisions;
 

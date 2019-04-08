@@ -1,23 +1,48 @@
 package frontend_objects;
 
-public class AgentView extends DraggableView {
+import javafx.scene.image.ImageView;
+
+public class AgentView extends ImageView {
 
     /**
      * Extends frontend_objects.DraggableView for dragging the tower image into the map
-     * @author Mary Stuart Elder
+     * @author Mary Stuart Elder and Eric Lin
      */
 
-    public static final String STYLE = "img";
+    //public static final String STYLE = "img";
     public static final int SIZE = 100;
 
-    public AgentView(String imageName){
+
+    public AgentView(){
         super();
-        formatView(imageName, STYLE, SIZE, SIZE);
+        this.setFitWidth(SIZE);
+        this.setFitHeight(SIZE);
+       //formatView(imageName, STYLE, SIZE, SIZE);
     }
 
-    public AgentView(AgentView otherAgent){
-        super(otherAgent);
+    public AgentView(String url) {
+        super(url);
+        this.setFitWidth(SIZE);
+        this.setFitHeight(SIZE);
     }
+
+    /*
+    protected void makeFormattedView(String imageName, String imageStyle, double xSize, double ySize){
+        Image localImage = new Image(imageName);
+        ImageView view = new ImageView(localImage);
+        view.setId(imageStyle);
+        view.setFitWidth(xSize);
+        view.setFitHeight(ySize);
+        //setMouseActions(view);
+        //myImageView = view;
+    }
+    */
+
+    /*
+    public AgentView(AgentView otherAgent){
+        super(otherAgent, true);
+    }
+    */
 
     /*
     Need the DraggableView classes to have methods that allow the View to be dragged anywhere

@@ -1,6 +1,7 @@
 package panes;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -28,9 +29,10 @@ public class ConsolePane extends AuthoringPane{
 
     }
 
-    @Override
     public void addButton(String label, EventHandler action) {
-
+        var button = new Button(label);
+        button.setOnAction(action);
+        myVBox.getChildren().add(button);
     }
 
     /**

@@ -4,6 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 public class DraggableImage{
 
     /**
@@ -68,13 +71,22 @@ public class DraggableImage{
         return myStartYOffset;
     }
 
+    public void addMousePressActions(List<Method> mouseActions){
+
+        myImageView.setOnMousePressed(event ->{
+                for(Method action: mouseActions){
+
+                }
+        });
+    }
+
     /**
      * Method is called by subclasses to set up the mouse actions for their views
      * Superclass references the universal mousePressed and mouseDragged methods, since all views will move around when dragged
      * Mouse release will be different for each subclass, since different circumstances will impact where the view lands on release
      */
-    private void setMouseActions(ImageView view){
-        view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
+    public void setMouseActions(ImageView view){
+        //view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
         view.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent));
     }
 
@@ -83,6 +95,13 @@ public class DraggableImage{
      * @param event MouseEvent
      */
     private void mousePressed(MouseEvent event){
+        //myStartSceneX = event.getSceneX();
+        //myStartSceneY = event.getSceneY();
+        //myStartXOffset = ((ImageView)(event.getSource())).getTranslateX();
+        //myStartYOffset = ((ImageView)(event.getSource())).getTranslateY();
+    }
+
+    public void initializeViewPosition(MouseEvent event){
         myStartSceneX = event.getSceneX();
         myStartSceneY = event.getSceneY();
         myStartXOffset = ((ImageView)(event.getSource())).getTranslateX();

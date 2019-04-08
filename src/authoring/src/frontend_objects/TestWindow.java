@@ -28,7 +28,7 @@ public class TestWindow extends Application {
         Pane pane = new Pane();
         bigPane.getChildren().addAll(structure, pane);
         structure.setCenter(new Text("Hi there"));
-        AgentViewTest agent = new AgentViewTest("Tower.jpg");
+        AgentView agent = new AgentView("Tower.jpg");
         pane.getChildren().add(agent.getView());
         return new Scene(bigPane, 800, 500);
     }

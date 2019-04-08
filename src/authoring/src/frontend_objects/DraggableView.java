@@ -1,6 +1,7 @@
 package frontend_objects;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public abstract class DraggableView extends AuthorView {
 
@@ -21,13 +22,15 @@ public abstract class DraggableView extends AuthorView {
     private DraggableImage myDraggableImage;
     private String imageFile;
     private String style;
+    private boolean draggable;
 
-    public DraggableView(){
+    public DraggableView(boolean drag){
+        draggable = drag;
         myDraggableImage = new DraggableImage();
     }
 
-    public DraggableView(DraggableView otherView){
-        myDraggableImage = new DraggableImage();
+    public DraggableView(DraggableView otherView, boolean drag){
+        this(drag);
         imageFile = otherView.getImageName();
         style = otherView.getImageStyle();
         var xSize = otherView.getView().getFitWidth();
@@ -35,7 +38,11 @@ public abstract class DraggableView extends AuthorView {
         myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
     }
 
-    protected String getImageName(){
+    public void initializeViewPosition(MouseEvent event){
+        myDraggableImage.initializeViewPosition(event);
+    }
+
+        protected String getImageName(){
         return imageFile;
     }
 
@@ -47,6 +54,9 @@ public abstract class DraggableView extends AuthorView {
         imageFile = imageName;
         style = styleName;
         myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
+        if(draggable){
+            myDraggableImage.setMouseActions(myDraggableImage.getView());
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -71,19 +72,19 @@ public class AuthoringEnvironment extends Application {
         }
     }
 
+    private void setMousePressActions(AgentView view){
+        view.getView().setOnMousePressed(mouseEvent -> {
+            //view.initializeViewPosition(mouseEvent);
+            var cloneView = new AgentView(view);
+            cloneView.initializeViewPosition(mouseEvent);
+            handlePane.getChildren().add(cloneView.getView());
+        });
+    }
+
     private void initAgentPane() {
         agentPane = new AgentPane();
         agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
-    }
-
-    // Ignore for now, sample setup for the transfer Agent method
-    private void messWithAgent(AgentView agent){
-        ObservableList<Node> fromGroup = agentPane.getContentChildren();
-        Map<Point2D,ObservableList<Node>> toGroupsMap = new HashMap<>();
-        toGroupsMap.put(new Point2D(agent.getView().getX(), agent.getView().getY()), agentPane.getContentChildren());
-        toGroupsMap.put(new Point2D(agent.getView().getX() - 30, agent.getView().getY() - 30), handlePane.getChildren());
-        transferAgentView(agent, List.of(fromGroup), toGroupsMap);
     }
 
     private void initAttributesPane() {

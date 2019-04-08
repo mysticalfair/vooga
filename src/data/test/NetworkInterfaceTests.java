@@ -58,6 +58,12 @@ public class NetworkInterfaceTests {
         assertEquals(Date.class, returned[3].getClass());
     }
 
+    @Test
+    public void testMethodWithReturnType() {
+        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        assertEquals(iface.getString(), client.getString());
+    }
+
     public static void main(String[] args) {
         // do nothing. This exists so that we can build a JAR for XStream.
     }

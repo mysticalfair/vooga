@@ -32,8 +32,11 @@ public class MapPane extends AuthoringPane {
 
     public void formatBackground(){
         Image image = new ImageSelector().getUserImage();
+        if(image == null){
+            return;
+        }
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         mapPane.setBackground(new Background(backgroundImage));
     }
 

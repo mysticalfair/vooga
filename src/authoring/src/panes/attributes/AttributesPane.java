@@ -11,7 +11,7 @@ public class AttributesPane extends AuthoringPane {
         super();
         scrollPane = new ScrollPane();
         DefineAgentForm defineAgentForm = new DefineAgentForm();
-        defineAgentForm.accessContainer(container -> scrollPane.setContent(container));
+        defineAgentForm.accessContainer(scrollPane::setContent);
         getContentChildren().add(scrollPane);
 
     }

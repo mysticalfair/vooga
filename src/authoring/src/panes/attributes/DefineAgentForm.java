@@ -35,7 +35,7 @@ public class DefineAgentForm implements AccessibleContainer {
         accordion = new Accordion();
         TitledPane t = new TitledPane();
         ActionDecisionForm adf = new ActionDecisionForm(rb);
-        adf.accessContainer(container -> t.setContent(container));
+        adf.accessContainer(t::setContent);
         t.textProperty().bind(adf.getTitleProperty());
         accordion.getPanes().addAll(t);
         vBox.getChildren().add(accordion);

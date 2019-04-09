@@ -9,7 +9,7 @@ import java.util.List;
  * Class to return valid agents based on some timing interval
  * @author David Miron
  */
-public class IntervalCondition implements ICondition {
+public class IntervalCondition extends Condition {
 
     private double intervalMillis;
     private long lastOccurrence;

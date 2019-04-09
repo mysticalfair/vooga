@@ -23,7 +23,7 @@ public class Agent implements IAgent, Cloneable {
     private int health;
     private int width;
     private int height;
-    private int direction;
+    private double direction;
 
     protected List<ActionDecision> actionDecisions;
 

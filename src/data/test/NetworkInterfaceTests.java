@@ -14,80 +14,76 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NetworkInterfaceTests {
 
+    private static final String LOCALHOST = "127.0.0.1";
+    private static final int SERVER_PORT = 1234;
+    private static final int SLEEP_TIME = 10;
     private NetworkedServerInterface serverInterface;
     private NetworkedClientInterface clientInterface;
+    private BasicTestInterface interfaceViaClient;
     private BasicTestInterface iface;
 
     @BeforeAll
     public void setUp() throws IOException {
         iface = new TestObject();
-        serverInterface = NetworkFactory.buildServer(BasicTestInterface.class, iface, 1234);
-        clientInterface = NetworkFactory.buildClient(BasicTestInterface.class, this, "127.0.0.1", 1234);
+        serverInterface = NetworkFactory.buildServer(BasicTestInterface.class, iface, SERVER_PORT);
+        clientInterface = NetworkFactory.buildClient(BasicTestInterface.class, this, LOCALHOST, SERVER_PORT);
+        interfaceViaClient = (BasicTestInterface) clientInterface;
     }
 
     @Test
     public void testChangeString() throws InterruptedException{
         String newString = "newString";
-        assertEquals(iface.getString(), "");
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        client.changeString(newString);
-        Thread.sleep(50);
+        runAndWaitForNetwork(() -> interfaceViaClient.changeString(newString));
         assertEquals(iface.getString(), newString);
     }
 
     @Test
     public void testChangeArgs() throws InterruptedException{
         String[] args = {"arg1", "arg2"};
-        assertEquals(iface.getArgs().length, 0);
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        client.storeArgs(args);
-        Thread.sleep(50);
-        assertEquals(2, iface.getArgs().length);
-        client.storeArgs("arg0", "arg1", "arg2", "arg3");
-        Thread.sleep(50);
-        assertEquals(4, iface.getArgs().length);
+        iface.storeArgs(null);
+        assertEquals(null, iface.getArgs()); // sanity check
+        runAndWaitForNetwork(() -> interfaceViaClient.storeArgs(args));
+        assertArrayEquals(args, iface.getArgs());
     }
 
     @Test
     public void testArgTypes() throws InterruptedException {
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        client.storeObjects(0, "String", 0.0, new Date());
-        Thread.sleep(50);
-        Object[] returned = iface.getObjects();
-        assertEquals((Integer)0, returned[0]);
-        assertEquals("String", returned[1]);
-        assertEquals(0.0, returned[2]);
-        assertEquals(Date.class, returned[3].getClass());
+        Object[] args = new Object[] {0, "String", 0.0, new Date()};
+        runAndWaitForNetwork(() -> interfaceViaClient.storeObjects(args));
+        assertArrayEquals(args, iface.getObjects());
     }
 
     @Test
     public void testMethodWithReturnType() {
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        testAndTime("get one string via network", () -> assertEquals(iface.getString(), client.getString()));
+        assertEquals(iface.getString(), interfaceViaClient.getString());
+        runAndTime("get one string via network", () -> interfaceViaClient.getString());
     }
 
     @Test
     public void testMethodWithMultipleReturnObjects() {
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        assertArrayEquals(iface.getObjects(), client.getObjects());
-        testAndTime("get array of arguments", () -> client.getObjects());
+        assertArrayEquals(iface.getObjects(), interfaceViaClient.getObjects());
+        runAndTime("get array of arguments via network", () -> interfaceViaClient.getObjects());
     }
 
     @Test
     public void testMultipleClientsOneObject() throws IOException, InterruptedException {
-        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, iface, 1235);
-        var client2 = (BasicTestInterface & NetworkedClientInterface)NetworkFactory.buildClient(BasicTestInterface.class, this, "127.0.0.1", 1235);
-        client2.storeArgs("john", "cena");
-        Thread.sleep(50);
-        assertArrayEquals(iface.getArgs(), client.getArgs());
+        int newport = 1235;
+        var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, iface, newport);
+        BasicTestInterface client2 = (BasicTestInterface)NetworkFactory.buildClient(BasicTestInterface.class, this, LOCALHOST, newport);
+        runAndWaitForNetwork(()-> client2.storeArgs("john", "cena"));
+        assertArrayEquals(iface.getArgs(), interfaceViaClient.getArgs());
     }
 
-    private void testAndTime(String description, Runnable runnable) {
-        long curtime = System.currentTimeMillis();
+    private void runAndTime(String description, Runnable runnable) {
+        long curtime = System.nanoTime();
         runnable.run();
-        long timeafter = System.currentTimeMillis();
-        System.out.println("Time to " + description + ": " + (timeafter-curtime) + "ms");
+        long timeafter = System.nanoTime();
+        System.out.println("Time to " + description + ": " + (timeafter-curtime)/1000000.0 + "ms");
+    }
+
+    private void runAndWaitForNetwork(Runnable runnable) throws InterruptedException {
+        runnable.run();
+        Thread.sleep(SLEEP_TIME);
     }
 
     public static void main(String[] args) {

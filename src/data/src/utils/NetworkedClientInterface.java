@@ -14,6 +14,12 @@ public interface NetworkedClientInterface {
      */
     public void disconnect();
 
+
+    /**
+     * @return Returns if this client is currently connected to a server or not.
+     */
+    public boolean isConnected();
+
     /**
      * Connects this client to a listening client on the specified ip and port. Returns false on unable to connect.
      */

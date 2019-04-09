@@ -11,7 +11,7 @@ public class SerializationTests {
 
     @BeforeAll
     public void setup() {
-        serializer = SerializerFactory.buildXMLInstance();
+        serializer = SerializerFactory.getXMLInstance();
     }
 
     @Test

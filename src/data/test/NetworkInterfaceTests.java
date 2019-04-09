@@ -29,7 +29,7 @@ public class NetworkInterfaceTests {
         assertEquals(iface.getString(), "");
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
         client.changeString(newString);
-        Thread.sleep(200);
+        Thread.sleep(50);
         assertEquals(iface.getString(), newString);
     }
 
@@ -39,10 +39,10 @@ public class NetworkInterfaceTests {
         assertEquals(iface.getArgs().length, 0);
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
         client.storeArgs(args);
-        Thread.sleep(200);
+        Thread.sleep(50);
         assertEquals(2, iface.getArgs().length);
         client.storeArgs("arg0", "arg1", "arg2", "arg3");
-        Thread.sleep(200);
+        Thread.sleep(50);
         assertEquals(4, iface.getArgs().length);
     }
 
@@ -50,7 +50,7 @@ public class NetworkInterfaceTests {
     public void testArgTypes() throws InterruptedException {
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
         client.storeObjects(0, "String", 0.0, new Date());
-        Thread.sleep(200);
+        Thread.sleep(50);
         Object[] returned = iface.getObjects();
         assertEquals((Integer)0, returned[0]);
         assertEquals("String", returned[1]);
@@ -61,6 +61,9 @@ public class NetworkInterfaceTests {
     @Test
     public void testMethodWithReturnType() {
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        long curtime = System.currentTimeMillis();
+        client.getString();
+        System.out.println("Time to get a string: " + (System.currentTimeMillis()-curtime));
         assertEquals(iface.getString(), client.getString());
     }
 

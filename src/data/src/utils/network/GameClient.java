@@ -5,7 +5,7 @@ import utils.NetworkedClientInterface;
 import java.io.IOException;
 import java.net.Socket;
 
-public class GameClient extends NetworkInterfacer implements NetworkedClientInterface {
+public class GameClient extends GameBase implements NetworkedClientInterface {
 
     public GameClient(Object parentObject) {
         super(parentObject);
@@ -18,7 +18,7 @@ public class GameClient extends NetworkInterfacer implements NetworkedClientInte
 
     @Override
     public void connect(String ip, int port) throws IOException {
-        if (socket != null && !socket.isConnected()) {
+        if (socket == null) {
             socket = new Socket(ip, port);
             createStreams();
         }

@@ -8,24 +8,26 @@ import java.lang.reflect.Method;
  */
 public class NetworkedInterfaceWrapper implements InvocationHandler {
 
-    private NetworkInterfacer networkInstance;
+    private GameBase networkInterface;
 
-    public NetworkedInterfaceWrapper(NetworkInterfacer networkInstance) {
-        this.networkInstance = networkInstance;
+    public NetworkedInterfaceWrapper(GameBase networkInterface) {
+        this.networkInterface = networkInterface;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
-        Method[] networkMethods = networkInstance.getClass().getDeclaredMethods();
+        Method[] networkMethods = networkInterface.getClass().getDeclaredMethods();
         if (contains(networkMethods, method)) {
             // if the method is a network command like connect, disconnect etc, call it.
-            return method.invoke(networkInstance, args);
+            return method.invoke(networkInterface, args);
         } else {
             // else, send the request to the other side.
-            networkInstance.sendRequest(method, args);
-            // Currently none of the API have return objects.
-            // If they do, we need to figure that out here.
-            return null;
+            if (method.getReturnType().equals(Void.TYPE)) {
+                networkInterface.sendNonBlockingRequest(method, args);
+                return null;
+            } else {
+                return networkInterface.sendBlockingRequest(method, args);
+            }
         }
     }
 

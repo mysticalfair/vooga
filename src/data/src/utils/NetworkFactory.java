@@ -1,8 +1,8 @@
 package utils;
 
+import utils.network.GameBase;
 import utils.network.GameClient;
 import utils.network.GameServer;
-import utils.network.NetworkInterfacer;
 import utils.network.NetworkedInterfaceWrapper;
 
 import java.io.IOException;
@@ -48,11 +48,11 @@ public class NetworkFactory {
      */
     public static NetworkedClientInterface buildClient(Class<?> interfaceToImplement, Object parentInstance, String ip, int port) throws IOException {
         Class[] interfaces = new Class[] {NetworkedClientInterface.class, interfaceToImplement};
-        NetworkInterfacer networkInterfacer = (ip == null || port == 0) ? new GameClient(parentInstance) : new GameClient(parentInstance, ip, port);
+        GameBase gameBase = (ip == null || port == 0) ? new GameClient(parentInstance) : new GameClient(parentInstance, ip, port);
         return (NetworkedClientInterface) Proxy.newProxyInstance(
                 NetworkedInterfaceWrapper.class.getClassLoader(),
                 interfaces,
-                new NetworkedInterfaceWrapper(networkInterfacer));
+                new NetworkedInterfaceWrapper(gameBase));
     }
 
     /**
@@ -66,10 +66,10 @@ public class NetworkFactory {
      */
     public static NetworkedServerInterface buildServer(Class<?> interfaceToImplement, Object parentInstance, int port) throws IOException {
         Class[] interfaces = new Class[] {NetworkedServerInterface.class, interfaceToImplement};
-        NetworkInterfacer networkInterfacer = new GameServer(parentInstance, port);
+        GameBase gameBase = new GameServer(parentInstance, port);
         return (NetworkedServerInterface) Proxy.newProxyInstance(
                 NetworkedInterfaceWrapper.class.getClassLoader(),
                 interfaces,
-                new NetworkedInterfaceWrapper(networkInterfacer));
+                new NetworkedInterfaceWrapper(gameBase));
     }
 }

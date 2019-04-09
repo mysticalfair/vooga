@@ -9,6 +9,7 @@ import java.io.*;
  * SerializerBase class which has closed implementations of save and load.
  * This does not limit the serialization/deserialization implementations, they simply just need to implement
  * serialize() and deserialize().
+ * @author Jake Mullett
  */
 public abstract class SerializerBase implements Serializer {
 

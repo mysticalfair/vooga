@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * Set of interfaces for saving any Serializable object into a file or into a string, or reversing any serialization.
+ * @author Jake Mullett
  */
 public interface Serializer {
 

@@ -3,17 +3,21 @@ package utils.network.datagrams;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import utils.SerializationException;
 import utils.Serializer;
-import utils.SerializerFactory;
+import utils.SerializerSingleton;
 import utils.network.id.IDGenerator;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+/**
+ * Base class for instantiating requests or responses on the network.
+ * @author Jake Mullett
+ */
 public abstract class Datagram implements Serializable {
 
     @XStreamOmitField
-    protected transient Serializer xmlSerializer = SerializerFactory.getXMLInstance();
+    protected transient Serializer xmlSerializer = SerializerSingleton.getXMLInstance();
 
     protected String payload;
     protected String id;
@@ -33,6 +37,7 @@ public abstract class Datagram implements Serializable {
     private void init(DatagramType datagramType, Object payload) throws SerializationException {
         type = datagramType;
         this.payload = xmlSerializer.serialize((Serializable) payload);
+
     }
 
     public String getId() {
@@ -43,9 +48,12 @@ public abstract class Datagram implements Serializable {
         return type;
     }
 
+    /**
+     * When reading the class off the network, also attach the Serializer instance.
+     */
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        xmlSerializer = SerializerFactory.getXMLInstance();
+        xmlSerializer = SerializerSingleton.getXMLInstance();
     }
 }

@@ -22,6 +22,8 @@ import java.lang.reflect.Proxy;
  * Then, once you have connected to the corresponding interface (in this example you are the server and they
  * connect to you), you can call any method that the provided interface provides:
  * player.addTower(...);
+ *
+ * @author Jake Mullett
  */
 public class NetworkFactory {
 

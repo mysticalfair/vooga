@@ -5,6 +5,10 @@ import utils.NetworkedClientInterface;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Client class for connecting to a server and running the network interface.
+ * @author Jake Mullett
+ */
 public class GameClient extends GameBase implements NetworkedClientInterface {
 
     public GameClient(Object parentObject) {

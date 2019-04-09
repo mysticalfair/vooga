@@ -1,10 +1,11 @@
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import utils.NetworkFactory;
 import utils.NetworkedClientInterface;
 import utils.NetworkedServerInterface;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -68,8 +69,8 @@ public class NetworkInterfaceTests {
     @Test
     public void testMethodWithMultipleReturnObjects() {
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
-        testAndTime("get array of arguments", () -> client.getArgs());
         assertArrayEquals(iface.getObjects(), client.getObjects());
+        testAndTime("get array of arguments", () -> client.getObjects());
     }
 
     @Test

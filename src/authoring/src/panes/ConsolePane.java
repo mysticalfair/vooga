@@ -1,7 +1,5 @@
 package panes;
 
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -17,6 +15,12 @@ public class ConsolePane extends AuthoringPane{
 
     private VBox myVBox;
 
+    public static final String OVERALL_STYLE = "terminal_overall";
+    public static final String TITLE_STYLE = "terminal_heading";
+    public static final String TEXT_STYLE = "terminal";
+    public static final String TITLE_TEXT = "Environment Console";
+    public static final double HEIGHT = 100;
+
     public ConsolePane() {
         super();
         getContentChildren().add(initializeContent());
@@ -24,35 +28,28 @@ public class ConsolePane extends AuthoringPane{
 
     private Region initializeContent(){
         var fullBox = new VBox();
-        fullBox.setId("terminal_overall");
+        fullBox.setId(OVERALL_STYLE);
         myVBox = new VBox();
         ScrollPane consolePane = new ScrollPane();
         formatScrollPane(consolePane);
-        //myVBox.getChildren().add(new Text("Testing text in console pane"));
         consolePane.setContent(myVBox);
         myVBox.setFillWidth(true);
 
-        var title = new Text("Environment Console");
-        title.setId("terminal_heading");
+        var title = new Text(TITLE_TEXT);
+        title.setId(TITLE_STYLE);
         fullBox.getChildren().addAll(title, consolePane);
         return fullBox;
     }
 
     private void formatScrollPane(ScrollPane consolePane){
-        consolePane.setPrefViewportWidth(1000);
-        consolePane.setPrefViewportHeight(100);
-        consolePane.setId("terminal");
+        consolePane.setPrefViewportWidth(AuthoringEnvironment.DEFAULT_WIDTH);
+        consolePane.setPrefViewportHeight(HEIGHT);
+        consolePane.setId(TEXT_STYLE);
     }
 
     @Override
     public void setStylesheet(String url) {
 
-    }
-
-    public void addButton(String label, EventHandler action) {
-        var button = new Button(label);
-        button.setOnAction(action);
-        myVBox.getChildren().add(button);
     }
 
     /**
@@ -62,7 +59,7 @@ public class ConsolePane extends AuthoringPane{
      */
     public void displayConsoleMessage(String message){
         var text = new Text(message);
-        text.setId("terminal");
+        text.setId(TEXT_STYLE);
         myVBox.getChildren().add(text);
     }
 }

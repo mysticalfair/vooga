@@ -32,6 +32,7 @@ public class DraggableImage{
      * @param xSize double, horizontal size of image
      * @param ySize double, vertical size of image
      */
+    /*
     public void makeFormattedView(String imageName, String imageStyle, double xSize, double ySize){
         var localImage = new Image(imageName);
         var view = new ImageView(localImage);
@@ -40,7 +41,7 @@ public class DraggableImage{
         view.setFitHeight(ySize);
         setMouseActions(view);
         myImageView = view;
-    }
+    }*/
 
     /**
      * Called by other classes to get the visual representation of this class
@@ -73,10 +74,12 @@ public class DraggableImage{
      * Superclass references the universal mousePressed and mouseDragged methods, since all views will move around when dragged
      * Mouse release will be different for each subclass, since different circumstances will impact where the view lands on release
      */
+    /*
     private void setMouseActions(ImageView view){
         view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
         view.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent));
     }
+    */
 
     /**
      * Initializes instance variables for drag and drop when mouse is pressed
@@ -93,6 +96,7 @@ public class DraggableImage{
      * As mouse is dragged, ImageView position is moved
      * @param event MouseEvent
      */
+    /*
     private void mouseDragged(MouseEvent event){
         double offsetX = event.getSceneX() - myStartSceneX;
         double offsetY = event.getSceneY() - myStartSceneY;
@@ -101,5 +105,6 @@ public class DraggableImage{
 
         ((ImageView)(event.getSource())).setTranslateX(newTranslateX);
         ((ImageView)(event.getSource())).setTranslateY(newTranslateY);
-    }
+    }*/
+
 }

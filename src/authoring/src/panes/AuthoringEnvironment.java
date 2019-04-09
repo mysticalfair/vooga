@@ -1,31 +1,31 @@
 package panes;
 
-import frontend_objects.AgentView;
+import frontend_objects.CloneableAgentView;
+import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
-
-import java.util.List;
-import java.util.Map;
 
 public class AuthoringEnvironment extends Application {
 
     static final String TITLE = "Vooginas!";
-    static final double DEFAULT_WIDTH = 800;
+    static final double DEFAULT_WIDTH = 1000;
     static final double DEFAULT_HEIGHT = 600;
 
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
     private AgentPane agentPane;
-    private Pane handlePane;
+    private AttributesPane attributesPane;
+    private ToolbarPane toolbarPane;
+    private MapPane map;
 
     public static void main(String[] args){
         launch(args);
@@ -36,54 +36,113 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
-        handlePane = new Pane();
         initAllPanes();
         initStage(stage);
     }
 
     private void initAllPanes() {
-        initConsolePane();
-        initAgentPane();
+        initMapPane();
         initAttributesPane();
+        initConsolePane();
+        initToolbarPane();
+        initAgentPane();
     }
 
-    /*
-    When any Agent is clicked, it should set off a procedure:
-        Store initial location
-        Remove DraggableImage from AgentPane, add to Handle pane (?)
-     */
-    /**
-     * Accepts a list of roots from any pane the ImageView used to be located/needs to be removed from
-     * Also accepts a list of roots from any pane the ImageView should be added to
-     * @param fromGroups
-     * @param toGroupsMap
-     */
-    public void transferAgentView(AgentView agentView, List<ObservableList<Node>> fromGroups, Map<Point2D,ObservableList<Node>> toGroupsMap){
-        for(ObservableList<Node> group: fromGroups){
-            group.remove(agentView.getView());
-        }
-        for(Map.Entry<Point2D, ObservableList<Node>> entry: toGroupsMap.entrySet()){
-            AgentView newView = new AgentView(agentView);
-            newView.getView().setX(entry.getKey().getX());
-            newView.getView().setY(entry.getKey().getY());
-            entry.getValue().add(newView.getView());
-        }
+    private void initMapPane() {
+        map = new MapPane();
+        map.accessContainer(node -> borderPane.setCenter(node));
     }
 
     private void initAgentPane() {
         agentPane = new AgentPane();
-//        agentPane.addButton("hi back!", e -> consolePane.displayConsoleMessage("Button was pressed"));
         agentPane.accessContainer(node -> borderPane.setRight(node));
+        for (CloneableAgentView o : agentPane.getAgentList()) {
+            o.setId("img");
+            //o.setOnMousePressed(e -> mousePressedOnClone(o));
+            o.setOnMousePressed(e -> mousePressedOnClone(e, o));
+        }
     }
 
     private void initAttributesPane() {
-        AttributesPane attributesPane = new AttributesPane();
+        attributesPane = new AttributesPane();
         attributesPane.accessContainer(node -> borderPane.setLeft(node));
     }
 
     private void initConsolePane() {
         consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
+        //consolePane.addButton("set background", e -> map.formatBackground());
+    }
+
+    private void initToolbarPane() {
+        toolbarPane = new ToolbarPane();
+        toolbarPane.accessContainer(node -> borderPane.setTop(node));
+    }
+
+    private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
+        if (e.getClickCount() == 2) {
+            DraggableAgentView copy = new DraggableAgentView(agent);
+            map.addAgent(copy);
+            consolePane.displayConsoleMessage("Agent added");
+            setMouseActionsForDrag(copy);
+        } else {
+            // code to open up attributes pane.
+        }
+    }
+
+    private void setMouseActionsForDrag(DraggableAgentView draggableAgent){
+        draggableAgent.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, draggableAgent));
+        draggableAgent.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, draggableAgent));
+        draggableAgent.setOnMouseReleased(mouseEvent -> mouseReleased(draggableAgent));
+    }
+
+    private void mousePressed(MouseEvent event, DraggableAgentView draggableAgent) {
+        draggableAgent.setMyStartSceneX(event.getSceneX());
+        draggableAgent.setMyStartSceneY(event.getSceneY());
+        draggableAgent.setMyStartXOffset(((DraggableAgentView)(event.getSource())).getTranslateX());
+        draggableAgent.setMyStartYOffset(((DraggableAgentView)(event.getSource())).getTranslateY());
+    }
+
+    private void mouseDragged(MouseEvent event, DraggableAgentView draggableAgent) {
+        double offsetX = event.getSceneX() - draggableAgent.getMyStartSceneX();
+        double offsetY = event.getSceneY() - draggableAgent.getMyStartSceneY();
+        double newTranslateX = draggableAgent.getStartX() + offsetX;
+        double newTranslateY = draggableAgent.getStartY() + offsetY;
+        ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
+        ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
+        if (outOfBounds(draggableAgent)) {
+            draggableAgent.setEffect(setLighting());
+        } else {
+            draggableAgent.setEffect(null);
+        }
+    }
+
+    private Lighting setLighting() {
+        Lighting lighting = new Lighting();
+        lighting.setDiffuseConstant(1.0);
+        lighting.setSpecularConstant(0.0);
+        lighting.setSpecularExponent(0.0);
+        lighting.setSurfaceScale(0.0);
+        lighting.setLight(new Light.Distant(45, 45, Color.RED));
+        return lighting;
+    }
+
+    private void mouseReleased(DraggableAgentView draggableAgent) {
+        System.out.println(draggableAgent.getTranslateX() + " " + draggableAgent.getTranslateY());
+        if (outOfBounds(draggableAgent)) {
+            draggableAgent.setImage(null);
+            map.removeAgent(draggableAgent);
+        }
+    }
+
+    private boolean outOfBounds(DraggableAgentView draggableAgent) {
+        double xPos = draggableAgent.getTranslateX();
+        double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
+        double attributesWidth = attributesPane.getWidth();
+        double agentPanelWidth = agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesWidth - agentPanelWidth;
+        boolean leftOutOfBounds = xPos < 0;
+        return leftOutOfBounds || rightOutOfBounds;
     }
 
     private void initStage(Stage stage) {
@@ -92,8 +151,8 @@ public class AuthoringEnvironment extends Application {
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        stage.getScene().getStylesheets().add("Blue.css");
+        stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
+        agentPane.getScrollInventory().setPrefHeight(borderPane.getHeight() - ToolbarPane.HEIGHT - 1.75*consolePane.getConsole().getHeight());
     }
-
 }

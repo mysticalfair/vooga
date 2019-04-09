@@ -16,9 +16,18 @@ public class AttributesPane extends AuthoringPane {
 
     }
 
+    @Override
+    public void setStylesheet(String url) {
+
+    }
+
 //    @Override
 //    public void addButton(String label, EventHandler action) {
 //
 //    }
+
+    public double getWidth() {
+        return scrollPane.getWidth();
+    }
 
 }

@@ -15,7 +15,7 @@ public abstract class DraggableView {
      *         ((ImageView)(event.getSource())).setTranslateY(getStartY());
      *     }
      * Resource consulted for draggable images: http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * @author Mary Stuart Elder
+     * @author Mary Stuart Elder and Eric Lin
      */
 
     private DraggableImage myDraggableImage;
@@ -32,7 +32,7 @@ public abstract class DraggableView {
         style = otherView.getImageStyle();
         var xSize = otherView.getView().getFitWidth();
         var ySize = otherView.getView().getFitHeight();
-        myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
+        //myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
     }
 
     protected String getImageName(){
@@ -46,7 +46,7 @@ public abstract class DraggableView {
     protected void formatView(String imageName, String styleName, double xSize, double ySize){
         imageFile = imageName;
         style = styleName;
-        myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
+        //myDraggableImage.makeFormattedView(imageFile, style, xSize, ySize);
     }
 
     /**

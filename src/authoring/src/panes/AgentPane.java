@@ -48,8 +48,7 @@ public class AgentPane extends AuthoringPane {
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
-        scrollInventory.setFitToHeight(true);
+        //scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
         scrollInventory.getStyleClass().add("scroll-pane");
         inventoryContainer.getChildren().add(scrollInventory);
     }
@@ -78,6 +77,10 @@ public class AgentPane extends AuthoringPane {
 
     public List<CloneableAgentView> getAgentList() {
         return agentList;
+    }
+
+    public ScrollPane getScrollInventory() {
+        return scrollInventory;
     }
 
     public VBox getVBoxContainer() {

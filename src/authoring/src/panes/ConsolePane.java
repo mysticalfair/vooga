@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 public class ConsolePane extends AuthoringPane{
 
     private VBox myVBox;
+    private ScrollPane consolePane;
 
     public static final String OVERALL_STYLE = "terminal_overall";
     public static final String TITLE_STYLE = "terminal_heading";
@@ -30,7 +31,7 @@ public class ConsolePane extends AuthoringPane{
         var fullBox = new VBox();
         fullBox.setId(OVERALL_STYLE);
         myVBox = new VBox();
-        ScrollPane consolePane = new ScrollPane();
+        consolePane = new ScrollPane();
         formatScrollPane(consolePane);
         consolePane.setContent(myVBox);
         myVBox.setFillWidth(true);
@@ -62,4 +63,9 @@ public class ConsolePane extends AuthoringPane{
         text.setId(TEXT_STYLE);
         myVBox.getChildren().add(text);
     }
+
+    public ScrollPane getConsole() {
+        return consolePane;
+    }
+
 }

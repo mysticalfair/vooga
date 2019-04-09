@@ -23,6 +23,7 @@ public class AuthoringEnvironment extends Application {
     private ConsolePane consolePane;
     private AgentPane agentPane;
     private AttributesPane attributesPane;
+    private ToolbarPane toolbarPane;
     private MapPane map;
 
     public static void main(String[] args){
@@ -40,9 +41,10 @@ public class AuthoringEnvironment extends Application {
 
     private void initAllPanes() {
         initMapPane();
-        initConsolePane();
         initAttributesPane();
         initAgentPane();
+        initConsolePane();
+        initToolbarPane();
     }
 
     private void initMapPane() {
@@ -54,6 +56,8 @@ public class AuthoringEnvironment extends Application {
         agentPane = new AgentPane();
         agentPane.accessContainer(node -> borderPane.setRight(node));
         for (CloneableAgentView o : agentPane.getAgentList()) {
+            o.setId("img");
+            //o.setOnMousePressed(e -> mousePressedOnClone(o));
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
         }
     }
@@ -66,13 +70,19 @@ public class AuthoringEnvironment extends Application {
     private void initConsolePane() {
         consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
-        consolePane.addButton("set background", e -> map.formatBackground());
+        //consolePane.addButton("set background", e -> map.formatBackground());
+    }
+
+    private void initToolbarPane() {
+        toolbarPane = new ToolbarPane();
+        toolbarPane.accessContainer(node -> borderPane.setTop(node));
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
+            consolePane.displayConsoleMessage("Agent added");
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -140,8 +150,7 @@ public class AuthoringEnvironment extends Application {
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        stage.getScene().getStylesheets().add("Blue.css");
+        stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
     }
-
 }

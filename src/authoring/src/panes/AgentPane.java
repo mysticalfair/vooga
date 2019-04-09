@@ -29,7 +29,7 @@ public class AgentPane extends AuthoringPane {
         initScrollPane();
         initInventory();
     }
-    
+
     private void initInventoryContainer() {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,

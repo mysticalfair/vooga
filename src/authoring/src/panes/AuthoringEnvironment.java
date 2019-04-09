@@ -42,9 +42,9 @@ public class AuthoringEnvironment extends Application {
     private void initAllPanes() {
         initMapPane();
         initAttributesPane();
-        initAgentPane();
         initConsolePane();
         initToolbarPane();
+        initAgentPane();
     }
 
     private void initMapPane() {
@@ -152,5 +152,6 @@ public class AuthoringEnvironment extends Application {
         stage.setMinHeight(DEFAULT_HEIGHT);
         stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
+        agentPane.getScrollInventory().setPrefHeight(borderPane.getHeight() - ToolbarPane.HEIGHT - 1.75*consolePane.getConsole().getHeight());
     }
 }

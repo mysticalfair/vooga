@@ -22,6 +22,7 @@ public class AgentPane extends AuthoringPane {
         agentList = new ArrayList<>();
         initScrollPane();
         initInventory();
+        vbox.getStylesheets().add("agent-pane.css");
         getContentChildren().add(vbox);
     }
 
@@ -29,6 +30,7 @@ public class AgentPane extends AuthoringPane {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT);
+        scrollInventory.getStyleClass().add("scroll-pane");
         vbox.getChildren().add(scrollInventory);
     }
 

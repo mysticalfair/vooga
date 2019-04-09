@@ -104,10 +104,11 @@ public class AuthoringEnvironment extends Application {
     }
 
     private boolean outOfBounds(DraggableAgentView draggableAgent) {
-        double xPos = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
+        double xPos = draggableAgent.getTranslateX();
+        double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
         double attributesWidth = attributesPane.getVBoxContainer().getWidth();
         double agentPanelWidth = agentPane.getVBoxContainer().getWidth();
-        boolean rightOutOfBounds = xPos > AuthoringEnvironment.DEFAULT_WIDTH - attributesWidth - agentPanelWidth;
+        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesWidth - agentPanelWidth;
         boolean leftOutOfBounds = xPos < 0;
         return leftOutOfBounds || rightOutOfBounds;
     }

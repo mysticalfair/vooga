@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import panes.attributes.AttributesPane;
 
 public class AuthoringEnvironment extends Application {
 
@@ -137,7 +138,7 @@ public class AuthoringEnvironment extends Application {
     private boolean outOfBounds(DraggableAgentView draggableAgent) {
         double xPos = draggableAgent.getTranslateX();
         double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
-        double attributesWidth = attributesPane.getVBoxContainer().getWidth();
+        double attributesWidth = attributesPane.getWidth();
         double agentPanelWidth = agentPane.getVBoxContainer().getWidth();
         boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesWidth - agentPanelWidth;
         boolean leftOutOfBounds = xPos < 0;

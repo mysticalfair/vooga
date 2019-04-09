@@ -4,9 +4,12 @@ import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class AuthoringEnvironment extends Application {
@@ -52,7 +55,8 @@ public class AuthoringEnvironment extends Application {
         agentPane.accessContainer(node -> borderPane.setRight(node));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
-            o.setOnMousePressed(e -> mousePressedOnClone(o));
+            //o.setOnMousePressed(e -> mousePressedOnClone(o));
+            o.setOnMousePressed(e -> mousePressedOnClone(e, o));
         }
     }
 
@@ -67,16 +71,18 @@ public class AuthoringEnvironment extends Application {
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
-    private void mousePressedOnClone(CloneableAgentView agent) {
-        DraggableAgentView copy = new DraggableAgentView(agent);
-        copy.setId("img");
-        map.addAgent(copy);
-        consolePane.displayConsoleMessage("Agent added to map");
-        setMouseActions(copy);
-
+    private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
+        if (e.getClickCount() == 2) {
+            DraggableAgentView copy = new DraggableAgentView(agent);
+            map.addAgent(copy);
+            consolePane.displayConsoleMessage("Agent added");
+            setMouseActionsForDrag(copy);
+        } else {
+            // code to open up attributes pane.
+        }
     }
 
-    private void setMouseActions(DraggableAgentView draggableAgent){
+    private void setMouseActionsForDrag(DraggableAgentView draggableAgent){
         draggableAgent.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, draggableAgent));
         draggableAgent.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, draggableAgent));
         draggableAgent.setOnMouseReleased(mouseEvent -> mouseReleased(draggableAgent));
@@ -96,6 +102,21 @@ public class AuthoringEnvironment extends Application {
         double newTranslateY = draggableAgent.getStartY() + offsetY;
         ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
         ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
+        if (outOfBounds(draggableAgent)) {
+            draggableAgent.setEffect(setLighting());
+        } else {
+            draggableAgent.setEffect(null);
+        }
+    }
+
+    private Lighting setLighting() {
+        Lighting lighting = new Lighting();
+        lighting.setDiffuseConstant(1.0);
+        lighting.setSpecularConstant(0.0);
+        lighting.setSpecularExponent(0.0);
+        lighting.setSurfaceScale(0.0);
+        lighting.setLight(new Light.Distant(45, 45, Color.RED));
+        return lighting;
     }
 
     private void mouseReleased(DraggableAgentView draggableAgent) {
@@ -107,10 +128,11 @@ public class AuthoringEnvironment extends Application {
     }
 
     private boolean outOfBounds(DraggableAgentView draggableAgent) {
-        double xPos = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
+        double xPos = draggableAgent.getTranslateX();
+        double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
         double attributesWidth = attributesPane.getVBoxContainer().getWidth();
         double agentPanelWidth = agentPane.getVBoxContainer().getWidth();
-        boolean rightOutOfBounds = xPos > AuthoringEnvironment.DEFAULT_WIDTH - attributesWidth - agentPanelWidth;
+        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesWidth - agentPanelWidth;
         boolean leftOutOfBounds = xPos < 0;
         return leftOutOfBounds || rightOutOfBounds;
     }

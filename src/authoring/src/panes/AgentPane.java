@@ -39,7 +39,7 @@ public class AgentPane extends AuthoringPane {
         int rowIterator = 0;
         int colIterator = 0;
         for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView("Tower.jpg");
+            CloneableAgentView newAgent = new CloneableAgentView("monkey.png");
             inventory.add(newAgent, colIterator, rowIterator);
             agentList.add(newAgent);
             colIterator++;
@@ -57,11 +57,7 @@ public class AgentPane extends AuthoringPane {
         return agentList;
     }
 
-    public GridPane getInventory() {
-        return inventory;
-    }
-
-    public VBox getContainerVBox() {
+    public VBox getVBoxContainer() {
         return vbox;
     }
 

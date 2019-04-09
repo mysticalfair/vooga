@@ -16,7 +16,7 @@
     -fx-font-size: 10pt;
     -fx-font-family: "monospace";
     -fx-background: rgb(42, 42, 45);
-    -fx-fill: linear-gradient(aqua 0%, red 50%);
+    -fx-fill: white;
     -fx-stroke-width: 1;
 }
 

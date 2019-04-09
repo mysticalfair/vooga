@@ -23,6 +23,7 @@ public class AuthoringEnvironment extends Application {
     private ConsolePane consolePane;
     private AgentPane agentPane;
     private AttributesPane attributesPane;
+    private ToolbarPane toolbarPane;
     private MapPane map;
 
     public static void main(String[] args){
@@ -40,9 +41,10 @@ public class AuthoringEnvironment extends Application {
 
     private void initAllPanes() {
         initMapPane();
-        initConsolePane();
         initAttributesPane();
         initAgentPane();
+        initConsolePane();
+        initToolbarPane();
     }
 
     private void initMapPane() {
@@ -69,6 +71,11 @@ public class AuthoringEnvironment extends Application {
         consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
         //consolePane.addButton("set background", e -> map.formatBackground());
+    }
+
+    private void initToolbarPane() {
+        toolbarPane = new ToolbarPane();
+        toolbarPane.accessContainer(node -> borderPane.setTop(node));
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {

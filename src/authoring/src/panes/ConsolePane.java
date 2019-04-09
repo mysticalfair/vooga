@@ -30,6 +30,7 @@ public class ConsolePane extends AuthoringPane{
         formatScrollPane(consolePane);
         //myVBox.getChildren().add(new Text("Testing text in console pane"));
         consolePane.setContent(myVBox);
+        myVBox.setFillWidth(true);
 
         var title = new Text("Environment Console");
         title.setId("terminal_heading");
@@ -38,7 +39,7 @@ public class ConsolePane extends AuthoringPane{
     }
 
     private void formatScrollPane(ScrollPane consolePane){
-        consolePane.setPrefViewportWidth(600);
+        consolePane.setPrefViewportWidth(1000);
         consolePane.setPrefViewportHeight(100);
         consolePane.setId("terminal");
     }

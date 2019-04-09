@@ -51,6 +51,7 @@ public class AuthoringEnvironment extends Application {
         agentPane = new AgentPane();
         agentPane.accessContainer(node -> borderPane.setRight(node));
         for (CloneableAgentView o : agentPane.getAgentList()) {
+            o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(o));
         }
     }
@@ -63,12 +64,14 @@ public class AuthoringEnvironment extends Application {
     private void initConsolePane() {
         consolePane = new ConsolePane();
         consolePane.accessContainer(node -> borderPane.setBottom(node));
-        consolePane.addButton("set background", e -> map.formatBackground());
+        //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void mousePressedOnClone(CloneableAgentView agent) {
         DraggableAgentView copy = new DraggableAgentView(agent);
+        copy.setId("img");
         map.addAgent(copy);
+        consolePane.displayConsoleMessage("Agent added to map");
         setMouseActions(copy);
 
     }
@@ -118,8 +121,7 @@ public class AuthoringEnvironment extends Application {
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        stage.getScene().getStylesheets().add("Blue.css");
+        stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
     }
-
 }

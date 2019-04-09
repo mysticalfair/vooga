@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -61,10 +62,31 @@ public class NetworkInterfaceTests {
     @Test
     public void testMethodWithReturnType() {
         var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        testAndTime("get one string via network", () -> assertEquals(iface.getString(), client.getString()));
+    }
+
+    @Test
+    public void testMethodWithMultipleReturnObjects() {
+        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        testAndTime("get array of arguments", () -> client.getArgs());
+        assertArrayEquals(iface.getObjects(), client.getObjects());
+    }
+
+    @Test
+    public void testMultipleClientsOneObject() throws IOException, InterruptedException {
+        var client = (BasicTestInterface & NetworkedClientInterface) clientInterface;
+        var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, iface, 1235);
+        var client2 = (BasicTestInterface & NetworkedClientInterface)NetworkFactory.buildClient(BasicTestInterface.class, this, "127.0.0.1", 1235);
+        client2.storeArgs("john", "cena");
+        Thread.sleep(50);
+        assertArrayEquals(iface.getArgs(), client.getArgs());
+    }
+
+    private void testAndTime(String description, Runnable runnable) {
         long curtime = System.currentTimeMillis();
-        client.getString();
-        System.out.println("Time to get a string: " + (System.currentTimeMillis()-curtime));
-        assertEquals(iface.getString(), client.getString());
+        runnable.run();
+        long timeafter = System.currentTimeMillis();
+        System.out.println("Time to " + description + ": " + (timeafter-curtime) + "ms");
     }
 
     public static void main(String[] args) {

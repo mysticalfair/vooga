@@ -1,6 +1,5 @@
 package utils;
 
-//import utils.serializers.GsonSerializer;
 import utils.serializers.XStreamSerializer;
 
 public class SerializerFactory {
@@ -14,7 +13,4 @@ public class SerializerFactory {
         return xStreamSerializer;
     }
 
-//    public static Serializer buildJSONInstance() {
-//        return new GsonSerializer();
-//    }
 }

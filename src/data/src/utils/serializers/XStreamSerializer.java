@@ -26,7 +26,7 @@ public class XStreamSerializer extends SerializerBase {
     }
 
     @Override
-    public Object deserialize(String object, Class<?> objectType) throws SerializationException {
+    public Object deserialize(String object) throws SerializationException {
         try {
             return xStream.fromXML(object);
         } catch (Exception exception) {

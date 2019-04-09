@@ -9,6 +9,6 @@ public class Response extends Datagram {
     }
 
     public Object getResult() throws SerializationException {
-        return xmlSerializer.deserialize(payload, null);
+        return xmlSerializer.deserialize(payload);
     }
 }

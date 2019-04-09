@@ -24,7 +24,7 @@ public abstract class SerializerBase implements Serializer {
     }
 
     @Override
-    public final Object load(File fileLocation, Class<?> objectType) throws SerializationException, IOException {
+    public final Object load(File fileLocation) throws SerializationException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileLocation));
         StringBuilder builder = new StringBuilder();
         String curline = reader.readLine();
@@ -33,6 +33,6 @@ public abstract class SerializerBase implements Serializer {
             curline = reader.readLine();
         }
         String json = builder.toString();
-        return deserialize(json, objectType);
+        return deserialize(json);
     }
 }

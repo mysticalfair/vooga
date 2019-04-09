@@ -1,25 +1,13 @@
 package panes;
 
-import frontend_objects.AgentView;
 import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.List;
-import java.util.Map;
 
 public class AuthoringEnvironment extends Application {
 
@@ -32,10 +20,7 @@ public class AuthoringEnvironment extends Application {
     private ConsolePane consolePane;
     private AgentPane agentPane;
     private AttributesPane attributesPane;
-    private Pane handlePane;
     private MapPane map;
-    //private Canvas map;
-    private List<CloneableAgentView> agentInventory;
 
     public static void main(String[] args){
         launch(args);
@@ -46,12 +31,6 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
-        handlePane = new Pane();
-        //map = new Canvas(250, 250);
-        //GraphicsContext gc = map.getGraphicsContext2D();
-        //gc.fillRect(0,0,400,400);
-        //gc.setFill(Color.BLACK);
-        //borderPane.setCenter(map);
         initAllPanes();
         initStage(stage);
     }
@@ -71,8 +50,7 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane();
         agentPane.accessContainer(node -> borderPane.setRight(node));
-        agentInventory = agentPane.getAgentList();
-        for (CloneableAgentView o : agentInventory) {
+        for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setOnMousePressed(e -> mousePressedOnClone(o));
         }
     }
@@ -95,41 +73,43 @@ public class AuthoringEnvironment extends Application {
 
     }
 
-    private void setMouseActions(DraggableAgentView view){
-        view.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, view));
-        view.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, view));
-        view.setOnMouseReleased(mouseEvent -> mouseReleased(view));
+    private void setMouseActions(DraggableAgentView draggableAgent){
+        draggableAgent.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, draggableAgent));
+        draggableAgent.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, draggableAgent));
+        draggableAgent.setOnMouseReleased(mouseEvent -> mouseReleased(draggableAgent));
     }
 
-    private void mousePressed(MouseEvent event, DraggableAgentView view) {
-        view.setMyStartSceneX(event.getSceneX());
-        view.setMyStartSceneY(event.getSceneY());
-        view.setMyStartXOffset(((DraggableAgentView)(event.getSource())).getTranslateX());
-        view.setMyStartYOffset(((DraggableAgentView)(event.getSource())).getTranslateY());
+    private void mousePressed(MouseEvent event, DraggableAgentView draggableAgent) {
+        draggableAgent.setMyStartSceneX(event.getSceneX());
+        draggableAgent.setMyStartSceneY(event.getSceneY());
+        draggableAgent.setMyStartXOffset(((DraggableAgentView)(event.getSource())).getTranslateX());
+        draggableAgent.setMyStartYOffset(((DraggableAgentView)(event.getSource())).getTranslateY());
     }
 
-    private void mouseDragged(MouseEvent event, DraggableAgentView view) {
-        double offsetX = event.getSceneX() - view.getMyStartSceneX();
-        double offsetY = event.getSceneY() - view.getMyStartSceneY();
-        double newTranslateX = view.getStartX() + offsetX;
-        double newTranslateY = view.getStartY() + offsetY;
+    private void mouseDragged(MouseEvent event, DraggableAgentView draggableAgent) {
+        double offsetX = event.getSceneX() - draggableAgent.getMyStartSceneX();
+        double offsetY = event.getSceneY() - draggableAgent.getMyStartSceneY();
+        double newTranslateX = draggableAgent.getStartX() + offsetX;
+        double newTranslateY = draggableAgent.getStartY() + offsetY;
         ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
         ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
     }
 
-    private void mouseReleased(DraggableAgentView view) {
-        System.out.println(view.getTranslateX() + " " + view.getTranslateY());
-        if (view.getTranslateX() < 0 || rightOutOfBounds(view) ) {
-            view.setImage(null);
-            map.removeAgent(view);
+    private void mouseReleased(DraggableAgentView draggableAgent) {
+        System.out.println(draggableAgent.getTranslateX() + " " + draggableAgent.getTranslateY());
+        if (outOfBounds(draggableAgent)) {
+            draggableAgent.setImage(null);
+            map.removeAgent(draggableAgent);
         }
     }
 
-    private boolean rightOutOfBounds(DraggableAgentView view) {
-        double xPos = view.getTranslateX() + view.getFitWidth();
+    private boolean outOfBounds(DraggableAgentView draggableAgent) {
+        double xPos = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
         double attributesWidth = attributesPane.getVBoxContainer().getWidth();
-        double agentPanelWidth = agentPane.getContainerVBox().getWidth();
-        return (xPos > AuthoringEnvironment.DEFAULT_WIDTH - attributesWidth - agentPanelWidth);
+        double agentPanelWidth = agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPos > AuthoringEnvironment.DEFAULT_WIDTH - attributesWidth - agentPanelWidth;
+        boolean leftOutOfBounds = xPos < 0;
+        return leftOutOfBounds || rightOutOfBounds;
     }
 
     private void initStage(Stage stage) {

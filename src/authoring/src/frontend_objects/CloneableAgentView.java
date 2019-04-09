@@ -1,8 +1,5 @@
 package frontend_objects;
 
-import javafx.scene.image.ImageView;
-import panes.HoverPane;
-
 public class CloneableAgentView extends AgentView {
 
     private DraggableAgentView draggableCopy;

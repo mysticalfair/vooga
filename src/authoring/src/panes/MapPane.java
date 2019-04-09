@@ -24,10 +24,12 @@ public class MapPane extends AuthoringPane {
     public void addAgent(AgentView agent){
         agentList.add(agent);
         getContentChildren().add(agent);
+        System.out.println("Added: new size is " + agentList.size());
     }
 
     public void removeAgent(AgentView view) {
         agentList.remove(view);
+        System.out.println("Removed: new size is " + agentList.size());
     }
 
     private void initMapPane(){

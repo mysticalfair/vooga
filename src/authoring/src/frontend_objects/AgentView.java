@@ -10,7 +10,7 @@ public class AgentView extends ImageView {
      */
 
     //public static final String STYLE = "img";
-    public static final int SIZE = 100;
+    public static final int SIZE = 60;
 
 
     public AgentView(){

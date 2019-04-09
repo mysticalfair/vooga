@@ -4,34 +4,54 @@ import frontend_objects.CloneableAgentView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AgentPane extends AuthoringPane {
 
-    private VBox vbox;
+    private VBox inventoryContainer;
+    private HBox handlePane;
     private ScrollPane scrollInventory;
     private GridPane inventory;
     private List<CloneableAgentView> agentList;
 
     public AgentPane() {
         super();
-        vbox = new VBox();
-        vbox.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        agentList = new ArrayList<>();
+        initElements();
+        getContentChildren().add(inventoryContainer);
+    }
+
+    private void initElements() {
+        initInventoryContainer();
+        initHandlePane();
         initScrollPane();
         initInventory();
-        vbox.getStylesheets().add("agent-pane.css");
-        getContentChildren().add(vbox);
+    }
+    
+    private void initInventoryContainer() {
+        inventoryContainer = new VBox();
+        inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        inventoryContainer.getStylesheets().add("agent-pane.css");
+    }
+
+    private void initHandlePane() {
+        handlePane = new HBox();
+        Text test = new Text("handle pane here");
+        test.setFill(Color.WHITE);
+        handlePane.getChildren().add(test);
+        inventoryContainer.getChildren().add(handlePane);
     }
 
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT);
+        scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
+        scrollInventory.setFitToHeight(true);
         scrollInventory.getStyleClass().add("scroll-pane");
-        vbox.getChildren().add(scrollInventory);
+        inventoryContainer.getChildren().add(scrollInventory);
     }
 
     private void initInventory() {
@@ -40,6 +60,7 @@ public class AgentPane extends AuthoringPane {
         inventory.setHgap(4);
         int rowIterator = 0;
         int colIterator = 0;
+        agentList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             CloneableAgentView newAgent = new CloneableAgentView("monkey.png");
             inventory.add(newAgent, colIterator, rowIterator);
@@ -60,7 +81,7 @@ public class AgentPane extends AuthoringPane {
     }
 
     public VBox getVBoxContainer() {
-        return vbox;
+        return inventoryContainer;
     }
 
     @Override

@@ -1,9 +1,7 @@
 package state.action.movement;
 
+import state.agent.AgentUtils;
 import state.agent.IAgent;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Allows an agent to move straight to a specified target agent.
@@ -12,8 +10,7 @@ import java.awt.geom.Point2D;
 public class MoveStraightToAgent extends MovementAction {
     IAgent baseAgent;
 
-    public MoveStraightToAgent(IAgent baseAgent, int speed) {
-        this.speed = speed;
+    public MoveStraightToAgent(IAgent baseAgent) {
         this.baseAgent = baseAgent;
     }
 
@@ -23,10 +20,8 @@ public class MoveStraightToAgent extends MovementAction {
      */
     @Override
     public void execute(IAgent agent) {
-
-        // TODO: Actually get Agent to move towards other agent at its speed.
-        //  Consider making protected methods in MovementAction that can be used more specifically in subclasses
-
-
+        double speed = Math.sqrt(Math.pow(baseAgent.getXVelocity(), 2) + Math.pow(baseAgent.getYVelocity(), 2));
+        double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
+        baseAgent.updateVelocity(speed*Math.cos(absoluteAngle), speed*Math.sin(absoluteAngle));
     }
 }

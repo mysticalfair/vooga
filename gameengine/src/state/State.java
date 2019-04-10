@@ -61,6 +61,13 @@ public class State implements IState {
         this.attributesCurrent = attributesCurrent;
     }
 
+    @Override
+    public List<IAgent> getMutableAgentsExcludingSelf(IAgent agent) {
+        List<IAgent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
+        agentsWithoutSelf.removeIf(a -> a == agent);
+        return agentsWithoutSelf;
+    }
+
     /**
      * For Author
      */

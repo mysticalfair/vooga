@@ -195,9 +195,13 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agent check if this agent is intersecting with this agent.
      */
     public boolean isColliding(IAgent agent) {
-        var currRect = new Rectangle((int) this.x, (int) this.y, this.width, this.height);
-        var otherRect = new Rectangle((int) agent.getX(), (int) agent.getY(), agent.getWidth(), agent.getHeight());
-        return currRect.intersects(otherRect);
+        return createBoundingRect(this).intersects(createBoundingRect(agent));
+    }
+
+    private Rectangle createBoundingRect(IAgent agent) {
+        int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
+        int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
+        return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
     public int getHeight() {

@@ -63,7 +63,7 @@ public class Game {
 
         for (IAgent agent: state.getMutableAgents()) {
             try {
-                agent.update(state.getMutableAgents());
+                agent.update(state.getMutableAgentsExcludingSelf(agent));
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();

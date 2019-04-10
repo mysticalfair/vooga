@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.function.Consumer;
 
-public abstract class AuthoringPane implements IAuthoringPane {
+public abstract class AuthoringPane implements IAuthoringPane, AccessibleContainer {
 
     static final double HANDLE_THICKNESS = 20;
     static final double HANDLE_ROUNDING_DIAMETER = 20;
@@ -27,6 +27,12 @@ public abstract class AuthoringPane implements IAuthoringPane {
         setVertical(true);
     }
 
+    @Override
+    public void setStylesheet(String url) {
+
+    }
+
+    @Override
     public void accessContainer(Consumer<Pane> accessMethod) {
         accessMethod.accept(container);
     }

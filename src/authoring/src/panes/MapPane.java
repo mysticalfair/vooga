@@ -3,14 +3,15 @@ package panes;
 import frontend_objects.AgentView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import panes.attributes.AttributesPane;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapPane extends AuthoringPane {
 
-    public static final double DEFAULT_X = 700.0;
-    public static final double DEFAULT_Y = 700.0;
+    public static final double DEFAULT_WIDTH = AuthoringEnvironment.DEFAULT_WIDTH - AttributesPane.WIDTH - AgentPane.WIDTH;
+    public static final double DEFAULT_HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT - ConsolePane.HEIGHT - ToolbarPane.HEIGHT;
 
     private List<AgentView> agentList;
     private Pane mapPane;
@@ -35,7 +36,7 @@ public class MapPane extends AuthoringPane {
     private void initMapPane(){
         mapPane = new Pane();
         agentList = new ArrayList<>();
-        mapPane.setPrefSize(DEFAULT_X, DEFAULT_Y);
+        mapPane.setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     public void formatBackground(){

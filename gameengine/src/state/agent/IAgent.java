@@ -1,9 +1,4 @@
 package state.agent;
-
-import state.action.movement.MovementAction;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -71,4 +66,13 @@ public interface IAgent extends IPlayerAgent {
      * @param agent check if this agent is intersecting with this agent.
      */
     boolean isColliding(IAgent agent);
+
+
+    /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    void updateVelocity(double xVelocity, double yVelocity);
+
 }

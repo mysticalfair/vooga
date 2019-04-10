@@ -56,6 +56,14 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     }
 
+    public int getX() {
+        return myX;
+    }
+
+    public int getY() {
+        return myY;
+    }
+
     public String getName() {
         // TODO: This
         return id + "";
@@ -91,14 +99,6 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
-     */
-    public int[] getLocation(){
-        return new int[]{myX, myY};
-    }
-
-    /**
      * Returns the team of the Agent.
      * @return String containing team of the Agent
      */
@@ -112,7 +112,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.myX - agent.getLocation()[0], 2) + Math.pow(this.myY - agent.getLocation()[1], 2));
+        return Math.sqrt(Math.pow(this.myX - agent.getX(), 2) + Math.pow(this.myY - agent.getY(), 2));
     }
 
     /**
@@ -159,6 +159,16 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         this.yVelocity = yVelocity;
     }
 
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    public void setLocation(int x, int y) {
+        myX = x;
+        myY= y;
+    }
+
 
     /**
      * Determines if two agents are intersecting.
@@ -166,7 +176,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      */
     public boolean isColliding(IAgent agent) {
         var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
-        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getWidth(), agent.getHeight());
+        var otherRect = new Rectangle(agent.getX(), agent.getY(), agent.getWidth(), agent.getHeight());
         return currRect.intersects(otherRect);
     }
 

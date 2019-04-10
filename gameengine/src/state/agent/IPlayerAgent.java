@@ -8,7 +8,9 @@ public interface IPlayerAgent {
 
     int getHeight();
 
-    int[] getLocation();
+    int getX();
+
+    int getY();
 
     String getImageURL();
 

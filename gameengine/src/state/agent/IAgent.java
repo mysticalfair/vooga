@@ -54,6 +54,12 @@ public interface IAgent extends IPlayerAgent {
     int getHeight();
 
     /**
+     * Returns the direction angle of the agent.
+     * @return the angle the agent is pointing to.
+     */
+    double getDirection();
+
+    /**
      * Decreases the health value of the agent.
      * @param healthDeduction amount by which to deduct the health of the agent.
      */

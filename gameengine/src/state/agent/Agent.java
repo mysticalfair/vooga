@@ -178,6 +178,10 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         return this.width;
     }
 
+    public double getDirection() {
+        return direction;
+    }
+
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;

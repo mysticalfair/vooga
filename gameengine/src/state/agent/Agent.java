@@ -1,20 +1,16 @@
 package state.agent;
 
 import state.actiondecision.ActionDecision;
-import state.action.movement.MovementAction;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
-import java.lang.reflect.*;
-
 /**
  * @author David Miron
  * @author Luke_Truitt
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent, Cloneable {
+public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
     private int myX;
@@ -56,6 +52,30 @@ public class Agent implements IAgent, Cloneable {
 
     }
 
+    public String getName() {
+        // TODO: This
+        return id + "";
+    }
+
+    public void setWidth(int w) {
+        this.width = w;
+    }
+
+    public void setHeight(int h) {
+        this.height = h;
+    }
+
+    public void setImageURL(String url) {
+        this.imageURL = url;
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public void setName(String name) {
+        // TODO: this
+    }
     /**
      * Move the current agent a specified distance
      * @param x The vector representing the movement in x
@@ -131,7 +151,28 @@ public class Agent implements IAgent, Cloneable {
      */
     public boolean isColliding(IAgent agent) {
         var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
-        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getEdges()[1], agent.getEdges()[0]);
+        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getWidth(), agent.getHeight());
         return currRect.intersects(otherRect);
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public List<IActionDecisionDefinition> getActionDecisions() {
+        // TODO:
+        return null;
+    }
+
+    public void removeActionDecision(int i) {
+// TODO:
+    }
+
+    public void addActionDecision(IActionDecisionDefinition def) {
+        // TODO:
     }
 }

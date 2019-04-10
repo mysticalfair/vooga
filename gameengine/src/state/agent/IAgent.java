@@ -13,7 +13,7 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent {
+public interface IAgent extends IPlayerAgent {
     void update(List<IAgent> agents);
 
     /**
@@ -42,10 +42,17 @@ public interface IAgent {
      */
     double calculateDistance(IAgent agent);
     /**
-     * Returns the height and width in that order
-     * @return an array with first element of height and second element of width
+     * Returns the width in that order
+     * @return an array with first element of width
      */
-    int[] getEdges();
+    int getWidth();
+
+    /**
+     * Returns the height in that order
+     * @return an array with first element of height
+     */
+    int getHeight();
+
     /**
      * Decreases the health value of the agent.
      * @param healthDeduction amount by which to deduct the health of the agent.

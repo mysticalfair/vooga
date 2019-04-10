@@ -15,12 +15,13 @@ public class Game {
     private boolean runFlag = false;
     private State state;
 
+    public static final double DELTA_TIME = 0.0167;
+
     /**
      * Once called, begins continually running the game until stop() is called on it.
      * @param gameFile String containing file path of the stored game
-     * @param deltaTime amount of time that will be allowed to pass between update calls
      */
-    public void run(String gameFile, double deltaTime){
+    public void run(String gameFile){
         runFlag = true;
         startup();
         double nextTime = System.nanoTime()/nanoTrans;
@@ -30,7 +31,7 @@ public class Game {
             // if deltaTime has passed, then update
             if(currentTime >= nextTime){
                 // assign time of next update
-                nextTime += deltaTime;
+                nextTime += DELTA_TIME;
                 step();
             }
             else{
@@ -66,6 +67,12 @@ public class Game {
 
         for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);
+
+        for (IAgent agent: state.getMutableAgents()) {
+            int newX = agent.getX() + (int)(agent.getXVelocity() * DELTA_TIME);
+            int newY = agent.getY() + (int)(agent.getYVelocity() * DELTA_TIME);
+            agent.setLocation(newX, newY);
+        }
 
         sendState();
 

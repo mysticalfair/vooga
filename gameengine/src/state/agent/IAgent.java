@@ -13,20 +13,21 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent {
+public interface IAgent extends IPlayerAgent {
     void update(List<IAgent> agents);
 
     /**
      * Move the current agent a specified distance
-     * @param movement The vector representing the movement
+     * @param x The vector representing the x location
+     * @param y The vector representing the y location
      */
-    void move(Point2D.Double movement);
+    void move(int x, int y);
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    Point2D.Double getLocation();
+    int[] getLocation();
 
     /**
      * Returns the team of the Agent.
@@ -40,6 +41,17 @@ public interface IAgent {
      * @return distance
      */
     double calculateDistance(IAgent agent);
+    /**
+     * Returns the width in that order
+     * @return an array with first element of width
+     */
+    int getWidth();
+
+    /**
+     * Returns the height in that order
+     * @return an array with first element of height
+     */
+    int getHeight();
 
     /**
      * Decreases the health value of the agent.
@@ -58,5 +70,5 @@ public interface IAgent {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    boolean intersect(IAgent agent);
+    boolean isColliding(IAgent agent);
 }

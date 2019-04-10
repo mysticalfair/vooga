@@ -1,45 +1,46 @@
 package state.agent;
 
 import state.actiondecision.ActionDecision;
-import state.action.movement.MovementAction;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
-import java.lang.reflect.*;
-
 /**
  * @author David Miron
  * @author Luke_Truitt
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent, Cloneable {
+public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
-    private Point2D.Double location;
+    private int myX;
+    private int myY;
     private String imageURL;
     private String team;
     private int health;
     private int width;
     private int height;
     private double direction;
-
+    private double xVelocity;
+    private double yVelocity;
     protected List<ActionDecision> actionDecisions;
 
     /**
      * Agent constructor.
      * @param id agent ID
-     * @param location initial location
+     * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, Point2D.Double location, String team, int health, int width, int height) {
+    public Agent(int id, int x, int y, String team, int health, int width, int height, double xVelocity, double yVelocity) {
         this.id = id;
-        this.location = location;
+        this.myX = x;
+        this.myY = y;
         this.team = team;
         this.health = health;
         this.width = width;
         this.height = height;
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
         // TODO set imageURL somewhere
     }
 
@@ -55,20 +56,46 @@ public class Agent implements IAgent, Cloneable {
 
     }
 
+    public String getName() {
+        // TODO: This
+        return id + "";
+    }
+
+    public void setWidth(int w) {
+        this.width = w;
+    }
+
+    public void setHeight(int h) {
+        this.height = h;
+    }
+
+    public void setImageURL(String url) {
+        this.imageURL = url;
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public void setName(String name) {
+        // TODO: this
+    }
     /**
      * Move the current agent a specified distance
-     * @param movement The vector representing the movement
+     * @param x The vector representing the movement in x
+     * @param y The vector representing the movement in y
      */
-    public void move(Point2D.Double movement) {
-        this.location.setLocation(location.getX() + movement.getX(), location.getY() + movement.getY());
+    public void move(int x, int y) {
+        this.myX = this.myX + x;
+        this.myY = this.myY + y;
     }
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    public Point2D.Double getLocation(){
-        return location;
+    public int[] getLocation(){
+        return new int[]{myX, myY};
     }
 
     /**
@@ -85,7 +112,15 @@ public class Agent implements IAgent, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return location.distance(agent.getLocation());
+        return Math.sqrt(Math.pow(this.myX - agent.getLocation()[0], 2) + Math.pow(this.myY - agent.getLocation()[1], 2));
+    }
+
+    /**
+     * Returns the height and width in that order
+     * @return an array with first element of height and second element of width
+     */
+    public int[] getEdges() {
+        return new int[]{this.height, this.width};
     }
 
     /**
@@ -115,11 +150,44 @@ public class Agent implements IAgent, Cloneable {
     }
 
     /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    public void updateVeolcity(double xVelocity, double yVelocity) {
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
+    }
+
+
+    /**
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    public boolean intersect(IAgent agent) {
-        // TODO implement this
-        return true;
+    public boolean isColliding(IAgent agent) {
+        var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
+        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getWidth(), agent.getHeight());
+        return currRect.intersects(otherRect);
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public List<IActionDecisionDefinition> getActionDecisions() {
+        // TODO:
+        return null;
+    }
+
+    public void removeActionDecision(int i) {
+// TODO:
+    }
+
+    public void addActionDecision(IActionDecisionDefinition def) {
+        // TODO:
     }
 }

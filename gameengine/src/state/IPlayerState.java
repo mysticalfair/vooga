@@ -1,5 +1,6 @@
 package state;
 
+import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.objective.IPlayerObjective;
 

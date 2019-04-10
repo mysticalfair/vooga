@@ -1,10 +1,8 @@
 package state.action.spawn;
 
 import state.agent.Agent;
+import state.agent.AgentUtils;
 import state.agent.IAgent;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Action to spawn an agent, at the location of a base agent, with a direction pointing to the agent given in the execute method.
@@ -37,12 +35,9 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     public void execute(IAgent agent) throws CloneNotSupportedException {
 
         Agent newAgent = spawnAgent.clone();
-        newAgent.setLocatin();
-
-        // TODO use an ActionDecision to change direction of Agent (an instance variable).
-        //      movement will use that direction accordingly.
-        //      Assuming each movement action's destination/direction is defined by an agent.
-        //      If don't want that, take a point in the contructor of the Action and ignore the agent taken into the execution function.
+        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
+        AgentUtils.getAngleBetween(baseAgent, agent);
+        spawnAgent(newAgent);
     }
 
 }

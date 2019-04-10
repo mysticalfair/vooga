@@ -49,7 +49,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agents All other agents in play
      */
     @Override
-    public void update(List<IAgent> agents) {
+    public void update(List<IAgent> agents) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents);

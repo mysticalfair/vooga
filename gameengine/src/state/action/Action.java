@@ -1,5 +1,6 @@
 package state.action;
 
+import engine.event.GameEventMaster;
 import state.agent.IAgent;
 
 import java.awt.geom.Point2D;
@@ -10,6 +11,16 @@ import java.awt.geom.Point2D;
  * @author David Miron
  */
 public abstract class Action implements IAction {
+
+    protected GameEventMaster eventMaster;
+
+    /**
+     * Inject the GameEventMaster to an action
+     * @param eventMaster The Event Master
+     */
+    protected void injectGameEventMaster(GameEventMaster eventMaster) {
+        this.eventMaster = eventMaster;
+    }
 
     /**
      * @param agent

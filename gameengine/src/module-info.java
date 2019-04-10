@@ -1,5 +1,5 @@
 module gameengine {
     requires java.desktop;
-    requires data;
+    //requires data;
     exports state;
 }

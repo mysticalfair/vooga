@@ -1,16 +1,14 @@
 package state.agent;
 
-import java.util.List;
-
 public interface IPlayerAgent {
 
     int getWidth();
 
     int getHeight();
 
-    int getX();
+    double getX();
 
-    int getY();
+    double getY();
 
     String getImageURL();
 

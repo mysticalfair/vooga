@@ -9,9 +9,9 @@ public class AgentUtils {
      * @return The angle between the two agents
      */
     public static double getAngleBetween(IAgent agent1, IAgent agent2) {
-        int dx = agent2.getX() - agent1.getX();
+        double dx = agent2.getX() - agent1.getX();
         dx = dx == 0 ? 1 : dx;
-        int dy = agent2.getY() - agent1.getY();
+        double dy = agent2.getY() - agent1.getY();
         return Math.atan(dy / dx) * 180 / Math.PI;
     }
 

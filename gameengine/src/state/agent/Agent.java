@@ -3,6 +3,7 @@ package state.agent;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author David Miron
@@ -13,8 +14,8 @@ import java.util.List;
 public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
-    private int myX;
-    private int myY;
+    private double x;
+    private double y;
     private String imageURL;
     private String team;
     private int health;
@@ -31,17 +32,19 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String team, int health, int width, int height, double xVelocity, double yVelocity, double direction) {
+    public Agent(int id, int x, int y, String team, int health, int width, int height, double speed, double direction) {
         this.id = id;
-        this.myX = x;
-        this.myY = y;
+        this.x = x;
+        this.y = y;
         this.team = team;
         this.health = health;
         this.width = width;
         this.height = height;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        this.xVelocity = speed * Math.sqrt(2);
+        this.yVelocity = speed * Math.sqrt(2);
         this.direction = direction;
+
+        this.actionDecisions = new ArrayList<>();
         // TODO set imageURL somewhere
     }
 
@@ -57,12 +60,12 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     }
 
-    public int getX() {
-        return myX;
+    public double getX() {
+        return x;
     }
 
-    public int getY() {
-        return myY;
+    public double getY() {
+        return y;
     }
 
     public String getName() {
@@ -95,8 +98,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param y The vector representing the movement in y
      */
     public void move(int x, int y) {
-        this.myX = this.myX + x;
-        this.myY = this.myY + y;
+        this.x = this.x + x;
+        this.y = this.y + y;
     }
 
     /**
@@ -113,7 +116,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.myX - agent.getX(), 2) + Math.pow(this.myY - agent.getY(), 2));
+        return Math.sqrt(Math.pow(this.x - agent.getX(), 2) + Math.pow(this.y - agent.getY(), 2));
     }
 
     /**
@@ -165,9 +168,9 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x - the new x location to give to the agent
      * @param y - the new y location to give to the agent
      */
-    public void setLocation(int x, int y) {
-        myX = x;
-        myY= y;
+    public void setLocation(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -192,8 +195,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agent check if this agent is intersecting with this agent.
      */
     public boolean isColliding(IAgent agent) {
-        var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
-        var otherRect = new Rectangle(agent.getX(), agent.getY(), agent.getWidth(), agent.getHeight());
+        var currRect = new Rectangle((int) this.x, (int) this.y, this.width, this.height);
+        var otherRect = new Rectangle((int) agent.getX(), (int) agent.getY(), agent.getWidth(), agent.getHeight());
         return currRect.intersects(otherRect);
     }
 
@@ -224,5 +227,9 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     public void addActionDecision(IActionDecisionDefinition def) {
         // TODO:
+    }
+
+    public void addActionDecisionRaw(ActionDecision decision) {
+        actionDecisions.add(decision);
     }
 }

@@ -154,7 +154,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param xVelocity x velocity the agent will now have
      * @param yVelocity y velocity the agent will now have
      */
-    public void updateVeolcity(double xVelocity, double yVelocity) {
+    public void updateVelocity(double xVelocity, double yVelocity) {
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
     }
@@ -184,7 +184,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     public void removeActionDecision(int i) {
-// TODO:
+        // TODO:
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {

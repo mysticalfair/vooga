@@ -11,21 +11,14 @@ import state.condition.BaseAgentCondition;
 public class PointToAgent extends BaseAgentAction{
     @Override
     public void execute(IAgent agent) throws CloneNotSupportedException {
-        double aDirection = baseAgent.getDirection();
-        int[] aPosition = baseAgent.getLocation();
-        int aX = aPosition[0];
-        int aY = aPosition[1];
-        int[] bPosition = agent.getLocation();
-        int bX = bPosition[0];
-        int bY = bPosition[1];
-        double angleBetween = 180 / Math.PI * Math.asin((bY - aY)/(bX - aY));
+        agent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
     }
 
-    public static void main(String[] args){
-        int aX = 0;
-        int aY = 0;
-        int bX = 1;
-        int bY = 1;
-        System.out.println(180 / Math.PI * Math.atan((bY - aY)/(bX - aX)));
-    }
+//    public static void main(String[] args){
+//        int aX = 0;
+//        int aY = 0;
+//        int bX = -1;
+//        int bY = -1;
+//        System.out.println(180 / Math.PI * Math.atan((bY - aY)/(bX - aX)));
+//    }
 }

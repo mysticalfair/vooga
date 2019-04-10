@@ -24,12 +24,9 @@ public class MoveStraightToAgent extends MovementAction {
     @Override
     public void execute(IAgent agent) {
 
-        //double xDisplacement = (agent.getLocation().getX() - baseAgent.getLocation().getX());
-        //double yDisplacement = (agent.getLocation().getY() - baseAgent.getLocation().getY());
-        //Point2D.Double movement = new Point2D.Double(xDisplacement, yDisplacement);
-        ///baseAgent.move(movement);
-
         // TODO: Actually get Agent to move towards other agent at its speed.
         //  Consider making protected methods in MovementAction that can be used more specifically in subclasses
+
+
     }
 }

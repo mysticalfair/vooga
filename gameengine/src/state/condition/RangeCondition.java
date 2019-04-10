@@ -4,6 +4,10 @@ import state.agent.IAgent;
 
 import java.util.List;
 
+/**
+ * Condition that narrows the given list of agents to only include those within a given range.
+ * @author Jorge Raad
+ */
 public class RangeCondition extends BaseAgentCondition {
     private double range;
 

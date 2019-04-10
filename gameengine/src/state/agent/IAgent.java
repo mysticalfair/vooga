@@ -19,10 +19,16 @@ public interface IAgent extends IPlayerAgent {
     void move(int x, int y);
 
     /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
+     * Returns the X location of the Agent.
+     * @return int - X location of the agent
      */
-    int[] getLocation();
+    int getX();
+
+    /**
+     * Returns the Y location of the Agent.
+     * @return int - Y location of the agent
+     */
+    int getY();
 
     /**
      * Returns the team of the Agent.
@@ -47,6 +53,12 @@ public interface IAgent extends IPlayerAgent {
      * @return an array with first element of height
      */
     int getHeight();
+
+    /**
+     * Returns the direction angle of the agent.
+     * @return the angle the agent is pointing to.
+     */
+    double getDirection();
 
     /**
      * Decreases the health value of the agent.
@@ -74,5 +86,12 @@ public interface IAgent extends IPlayerAgent {
      * @param yVelocity y velocity the agent will now have
      */
     void updateVelocity(double xVelocity, double yVelocity);
+
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    void setLocation(int x, int y);
 
 }

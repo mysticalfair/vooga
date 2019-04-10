@@ -55,8 +55,14 @@ public class Game {
 
     private void step() {
 
-        for (IAgent agent: state.getMutableAgents())
-            agent.update(state.getMutableAgents());
+        for (IAgent agent: state.getMutableAgents()) {
+            try {
+                agent.update(state.getMutableAgents());
+            } catch (CloneNotSupportedException e) {
+                // TODO: Deal with exception
+                e.printStackTrace();
+            }
+        }
 
         for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);

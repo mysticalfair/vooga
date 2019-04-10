@@ -11,7 +11,7 @@ import state.State;
  * @author Jamie Palka
  */
 public class Game {
-
+    public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     private State state;
 
@@ -23,9 +23,9 @@ public class Game {
     public void run(String gameFile, double deltaTime){
         runFlag = true;
         startup();
-        double nextTime = System.nanoTime()/1000000000.0;
+        double nextTime = System.nanoTime()/nanoTrans;
         while(runFlag){
-            double currentTime = System.nanoTime()/1000000000.0;
+            double currentTime = System.nanoTime()/nanoTrans;
 
             // if deltaTime has passed, then update
             if(currentTime >= nextTime){

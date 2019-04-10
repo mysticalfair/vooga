@@ -13,6 +13,7 @@ public class AttributesPane extends AuthoringPane {
         DefineAgentForm defineAgentForm = new DefineAgentForm();
         defineAgentForm.accessContainer(container -> scrollPane.setContent(container));
         getContentChildren().add(scrollPane);
+        scrollPane.getStylesheets().add("attributes-pane.css");
 
     }
 

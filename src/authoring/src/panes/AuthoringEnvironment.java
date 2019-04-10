@@ -16,8 +16,8 @@ import panes.attributes.AttributesPane;
 public class AuthoringEnvironment extends Application {
 
     public static final String TITLE = "Vooginas!";
-    public static final double DEFAULT_WIDTH = 1000;
-    public static final double DEFAULT_HEIGHT = 600;
+    public static final double DEFAULT_WIDTH = 1200;
+    public static final double DEFAULT_HEIGHT = 650;
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";

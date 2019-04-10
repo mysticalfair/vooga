@@ -16,7 +16,7 @@ public class ToolbarPane extends AuthoringPane{
     private ToolBar toolBar;
     private Map<String, Menu> menuMap;
 
-    public static final double HEIGHT = 50;
+    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT/25;
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
@@ -39,7 +39,7 @@ public class ToolbarPane extends AuthoringPane{
 
     private MenuBar initMenuBar(){
         var menu = new MenuBar();
-        menu.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (1/3)*HEIGHT);
+        //menu.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (1/3)*HEIGHT);
         for(String option: MENU_OPTIONS){
             var menuOption = new Menu(option);
             menu.getMenus().add(menuOption);
@@ -63,7 +63,7 @@ public class ToolbarPane extends AuthoringPane{
 
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
-        toolbar.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (2/3)*HEIGHT);
+        //toolbar.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (2/3)*HEIGHT);
         var lasso = new Button();
         var image = new ImageView(new Image(LASSO_IMAGE));
         image.setFitWidth(10);

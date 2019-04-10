@@ -20,7 +20,8 @@ public class ConsolePane extends AuthoringPane{
     public static final String TITLE_STYLE = "terminal_heading";
     public static final String TEXT_STYLE = "terminal";
     public static final String TITLE_TEXT = "Environment Console";
-    public static final double HEIGHT = 100;
+    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT/8;
+    public static final double TITLE_HEIGHT = 60;
 
     public ConsolePane() {
         super();
@@ -44,7 +45,7 @@ public class ConsolePane extends AuthoringPane{
 
     private void formatScrollPane(ScrollPane consolePane){
         consolePane.setPrefViewportWidth(AuthoringEnvironment.DEFAULT_WIDTH);
-        consolePane.setPrefViewportHeight(HEIGHT);
+        consolePane.setPrefViewportHeight(TITLE_HEIGHT + HEIGHT);
         consolePane.setId(TEXT_STYLE);
     }
 

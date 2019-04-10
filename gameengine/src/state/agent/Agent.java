@@ -17,25 +17,26 @@ import java.lang.reflect.*;
 public class Agent implements IAgent, Cloneable {
 
     private int id;
-    private Point2D.Double location;
+    private int myX;
+    private int myY;
     private String imageURL;
     private String team;
     private int health;
     private int width;
     private int height;
     private double direction;
-
     protected List<ActionDecision> actionDecisions;
 
     /**
      * Agent constructor.
      * @param id agent ID
-     * @param location initial location
+     * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, Point2D.Double location, String team, int health, int width, int height) {
+    public Agent(int id, int x, int y, String team, int health, int width, int height) {
         this.id = id;
-        this.location = location;
+        this.myX = x;
+        this.myY = y;
         this.team = team;
         this.health = health;
         this.width = width;
@@ -57,18 +58,20 @@ public class Agent implements IAgent, Cloneable {
 
     /**
      * Move the current agent a specified distance
-     * @param movement The vector representing the movement
+     * @param x The vector representing the movement in x
+     * @param y The vector representing the movement in y
      */
-    public void move(Point2D.Double movement) {
-        this.location.setLocation(location.getX() + movement.getX(), location.getY() + movement.getY());
+    public void move(int x, int y) {
+        this.myX = this.myX + x;
+        this.myY = this.myY + y;
     }
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    public Point2D.Double getLocation(){
-        return location;
+    public int[] getLocation(){
+        return new int[]{myX, myY};
     }
 
     /**
@@ -85,7 +88,15 @@ public class Agent implements IAgent, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return location.distance(agent.getLocation());
+        return Math.sqrt(Math.pow(this.myX - agent.getLocation()[0], 2) + Math.pow(this.myY - agent.getLocation()[1], 2));
+    }
+
+    /**
+     * Returns the height and width in that order
+     * @return an array with first element of height and second element of width
+     */
+    public int[] getEdges() {
+        return new int[]{this.height, this.width};
     }
 
     /**
@@ -118,8 +129,9 @@ public class Agent implements IAgent, Cloneable {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    public boolean intersect(IAgent agent) {
-        // TODO implement this
-        return true;
+    public boolean isColliding(IAgent agent) {
+        var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
+        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getEdges()[1], agent.getEdges()[0]);
+        return currRect.intersects(otherRect);
     }
 }

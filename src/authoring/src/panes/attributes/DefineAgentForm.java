@@ -64,6 +64,7 @@ public class DefineAgentForm implements AccessibleContainer {
 
         // Name
         Label nameLabel = new Label(rb.getString("Name"));
+        nameLabel.setId("paddedLabel");
         nameField = new TextField();
         nameField.setPromptText(rb.getString("NamePrompt"));
         gridPane.add(nameLabel, 0, 1);
@@ -91,9 +92,11 @@ public class DefineAgentForm implements AccessibleContainer {
 
         // Width and height
         Label widthLabel = new Label(rb.getString("Width"));
+        widthLabel.setId("paddedLabel");
         widthField = new TextField();
         widthField.setPromptText(rb.getString("WidthHeightPrompt"));
         Label heightLabel = new Label(rb.getString("Height"));
+        heightLabel.setId("paddedLabel");
         heightField = new TextField();
         heightField.setPromptText(rb.getString("WidthHeightPrompt"));
         gridPane.add(widthLabel, 2, 2);

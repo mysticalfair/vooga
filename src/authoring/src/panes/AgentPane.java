@@ -17,6 +17,9 @@ public class AgentPane extends AuthoringPane {
     private GridPane inventory;
     private List<CloneableAgentView> agentList;
 
+    public static final double WIDTH = 40;
+    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT - ToolbarPane.HEIGHT - ConsolePane.HEIGHT;
+
     public AgentPane() {
         super();
         initElements();
@@ -48,6 +51,8 @@ public class AgentPane extends AuthoringPane {
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollInventory.setPrefViewportWidth(WIDTH);
+        scrollInventory.setPrefViewportHeight(HEIGHT);
         //scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
         scrollInventory.getStyleClass().add("scroll-pane");
         inventoryContainer.getChildren().add(scrollInventory);

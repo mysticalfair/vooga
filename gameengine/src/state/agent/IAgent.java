@@ -93,6 +93,18 @@ public interface IAgent extends IPlayerAgent {
     void updateVelocity(double xVelocity, double yVelocity);
 
     /**
+     * Returns the current x velocity of the agent
+     * @return xVelocity current x velocity the agent
+     */
+    double getXVelocity();
+
+    /**
+     * Returns the current y velocity of the agent
+     * @return yVelocity current y velocity the agent
+     */
+    double getYVelocity();
+
+    /**
      * Updates location of the agent
      * @param x - the new x location to give to the agent
      * @param y - the new y location to give to the agent

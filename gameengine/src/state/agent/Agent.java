@@ -170,6 +170,22 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         myY= y;
     }
 
+    /**
+     * Returns the current x velocity of the agent
+     * @return xVelocity current x velocity the agent
+     */
+    public double getXVelocity() {
+        return xVelocity;
+    }
+
+    /**
+     * Returns the current y velocity of the agent
+     * @return yVelocity current y velocity the agent
+     */
+    public double getYVelocity() {
+        return yVelocity;
+    }
+
 
     /**
      * Determines if two agents are intersecting.

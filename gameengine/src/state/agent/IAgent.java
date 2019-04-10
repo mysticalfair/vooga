@@ -1,9 +1,4 @@
 package state.agent;
-
-import state.action.movement.MovementAction;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -14,7 +9,7 @@ import java.util.List;
  * These are the extensions for the full agent. The one authoring and engine need.
  */
 public interface IAgent extends IPlayerAgent {
-    void update(List<IAgent> agents);
+    void update(List<IAgent> agents) throws CloneNotSupportedException;
 
     /**
      * Move the current agent a specified distance
@@ -24,10 +19,16 @@ public interface IAgent extends IPlayerAgent {
     void move(int x, int y);
 
     /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
+     * Returns the X location of the Agent.
+     * @return int - X location of the agent
      */
-    int[] getLocation();
+    int getX();
+
+    /**
+     * Returns the Y location of the Agent.
+     * @return int - Y location of the agent
+     */
+    int getY();
 
     /**
      * Returns the team of the Agent.
@@ -77,4 +78,20 @@ public interface IAgent extends IPlayerAgent {
      * @param agent check if this agent is intersecting with this agent.
      */
     boolean isColliding(IAgent agent);
+
+
+    /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    void updateVelocity(double xVelocity, double yVelocity);
+
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    void setLocation(int x, int y);
+
 }

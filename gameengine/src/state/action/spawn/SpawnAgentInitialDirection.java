@@ -37,6 +37,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
     public void execute(IAgent agent) throws CloneNotSupportedException {
 
         Agent newAgent = spawnAgent.clone();
+        newAgent.setLocatin();
 
         // TODO use an ActionDecision to change direction of Agent (an instance variable).
         //      movement will use that direction accordingly.

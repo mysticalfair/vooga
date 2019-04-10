@@ -49,11 +49,19 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agents All other agents in play
      */
     @Override
-    public void update(List<IAgent> agents) {
+    public void update(List<IAgent> agents) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents);
 
+    }
+
+    public int getX() {
+        return myX;
+    }
+
+    public int getY() {
+        return myY;
     }
 
     public String getName() {
@@ -91,14 +99,6 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
-     */
-    public int[] getLocation(){
-        return new int[]{myX, myY};
-    }
-
-    /**
      * Returns the team of the Agent.
      * @return String containing team of the Agent
      */
@@ -112,7 +112,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.myX - agent.getLocation()[0], 2) + Math.pow(this.myY - agent.getLocation()[1], 2));
+        return Math.sqrt(Math.pow(this.myX - agent.getX(), 2) + Math.pow(this.myY - agent.getY(), 2));
     }
 
     /**
@@ -154,9 +154,19 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param xVelocity x velocity the agent will now have
      * @param yVelocity y velocity the agent will now have
      */
-    public void updateVeolcity(double xVelocity, double yVelocity) {
+    public void updateVelocity(double xVelocity, double yVelocity) {
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
+    }
+
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    public void setLocation(int x, int y) {
+        myX = x;
+        myY= y;
     }
 
 
@@ -166,7 +176,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      */
     public boolean isColliding(IAgent agent) {
         var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
-        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getWidth(), agent.getHeight());
+        var otherRect = new Rectangle(agent.getX(), agent.getY(), agent.getWidth(), agent.getHeight());
         return currRect.intersects(otherRect);
     }
 
@@ -188,7 +198,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     public void removeActionDecision(int i) {
-// TODO:
+        // TODO:
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {

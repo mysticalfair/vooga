@@ -21,6 +21,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     private int width;
     private int height;
     private double direction;
+    private double xVelocity;
+    private double yVelocity;
     protected List<ActionDecision> actionDecisions;
 
     /**
@@ -29,7 +31,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String team, int health, int width, int height) {
+    public Agent(int id, int x, int y, String team, int health, int width, int height, double xVelocity, double yVelocity) {
         this.id = id;
         this.myX = x;
         this.myY = y;
@@ -37,6 +39,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         this.health = health;
         this.width = width;
         this.height = height;
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
         // TODO set imageURL somewhere
     }
 

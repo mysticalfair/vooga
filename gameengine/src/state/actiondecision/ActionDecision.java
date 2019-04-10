@@ -2,6 +2,7 @@ package state.actiondecision;
 
 import state.action.IAction;
 import state.agent.IAgent;
+import state.condition.Condition;
 import state.condition.ICondition;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import java.util.List;
 public class ActionDecision {
 
     private IAction action;
-    private List<ICondition> conditions;
+    private List<Condition> conditions;
 
-    protected ActionDecision(IAction action, List<ICondition> conditions){
+    protected ActionDecision(IAction action, List<Condition> conditions){
         this.action = action;
         this.conditions = conditions;
     }
@@ -29,7 +30,7 @@ public class ActionDecision {
     public void execute(List<IAgent> agents) {
         List<IAgent> agentsFiltered = new ArrayList<>(agents);
 
-        for (ICondition condition: conditions)
+        for (Condition condition: conditions)
             agentsFiltered = condition.getValid(agentsFiltered);
 
         for (IAgent agent: agentsFiltered)

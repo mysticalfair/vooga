@@ -61,6 +61,11 @@ public interface IAgent extends IPlayerAgent {
     double getDirection();
 
     /**
+     * Sets the direction of the agent to the given angle.
+     */
+    void setDirection(double angle);
+
+    /**
      * Decreases the health value of the agent.
      * @param healthDeduction amount by which to deduct the health of the agent.
      */

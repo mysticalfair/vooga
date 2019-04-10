@@ -150,6 +150,17 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    public void updateVeolcity(double xVelocity, double yVelocity) {
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
+    }
+
+
+    /**
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */

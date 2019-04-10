@@ -18,15 +18,16 @@ public interface IAgent {
 
     /**
      * Move the current agent a specified distance
-     * @param movement The vector representing the movement
+     * @param x The vector representing the x location
+     * @param y The vector representing the y location
      */
-    void move(Point2D.Double movement);
+    void move(int x, int y);
 
     /**
      * Returns the location of the Agent.
      * @return Point containing location of the Agent
      */
-    Point2D.Double getLocation();
+    int[] getLocation();
 
     /**
      * Returns the team of the Agent.
@@ -40,7 +41,11 @@ public interface IAgent {
      * @return distance
      */
     double calculateDistance(IAgent agent);
-
+    /**
+     * Returns the height and width in that order
+     * @return an array with first element of height and second element of width
+     */
+    int[] getEdges();
     /**
      * Decreases the health value of the agent.
      * @param healthDeduction amount by which to deduct the health of the agent.
@@ -58,5 +63,5 @@ public interface IAgent {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    boolean intersect(IAgent agent);
+    boolean isColliding(IAgent agent);
 }

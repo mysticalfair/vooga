@@ -15,9 +15,12 @@ import panes.attributes.AttributesPane;
 
 public class AuthoringEnvironment extends Application {
 
-    static final String TITLE = "Vooginas!";
-    static final double DEFAULT_WIDTH = 1000;
-    static final double DEFAULT_HEIGHT = 600;
+    public static final String TITLE = "Vooginas!";
+    public static final double DEFAULT_WIDTH = 1200;
+    public static final double DEFAULT_HEIGHT = 650;
+    public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
+    public static final String MENU_ITEM_SAVE = "Save Game";
+    public static final String MENU_ITEM_OPEN = "Open Game";
 
     private StackPane stackPane;
     private BorderPane borderPane;
@@ -58,7 +61,6 @@ public class AuthoringEnvironment extends Application {
         agentPane.accessContainer(node -> borderPane.setRight(node));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
-            //o.setOnMousePressed(e -> mousePressedOnClone(o));
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
         }
     }
@@ -77,6 +79,10 @@ public class AuthoringEnvironment extends Application {
     private void initToolbarPane() {
         toolbarPane = new ToolbarPane();
         toolbarPane.accessContainer(node -> borderPane.setTop(node));
+
+        toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
+        toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
+        toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {

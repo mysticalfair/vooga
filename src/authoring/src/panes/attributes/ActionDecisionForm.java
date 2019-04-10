@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -23,10 +24,13 @@ public class ActionDecisionForm implements AccessibleContainer {
     public ActionDecisionForm(ResourceBundle rb) {
         this.rb = rb;
         gridPane = new GridPane();
+        gridPane.getStylesheets().add("attributes-pane.css");
 
         // Type
         titleProperty = new SimpleStringProperty();
-        Text typeLabel = new Text(rb.getString("ActionDecision"));
+        var typeLabel = new Label(rb.getString("ActionDecision"));
+        //Text typeLabel = new Text(rb.getString("ActionDecision"));
+        //typeLabel.setId("textTest");
         type = new ChoiceBox<>();
         type.getItems().addAll("Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
         type.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {

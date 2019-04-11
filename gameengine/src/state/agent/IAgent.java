@@ -22,13 +22,13 @@ public interface IAgent extends IPlayerAgent {
      * Returns the X location of the Agent.
      * @return int - X location of the agent
      */
-    int getX();
+    double getX();
 
     /**
      * Returns the Y location of the Agent.
      * @return int - Y location of the agent
      */
-    int getY();
+    double getY();
 
     /**
      * Returns the team of the Agent.
@@ -109,6 +109,6 @@ public interface IAgent extends IPlayerAgent {
      * @param x - the new x location to give to the agent
      * @param y - the new y location to give to the agent
      */
-    void setLocation(int x, int y);
+    void setLocation(double x, double y);
 
 }

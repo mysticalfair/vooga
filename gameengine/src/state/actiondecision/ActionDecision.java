@@ -17,7 +17,7 @@ public class ActionDecision {
     private IAction action;
     private List<Condition> conditions;
 
-    protected ActionDecision(IAction action, List<Condition> conditions){
+    public ActionDecision(IAction action, List<Condition> conditions){
         this.action = action;
         this.conditions = conditions;
     }

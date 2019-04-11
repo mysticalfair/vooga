@@ -1,5 +1,6 @@
 package engine;
 
+import state.IState;
 import state.agent.IAgent;
 import state.objective.IObjective;
 import state.State;
@@ -13,14 +14,19 @@ import state.State;
 public class Game {
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
-    private State state;
+    private IState state;
+
+    public static final double DELTA_TIME = 0.0167;
+
+    public void setState(IState state) {
+        this.state = state;
+    }
 
     /**
      * Once called, begins continually running the game until stop() is called on it.
      * @param gameFile String containing file path of the stored game
-     * @param deltaTime amount of time that will be allowed to pass between update calls
      */
-    public void run(String gameFile, double deltaTime){
+    public void run(String gameFile) {
         runFlag = true;
         startup();
         double nextTime = System.nanoTime()/nanoTrans;
@@ -30,20 +36,20 @@ public class Game {
             // if deltaTime has passed, then update
             if(currentTime >= nextTime){
                 // assign time of next update
-                nextTime += deltaTime;
+                nextTime += DELTA_TIME;
                 step();
             }
-            else{
+            //else{
                 // TODO: may change according to how game engine interacts with player
                 // must convert from seconds to milliseconds
-                int sleepTime = 1000 * (int)(nextTime - currentTime);
+                //int sleepTime = 1000 * (int)(nextTime - currentTime);
                 //game loop should stop until it is time to update again
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException e) {
+                //try {
+                 //   Thread.sleep(sleepTime);
+                //} catch (InterruptedException e) {
                     // TODO: handle this exception
-                }
-            }
+                //}
+            //}
         }
 
     }
@@ -57,7 +63,7 @@ public class Game {
 
         for (IAgent agent: state.getMutableAgents()) {
             try {
-                agent.update(state.getMutableAgents());
+                agent.update(state.getMutableAgentsExcludingSelf(agent));
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
@@ -67,6 +73,13 @@ public class Game {
         for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);
 
+        for (IAgent agent: state.getMutableAgents()) {
+            double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
+            double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);
+            agent.setLocation(newX, newY);
+            System.out.println("X: " + newX + "\nY: " + newY + "\n");
+        }
+
         sendState();
 
     }
@@ -75,7 +88,7 @@ public class Game {
      * Send the state to the Player
      */
     private void sendState() {
-        // TODO
+        // TODO DO
     }
 
     public void stop(){

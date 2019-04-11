@@ -1,7 +1,9 @@
 package state.condition;
 
+import state.agent.Agent;
 import state.agent.IAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,13 +12,21 @@ import java.util.List;
  * @author Jorge Raad
  */
 public class CollisionCondition extends BaseAgentCondition{
+
+    // TODO: Remove this
+    public CollisionCondition(Agent base) {
+        this.baseAgent = base;
+    }
+
     @Override
     public List<IAgent> getValid(List<IAgent> agents) {
-        for(int k = 0; k < agents.size(); k++){
-            if(!baseAgent.isColliding(agents.get(k))){
-                agents.remove(k);
+
+        List<IAgent> newAgents = new ArrayList<>();
+        for (IAgent agent: agents){
+            if(baseAgent.isColliding(agent)){
+                newAgents.add(agent);
             }
         }
-        return agents;
+        return newAgents;
     }
 }

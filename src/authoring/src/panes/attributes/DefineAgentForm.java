@@ -8,7 +8,6 @@ import javafx.scene.text.Text;
 import panes.AccessibleContainer;
 import panes.AuthoringUtil;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -57,7 +56,7 @@ public class DefineAgentForm implements AccessibleContainer {
         // Agent type
         Label typeLabel = new Label(rb.getString("Type"));
         agentTypeField = new ChoiceBox<>();
-        agentTypeField.getItems().addAll("Davido", "Jamie", "Jorge", "Luke");
+        agentTypeField.getItems().addAll("Ninja", "Turret", "Tree", "Archer");
         gridPane.add(typeLabel, 0, 0);
         gridPane.add(agentTypeField, 1, 0, 3, 1);
 

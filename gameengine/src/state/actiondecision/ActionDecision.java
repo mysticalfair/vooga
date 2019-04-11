@@ -2,7 +2,6 @@ package state.actiondecision;
 
 import state.action.IAction;
 import state.agent.IAgent;
-import state.condition.ICondition;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,19 @@
 package utils;
 
-import java.io.IOException;
-
 /**
- * Interface for operating a game server,
+ * Interface for operating a game server.
+ * @author Jake Mullett
  */
 public interface NetworkedServerInterface {
 
-    public void accept(int port) throws IOException;
+    /**
+     * Non-blocking call to open a socket at the provided port.
+     * Use isConnected to see if the client has connected yet.
+     * @param port
+     */
+    public void accept(int port);
+
+    public boolean isConnected();
 
     public void disconnect();
 

@@ -5,7 +5,11 @@ import utils.NetworkedClientInterface;
 import java.io.IOException;
 import java.net.Socket;
 
-public class GameClient extends NetworkInterfacer implements NetworkedClientInterface {
+/**
+ * Client class for connecting to a server and running the network interface.
+ * @author Jake Mullett
+ */
+public class GameClient extends GameBase implements NetworkedClientInterface {
 
     public GameClient(Object parentObject) {
         super(parentObject);
@@ -18,7 +22,9 @@ public class GameClient extends NetworkInterfacer implements NetworkedClientInte
 
     @Override
     public void connect(String ip, int port) throws IOException {
-        socket = new Socket(ip, port);
-        createStreams();
+        if (socket == null) {
+            socket = new Socket(ip, port);
+            createStreams();
+        }
     }
 }

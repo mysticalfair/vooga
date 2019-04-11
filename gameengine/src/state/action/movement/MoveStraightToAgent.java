@@ -5,6 +5,7 @@ import state.agent.IAgent;
 
 /**
  * Allows an agent to move straight to a specified target agent.
+ * @author Jorge Raad
  * @author David Miron
  */
 public class MoveStraightToAgent extends MovementAction {

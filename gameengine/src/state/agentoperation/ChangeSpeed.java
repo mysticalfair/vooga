@@ -8,19 +8,21 @@ import state.agent.IAgent;
  */
 public class ChangeSpeed extends AgentOperation {
 
-    private int speedChange;
+    private double newXVelocity;
+    private double newYVelocity;
 
-    public ChangeSpeed(int speedChange) {
-        this.speedChange = speedChange;
+    public ChangeSpeed(double newXVelocity, double newYVelocity) {
+
+        this.newXVelocity = newXVelocity;
+        this.newYVelocity = newYVelocity;
     }
 
     /**
-     * Change the speed of an agent by speedChange
+     * Change the speed of an agent to speedChange
      * @param agent The agent on which to operate
      */
     @Override
     public void operateOn(IAgent agent) {
-
-
+        agent.updateVelocity(newXVelocity, newYVelocity);
     }
 }

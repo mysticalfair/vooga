@@ -3,7 +3,7 @@ package state.agent;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author David Miron
@@ -14,14 +14,16 @@ import java.util.List;
 public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
-    private int myX;
-    private int myY;
+    private double x;
+    private double y;
     private String imageURL;
     private String team;
     private int health;
     private int width;
     private int height;
     private double direction;
+    private double xVelocity;
+    private double yVelocity;
     protected List<ActionDecision> actionDecisions;
 
     /**
@@ -30,14 +32,19 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String team, int health, int width, int height) {
+    public Agent(int id, int x, int y, String team, int health, int width, int height, double speed, double direction) {
         this.id = id;
-        this.myX = x;
-        this.myY = y;
+        this.x = x;
+        this.y = y;
         this.team = team;
         this.health = health;
         this.width = width;
         this.height = height;
+        this.xVelocity = speed * Math.sqrt(2);
+        this.yVelocity = speed * Math.sqrt(2);
+        this.direction = direction;
+
+        this.actionDecisions = new ArrayList<>();
         // TODO set imageURL somewhere
     }
 
@@ -46,11 +53,19 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agents All other agents in play
      */
     @Override
-    public void update(List<IAgent> agents) {
+    public void update(List<IAgent> agents) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents);
 
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public String getName() {
@@ -83,16 +98,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param y The vector representing the movement in y
      */
     public void move(int x, int y) {
-        this.myX = this.myX + x;
-        this.myY = this.myY + y;
-    }
-
-    /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
-     */
-    public int[] getLocation(){
-        return new int[]{myX, myY};
+        this.x = this.x + x;
+        this.y = this.y + y;
     }
 
     /**
@@ -109,7 +116,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.myX - agent.getLocation()[0], 2) + Math.pow(this.myY - agent.getLocation()[1], 2));
+        return Math.sqrt(Math.pow(this.x - agent.getX(), 2) + Math.pow(this.y - agent.getY(), 2));
     }
 
     /**
@@ -147,13 +154,54 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    public void updateVelocity(double xVelocity, double yVelocity) {
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
+    }
+
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    public void setLocation(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Returns the current x velocity of the agent
+     * @return xVelocity current x velocity the agent
+     */
+    public double getXVelocity() {
+        return xVelocity;
+    }
+
+    /**
+     * Returns the current y velocity of the agent
+     * @return yVelocity current y velocity the agent
+     */
+    public double getYVelocity() {
+        return yVelocity;
+    }
+
+
+    /**
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
     public boolean isColliding(IAgent agent) {
-        var currRect = new Rectangle(this.myX, this.myY, this.width, this.height);
-        var otherRect = new Rectangle(agent.getLocation()[0], agent.getLocation()[1], agent.getWidth(), agent.getHeight());
-        return currRect.intersects(otherRect);
+        return createBoundingRect(this).intersects(createBoundingRect(agent));
+    }
+
+    private Rectangle createBoundingRect(IAgent agent) {
+        int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
+        int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
+        return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
     public int getHeight() {
@@ -164,16 +212,28 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         return this.width;
     }
 
+    public double getDirection() {
+        return direction;
+    }
+
+    public void setDirection(double direction){
+        this.direction = direction;
+    }
+
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;
     }
 
     public void removeActionDecision(int i) {
-// TODO:
+        // TODO:
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {
         // TODO:
+    }
+
+    public void addActionDecisionRaw(ActionDecision decision) {
+        actionDecisions.add(decision);
     }
 }

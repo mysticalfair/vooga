@@ -50,38 +50,32 @@ Branching off the overview, the authoring environment makes use of the authoring
 
 The Game Engine will be responsible for three major areas:
 1) Object Hierarchies
-    * Behavior
-        * MovementBehavior
-            * StraightMovement
-            * FollowMovement
-            * GoalMovement
-            * NoMovement
-        * AttackingBehavior
-            * FiringAttack
-                * StraightFiring
-                * AimFiring
-            * ManualAttack
-    * Attack
-        * TowerAttack
-        * HumanoidAttack
-    * Agent (Image, XY, Health, Team)
-        * Humanoid
-            * MovementBehavior
-            * Attack
-        * Tower
-            * FiringBehavior
-            * Attack
-            * Barrell Direction
-            * (etc.)
-        * Resource
-            * Currency
-            * Life
-        * Projectile
-            * Bullet (damages one agent at a time)
-            * Bomb (damages agents in a certain radius)
-            * Arrow
-        * Placeholder
-        
+    * Action
+        * movement
+            * MoveAtRelativeAngle
+            * MovementAction
+            * MoveOnPointPath
+            * MoveStraightToAgent
+            * MoveToAgentPRM
+        * spawn
+            SpawnAgent
+            SpawnAgentInitialDirection
+        * ApplyAgentOperation
+        * BaseAgentAction
+        * PointToAgent
+    * ActionDecision
+    * Agent
+    * AgentOperation
+        * ChangeSpeed
+        * DamageOperation
+        * HealOperation
+    * Condition
+        * BaseAgentCondition
+        * ClosestCondition
+        * CollisionCondition
+        * IntervalCondition
+        * RangeCondition
+      
     * Objective
         * StartToFinish
         * Time

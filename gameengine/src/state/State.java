@@ -7,6 +7,7 @@ import state.attribute.IAttribute;
 import state.objective.IPlayerObjective;
 import state.objective.IObjective;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @Author:Luke_Truitt
  * Version of state that is passed to player
  */
-public class State implements IState {
+public class State implements IState, Serializable {
 
     private List<IAgent> agentsOptions;
     private List<IAgent> agentsCurrent;

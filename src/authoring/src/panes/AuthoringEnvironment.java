@@ -15,7 +15,7 @@ import panes.attributes.AttributesPane;
 
 public class AuthoringEnvironment extends Application {
 
-    public static final String TITLE = "Vooginas!";
+    public static final String TITLE = "Electric Voogaloo!";
     public static final double DEFAULT_WIDTH = 1200;
     public static final double DEFAULT_HEIGHT = 650;
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";

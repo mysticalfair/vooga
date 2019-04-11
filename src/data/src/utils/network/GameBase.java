@@ -183,15 +183,12 @@ public abstract class GameBase {
 
     private Method attemptFindingMethodByName(String methodName, Class<?>[] argumentTypes, Method[] methods) {
         List<Method> possibleMethods = Arrays.stream(methods)
-                .filter((method -> method.getName().equals(methodName) && method.getParameterCount() == argumentTypes.length))
+                .filter((method -> method.getName().equals(methodName) &&
+                        method.getParameterCount() == argumentTypes.length &&
+                        typesAreChildren(method, argumentTypes)))
                 .collect(Collectors.toList());
-        if (possibleMethods.size() == 1) {
-            return possibleMethods.get(0);
-        }
-        for (Method method : possibleMethods) {
-            if (typesAreChildren(method, argumentTypes)) {
-                return method;
-            }
+        if (possibleMethods.size() > 0) {
+            return possibleMethods.get(0); // if multiple options use the first because somehow they both work
         }
         return null; //may try harder to search later
     }
@@ -199,11 +196,11 @@ public abstract class GameBase {
     private boolean typesAreChildren(Method method, Class<?>[] argumentTypes) {
         Class<?>[] methodClassTypes = method.getParameterTypes();
         for (int i = 0; i < methodClassTypes.length; i++) {
-            if (argumentTypes[i].isAssignableFrom(methodClassTypes[i])) {
-                return true;
+            if (!methodClassTypes[i].isAssignableFrom(argumentTypes[i])) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     protected void createStreams() throws IOException {

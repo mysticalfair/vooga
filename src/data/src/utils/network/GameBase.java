@@ -17,12 +17,17 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Class which implements shared utilites between the client and the server.
- * Its primary function is to read and write requests
+ * Its primary function is to read/write requests, and reply with Responses containing the result of the method
+ * calls if required.
+ * @author Jake Mullett
  */
 public abstract class GameBase {
 
     private static final String ERROR_IN_CLOSING_CONNECTION = "Error in closing connection! ";
     private static final String DATAGRAM_FROM_NETWORK_ERROR = "Error in trying to process datagram from network. Error: \n";
+    private static final String METHOD_CALL_HAS_TIMED_OUT = "Method call has timed out.";
+    private static final int TIMEOUT_REQUEST_MS = 500;
+    private static final int WAIT_PER_CHECK_MS = 1;
 
     private ConcurrentMap<String, Response> requestPool;
 
@@ -38,24 +43,38 @@ public abstract class GameBase {
     }
 
     /**
+     * Send a request which does not expect a response, and thus can exit as soon as the request is sent.
      * Package-private.
-     * @param method
-     * @param args
-     * @throws IOException
+     * @param method Method to call on the interface expected on the other side
+     * @param args Arguments for this message call
+     * @throws IOException Generic IOException run into in trying to put the request on the wire.
+     * @throws SerializationException Exception run into when trying to serialze the request arguments.
      */
     void sendNonBlockingRequest(Method method, Object[] args) throws IOException, SerializationException {
         sendRequest(method, args);
     }
 
+    /**
+     * Send a request which expects a response, and thus has to wait for the response from the network.
+     * Package-private.
+     * @param method Method to call on the interface expected on the other side
+     * @param args Arguments for this message call
+     * @throws IOException Generic IOException run into in trying to put the request on the wire.
+     * @throws SerializationException Exception run into when trying to serialze the request arguments.
+     * @throws InterruptedException Exception in sleeping the thread.
+     * @throws TimeoutException When this request timed out due to no response from the network.
+     */
     Object sendBlockingRequest(Method method, Object[] args) throws IOException, InterruptedException, TimeoutException, SerializationException {
         String sentRequestID = sendRequest(method, args).getId();
         int count = 0;
         while(!requestPool.containsKey(sentRequestID)) {
-            if (count >= 500)
-                throw new TimeoutException("Method call has timed out.");
-            Thread.sleep(1);
+            if (count >= TIMEOUT_REQUEST_MS/WAIT_PER_CHECK_MS) {
+                throw new TimeoutException(METHOD_CALL_HAS_TIMED_OUT);
+            }
+            Thread.sleep(WAIT_PER_CHECK_MS);
             count++;
         }
+
         return requestPool.remove(sentRequestID).getResult();
     }
 

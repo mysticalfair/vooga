@@ -5,6 +5,10 @@ import utils.NetworkedServerInterface;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Server class for hosting a client connection and running the network interface.
+ * @author Jake Mullett
+ */
 public class GameServer extends GameBase implements NetworkedServerInterface {
 
     private static final String ACCEPTOR_THREAD_FOR_SERVER_FAILED = "Acceptor thread for server failed! ";

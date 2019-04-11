@@ -2,6 +2,7 @@ package utils;
 
 /**
  * Interface for operating a game server.
+ * @author Jake Mullett
  */
 public interface NetworkedServerInterface {
 

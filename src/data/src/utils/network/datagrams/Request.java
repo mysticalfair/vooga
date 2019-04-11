@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class for sending method calls across the network, these are sent via TCP.
+ * @author Jake Mullett
+ */
 public class Request extends Datagram {
 
     private String method;
@@ -27,18 +31,20 @@ public class Request extends Datagram {
     }
 
     public Object[] getArgs() throws SerializationException {
-        if (payload == null)
+        if (payload == null) {
             return null;
+        }
         // We want to avoid repeatedly deserializing the same object, so store for runtime boost.
         if (deserialzedPayload == null)
-            deserialzedPayload = (Object[]) xmlSerializer.deserialize(payload, null);
+            deserialzedPayload = (Object[]) xmlSerializer.deserialize(payload);
         return deserialzedPayload;
     }
 
     public Class<?>[] getArgClassTypes() throws SerializationException {
         Object[] params = getArgs();
-        if (params == null)
+        if (params == null) {
             return null;
+        }
         List<Class<?>> arr = new ArrayList<>();
         Arrays.stream(params).forEach(param -> arr.add(param.getClass()));
         return arr.toArray(Class<?>[]::new);

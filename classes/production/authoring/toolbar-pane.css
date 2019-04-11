@@ -1,9 +1,8 @@
 .menu-bar {
     -fx-background-color: #424242;
-
 }
 
-.menu .label {
+.label {
     -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
     -fx-font-size: 10pt;
     -fx-font-weight: lighter;
@@ -21,10 +20,6 @@
 .menu-item {
     -fx-background-color: #424242;
     -fx-padding: 1 5 1 5;
-}
-
-.menu-item .label {
-    -fx-text-fill: white;
 }
 
 .menu-item:focused {

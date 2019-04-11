@@ -53,12 +53,12 @@ public class AuthoringEnvironment extends Application {
 
     private void initMapPane() {
         map = new MapPane();
-        map.accessContainer(node -> borderPane.setCenter(node));
+        map.accessContainer(borderPane::setCenter);
     }
 
     private void initAgentPane() {
         agentPane = new AgentPane();
-        agentPane.accessContainer(node -> borderPane.setRight(node));
+        agentPane.accessContainer(borderPane::setRight);
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
@@ -67,18 +67,18 @@ public class AuthoringEnvironment extends Application {
 
     private void initAttributesPane() {
         attributesPane = new AttributesPane();
-        attributesPane.accessContainer(node -> borderPane.setLeft(node));
+        attributesPane.accessContainer(borderPane::setLeft);
     }
 
     private void initConsolePane() {
         consolePane = new ConsolePane();
-        consolePane.accessContainer(node -> borderPane.setBottom(node));
+        consolePane.accessContainer(borderPane::setBottom);
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void initToolbarPane() {
         toolbarPane = new ToolbarPane();
-        toolbarPane.accessContainer(node -> borderPane.setTop(node));
+        toolbarPane.accessContainer(borderPane::setTop);
 
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);

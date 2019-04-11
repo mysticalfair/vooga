@@ -10,10 +10,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 /**
  * Class which implements shared utilites between the client and the server.
@@ -162,8 +167,43 @@ public abstract class GameBase {
     }
 
     private Object callParent(Request request) throws SerializationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method methodToCall = parent.getClass().getMethod(request.getMethod(), request.getArgClassTypes());
+        Method methodToCall;
+        try {
+            methodToCall = parent.getClass().getMethod(request.getMethod(), request.getArgClassTypes());
+        } catch (NoSuchMethodException ex) {
+            // Due to type erasure sometimes we can't find a
+            methodToCall = attemptFindingMethodByName(request.getMethod(), request.getArgClassTypes(), parent.getClass().getDeclaredMethods());
+            if (methodToCall == null) {
+                throw ex;
+            }
+        }
+
         return methodToCall.invoke(parent, request.getArgs());
+    }
+
+    private Method attemptFindingMethodByName(String methodName, Class<?>[] argumentTypes, Method[] methods) {
+        List<Method> possibleMethods = Arrays.stream(methods)
+                .filter((method -> method.getName().equals(methodName) && method.getParameterCount() == argumentTypes.length))
+                .collect(Collectors.toList());
+        if (possibleMethods.size() == 1) {
+            return possibleMethods.get(0);
+        }
+        for (Method method : possibleMethods) {
+            if (typesAreChildren(method, argumentTypes)) {
+                return method;
+            }
+        }
+        return null; //may try harder to search later
+    }
+
+    private boolean typesAreChildren(Method method, Class<?>[] argumentTypes) {
+        Class<?>[] methodClassTypes = method.getParameterTypes();
+        for (int i = 0; i < methodClassTypes.length; i++) {
+            if (argumentTypes[i].isAssignableFrom(methodClassTypes[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void createStreams() throws IOException {

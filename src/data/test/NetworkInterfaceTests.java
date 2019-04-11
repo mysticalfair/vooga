@@ -7,6 +7,8 @@ import utils.NetworkedServerInterface;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +18,8 @@ public class NetworkInterfaceTests {
 
     private static final String LOCALHOST = "127.0.0.1";
     private static final int SERVER_PORT = 1234;
-    private static final int SLEEP_TIME = 10;
+    private static final int SLEEP_TIME = 50;
+
     private NetworkedServerInterface serverInterface;
     private NetworkedClientInterface clientInterface;
     private BasicTestInterface interfaceViaClient;
@@ -72,6 +75,17 @@ public class NetworkInterfaceTests {
         BasicTestInterface client2 = (BasicTestInterface)NetworkFactory.buildClient(BasicTestInterface.class, this, LOCALHOST, newport);
         runAndWaitForNetwork(()-> client2.storeArgs("john", "cena"));
         assertArrayEquals(iface.getArgs(), interfaceViaClient.getArgs());
+    }
+
+    @Test
+    public void testMapInterface() throws IOException {
+        int newport = 1238;
+        Map<String, String> map = new HashMap<>();
+        var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, map, newport);
+        Map<String, String> client2 = (Map<String, String>)NetworkFactory.buildClient(Map.class, this, LOCALHOST, newport);
+        client2.put("t", "e");
+        assertEquals(map.get("t"), client2.get("t"));
+        runAndTime("Put an object into a hashmap", () -> client2.put("q", "e"));
     }
 
     private void runAndTime(String description, Runnable runnable) {

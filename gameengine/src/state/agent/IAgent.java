@@ -13,20 +13,27 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent {
-    void update(List<IAgent> agents);
+public interface IAgent extends IPlayerAgent {
+    void update(List<IAgent> agents) throws CloneNotSupportedException;
 
     /**
      * Move the current agent a specified distance
-     * @param movement The vector representing the movement
+     * @param x The vector representing the x location
+     * @param y The vector representing the y location
      */
-    void move(Point2D.Double movement);
+    void move(int x, int y);
 
     /**
-     * Returns the location of the Agent.
-     * @return Point containing location of the Agent
+     * Returns the X location of the Agent.
+     * @return int - X location of the agent
      */
-    Point2D.Double getLocation();
+    double getX();
+
+    /**
+     * Returns the Y location of the Agent.
+     * @return int - Y location of the agent
+     */
+    double getY();
 
     /**
      * Returns the team of the Agent.
@@ -40,6 +47,28 @@ public interface IAgent {
      * @return distance
      */
     double calculateDistance(IAgent agent);
+    /**
+     * Returns the width in that order
+     * @return an array with first element of width
+     */
+    int getWidth();
+
+    /**
+     * Returns the height in that order
+     * @return an array with first element of height
+     */
+    int getHeight();
+
+    /**
+     * Returns the direction angle of the agent.
+     * @return the angle the agent is pointing to.
+     */
+    double getDirection();
+
+    /**
+     * Sets the direction of the agent to the given angle.
+     */
+    void setDirection(double angle);
 
     /**
      * Decreases the health value of the agent.
@@ -58,5 +87,48 @@ public interface IAgent {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    boolean intersect(IAgent agent);
+    boolean isColliding(IAgent agent);
+
+
+    /**
+     * Updates the x and y velocity vectors of the agent
+     * @param xVelocity x velocity the agent will now have
+     * @param yVelocity y velocity the agent will now have
+     */
+    void updateVelocity(double xVelocity, double yVelocity);
+
+    /**
+     * Returns the current x velocity of the agent
+     * @return xVelocity current x velocity the agent
+     */
+    double getXVelocity();
+
+    /**
+     * Returns the current y velocity of the agent
+     * @return yVelocity current y velocity the agent
+     */
+    double getYVelocity();
+
+    /**
+     * Updates location of the agent
+     * @param x - the new x location to give to the agent
+     * @param y - the new y location to give to the agent
+     */
+    void setLocation(double x, double y);
+
+    /**
+     * Stops the agent.
+     */
+    void stop();
+
+    /**
+     * Getting and setting the damage this agent does
+     * @return it's damage
+     */
+    int getAttackDamage();
+    void setAttackDamage(int damage);
+
+    boolean isDead();
+
+    String getName();
 }

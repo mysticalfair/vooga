@@ -1,0 +1,17 @@
+<agentOperations>
+
+    <agentOperation>
+        <name>Damage</name>
+        <fields>
+            <int>healthPoints</int>
+        </fields>
+    </agentOperation>
+
+    <agentOperation>
+        <name>Heal</name>
+        <fields>
+            <int>healthPoints</int>
+        </fields>
+    </agentOperation>
+
+</agentOperations>

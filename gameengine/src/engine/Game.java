@@ -11,15 +11,17 @@ import state.State;
  * @author David Miron
  * @author Jamie Palka
  */
-public class Game {
+public class Game implements GameEngineAuthoring {
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     private IState state;
+//    private Serializer serializer;
 
     public static final double DELTA_TIME = 0.0167;
 
     public void setState(IState state) {
         this.state = state;
+//        serializer = new XStreamSerializer();
     }
 
     /**
@@ -95,4 +97,8 @@ public class Game {
         runFlag = false;
     }
 
+    @Override
+    public void saveState(IState state) {
+//        serializer.serialize(state);
+    }
 }

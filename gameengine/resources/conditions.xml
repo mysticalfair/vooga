@@ -1,0 +1,32 @@
+<conditionDefinitions>
+
+    <conditionDefinition>
+        <name>Interval</name>
+        <fields>
+            <double>interval</double>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Range</name>
+        <fields>
+            <int>range</int>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Enemy</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>SameTeam</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Closest</name>
+        <fields></fields>
+    </conditionDefinition>
+
+</conditionDefinitions>

@@ -6,4 +6,5 @@ module data {
     opens utils to xstream;
 
     exports utils;
+    exports utils.serializers;
 }

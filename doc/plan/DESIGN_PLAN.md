@@ -50,38 +50,32 @@ Branching off the overview, the authoring environment makes use of the authoring
 
 The Game Engine will be responsible for three major areas:
 1) Object Hierarchies
-    * Behavior
-        * MovementBehavior
-            * StraightMovement
-            * FollowMovement
-            * GoalMovement
-            * NoMovement
-        * AttackingBehavior
-            * FiringAttack
-                * StraightFiring
-                * AimFiring
-            * ManualAttack
-    * Attack
-        * TowerAttack
-        * HumanoidAttack
-    * Agent (Image, XY, Health, Team)
-        * Humanoid
-            * MovementBehavior
-            * Attack
-        * Tower
-            * FiringBehavior
-            * Attack
-            * Barrell Direction
-            * (etc.)
-        * Resource
-            * Currency
-            * Life
-        * Projectile
-            * Bullet (damages one agent at a time)
-            * Bomb (damages agents in a certain radius)
-            * Arrow
-        * Placeholder
-        
+    * Action
+        * movement
+            * MoveAtRelativeAngle
+            * MovementAction
+            * MoveOnPointPath
+            * MoveStraightToAgent
+            * MoveToAgentPRM
+        * spawn
+            SpawnAgent
+            SpawnAgentInitialDirection
+        * ApplyAgentOperation
+        * BaseAgentAction
+        * PointToAgent
+    * ActionDecision
+    * Agent
+    * AgentOperation
+        * ChangeSpeed
+        * DamageOperation
+        * HealOperation
+    * Condition
+        * BaseAgentCondition
+        * ClosestCondition
+        * CollisionCondition
+        * IntervalCondition
+        * RangeCondition
+      
     * Objective
         * StartToFinish
         * Time
@@ -125,9 +119,9 @@ The player's main class Game will extend JavaFX's Application. This Application 
 
 The GameMap object will be the front-end reflection of the map defined by authoring and is static throughout the game. The SceneController is responsible for switching between Scenes. The AgentController holds the AgentState objects for all of the agents on the map and the AttributesController holds the Attributes classes for the player(s).
 
-The reflection of the progress of the game will be through observers. Changes to the AgentState (a model for agent properties existing mostly for frontend purposes) will notify their respective observers. These actions will then enter a queue for their corresponding AgentView objects. Each step() of the main Application class (Game) will process actions from the queue for the appearance of a smooth game.
+The reflection of the progress of the game will be through observers. Changes to the AgentState (a model for agent properties existing mostly for frontend purposes) will notify their respective observers. These actions will then enter a queue for their corresponding author_states.frontend_objects.AgentView objects. Each step() of the main Application class (Game) will process actions from the queue for the appearance of a smooth game.
 
-The AgentView objects are stored in a Level class that extends Scene. This Level class is created by the Game Engine object with specific properties and identifiable by an id. If the active level, changes to the AgentState will be reflected in the AgentViews in that level.
+The author_states.frontend_objects.AgentView objects are stored in a Level class that extends Scene. This Level class is created by the Game Engine object with specific properties and identifiable by an id. If the active level, changes to the AgentState will be reflected in the AgentViews in that level.
 
 On the converse, changes to the game made from the front-end (store purchase, tower movement, etc.) will be delivered to the AgentState in the game engine through an external handler.
 

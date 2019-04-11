@@ -28,4 +28,7 @@ public interface IState extends IPlayerState {
     void setObjectives(List<IObjective> objectives);
     // Update the list of Attributes
     void setAttributes(List<IAttribute> attributes);
+
+    void removeAgent(IAgent agent);
+    List<IAgent> getMutableAgentsExcludingSelf(IAgent agent);
 }

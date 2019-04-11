@@ -1,0 +1,34 @@
+.menu-bar {
+    -fx-background-color: #424242;
+}
+
+.label {
+    -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    -fx-font-size: 10pt;
+    -fx-font-weight: lighter;
+    -fx-text-fill: white;
+}
+
+.menu .context-menu {
+    -fx-background-color: #424242;
+}
+
+.menu {
+    -fx-padding: 1 5 1 5;
+}
+
+.menu-item {
+    -fx-background-color: #424242;
+    -fx-padding: 1 5 1 5;
+}
+
+.menu-item:focused {
+    -fx-background-color: darkgray;
+}
+
+.tool-bar {
+    -fx-background-color: #424242;
+    -fx-border-style: solid none none none;
+    -fx-border-width: 2px;
+    -fx-border-color: grey;
+}

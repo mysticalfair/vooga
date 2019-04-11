@@ -2,6 +2,7 @@ package state.actiondecision;
 
 import state.action.IAction;
 import state.agent.IAgent;
+import state.condition.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,29 +12,28 @@ import java.util.List;
  * @author David Miron
  * @author Jorge Raad
  */
-public abstract class ActionDecision {
+public class ActionDecision {
 
-    protected IAgent baseAgent;
-    protected IAction action;
+    private IAction action;
+    private List<Condition> conditions;
 
-    protected ActionDecision(IAgent baseAgent, IAction action){
-        this.baseAgent = baseAgent;
+    public ActionDecision(IAction action, List<Condition> conditions){
         this.action = action;
+        this.conditions = conditions;
     }
 
     /**
-     * Run an action if some condition is true
-     * @param agents All other agents in play
+     * Execute the action on agents passed, after filtering based on conditions
+     * @param agents The list of active agents
      */
-    public abstract void execute(List<IAgent> agents);
+    public void execute(List<IAgent> agents) throws CloneNotSupportedException {
+        List<IAgent> agentsFiltered = new ArrayList<>(agents);
 
-    protected List<IAgent> getAgentsOnTeam(String team, List<IAgent> allAgents){
-        List<IAgent> teamAgents = new ArrayList<>();
-        for(IAgent agent : allAgents){
-            if(!agent.getTeam().equals(team)){
-                teamAgents.add(agent);
-            }
-        }
-        return teamAgents;
+        for (Condition condition: conditions)
+            agentsFiltered = condition.getValid(agentsFiltered);
+
+        for (IAgent agent: agentsFiltered)
+            action.execute(agent);
     }
+
 }

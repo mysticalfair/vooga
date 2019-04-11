@@ -1,30 +1,32 @@
 package state;
 
 import state.agent.IAgent;
+import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
 import state.objective.IPlayerObjective;
 import state.objective.IObjective;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author:Luke_Truitt
  * Version of state that is passed to player
  */
-public class State implements IState {
+public class State implements IState, Serializable {
 
     private List<IAgent> agentsOptions;
     private List<IAgent> agentsCurrent;
     private List<IObjective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
-    public State(List<IAgent> agentsOptions, List<IAgent> agentsCurrent,
-                 List<IObjective> objectivesCurrent, List<IAttribute> attributesCurrent) {
-        this.agentsOptions = agentsOptions;
-        this.agentsCurrent = agentsCurrent;
-        this.objectivesCurrent = objectivesCurrent;
-        this.attributesCurrent = attributesCurrent;
+    public State() {
+        this.agentsOptions = new ArrayList<>();
+        this.agentsCurrent = new ArrayList<>();
+        this.objectivesCurrent = new ArrayList<>();
+        this.attributesCurrent = new ArrayList<>();
     }
 
     /**
@@ -60,6 +62,13 @@ public class State implements IState {
         this.attributesCurrent = attributesCurrent;
     }
 
+    @Override
+    public List<IAgent> getMutableAgentsExcludingSelf(IAgent agent) {
+        List<IAgent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
+        agentsWithoutSelf.removeIf(a -> a == agent);
+        return agentsWithoutSelf;
+    }
+
     /**
      * For Author
      */
@@ -91,6 +100,12 @@ public class State implements IState {
 
     public Iterable<IPlayerAttribute> getImmutableAttributes() {
         return List.copyOf(this.attributesCurrent);
+    }
+
+    public void removeAgent(IAgent agent) {
+        if(this.agentsCurrent.contains(agent)){
+            this.agentsCurrent.remove(agent);
+        }
     }
 
 

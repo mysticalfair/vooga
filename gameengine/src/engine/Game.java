@@ -4,6 +4,9 @@ import state.IState;
 import state.agent.IAgent;
 import state.objective.IObjective;
 import state.State;
+import utils.SerializationException;
+import utils.Serializer;
+import utils.serializers.XStreamSerializer;
 
 /**
  * @author Jorge Raad
@@ -15,13 +18,13 @@ public class Game implements GameEngineAuthoring {
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     private IState state;
-//    private Serializer serializer;
+    private Serializer serializer;
 
-    public static final double DELTA_TIME = .3;
+    public static final double DELTA_TIME = 0.3;
 
     public void setState(IState state) {
         this.state = state;
-//        serializer = new XStreamSerializer();
+        serializer = new XStreamSerializer();
     }
 
     /**
@@ -77,14 +80,15 @@ public class Game implements GameEngineAuthoring {
 
         for (IAgent agent: state.getMutableAgents()) {
             if(agent.isDead()) {
+                System.out.println("Agent: " + agent.getName() + " from team " + agent.getTeam());
                 state.removeAgent(agent);
-                System.out.println("Agent: " + agent.);
                 continue;
             }
             double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
             double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);
             agent.setLocation(newX, newY);
-            System.out.println("X: " + newX + "\nY: " + newY + "\n");
+            System.out.println(agent.getName() + " at " + " X: " + newX + ", Y: " + newY + "\n");
+            System.out.println("Health: " + agent.getHealth());
         }
 
         sendState();
@@ -103,7 +107,7 @@ public class Game implements GameEngineAuthoring {
     }
 
     @Override
-    public void saveState(IState state) {
-//        serializer.serialize(state);
+    public void saveState (IState state) throws SerializationException {
+        serializer.serialize((State)state);
     }
 }

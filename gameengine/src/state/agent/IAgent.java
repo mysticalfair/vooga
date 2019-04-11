@@ -1,9 +1,4 @@
 package state.agent;
-
-import state.action.movement.MovementAction;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -20,6 +15,7 @@ public interface IAgent extends IPlayerAgent {
      * Move the current agent a specified distance
      * @param x The vector representing the x location
      * @param y The vector representing the y location
+
      */
     void move(int x, int y);
 
@@ -131,4 +127,6 @@ public interface IAgent extends IPlayerAgent {
     boolean isDead();
 
     String getName();
+
+    int getHealth();
 }

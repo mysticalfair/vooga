@@ -22,6 +22,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     private int health;
     private int width;
     private int height;
+    private int attackDamage;
     private double direction;
     private double xVelocity;
     private double yVelocity;
@@ -33,13 +34,13 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String name, String team, int health, int width, int height, double speed, double direction) {
+    public Agent(int id, int x, int y, String name, String team, int health, int width, int height, double speed, double direction, int attackDamage) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.name = name;
-        this.team = team;
         this.health = health;
+        this.attackDamage = attackDamage;
         this.width = width;
         this.height = height;
         this.xVelocity = speed * Math.sqrt(2);

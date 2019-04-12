@@ -11,6 +11,10 @@ public class SerializerSingleton {
 
     private static XStreamSerializer xStreamSerializer;
 
+    /**
+     * Get the singleton Serializer instance that exists, or create one if there is none.
+     * @return
+     */
     public static Serializer getXMLInstance() {
         if (xStreamSerializer == null) {
             buildXMLInstance();

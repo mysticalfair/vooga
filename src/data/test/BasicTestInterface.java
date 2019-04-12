@@ -1,6 +1,8 @@
 /**
  * This interface and the TestObject exist here for unit testing, as integration testing
  * in this package would add a dependency on the gameengine module.
+ *
+ * This interface is a simple group of setters/getters to show the functionality of the network utils.
  */
 public interface BasicTestInterface {
 

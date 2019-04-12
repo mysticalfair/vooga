@@ -1,5 +1,7 @@
 package utils.network;
 
+import utils.reflect.MethodUtils;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -12,15 +14,27 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
 
     private GameBase networkInterface;
 
+    /**
+     * Public instantiator for this wrapper proxy.
+     * @param networkInterface GameBase network handler for sending packets
+     */
     public NetworkedInterfaceWrapper(GameBase networkInterface) {
         this.networkInterface = networkInterface;
     }
 
+    /**
+     * Proxy wrapper which parses the method and determines which class should handle the method call.
+     * @param proxy Object this method was called on. Unused here.
+     * @param method Method that was called
+     * @param args Arguments supplied to this method
+     * @return Result of method call, if any.
+     * @throws Exception Any exceptions that occur during the method call.
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
-        Method[] networkMethods = networkInterface.getClass().getDeclaredMethods();
         // if the method is a network command like connect, disconnect etc, call it.
-        if (contains(networkMethods, method)) {
+        if (MethodUtils.isMethodInList(method, networkInterface.getClass().getMethods())) {
+//        if (MethodUtils.findMethodByNameAndArgs(method.getName(), method.getParameterTypes(), networkInterface.getClass().getMethods()) != null) {
             return method.invoke(networkInterface, args);
         }
         // else, send the request to the other side.
@@ -30,15 +44,6 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
         } else {
             return networkInterface.sendBlockingRequest(method, args);
         }
-    }
-
-    private boolean contains(Object[] arr, Object obj) {
-        for (Object o : arr) {
-            if (o.equals(obj)) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

@@ -10,25 +10,40 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Testing/examples for the NetworkFactory utils.
+ * For documentation on how to utilize these objects, check out the NetworkFactory javadoc comments.
+ *
+ * If these tests fail, make sure you have followed the steps to get XStream working as well as the
+ * possibility that your firewall is blocking these ports (despite being localhost)
+ * @author Jake Mullett
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class NetworkInterfaceTests {
 
     private static final String LOCALHOST = "127.0.0.1";
     private static final int SERVER_PORT = 1234;
     private static final int SLEEP_TIME = 50;
+    private static final int TEST_RUN_ITERATIONS = 100;
 
     private NetworkedServerInterface serverInterface;
     private NetworkedClientInterface clientInterface;
     private BasicTestInterface interfaceViaClient;
     private BasicTestInterface iface;
 
+    /**
+     * Creates a client and server on localhost for interacting with the interface through our network
+     * abstraction layer.
+     * @throws IOException Issues with establishing the connection.
+     */
     @BeforeAll
     public void setUp() throws IOException {
         iface = new TestObject();
         serverInterface = NetworkFactory.buildServer(BasicTestInterface.class, iface, SERVER_PORT);
+        // the parentInstance here is this as for most usecases this will be the case, but it has no functionality during these tests
+        // as nothing is called from the server to the client for interacting with the client's 'parent'.
         clientInterface = NetworkFactory.buildClient(BasicTestInterface.class, this, LOCALHOST, SERVER_PORT);
         interfaceViaClient = (BasicTestInterface) clientInterface;
     }
@@ -44,7 +59,7 @@ public class NetworkInterfaceTests {
     public void testChangeArgs() throws InterruptedException{
         String[] args = {"arg1", "arg2"};
         iface.storeArgs(null);
-        assertEquals(null, iface.getArgs()); // sanity check
+        assertNull(iface.getArgs()); // sanity check
         runAndWaitForNetwork(() -> interfaceViaClient.storeArgs(args));
         assertArrayEquals(args, iface.getArgs());
     }
@@ -78,21 +93,26 @@ public class NetworkInterfaceTests {
     }
 
     @Test
-    public void testMapInterface() throws IOException {
+    public void testGenericInterfaceType() throws IOException {
         int newport = 1238;
+        String key = "t";
         Map<String, String> map = new HashMap<>();
         var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, map, newport);
-        Map<String, String> client2 = (Map<String, String>)NetworkFactory.buildClient(Map.class, this, LOCALHOST, newport);
-        client2.put("t", "e");
-        assertEquals(map.get("t"), client2.get("t"));
-        runAndTime("Put an object into a hashmap", () -> client2.put("q", "e"));
+        var client2 = (Map<String, String> & NetworkedClientInterface)NetworkFactory.buildClient(Map.class, this, LOCALHOST, newport);
+        client2.put(key, "e");
+        assertEquals(map.get(key), client2.get(key));
+        runAndTime("put an object into a hashmap", () -> client2.put("q", "e"));
+        client2.disconnect();
+        server2.disconnect();
     }
 
     private void runAndTime(String description, Runnable runnable) {
         long curtime = System.nanoTime();
-        runnable.run();
+        for (int i = 0; i < TEST_RUN_ITERATIONS; i++) {
+            runnable.run();
+        }
         long timeafter = System.nanoTime();
-        System.out.println("Time to " + description + ": " + (timeafter-curtime)/1000000.0 + "ms");
+        System.out.println("Time to " + description + ": " + (timeafter-curtime)/(1000000.0*TEST_RUN_ITERATIONS) + "ms");
     }
 
     private void runAndWaitForNetwork(Runnable runnable) throws InterruptedException {

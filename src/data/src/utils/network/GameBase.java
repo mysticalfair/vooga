@@ -4,7 +4,9 @@ import utils.SerializationException;
 import utils.network.datagrams.Datagram;
 import utils.network.datagrams.Request;
 import utils.network.datagrams.Response;
+import utils.reflect.MethodUtils;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,19 +122,21 @@ public abstract class GameBase {
      * Reads requests from the input stream and passes them to the callParent method for deserialization.
      */
     private void createInputReaderThread() {
-        Runnable runnable = () -> {
-            while (true) {
+        readerThread = new Thread(() -> {
+            boolean socketAlive = true;
+            while (socketAlive) {
                 try {
                     readDatagrams();
                     Thread.sleep(50);
+                } catch (SocketException | EOFException sockEx) {
+                    socketAlive = false;
                 } catch (Exception ex) {
                     // Again, this is a separate thread so we cannot pass this along to the user/GUI.
                     // Log the exception and try to continue.
                     System.out.println(DATAGRAM_FROM_NETWORK_ERROR + ex.getMessage());
                 }
             }
-        };
-        readerThread = new Thread(runnable);
+        });
         readerThread.start();
     }
 
@@ -172,35 +177,12 @@ public abstract class GameBase {
             methodToCall = parent.getClass().getMethod(request.getMethod(), request.getArgClassTypes());
         } catch (NoSuchMethodException ex) {
             // Due to type erasure sometimes we can't find a
-            methodToCall = attemptFindingMethodByName(request.getMethod(), request.getArgClassTypes(), parent.getClass().getDeclaredMethods());
+            methodToCall = MethodUtils.findMethodByNameAndArgs(request.getMethod(), request.getArgClassTypes(), parent.getClass().getDeclaredMethods());
             if (methodToCall == null) {
                 throw ex;
             }
         }
-
         return methodToCall.invoke(parent, request.getArgs());
-    }
-
-    private Method attemptFindingMethodByName(String methodName, Class<?>[] argumentTypes, Method[] methods) {
-        List<Method> possibleMethods = Arrays.stream(methods)
-                .filter((method -> method.getName().equals(methodName) &&
-                        method.getParameterCount() == argumentTypes.length &&
-                        typesAreChildren(method, argumentTypes)))
-                .collect(Collectors.toList());
-        if (possibleMethods.size() > 0) {
-            return possibleMethods.get(0); // if multiple options use the first because somehow they both work
-        }
-        return null; //may try harder to search later
-    }
-
-    private boolean typesAreChildren(Method method, Class<?>[] argumentTypes) {
-        Class<?>[] methodClassTypes = method.getParameterTypes();
-        for (int i = 0; i < methodClassTypes.length; i++) {
-            if (!methodClassTypes[i].isAssignableFrom(argumentTypes[i])) {
-                return false;
-            }
-        }
-        return true;
     }
 
     protected void createStreams() throws IOException {

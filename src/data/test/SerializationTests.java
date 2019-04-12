@@ -1,9 +1,7 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import utils.Serializer;
-import utils.SerializerFactory;
+import utils.SerializerSingleton;
 
 public class SerializationTests {
 
@@ -11,7 +9,7 @@ public class SerializationTests {
 
     @BeforeAll
     public void setup() {
-        serializer = SerializerFactory.getXMLInstance();
+        serializer = SerializerSingleton.getXMLInstance();
     }
 
     @Test

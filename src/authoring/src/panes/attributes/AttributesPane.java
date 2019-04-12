@@ -20,7 +20,7 @@ public class AttributesPane extends AuthoringPane {
         scrollPane.setPrefViewportWidth(WIDTH);
         scrollPane.setPrefViewportHeight(HEIGHT);
         DefineAgentForm defineAgentForm = new DefineAgentForm();
-        defineAgentForm.accessContainer(container -> scrollPane.setContent(container));
+        defineAgentForm.accessContainer(scrollPane::setContent);
 
         scrollPane.getStylesheets().add("attributes-pane.css");
         vbox.getChildren().add(scrollPane);

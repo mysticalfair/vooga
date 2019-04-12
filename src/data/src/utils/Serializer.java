@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * Set of interfaces for saving any Serializable object into a file or into a string, or reversing any serialization.
+ * @author Jake Mullett
  */
 public interface Serializer {
 
@@ -22,11 +23,11 @@ public interface Serializer {
     /**
      * Takes in a String and returns a Serializable object back.
      */
-    public Object deserialize(String object, Class<?> objectType) throws SerializationException;
+    public Object deserialize(String object) throws SerializationException;
 
     /**
      * Takes in a File and loads the serial object from this file.
      */
-    public Object load(File fileLocation, Class<?> objectType) throws SerializationException, IOException;
+    public Object load(File fileLocation) throws SerializationException, IOException;
 
 }

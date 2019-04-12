@@ -2,16 +2,22 @@ package utils.serializers;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import utils.SerializationException;
-import utils.Serializer;
 
 import java.io.Serializable;
 
+/**
+ * Serializer implementation using XStream.
+ * @author Jake Mullett
+ */
 public class XStreamSerializer extends SerializerBase {
 
     private XStream xStream;
 
+    /**
+     * Serializer using the PureJavaReflectionProvider instead of the DomDriver
+     * so that default transient fields are instantiated.
+     */
     public XStreamSerializer() {
         xStream = new XStream(new PureJavaReflectionProvider());
     }
@@ -26,7 +32,7 @@ public class XStreamSerializer extends SerializerBase {
     }
 
     @Override
-    public Object deserialize(String object, Class<?> objectType) throws SerializationException {
+    public Object deserialize(String object) throws SerializationException {
         try {
             return xStream.fromXML(object);
         } catch (Exception exception) {

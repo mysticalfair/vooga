@@ -8,6 +8,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,16 @@ public class MapPane extends AuthoringPane {
     public void removeAgent(AgentView view) {
         agentList.remove(view);
         System.out.println("Removed: new size is " + agentList.size());
+    }
+
+    public void selectAgents(Ellipse lassoEllipse){
+        for(AgentView agent: agentList){
+            agent.setSelect(lassoSelects(lassoEllipse, agent));
+        }
+    }
+
+    private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
+        return lassoEllipse.intersects(agent.getBoundsInParent());
     }
 
     private void initMapPane(){

@@ -59,13 +59,13 @@ public class ToolbarPane extends AuthoringPane{
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
         toolbar.setPrefSize(WIDTH, TOOLBAR_HEIGHT);
-        var lasso = new Button();
+        /*var lasso = new Button();
         var image = new ImageView(new Image(LASSO_IMAGE));
-        image.setFitWidth(BUTTON_WIDTH);
-        image.setFitHeight(BUTTON_HEIGHT);
+        image.setFitWidth(BUTTON_IMAGE_WIDTH);
+        image.setFitHeight(BUTTON_IMAGE_HEIGHT);
         lasso.setGraphic(image);
-        lasso.setPrefSize(BUTTON_IMAGE_WIDTH, BUTTON_IMAGE_HEIGHT);
-        toolbar.getItems().addAll(lasso);
+        lasso.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        toolbar.getItems().addAll(lasso);*/
         return toolbar;
     }
 
@@ -80,6 +80,17 @@ public class ToolbarPane extends AuthoringPane{
         var menutItem = new MenuItem(label);
         menutItem.setOnAction(action);
         menu.getItems().add(menutItem);
+    }
+
+    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+        var button = new Button();
+        var image = new ImageView(new Image(buttonImageName));
+        image.setFitWidth(buttonSize);
+        image.setFitHeight(buttonSize);
+        button.setGraphic(image);
+        button.setPrefSize(buttonImageSize, buttonImageSize);
+        button.setOnAction(action);
+        toolBar.getItems().addAll(button);
     }
 
     @Override

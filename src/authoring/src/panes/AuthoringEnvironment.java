@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 
@@ -34,7 +35,7 @@ public class AuthoringEnvironment extends Application {
     private AttributesPane attributesPane;
     private ToolbarPane toolbarPane;
     private MapPane map;
-
+    private Scene scene;
 
     public static void main(String[] args){
         launch(args);
@@ -85,10 +86,16 @@ public class AuthoringEnvironment extends Application {
     private void initToolbarPane() {
         toolbarPane = new ToolbarPane();
         toolbarPane.accessContainer(borderPane::setTop);
-
+        var lasso = new LassoTool(map);
+        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
+    }
+
+    private void selectToolAction(LassoTool lasso, Scene thisScene){
+        consolePane.displayConsoleMessage("Multi-select tool enabled");
+        lasso.setMouseActions(thisScene);
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
@@ -170,6 +177,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initStage(Stage stage) {
         Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        scene = mainScene;
         stage.setTitle(TITLE);
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);

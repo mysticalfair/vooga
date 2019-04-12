@@ -2,7 +2,14 @@ package panes;
 
 import frontend_objects.CloneableAgentView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -17,8 +24,8 @@ public class AgentPane extends AuthoringPane {
     private GridPane inventory;
     private List<CloneableAgentView> agentList;
 
-    public static final double WIDTH = 40;
-    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT - ToolbarPane.HEIGHT - ConsolePane.HEIGHT;
+    public static final double WIDTH = AuthoringEnvironment.AGENT_WIDTH;
+    public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
 
     public AgentPane() {
         super();
@@ -37,6 +44,7 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        inventoryContainer.setPrefSize(WIDTH, HEIGHT);
         inventoryContainer.getStylesheets().add("agent-pane.css");
     }
 
@@ -53,7 +61,6 @@ public class AgentPane extends AuthoringPane {
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollInventory.setPrefViewportWidth(WIDTH);
         scrollInventory.setPrefViewportHeight(HEIGHT);
-        //scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
         scrollInventory.getStyleClass().add("scroll-pane");
         inventoryContainer.getChildren().add(scrollInventory);
     }
@@ -95,5 +102,12 @@ public class AgentPane extends AuthoringPane {
     @Override
     public void setStylesheet(String url) {
 
+    }
+
+    @Override
+    public void updateSize(double width, double height) {
+        inventoryContainer.setPrefSize(width, height);
+        scrollInventory.setPrefViewportWidth(width);
+        scrollInventory.setPrefViewportHeight(height);
     }
 }

@@ -14,13 +14,18 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 
 public class AuthoringEnvironment extends Application {
-
     public static final String TITLE = "Electric Voogaloo!";
     public static final double DEFAULT_WIDTH = 1200;
     public static final double DEFAULT_HEIGHT = 650;
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";
+    public static final double TOOLBAR_HEIGHT = DEFAULT_HEIGHT/7;
+    public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
+    public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
+    public static final double ATTRIBUTES_WIDTH = DEFAULT_WIDTH/4;
+    public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
+    public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
 
     private StackPane stackPane;
     private BorderPane borderPane;
@@ -29,6 +34,7 @@ public class AuthoringEnvironment extends Application {
     private AttributesPane attributesPane;
     private ToolbarPane toolbarPane;
     private MapPane map;
+
 
     public static void main(String[] args){
         launch(args);
@@ -151,14 +157,27 @@ public class AuthoringEnvironment extends Application {
         return leftOutOfBounds || rightOutOfBounds;
     }
 
+    private void updateDimensions(double width, double height){
+        var middleWidth = width - ATTRIBUTES_WIDTH - AGENT_WIDTH;
+        var middleHeight = height - CONSOLE_HEIGHT - TOOLBAR_HEIGHT;
+
+        consolePane.updateSize(width, CONSOLE_HEIGHT);
+        toolbarPane.updateSize(width, TOOLBAR_HEIGHT);
+        map.updateSize(middleWidth, middleHeight);
+        attributesPane.updateSize(ATTRIBUTES_WIDTH, middleHeight);
+        agentPane.updateSize(AGENT_WIDTH, middleHeight);
+    }
+
     private void initStage(Stage stage) {
         Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         stage.setTitle(TITLE);
         stage.setScene(mainScene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
+        mainScene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, mainScene.getHeight()));
+        mainScene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(mainScene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
-        agentPane.getScrollInventory().setPrefHeight(borderPane.getHeight() - ToolbarPane.HEIGHT - 1.75*consolePane.getConsole().getHeight());
+        //agentPane.getScrollInventory().setPrefHeight(borderPane.getHeight() - ToolbarPane.HEIGHT - 1.75*consolePane.getConsole().getHeight());
     }
 }

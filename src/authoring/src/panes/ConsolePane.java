@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 public class ConsolePane extends AuthoringPane{
 
     private VBox myVBox;
+    private VBox fullBox;
     private ScrollPane consolePane;
 
     public static final String OVERALL_STYLE = "terminal_overall";
@@ -21,9 +22,8 @@ public class ConsolePane extends AuthoringPane{
     public static final String TEXT_STYLE = "terminal";
     public static final String TITLE_TEXT = "Environment Console";
     public static final String STYLE = "console-pane.css";
-    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH - 25;
-    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT/8;
-    public static final double TITLE_HEIGHT = 60;
+    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH;
+    public static final double HEIGHT = AuthoringEnvironment.CONSOLE_HEIGHT;
 
     public ConsolePane() {
         super();
@@ -31,9 +31,10 @@ public class ConsolePane extends AuthoringPane{
     }
 
     private Region initializeContent(){
-        var fullBox = new VBox();
+        fullBox = new VBox();
         fullBox.getStylesheets().add(STYLE);
         fullBox.setId(OVERALL_STYLE);
+        fullBox.setPrefSize(WIDTH, HEIGHT);
         myVBox = new VBox();
         consolePane = new ScrollPane();
         formatScrollPane(consolePane);
@@ -47,8 +48,8 @@ public class ConsolePane extends AuthoringPane{
     }
 
     private void formatScrollPane(ScrollPane consolePane){
-        consolePane.setPrefViewportWidth(WIDTH);
-        consolePane.setPrefViewportHeight(TITLE_HEIGHT + HEIGHT);
+        //consolePane.setPrefViewportWidth(WIDTH);
+        //consolePane.setPrefViewportHeight(TITLE_HEIGHT + HEIGHT);
         consolePane.setId(TEXT_STYLE);
         consolePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         consolePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -57,6 +58,11 @@ public class ConsolePane extends AuthoringPane{
     @Override
     public void setStylesheet(String url) {
 
+    }
+
+    @Override
+    public void updateSize(double width, double height) {
+        fullBox.setPrefSize(width, height);
     }
 
     /**

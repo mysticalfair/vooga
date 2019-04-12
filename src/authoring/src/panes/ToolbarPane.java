@@ -15,8 +15,17 @@ public class ToolbarPane extends AuthoringPane{
     private MenuBar menuBar;
     private ToolBar toolBar;
     private Map<String, Menu> menuMap;
+    private VBox box;
 
-    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT/25;
+    public static final double HEIGHT = AuthoringEnvironment.TOOLBAR_HEIGHT;
+    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH;
+    public static final double BUTTON_IMAGE_WIDTH = 10;
+    public static final double BUTTON_IMAGE_HEIGHT = 10;
+    public static final double BUTTON_WIDTH = 20;
+    public static final double BUTTON_HEIGHT = 20;
+    public static final double TOOLBAR_PADDING = 25;
+    public static final double TOOLBAR_HEIGHT = BUTTON_HEIGHT + TOOLBAR_PADDING;
+
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
@@ -30,45 +39,32 @@ public class ToolbarPane extends AuthoringPane{
     private void initBars(){
         menuBar = initMenuBar();
         toolBar = initToolBar();
-        var box = new VBox();
+        box = new VBox();
         box.getStylesheets().add(STYLE);
         box.getChildren().addAll(menuBar, toolBar);
-        box.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, HEIGHT);
+        box.setPrefSize(WIDTH, HEIGHT);
         getContentChildren().add(box);
     }
 
     private MenuBar initMenuBar(){
         var menu = new MenuBar();
-        //menu.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (1/3)*HEIGHT);
         for(String option: MENU_OPTIONS){
             var menuOption = new Menu(option);
             menu.getMenus().add(menuOption);
             menuMap.put(option, menuOption);
         }
-        /*var file = new Menu("File");
-        file.getItems().addAll(initFileMenu());
-        var edit = new Menu("Edit");
-        var view = new Menu("View");
-        menuMap.put()
-        menu.getMenus().addAll(file, edit, view);*/
         return menu;
     }
 
-    /*private List<MenuItem> initFileMenu(){
-        var upload = new MenuItem("Upload Image");
-        var save = new MenuItem("Save Game");
-        var open = new MenuItem("Open Game");
-        return List.of(upload, save, open);
-    }*/
-
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
-        //toolbar.setPrefSize(AuthoringEnvironment.DEFAULT_WIDTH, (2/3)*HEIGHT);
+        toolbar.setPrefSize(WIDTH, TOOLBAR_HEIGHT);
         var lasso = new Button();
         var image = new ImageView(new Image(LASSO_IMAGE));
-        image.setFitWidth(10);
-        image.setFitHeight(10);
+        image.setFitWidth(BUTTON_WIDTH);
+        image.setFitHeight(BUTTON_HEIGHT);
         lasso.setGraphic(image);
+        lasso.setPrefSize(BUTTON_IMAGE_WIDTH, BUTTON_IMAGE_HEIGHT);
         toolbar.getItems().addAll(lasso);
         return toolbar;
     }
@@ -89,5 +85,10 @@ public class ToolbarPane extends AuthoringPane{
     @Override
     public void setStylesheet(String url) {
 
+    }
+
+    @Override
+    public void updateSize(double width, double height) {
+        box.setPrefSize(width, height);
     }
 }

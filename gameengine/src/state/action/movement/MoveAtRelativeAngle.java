@@ -29,7 +29,7 @@ public class MoveAtRelativeAngle extends BaseAgentAction {
      * @param agent Should be ignored
      */
     @Override
-    public void execute(Agent agent) {
+    public void execute(Agent agent, double deltaTime) {
 
         double curr_speed = Math.sqrt(Math.pow(agent.getXVelocity(), 2) + Math.pow(agent.getYVelocity(), 2));
         double newAbsoluteAngle = agent.getDirection() - angle;

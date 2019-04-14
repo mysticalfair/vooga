@@ -10,7 +10,7 @@ import state.agent.Agent;
 public class PointToAgent extends BaseAgentAction{
 
     @Override
-    public void execute(Agent agent) throws CloneNotSupportedException {
+    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         //baseAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
         System.out.println("COLLISION");
     }

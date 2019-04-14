@@ -20,7 +20,7 @@ public class MoveToAgentPRM extends MovementAction {
      * @param agent The agent to move to.
      */
     @Override
-    public void execute(Agent agent) {
+    public void execute(Agent agent, double deltaTime) {
 
     }
 }

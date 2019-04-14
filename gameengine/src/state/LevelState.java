@@ -1,19 +1,10 @@
 package state;
 
-import state.action.IAction;
-import state.action.collision.MeleeOnCollision;
-import state.action.collision.ShooterOnCollision;
-import state.actiondecision.ActionDecision;
-import state.agent.Agent;
 import state.agent.Agent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.condition.CollisionCondition;
-import state.condition.Condition;
-import state.condition.RangeCondition;
 import state.objective.IPlayerObjective;
-import state.objective.IObjective;
 import state.objective.Objective;
 
 import java.util.ArrayList;
@@ -71,7 +62,7 @@ public class LevelState {
         return this.objectivesCurrent;
     }
 
-    public void setObjectives(List<IObjective> objectivesCurrent) {
+    public void setObjectives(List<Objective> objectivesCurrent) {
         this.objectivesCurrent = objectivesCurrent;
     }
 
@@ -81,7 +72,6 @@ public class LevelState {
         this.attributesCurrent = attributesCurrent;
     }
 
-    @Override
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
         List<Agent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
         agentsWithoutSelf.removeIf(a -> a == agent);
@@ -97,7 +87,7 @@ public class LevelState {
     public void placeAgent(Agent agent) {
         this.agentsCurrent.add(agent);
     }
-    public void defineObjective(IObjective objective) {
+    public void defineObjective(Objective objective) {
         this.objectivesCurrent.add(objective);
     }
     public void defineAttribute(IAttribute attribute) {

@@ -14,7 +14,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgentDefinition, Cloneable {
+public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable {
 
     private int id;
     private int width;

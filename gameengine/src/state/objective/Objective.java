@@ -1,8 +1,9 @@
 package state.objective;
 
 import state.LevelState;
+import state.agent.IPlayerAgent;
 
-public class Objective implements IObjective {
+public class Objective implements IPlayerObjective {
     private int id;
     private boolean met;
     private String title;

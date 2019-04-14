@@ -14,7 +14,7 @@ public class AddToPropertyAction extends Action {
     }
 
     @Override
-    public void execute(Agent agent) throws CloneNotSupportedException {
+    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         if (agent.hasNumberProperty(propertyName)) {
             double current_value = agent.getPropertyValue(propertyName);
             current_value += amount;

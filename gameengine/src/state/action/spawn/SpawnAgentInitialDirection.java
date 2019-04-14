@@ -32,7 +32,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
      * @param agent The spawnAgent will be given a movement with the destination of this agent.
      */
     @Override
-    public void execute(Agent agent) throws CloneNotSupportedException {
+    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
 
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());

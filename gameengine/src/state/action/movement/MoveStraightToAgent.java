@@ -20,7 +20,7 @@ public class MoveStraightToAgent extends MovementAction {
      * @param agent The agent to move to.
      */
     @Override
-    public void execute(Agent agent) {
+    public void execute(Agent agent, double deltaTime) {
         double speed = Math.sqrt(Math.pow(baseAgent.getXVelocity(), 2) + Math.pow(baseAgent.getYVelocity(), 2));
         double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
         baseAgent.updateVelocity(speed*Math.cos(absoluteAngle), speed*Math.sin(absoluteAngle));

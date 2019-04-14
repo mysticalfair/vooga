@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * @author Jamie Palka
  * @author David Miron
  */
-public abstract class Action implements IAction, IRequiresGameEventMaster {
+public abstract class Action implements IRequiresGameEventMaster {
 
     protected GameEventMaster eventMaster;
 

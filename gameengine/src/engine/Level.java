@@ -7,7 +7,6 @@ import state.IRequiresGameEventMaster;
 import state.State;
 import state.agent.Agent;
 import state.agent.IAgent;
-import state.objective.IObjective;
 import state.objective.Objective;
 
 import java.util.List;

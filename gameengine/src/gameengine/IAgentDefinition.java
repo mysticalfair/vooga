@@ -1,4 +1,6 @@
-package state.agent;
+package gameengine;
+
+import gameengine.IActionDecisionDefinition;
 
 import java.util.List;
 

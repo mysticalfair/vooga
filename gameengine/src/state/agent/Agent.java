@@ -1,5 +1,7 @@
 package state.agent;
 
+import gameengine.IActionDecisionDefinition;
+import gameengine.IAgentDefinition;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;

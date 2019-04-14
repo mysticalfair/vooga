@@ -11,6 +11,10 @@ import java.util.List;
 public class RangeCondition extends BaseAgentCondition {
     private double range;
 
+    public RangeCondition(IAgent agent, double range) {
+        baseAgent = agent;
+        this.range = range;
+    }
     @Override
     public List<IAgent> getValid(List<IAgent> agents) {
         for(int k = 0; k < agents.size(); k++){

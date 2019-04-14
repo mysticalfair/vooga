@@ -8,7 +8,7 @@ import state.actiondecision.ActionDecision;
 import state.agent.Agent;
 import state.condition.CollisionCondition;
 import state.condition.Condition;
-import utils.SerializationException;
+//import utils.SerializationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +32,12 @@ public class jorgeTest {
 //        state.placeAgent(agent2);
 //
 
-        Game game = new Game();
-        game.setState(state);
-        try {
-            game.saveState(state);
-        } catch (SerializationException e) {
-            throw new RuntimeException();
-        }
+//        Game game = new Game();
+//        game.setState(state);
+//        try {
+//            game.saveState(state);
+//        } catch (SerializationException e) {
+//            throw new RuntimeException();
+//        }
     }
 }

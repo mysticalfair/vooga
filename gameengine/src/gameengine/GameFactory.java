@@ -1,5 +1,9 @@
 package gameengine;
 
+import engine.Game;
+import engine.Level;
+import engine.event.GameEventMaster;
+
 import java.util.List;
 
 /**
@@ -8,12 +12,18 @@ import java.util.List;
  */
 public class GameFactory {
 
+    private GameEventMaster eventMaster;
+
+    public GameFactory() {
+        this.eventMaster = new GameEventMaster();
+    }
+
     /**
      * Create a default game, with no agents or objectives
      * @return A default game
      */
     public IGameDefinition createGame() {
-        return null;
+        return new Game();
     }
 
     /**
@@ -21,7 +31,9 @@ public class GameFactory {
      * @return A default level
      */
     public ILevelDefinition createLevel() {
-        return null;
+        Level level = new Level();
+        level.injectGameEventMaster(eventMaster);
+        return level;
     }
 
     /**

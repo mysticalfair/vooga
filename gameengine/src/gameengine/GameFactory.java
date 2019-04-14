@@ -42,7 +42,8 @@ public class GameFactory {
      * @param properties The properties
      * @return The new agent
      */
-    public IAgentDefinition createAgent(List<IActionDecisionDefinition> actionDecisions,
+    public IAgentDefinition createAgent(int x, int y, int width, int height, String imageURL,
+                                        List<IActionDecisionDefinition> actionDecisions,
                                         List<IPropertyDefinition> properties) {
         return null;
     }

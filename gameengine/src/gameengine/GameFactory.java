@@ -66,4 +66,15 @@ public class GameFactory {
         return null;
     }
 
+    /**
+     * Create a property
+     * @param name The name of the property
+     * @param value The value of the property
+     * @param <T> The type of the property
+     * @return The property
+     */
+    public <T> IPropertyDefinition createProperty(String name, T value) {
+        return null;
+    }
+
 }

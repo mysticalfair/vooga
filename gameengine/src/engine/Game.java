@@ -1,19 +1,11 @@
 package engine;
 
-import engine.event.GameEventMaster;
 import gameengine.IGameDefinition;
 import gameengine.ILevelDefinition;
-import state.IRequiresGameEventMaster;
 import state.IState;
-import state.action.IAction;
-import state.action.collision.MeleeOnCollision;
-import state.actiondecision.ActionDecision;
-import state.agent.Agent;
-import state.agent.IAgent;
-import state.condition.CollisionCondition;
-import state.condition.Condition;
-import state.objective.IObjective;
 import state.State;
+import state.action.IAction;
+import state.objective.IObjective;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +28,9 @@ public class Game implements IGameDefinition {
     public static final double DELTA_TIME = 0.0167;
     //private Serializer serializer;
 
+    private State state;
+
+    // TODO These will go in state
     private List<Level> levels;
     private int currentLevel;
 
@@ -87,7 +82,7 @@ public class Game implements IGameDefinition {
 
                 // assign time of next update
                 nextTime += DELTA_TIME;
-                levels.get(currentLevel).step();
+                levels.get(currentLevel).step(DELTA_TIME);
             }
 
             //else{
@@ -116,6 +111,6 @@ public class Game implements IGameDefinition {
 
 //    @Override
 //    public void saveState (IState state) throws SerializationException {
-//        //serializer.serialize((State)state);
+//        //serializer.serialize((LevelState)state);
 //    }
 }

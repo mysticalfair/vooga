@@ -4,7 +4,7 @@ import engine.event.GameEventMaster;
 import gameengine.IAgentDefinition;
 import gameengine.ILevelDefinition;
 import state.IRequiresGameEventMaster;
-import state.State;
+import state.LevelState;
 import state.agent.Agent;
 import state.agent.IAgent;
 import state.objective.Objective;
@@ -15,12 +15,12 @@ import static engine.Game.DELTA_TIME;
 
 public class Level implements ILevelDefinition, IRequiresGameEventMaster {
 
-    private State state;
+    private LevelState levelState;
     private GameEventMaster eventMaster;
 
     public Level() {
-        this.state = new State();
-        this.eventMaster.addRemoveAgentListener(removeAgentEvent -> state.removeAgent(removeAgentEvent.getAgent()));
+        this.levelState = new LevelState();
+        this.eventMaster.addRemoveAgentListener(removeAgentEvent -> levelState.removeAgent(removeAgentEvent.getAgent()));
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -29,49 +29,49 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
 
     @Override
     public List<? extends IAgentDefinition> getDefinedAgents() {
-        return state.getDefinedAgents();
+        return levelState.getDefinedAgents();
     }
 
     @Override
     public void removeDefinedAgent(int index) {
-        state.removeDefinedAgent(index);
+        levelState.removeDefinedAgent(index);
     }
 
     @Override
     public void addAgentDefinition(IAgentDefinition agent) {
-        state.addDefinedAgent((Agent)agent);
+        levelState.addDefinedAgent((Agent)agent);
     }
 
     @Override
     public List<? extends IAgentDefinition> getCurrentAgents() {
-        return state.getCurrentAgents();
+        return levelState.getCurrentAgents();
     }
 
     @Override
     public void removeAgent(int index) {
-        state.removeCurrentAgent(index);
+        levelState.removeCurrentAgent(index);
     }
 
     @Override
     public void addAgent(IAgentDefinition agent) {
-        state.addCurrentAgent((Agent)agent);
+        levelState.addCurrentAgent((Agent)agent);
     }
 
-    public void step() {
+    public void step(double deltaTime) {
 
-        for (Agent agent: state.getCurrentAgents()) {
+        for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                agent.update(state.getMutableAgentsExcludingSelf(agent));
+                agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
             }
         }
 
-        for (Objective objective: state.getObjectives())
-            objective.execute(state);
+        for (Objective objective: levelState.getObjectives())
+            objective.execute(levelState);
 
-        for (IAgent agent: state.getCurrentAgents()) {
+        for (IAgent agent: levelState.getCurrentAgents()) {
 
             double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
             double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);

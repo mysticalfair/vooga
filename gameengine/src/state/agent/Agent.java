@@ -49,10 +49,10 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agents All other agents in play
      */
     @Override
-    public void update(List<Agent> agents) throws CloneNotSupportedException {
+    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
-            decision.execute(agents);
+            decision.execute(agents, delta_time);
 
     }
 

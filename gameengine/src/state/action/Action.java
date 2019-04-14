@@ -32,7 +32,7 @@ public abstract class Action implements IAction, IRequiresGameEventMaster {
      * For example, an agent spawned will go in the direction of the agent parameter or
      * a meleee action will be executed on the agent parameter.
      */
-    public abstract void execute(IAgent agent) throws CloneNotSupportedException;
+    public abstract void execute(IAgent agent, double deltaTime) throws CloneNotSupportedException;
 
 
     // TODO assumption in comment correct?

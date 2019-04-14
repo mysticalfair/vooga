@@ -26,14 +26,14 @@ public class ActionDecision {
      * Execute the action on agents passed, after filtering based on conditions
      * @param agents The list of active agents
      */
-    public void execute(List<IAgent> agents) throws CloneNotSupportedException {
+    public void execute(List<IAgent> agents, double deltaTime) throws CloneNotSupportedException {
         List<IAgent> agentsFiltered = new ArrayList<>(agents);
 
         for (Condition condition: conditions)
             agentsFiltered = condition.getValid(agentsFiltered);
 
         for (IAgent agent: agentsFiltered)
-            action.execute(agent);
+            action.execute(agent, deltaTime);
     }
 
 }

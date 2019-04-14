@@ -22,11 +22,11 @@ public interface IAgentDefinition {
     String getName();
     void setName(String name);
 
-    List<IActionDecisionDefinition> getActionDecisions();
+    List<? extends IActionDecisionDefinition> getActionDecisions();
     void removeActionDecision(int index);
     void addActionDecision(IActionDecisionDefinition actionDecision);
 
-    List<IPropertyDefinition> getProperties();
+    List<? extends IPropertyDefinition> getProperties();
     void removeProperty(String name);
     void addProperty(IPropertyDefinition property);
     <T> void setProperty(String name, T value);

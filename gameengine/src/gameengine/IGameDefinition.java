@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface IGameDefinition {
 
-    List<ILevelDefinition> getLevels();
+    List<? extends ILevelDefinition> getLevels();
     void removeLevel(int index);
     void addLevel(ILevelDefinition level);
 

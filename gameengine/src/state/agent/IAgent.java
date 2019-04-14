@@ -9,7 +9,7 @@ import java.util.List;
  * These are the extensions for the full agent. The one authoring and engine need.
  */
 public interface IAgent {
-    void update(List<IAgent> agents) throws CloneNotSupportedException;
+    void update(List<Agent> agents) throws CloneNotSupportedException;
 
     /**
      * Returns the X location of the Agent.

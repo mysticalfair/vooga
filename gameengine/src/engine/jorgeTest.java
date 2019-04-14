@@ -1,22 +1,15 @@
 package engine;
 
 import state.IState;
-import state.State;
+import state.LevelState;
 import state.action.IAction;
-import state.action.PointToAgent;
-import state.actiondecision.ActionDecision;
-import state.agent.Agent;
-import state.condition.CollisionCondition;
-import state.condition.Condition;
 //import utils.SerializationException;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class jorgeTest {
     public static void main(String[] args){
 
-        State state = new State();
+        LevelState levelState = new LevelState();
 //        Agent agent = new Agent(0, 0, 0, "Jorge", 50, 10, 10, 5, 90);
 //
 //        Agent agent2 = new Agent(0, 100, 100, "Jorge", 50, 10, 10, 0, 90);
@@ -27,15 +20,15 @@ public class jorgeTest {
 //
 //        agent2.addActionDecisionRaw(actionDecision);
 //
-//        state.defineAgent(agent);
-//        state.placeAgent(agent);
-//        state.placeAgent(agent2);
+//        levelState.defineAgent(agent);
+//        levelState.placeAgent(agent);
+//        levelState.placeAgent(agent2);
 //
 
 //        Game game = new Game();
-//        game.setState(state);
+//        game.setState(levelState);
 //        try {
-//            game.saveState(state);
+//            game.saveState(levelState);
 //        } catch (SerializationException e) {
 //            throw new RuntimeException();
 //        }

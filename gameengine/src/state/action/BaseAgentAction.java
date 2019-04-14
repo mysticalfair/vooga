@@ -1,7 +1,7 @@
 package state.action;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 public abstract class BaseAgentAction extends Action {
-    protected IAgent baseAgent;
+    protected Agent baseAgent;
 }

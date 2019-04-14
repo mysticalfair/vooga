@@ -1,7 +1,7 @@
 package state.action.property;
 
 import state.action.Action;
-import state.agent.IAgent;
+import state.agent.Agent;
 
 public class AddToPropertyAction extends Action {
 
@@ -14,7 +14,7 @@ public class AddToPropertyAction extends Action {
     }
 
     @Override
-    public void execute(IAgent agent) throws CloneNotSupportedException {
+    public void execute(Agent agent) throws CloneNotSupportedException {
         if (agent.hasNumberProperty(propertyName)) {
             double current_value = agent.getPropertyValue(propertyName);
             current_value += amount;

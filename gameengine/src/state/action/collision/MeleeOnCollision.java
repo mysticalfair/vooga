@@ -1,17 +1,17 @@
 package state.action.collision;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 public class MeleeOnCollision extends CollisionAction {
 
-    IAgent baseAgent;
+    Agent baseAgent;
 
-    public MeleeOnCollision(IAgent agent) {
+    public MeleeOnCollision(Agent agent) {
         this.baseAgent = agent;
     }
 
     @Override
-    public void execute(IAgent agent) {
+    public void execute(Agent agent) {
         baseAgent.stop();
         agent.loseHealth(baseAgent.getAttackDamage());
     }

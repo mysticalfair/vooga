@@ -8,7 +8,7 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent {
+public interface Agent {
     void update(List<Agent> agents) throws CloneNotSupportedException;
 
     /**
@@ -34,7 +34,7 @@ public interface IAgent {
      * @param agent Agent to which the distance will be calculated
      * @return distance
      */
-    double calculateDistance(IAgent agent);
+    double calculateDistance(Agent agent);
     /**
      * Returns the width in that order
      * @return an array with first element of width
@@ -70,7 +70,7 @@ public interface IAgent {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    boolean isColliding(IAgent agent);
+    boolean isColliding(Agent agent);
 
 
     /**

@@ -1,12 +1,12 @@
 package engine;
 
 import engine.event.GameEventMaster;
-import gameengine.IAgentDefinition;
+import gameengine.AgentDefinition;
 import gameengine.ILevelDefinition;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
-import state.agent.IAgent;
+import state.agent.Agent;
 import state.objective.Objective;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public List<? extends IAgentDefinition> getDefinedAgents() {
+    public List<? extends AgentDefinition> getDefinedAgents() {
         return levelState.getDefinedAgents();
     }
 
@@ -38,12 +38,12 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public void addAgentDefinition(IAgentDefinition agent) {
+    public void addAgentDefinition(AgentDefinition agent) {
         levelState.addDefinedAgent((Agent)agent);
     }
 
     @Override
-    public List<? extends IAgentDefinition> getCurrentAgents() {
+    public List<? extends AgentDefinition> getCurrentAgents() {
         return levelState.getCurrentAgents();
     }
 
@@ -53,7 +53,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public void addAgent(IAgentDefinition agent) {
+    public void addAgent(AgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);
     }
 
@@ -71,7 +71,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);
 
-        for (IAgent agent: levelState.getCurrentAgents()) {
+        for (Agent agent: levelState.getCurrentAgents()) {
 
             double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
             double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);

@@ -1,16 +1,16 @@
 package state.action.collision;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 public class ShooterOnCollision extends CollisionAction {
-    IAgent baseAgent;
+    Agent baseAgent;
 
-    public ShooterOnCollision(IAgent agent) {
+    public ShooterOnCollision(Agent agent) {
         this.baseAgent = agent;
     }
 
     @Override
-    public void execute(IAgent agent) {
+    public void execute(Agent agent) {
         agent.loseHealth(baseAgent.getAttackDamage());
         System.out.println("Pew");
     }

@@ -1,7 +1,7 @@
 package state.agent;
 
 import gameengine.IActionDecisionDefinition;
-import gameengine.IAgentDefinition;
+import gameengine.AgentDefinition;
 import state.IRequiresGameEventMaster;
 import state.actiondecision.ActionDecision;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent, IAgentDefinition, Cloneable {
+public class Agent implements AgentDefinition, Cloneable {
 
     private int id;
     private int width;
@@ -100,7 +100,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agent Agent to which the distance will be calculated
      * @return distance
      */
-    public double calculateDistance(IAgent agent){
+    public double calculateDistance(Agent agent){
         return Math.sqrt(Math.pow(this.playerAgent.getX() - agent.getX(), 2) + Math.pow(this.playerAgent.getY() - agent.getY(), 2));
     }
 
@@ -178,11 +178,11 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    public boolean isColliding(IAgent agent) {
+    public boolean isColliding(Agent agent) {
         return createBoundingRect(this).intersects(createBoundingRect(agent));
     }
 
-    private Rectangle createBoundingRect(IAgent agent) {
+    private Rectangle createBoundingRect(Agent agent) {
         int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
         int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
         return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());

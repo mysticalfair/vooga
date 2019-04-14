@@ -1,6 +1,6 @@
 package state.action;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 import state.agentoperation.AgentOperation;
 
 /**
@@ -25,7 +25,7 @@ public class ApplyAgentOperation extends Action {
      * @param agent The agent to apply the AgentOperation on.
      */
     @Override
-    public void execute(IAgent agent) {
+    public void execute(Agent agent) {
         operation.operateOn(agent);
     }
 }

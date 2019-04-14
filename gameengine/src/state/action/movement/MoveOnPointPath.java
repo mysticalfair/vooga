@@ -1,15 +1,15 @@
 package state.action.movement;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 /**
  * Allows an agent to move on a pre-defined path.
  */
 public class MoveOnPointPath extends MovementAction {
 
-    IAgent baseAgent;
+    Agent baseAgent;
 
-    public MoveOnPointPath(IAgent baseAgent, int speed) {
+    public MoveOnPointPath(Agent baseAgent, int speed) {
         this.speed = speed;
         this.baseAgent = baseAgent;
     }
@@ -19,7 +19,7 @@ public class MoveOnPointPath extends MovementAction {
      * @param agent The agent to move to.
      */
     @Override
-    public void execute(IAgent agent) {
+    public void execute(Agent agent) {
 
     }
 }

@@ -2,16 +2,16 @@ package engine;
 
 import state.LevelState;
 import state.action.IAction;
-import state.agent.IAgent;
+import state.agent.Agent;
 
 public class DemoGame {
     public static void main(String args[]) {
 
         LevelState levelState = new LevelState();
 
-        IAgent[] agents = levelState.getAgents();
+        Agent[] agents = levelState.getAgents();
 
-        for(IAgent agent : agents) {
+        for(Agent agent : agents) {
             levelState.placeAgent(agent);
         }
 

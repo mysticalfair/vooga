@@ -2,7 +2,7 @@ package state.action;
 
 import engine.event.GameEventMaster;
 import state.IRequiresGameEventMaster;
-import state.agent.IAgent;
+import state.agent.Agent;
 
 import java.awt.geom.Point2D;
 
@@ -32,7 +32,7 @@ public abstract class Action implements IAction, IRequiresGameEventMaster {
      * For example, an agent spawned will go in the direction of the agent parameter or
      * a meleee action will be executed on the agent parameter.
      */
-    public abstract void execute(IAgent agent, double deltaTime) throws CloneNotSupportedException;
+    public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException;
 
 
     // TODO assumption in comment correct?

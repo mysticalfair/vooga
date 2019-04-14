@@ -2,10 +2,7 @@ package engine;
 
 import gameengine.IGameDefinition;
 import gameengine.ILevelDefinition;
-import state.IState;
 import state.State;
-import state.action.IAction;
-import state.objective.IObjective;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,6 @@ import java.util.List;
  */
 public class Game implements IGameDefinition {
 
-    private static final int START_LEVEL = 1;
-
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     public static final double DELTA_TIME = 0.0167;
@@ -30,38 +25,8 @@ public class Game implements IGameDefinition {
 
     private State state;
 
-    // TODO These will go in state
-    private List<Level> levels;
-    private int currentLevel;
-
-    /**
-     * The list of current levels levels
-     * @return The levels
-     */
-    @Override
-    public List<? extends ILevelDefinition> getLevels() {
-        return this.levels;
-    }
-
-    /**
-     * Remove a level
-     * @param index The index of the level
-     */
-    @Override
-    public void removeLevel(int index) {
-        if (levels.size() > index) {
-            levels.remove(index);
-        }
-    }
-
-    @Override
-    public void addLevel(ILevelDefinition level) {
-        levels.add((Level) level);
-    }
-
     public Game() {
-        this.levels = new ArrayList<>();
-        this.currentLevel = START_LEVEL;
+        this.state = new State();
     }
 
     /**
@@ -82,7 +47,7 @@ public class Game implements IGameDefinition {
 
                 // assign time of next update
                 nextTime += DELTA_TIME;
-                levels.get(currentLevel).step(DELTA_TIME);
+                state.step(DELTA_TIME);
             }
 
             //else{

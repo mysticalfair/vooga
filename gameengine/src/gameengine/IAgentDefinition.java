@@ -25,4 +25,9 @@ public interface IAgentDefinition {
     List<IActionDecisionDefinition> getActionDecisions();
     void removeActionDecision(int index);
     void addActionDecision(IActionDecisionDefinition actionDecision);
+
+    List<IPropertyDefinition> getProperties();
+    void removeProperty(String name);
+    void addProperty(IPropertyDefinition property);
+    <T> void setProperty(String name, T value);
 }

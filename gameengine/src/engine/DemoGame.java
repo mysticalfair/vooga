@@ -4,32 +4,28 @@ import state.State;
 import state.action.IAction;
 import state.action.PointToAgent;
 import state.action.collision.MeleeOnCollision;
+import state.action.collision.ShooterOnCollision;
 import state.actiondecision.ActionDecision;
 import state.agent.Agent;
+import state.agent.IAgent;
 import state.condition.CollisionCondition;
 import state.condition.Condition;
+import state.condition.RangeCondition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class DemoGame {
     public static void main(String args[]) {
 
         State state = new State();
-        Agent towerAgent = new Agent(0, 0, 0, "Jorge", "Bad Guys",50, 10, 10, 0, 90, 10);
 
-        Agent meleeAgent = new Agent(0, 100, 100, "Luke", "Good Guys", 50, 10, 10, 5, 90, 20);
-        IAction action = new MeleeOnCollision();
-        List<Condition> conditions = new ArrayList<>();
-        conditions.add(new CollisionCondition(meleeAgent));
-        ActionDecision actionDecision = new ActionDecision(action, conditions);
+        IAgent[] agents = state.getAgents();
 
-        meleeAgent.addActionDecisionRaw(actionDecision);
-
-        state.defineAgent(towerAgent);
-        state.placeAgent(towerAgent);
-        state.placeAgent(meleeAgent);
-
+        for(IAgent agent : agents) {
+            state.placeAgent(agent);
+        }
 
         Game game = new Game();
         game.setState(state);

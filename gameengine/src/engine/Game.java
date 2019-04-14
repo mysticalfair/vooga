@@ -1,12 +1,21 @@
 package engine;
 
 import state.IState;
+import state.action.IAction;
+import state.action.collision.MeleeOnCollision;
+import state.actiondecision.ActionDecision;
+import state.agent.Agent;
 import state.agent.IAgent;
+import state.condition.CollisionCondition;
+import state.condition.Condition;
 import state.objective.IObjective;
 import state.State;
-import utils.SerializationException;
-import utils.Serializer;
-import utils.serializers.XStreamSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
+//import utils.SerializationException;
+//import utils.Serializer;
+//import utils.serializers.XStreamSerializer;
 
 /**
  * @author Jorge Raad
@@ -18,13 +27,14 @@ public class Game implements GameEngineAuthoring {
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     private IState state;
-    private Serializer serializer;
-
-    public static final double DELTA_TIME = 0.3;
+    //private Serializer serializer;
+    private boolean hasRunTwoAgents = false;
+    public static final double DELTA_TIME = 0.5;
+    private int ticks = 0;
 
     public void setState(IState state) {
         this.state = state;
-        serializer = new XStreamSerializer();
+        //serializer = new XStreamSerializer();
     }
 
     /**
@@ -42,7 +52,20 @@ public class Game implements GameEngineAuthoring {
             if(currentTime >= nextTime){
                 // assign time of next update
                 nextTime += DELTA_TIME;
-                step();
+
+                if (this.ticks == 5) {
+                    System.out.println("Received request from Player");
+                    System.out.println("Added Agent");
+                    Agent meleeAgent = new Agent(0, 0, 0, "Luke", "Good Guys", 50, 10, 10, 5, 90, 20);
+                    IAction action = new MeleeOnCollision(meleeAgent);
+                    List<Condition> conditions = new ArrayList<>();
+                    conditions.add(new CollisionCondition(meleeAgent));
+                    ActionDecision actionDecision = new ActionDecision(action, conditions);
+                    meleeAgent.addActionDecisionRaw(actionDecision);
+                    state.getMutableAgents().add(meleeAgent);
+                }
+                this.ticks++;
+                    step();
             }
             //else{
                 // TODO: may change according to how game engine interacts with player
@@ -74,23 +97,32 @@ public class Game implements GameEngineAuthoring {
                 e.printStackTrace();
             }
         }
-
+        if(state.getMutableAgents().size() >= 2) {
+            this.hasRunTwoAgents = true;
+        }
         for (IObjective objective: state.getMutableObjectives())
             objective.execute(state);
 
         for (IAgent agent: state.getMutableAgents()) {
             if(agent.isDead()) {
-                System.out.println("Agent: " + agent.getName() + " from team " + agent.getTeam());
+                System.out.println(agent.getName() + " from team " + agent.getTeam() + " just got killed");
+                System.out.println("Property Change Event Firing off to Player.....");
                 state.removeAgent(agent);
                 continue;
             }
             double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
             double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);
             agent.setLocation(newX, newY);
-            System.out.println(agent.getName() + " at " + " X: " + newX + ", Y: " + newY + "\n");
-            System.out.println("Health: " + agent.getHealth());
+            System.out.println(agent.getName() + " at " + " X: " + newX + ", Y: " + newY);
+            System.out.println("Health: " + agent.getHealth() + "\n");
         }
-
+        if (state.getMutableAgents().size() <= 1 && this.hasRunTwoAgents) {
+            System.out.println("Game over " + state.getMutableAgents().get(0).getName() + " wins! (What's new?)");
+            stop();
+        }
+        System.out.println("There are " + state.getMutableAgents().size() + " agents");
+        System.out.println("\n\n");
+        System.out.println("******************************************");
         sendState();
 
     }
@@ -106,8 +138,8 @@ public class Game implements GameEngineAuthoring {
         runFlag = false;
     }
 
-    @Override
-    public void saveState (IState state) throws SerializationException {
-        serializer.serialize((State)state);
-    }
+//    @Override
+//    public void saveState (IState state) throws SerializationException {
+//        //serializer.serialize((State)state);
+//    }
 }

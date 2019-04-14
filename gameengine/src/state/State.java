@@ -1,13 +1,20 @@
 package state;
 
+import state.action.IAction;
+import state.action.collision.MeleeOnCollision;
+import state.action.collision.ShooterOnCollision;
+import state.actiondecision.ActionDecision;
+import state.agent.Agent;
 import state.agent.IAgent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
+import state.condition.CollisionCondition;
+import state.condition.Condition;
+import state.condition.RangeCondition;
 import state.objective.IPlayerObjective;
 import state.objective.IObjective;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +22,7 @@ import java.util.List;
  * @Author:Luke_Truitt
  * Version of state that is passed to player
  */
-public class State implements IState, Serializable {
+public class State implements IState {
 
     private List<IAgent> agentsOptions;
     private List<IAgent> agentsCurrent;
@@ -107,6 +114,23 @@ public class State implements IState, Serializable {
             this.agentsCurrent.remove(agent);
         }
     }
+
+    public IAgent[] getAgents() {
+        Agent towerAgent = new Agent(0, 100, 100, "Jorge", "Bad Guys",50, 10, 10, 0, 90, 10);
+
+        IAction action2 = new ShooterOnCollision(towerAgent);
+        List<Condition> conditions2 = new ArrayList<>();
+
+        conditions2.add(new RangeCondition(towerAgent, 20));
+
+
+        ActionDecision actionDecision2 = new ActionDecision(action2, conditions2);
+
+        towerAgent.addActionDecisionRaw(actionDecision2);
+
+        return new Agent[]{towerAgent};
+    }
+
 
 
 }

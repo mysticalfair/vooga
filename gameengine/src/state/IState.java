@@ -31,4 +31,6 @@ public interface IState extends IPlayerState {
 
     void removeAgent(IAgent agent);
     List<IAgent> getMutableAgentsExcludingSelf(IAgent agent);
+
+    IAgent[] getAgents();
 }

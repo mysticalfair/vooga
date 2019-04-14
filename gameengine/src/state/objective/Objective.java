@@ -1,6 +1,7 @@
 package state.objective;
 
 import state.IPlayerState;
+import state.State;
 
 public class Objective implements IObjective {
     private int id;
@@ -31,7 +32,7 @@ public class Objective implements IObjective {
         this.title = title;
     }
 
-    public void execute(IPlayerState state) {
+    public void execute(State state) {
         //TODO: David
     }
 }

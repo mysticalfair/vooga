@@ -5,7 +5,7 @@ import state.action.collision.MeleeOnCollision;
 import state.action.collision.ShooterOnCollision;
 import state.actiondecision.ActionDecision;
 import state.agent.Agent;
-import state.agent.IAgent;
+import state.agent.Agent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
@@ -14,19 +14,21 @@ import state.condition.Condition;
 import state.condition.RangeCondition;
 import state.objective.IPlayerObjective;
 import state.objective.IObjective;
+import state.objective.Objective;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author:Luke_Truitt
  * Version of state that is passed to player
+ * @author David Miron
+ * @Author:Luke_Truitt
  */
-public class State implements IState {
+public class State {
 
-    private List<IAgent> agentsOptions;
-    private List<IAgent> agentsCurrent;
-    private List<IObjective> objectivesCurrent;
+    private List<Agent> agentsOptions;
+    private List<Agent> agentsCurrent;
+    private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
     public State() {
@@ -39,23 +41,33 @@ public class State implements IState {
     /**
      * For Engine
      */
-    public List<IAgent> getMutableOptions() {
+    public List<Agent> getDefinedAgents() {
         return this.agentsOptions;
     }
 
-    public void setOptionAgents(List<IAgent> agentOptions) {
-        this.agentsOptions = agentOptions;
+    public void removeDefinedAgent(int index) {
+        if (agentsOptions.size() > index)
+            agentsOptions.remove(index);
     }
 
-    public List<IAgent> getMutableAgents() {
+    public void addDefinedAgent(Agent agent) {
+        agentsOptions.add(agent);
+    }
+
+    public List<Agent> getCurrentAgents() {
         return this.agentsCurrent;
     }
 
-    public void setCurrentAgents(List<IAgent> agentCurrent) {
-        this.agentsCurrent = agentCurrent;
+    public void removeCurrentAgent(int index) {
+        if (agentsCurrent.size() > index)
+            agentsCurrent.remove(index);
     }
 
-    public List<IObjective> getMutableObjectives() {
+    public void addCurrentAgent(Agent agent) {
+        agentsCurrent.add(agent);
+    }
+
+    public List<Objective> getObjectives() {
         return this.objectivesCurrent;
     }
 
@@ -70,8 +82,8 @@ public class State implements IState {
     }
 
     @Override
-    public List<IAgent> getMutableAgentsExcludingSelf(IAgent agent) {
-        List<IAgent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
+    public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
+        List<Agent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
         agentsWithoutSelf.removeIf(a -> a == agent);
         return agentsWithoutSelf;
     }
@@ -79,10 +91,10 @@ public class State implements IState {
     /**
      * For Author
      */
-    public void defineAgent(IAgent agent) {
+    public void defineAgent(Agent agent) {
         this.agentsOptions.add(agent);
     }
-    public void placeAgent(IAgent agent) {
+    public void placeAgent(Agent agent) {
         this.agentsCurrent.add(agent);
     }
     public void defineObjective(IObjective objective) {
@@ -109,28 +121,10 @@ public class State implements IState {
         return List.copyOf(this.attributesCurrent);
     }
 
-    public void removeAgent(IAgent agent) {
+    public void removeAgent(Agent agent) {
         if(this.agentsCurrent.contains(agent)){
             this.agentsCurrent.remove(agent);
         }
     }
-
-    public IAgent[] getAgents() {
-        Agent towerAgent = new Agent(0, 100, 100, "Jorge", "Bad Guys",50, 10, 10, 0, 90, 10);
-
-        IAction action2 = new ShooterOnCollision(towerAgent);
-        List<Condition> conditions2 = new ArrayList<>();
-
-        conditions2.add(new RangeCondition(towerAgent, 20));
-
-
-        ActionDecision actionDecision2 = new ActionDecision(action2, conditions2);
-
-        towerAgent.addActionDecisionRaw(actionDecision2);
-
-        return new Agent[]{towerAgent};
-    }
-
-
 
 }

@@ -2,6 +2,7 @@ package state.agent;
 
 import gameengine.IActionDecisionDefinition;
 import gameengine.IAgentDefinition;
+import state.IRequiresGameEventMaster;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
@@ -48,7 +49,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param agents All other agents in play
      */
     @Override
-    public void update(List<IAgent> agents) throws CloneNotSupportedException {
+    public void update(List<Agent> agents) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents);

@@ -1,7 +1,7 @@
 package engine;
 
 import engine.event.GameEventMaster;
-import gameengine.AgentDefinition;
+import gameengine.IAgentDefinition;
 import gameengine.ILevelDefinition;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
@@ -28,7 +28,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public List<? extends AgentDefinition> getDefinedAgents() {
+    public List<? extends IAgentDefinition> getDefinedAgents() {
         return levelState.getDefinedAgents();
     }
 
@@ -38,12 +38,12 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public void addAgentDefinition(AgentDefinition agent) {
+    public void addIAgentDefinition(IAgentDefinition agent) {
         levelState.addDefinedAgent((Agent)agent);
     }
 
     @Override
-    public List<? extends AgentDefinition> getCurrentAgents() {
+    public List<? extends IAgentDefinition> getCurrentAgents() {
         return levelState.getCurrentAgents();
     }
 
@@ -53,7 +53,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster {
     }
 
     @Override
-    public void addAgent(AgentDefinition agent) {
+    public void addAgent(IAgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);
     }
 

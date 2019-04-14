@@ -12,15 +12,15 @@ public interface ILevelDefinition {
      * Get the agents that are defined to exist
      * @return The defined agents
      */
-    List<? extends AgentDefinition> getDefinedAgents();
+    List<? extends IAgentDefinition> getDefinedAgents();
     void removeDefinedAgent(int index);
-    void addAgentDefinition(AgentDefinition agent);
+    void addIAgentDefinition(IAgentDefinition agent);
 
     /**
      * Get the agents that actually exist in the game
      * @return The currently existing agents
      */
-    List<? extends AgentDefinition> getCurrentAgents();
+    List<? extends IAgentDefinition> getCurrentAgents();
     void removeAgent(int index);
-    void addAgent(AgentDefinition agent);
+    void addAgent(IAgentDefinition agent);
 }

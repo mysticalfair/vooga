@@ -1,7 +1,7 @@
 package state.agent;
 
 import gameengine.IActionDecisionDefinition;
-import gameengine.AgentDefinition;
+import gameengine.IAgentDefinition;
 import state.IRequiresGameEventMaster;
 import state.actiondecision.ActionDecision;
 
@@ -14,12 +14,11 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements AgentDefinition, Cloneable {
+public class Agent implements IAgentDefinition, Cloneable {
 
     private int id;
     private int width;
     private int height;
-    private int attackDamage;
     private double direction;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
@@ -27,11 +26,9 @@ public class Agent implements AgentDefinition, Cloneable {
      * Agent constructor.
      * @param id agent ID
      * @param x,y initial location
-     * @param team the agent's respective team
      */
     public Agent(int id, int x, int y, String name, int width, int height, double direction) {
         this.id = id;
-        this.attackDamage = attackDamage;
         this.width = width;
         this.height = height;
         this.direction = direction;
@@ -44,7 +41,6 @@ public class Agent implements AgentDefinition, Cloneable {
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */
-    @Override
     public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
@@ -52,10 +48,18 @@ public class Agent implements AgentDefinition, Cloneable {
 
     }
 
+    /**
+     * Returns the X location of the Agent.
+     * @return int - X location of the agent
+     */
     public double getX() {
         return playerAgent.getX();
     }
 
+    /**
+     * Returns the Y location of the Agent.
+     * @return int - Y location of the agent
+     */
     public double getY() {
         return playerAgent.getY();
     }
@@ -63,13 +67,15 @@ public class Agent implements AgentDefinition, Cloneable {
     public String getName() {
         return playerAgent.getName();
     }
+
+    /**
+     * Returns the team of the Agent.
+     * @return String containing team of the Agent
+     */
     public String getTeam() {
         return playerAgent.getTeam();
     }
-    public void stop() {
-        this.xVelocity = 0;
-        this.yVelocity = 0;
-    }
+
     public void setWidth(int w) {
         this.width = w;
     }
@@ -94,7 +100,9 @@ public class Agent implements AgentDefinition, Cloneable {
     }
 
     public void setName(String name ) { this.playerAgent.setName(name);}
+
     public void setImageURL(String url) { this.playerAgent.setImageURL(url);}
+
     /**
      * Returns the distance between this Agent and the given Agent
      * @param agent Agent to which the distance will be calculated
@@ -122,30 +130,6 @@ public class Agent implements AgentDefinition, Cloneable {
         // TODO is this hacky or ok
     }
 
-    /**
-     * Decreases the health value of the agent.
-     * @param healthDeduction amount by which to deduct the health of the agent.
-     */
-    public void loseHealth(int healthDeduction) {
-        playerAgent.setHealth(playerAgent.getHealth() - healthDeduction);
-    }
-
-    /**
-     * Increases the health value of the agent.
-     * @param healthIncrease amount by which to increase the health of the agent.
-     */
-    public void gainHealth(int healthIncrease) {
-        playerAgent.setHealth(playerAgent.getHealth() + healthIncrease);
-    }
-    /**
-     * Updates the x and y velocity vectors of the agent
-     * @param xVelocity x velocity the agent will now have
-     * @param yVelocity y velocity the agent will now have
-     */
-    public void updateVelocity(double xVelocity, double yVelocity) {
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
-    }
 
     /**
      * Updates location of the agent
@@ -155,22 +139,6 @@ public class Agent implements AgentDefinition, Cloneable {
     public void setLocation(double x, double y) {
         playerAgent.setX(x);
         playerAgent.setY(y);
-    }
-
-    /**
-     * Returns the current x velocity of the agent
-     * @return xVelocity current x velocity the agent
-     */
-    public double getXVelocity() {
-        return xVelocity;
-    }
-
-    /**
-     * Returns the current y velocity of the agent
-     * @return yVelocity current y velocity the agent
-     */
-    public double getYVelocity() {
-        return yVelocity;
     }
 
 
@@ -188,30 +156,30 @@ public class Agent implements AgentDefinition, Cloneable {
         return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
+    /**
+     * Returns the height in that order
+     * @return an array with first element of height
+     */
     public int getHeight() {
         return this.height;
     }
 
+    /**
+     * Returns the width in that order
+     * @return an array with first element of width
+     */
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * Returns the direction angle of the agent.
+     * @return the angle the agent is pointing to.
+     */
     public double getDirection() {
         return direction;
     }
 
-
-
-    public int getAttackDamage() {
-        return this.attackDamage;
-    }
-    public void setAttackDamage(int damage) {
-        this.attackDamage = damage;
-    }
-
-    public int getHealth() {
-        return this.playerAgent.getHealth();
-    }
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;
@@ -228,6 +196,4 @@ public class Agent implements AgentDefinition, Cloneable {
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
     }
-
-    public boolean isDead() {return this.playerAgent.getHealth()<=0;}
 }

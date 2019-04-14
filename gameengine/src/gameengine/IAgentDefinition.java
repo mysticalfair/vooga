@@ -8,7 +8,7 @@ import java.util.List;
  * Interface for the authoring environment to use to define an agent
  * @author David Miron
  */
-public interface AgentDefinition {
+public interface IAgentDefinition {
 
     int getWidth();
     void setWidth(int width);

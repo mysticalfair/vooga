@@ -8,16 +8,8 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent extends IPlayerAgent {
+public interface IAgent {
     void update(List<IAgent> agents) throws CloneNotSupportedException;
-
-    /**
-     * Move the current agent a specified distance
-     * @param x The vector representing the x location
-     * @param y The vector representing the y location
-
-     */
-    void move(int x, int y);
 
     /**
      * Returns the X location of the Agent.
@@ -60,11 +52,6 @@ public interface IAgent extends IPlayerAgent {
      * @return the angle the agent is pointing to.
      */
     double getDirection();
-
-    /**
-     * Sets the direction of the agent to the given angle.
-     */
-    void setDirection(double angle);
 
     /**
      * Decreases the health value of the agent.
@@ -122,7 +109,6 @@ public interface IAgent extends IPlayerAgent {
      * @return it's damage
      */
     int getAttackDamage();
-    void setAttackDamage(int damage);
 
     boolean isDead();
 

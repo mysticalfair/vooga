@@ -14,12 +14,6 @@ import java.util.List;
 public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
-    private double x;
-    private double y;
-    private String name;
-    private String imageURL;
-    private String team;
-    private int health;
     private int width;
     private int height;
     private int attackDamage;
@@ -27,7 +21,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     private double xVelocity;
     private double yVelocity;
     protected List<ActionDecision> actionDecisions;
-
+    private PlayerAgent playerAgent;
     /**
      * Agent constructor.
      * @param id agent ID
@@ -36,10 +30,6 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      */
     public Agent(int id, int x, int y, String name, String team, int health, int width, int height, double speed, double direction, int attackDamage) {
         this.id = id;
-        this.x = x;
-        this.y = y;
-        this.name = name;
-        this.health = health;
         this.attackDamage = attackDamage;
         this.width = width;
         this.height = height;
@@ -64,15 +54,18 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     public double getX() {
-        return x;
+        return playerAgent.getX();
     }
 
     public double getY() {
-        return y;
+        return playerAgent.getY();
     }
 
     public String getName() {
-        return this.name;
+        return playerAgent.getName();
+    }
+    public String getTeam() {
+        return playerAgent.getTeam();
     }
     public void stop() {
         this.xVelocity = 0;
@@ -86,42 +79,30 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         this.height = h;
     }
 
-    public void setImageURL(String url) {
-        this.imageURL = url;
-    }
-
     public String getImageURL() {
-        return this.imageURL;
+        return playerAgent.getImageURL();
     }
 
-    public void setName(String name) {
-        // TODO: this
-    }
     /**
      * Move the current agent a specified distance
      * @param x The vector representing the movement in x
      * @param y The vector representing the movement in y
      */
-    public void move(int x, int y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
+
+    public void move(double x, double y) {
+        this.playerAgent.setX(x);
+        this.playerAgent.setY(y);
     }
 
-    /**
-     * Returns the team of the Agent.
-     * @return String containing team of the Agent
-     */
-    public String getTeam(){
-        return team;
-    }
-
+    public void setName(String name ) { this.playerAgent.setName(name);}
+    public void setImageURL(String url) { this.playerAgent.setImageURL(url);}
     /**
      * Returns the distance between this Agent and the given Agent
      * @param agent Agent to which the distance will be calculated
      * @return distance
      */
     public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.x - agent.getX(), 2) + Math.pow(this.y - agent.getY(), 2));
+        return Math.sqrt(Math.pow(this.playerAgent.getX() - agent.getX(), 2) + Math.pow(this.playerAgent.getY() - agent.getY(), 2));
     }
 
     /**
@@ -147,7 +128,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param healthDeduction amount by which to deduct the health of the agent.
      */
     public void loseHealth(int healthDeduction) {
-        health -= healthDeduction;
+        playerAgent.setHealth(playerAgent.getHealth() - healthDeduction);
     }
 
     /**
@@ -155,9 +136,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param healthIncrease amount by which to increase the health of the agent.
      */
     public void gainHealth(int healthIncrease) {
-        health += healthIncrease;
+        playerAgent.setHealth(playerAgent.getHealth() + healthIncrease);
     }
-
     /**
      * Updates the x and y velocity vectors of the agent
      * @param xVelocity x velocity the agent will now have
@@ -174,8 +154,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param y - the new y location to give to the agent
      */
     public void setLocation(double x, double y) {
-        this.x = x;
-        this.y = y;
+        playerAgent.setX(x);
+        playerAgent.setY(y);
     }
 
     /**
@@ -221,9 +201,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         return direction;
     }
 
-    public void setDirection(double direction){
-        this.direction = direction;
-    }
+
 
     public int getAttackDamage() {
         return this.attackDamage;
@@ -231,11 +209,9 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     public void setAttackDamage(int damage) {
         this.attackDamage = damage;
     }
-    public void setHealth(int health) {
 
-    }
     public int getHealth() {
-        return this.health;
+        return this.playerAgent.getHealth();
     }
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
@@ -254,5 +230,5 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         actionDecisions.add(decision);
     }
 
-    public boolean isDead() {return this.health<=0;}
+    public boolean isDead() {return this.playerAgent.getHealth()<=0;}
 }

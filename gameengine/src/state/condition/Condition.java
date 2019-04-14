@@ -1,6 +1,7 @@
 package state.condition;
 
-import state.agent.IAgent;
+
+import state.agent.Agent;
 
 import java.util.List;
 
@@ -15,6 +16,6 @@ public abstract class Condition {
      * @param agents The agents to filter
      * @return A new version of the list of agents, filtered based on some condition
      */
-    public abstract List<IAgent> getValid(List<IAgent> agents);
+    public abstract List<Agent> getValid(List<Agent> agents);
 
 }

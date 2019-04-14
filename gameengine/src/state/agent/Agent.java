@@ -21,8 +21,6 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     private int height;
     private int attackDamage;
     private double direction;
-    private double xVelocity;
-    private double yVelocity;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
     /**
@@ -31,13 +29,11 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param x,y initial location
      * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String name, String team, int health, int width, int height, double speed, double direction, int attackDamage) {
+    public Agent(int id, int x, int y, String name, int width, int height, double direction) {
         this.id = id;
         this.attackDamage = attackDamage;
         this.width = width;
         this.height = height;
-        this.xVelocity = speed * Math.sqrt(2);
-        this.yVelocity = speed * Math.sqrt(2);
         this.direction = direction;
 
         this.actionDecisions = new ArrayList<>();

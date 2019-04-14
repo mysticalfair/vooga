@@ -1,7 +1,7 @@
 package state.actiondecision;
 
-import state.action.IAction;
-import state.agent.IAgent;
+import state.action.Action;
+import state.agent.Agent;
 import state.condition.Condition;
 
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ import java.util.List;
  */
 public class ActionDecision {
 
-    private IAction action;
+    private Action action;
     private List<Condition> conditions;
 
-    public ActionDecision(IAction action, List<Condition> conditions){
+    public ActionDecision(Action action, List<Condition> conditions){
         this.action = action;
         this.conditions = conditions;
     }
@@ -26,13 +26,13 @@ public class ActionDecision {
      * Execute the action on agents passed, after filtering based on conditions
      * @param agents The list of active agents
      */
-    public void execute(List<IAgent> agents, double deltaTime) throws CloneNotSupportedException {
-        List<IAgent> agentsFiltered = new ArrayList<>(agents);
+    public void execute(List<Agent> agents, double deltaTime) throws CloneNotSupportedException {
+        List<Agent> agentsFiltered = new ArrayList<>(agents);
 
         for (Condition condition: conditions)
             agentsFiltered = condition.getValid(agentsFiltered);
 
-        for (IAgent agent: agentsFiltered)
+        for (Agent agent: agentsFiltered)
             action.execute(agent, deltaTime);
     }
 

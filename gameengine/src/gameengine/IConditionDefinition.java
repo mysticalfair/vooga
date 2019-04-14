@@ -1,4 +1,4 @@
-package state.agent;
+package gameengine;
 
 /**
  * Interface for the authoring environment to use to define a condition

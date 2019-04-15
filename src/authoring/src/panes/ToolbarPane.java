@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ToolbarPane extends AuthoringPane{
+public class ToolbarPane extends AuthoringPane {
 
     private MenuBar menuBar;
     private ToolBar toolBar;
@@ -91,6 +91,10 @@ public class ToolbarPane extends AuthoringPane{
         button.setPrefSize(buttonImageSize, buttonImageSize);
         button.setOnAction(action);
         toolBar.getItems().addAll(button);
+    }
+
+    public double getHeight() {
+        return this.menuBar.getHeight() + this.toolBar.getHeight();
     }
 
     @Override

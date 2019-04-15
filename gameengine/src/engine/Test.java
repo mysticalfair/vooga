@@ -1,7 +1,6 @@
 package engine;
 
-import engine.Game;
-import state.State;
+import state.LevelState;
 import state.action.IAction;
 import state.action.PointToAgent;
 import state.actiondecision.ActionDecision;
@@ -16,7 +15,7 @@ public class Test {
 
     public static void main(String args[]) {
 
-        State state = new State();
+        LevelState levelState = new LevelState();
         Agent agent = new Agent(0, 0, 0, "Jorge", "Bad Guys", 50, 10, 10, 5, 90, 10);
 
         Agent agent2 = new Agent(0, 100, 100, "Luke", "Good Guys", 50, 10, 10, 0, 90, 20);
@@ -27,13 +26,13 @@ public class Test {
 
         agent2.addActionDecisionRaw(actionDecision);
 
-        state.defineAgent(agent);
-        state.placeAgent(agent);
-        state.placeAgent(agent2);
+        levelState.defineAgent(agent);
+        levelState.placeAgent(agent);
+        levelState.placeAgent(agent2);
 
 
         Game game = new Game();
-        game.setState(state);
+        game.setState(levelState);
 
         game.run("");
     }

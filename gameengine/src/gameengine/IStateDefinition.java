@@ -1,0 +1,34 @@
+package gameengine;
+
+import java.util.List;
+
+/**
+ * Interface implemented by State such as the Authoring Environment should see it.
+ * @author Jorge Raad
+ */
+public interface IStateDefinition {
+
+    /**
+     * Gives the list of levels stored within the State.
+     * @return list of ILevelDefinition
+     */
+    List<? extends ILevelDefinition> getLevels();
+
+    /**
+     * Removes the level with the given index from the list of levels stored within the State.
+     * @param index
+     */
+    void removeLevel(int index);
+
+    /**
+     * Adds the given level to the list of levels stored within the State.
+     * @param level
+     */
+    void addLevel(ILevelDefinition level);
+
+    /**
+     * Updates the State to given that deltaTime has passed. Called iteratively from within Game.
+     * @param deltaTime
+     */
+    public void step(double deltaTime);
+}

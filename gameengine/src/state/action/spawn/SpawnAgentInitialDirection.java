@@ -2,7 +2,7 @@ package state.action.spawn;
 
 import state.agent.Agent;
 import state.agent.AgentUtils;
-import state.agent.IAgent;
+import state.agent.Agent;
 
 /**
  * Action to spawn an agent, at the location of a base agent, with a direction pointing to the agent given in the execute method.
@@ -32,7 +32,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
      * @param agent The spawnAgent will be given a movement with the destination of this agent.
      */
     @Override
-    public void execute(IAgent agent) throws CloneNotSupportedException {
+    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
 
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());

@@ -1,6 +1,6 @@
 package state.condition;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 import java.util.List;
 
 /**
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ClosestCondition extends BaseAgentCondition {
     @Override
-    public List<IAgent> getValid(List<IAgent> agents) {
+    public List<Agent> getValid(List<Agent> agents) {
         // if list has 0 or one agents, then return same list.
         if (agents.size() <= 1) {
             return agents;
@@ -20,7 +20,7 @@ public class ClosestCondition extends BaseAgentCondition {
         return agents;
     }
 
-    private IAgent getFartherAgent(IAgent a, IAgent b){
+    private Agent getFartherAgent(Agent a, Agent b){
         double aDistance = baseAgent.calculateDistance(a);
         double bDistance = baseAgent.calculateDistance(b);
         if(aDistance >= bDistance) return a;

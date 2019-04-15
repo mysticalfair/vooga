@@ -1,8 +1,10 @@
 package state.objective;
 
-import state.IPlayerState;
+import state.LevelState;
 
-public class Objective implements IObjective {
+import java.io.Serializable;
+
+public class Objective implements IPlayerObjective, Serializable {
     private int id;
     private boolean met;
     private String title;
@@ -31,7 +33,7 @@ public class Objective implements IObjective {
         this.title = title;
     }
 
-    public void execute(IPlayerState state) {
+    public void execute(LevelState levelState) {
         //TODO: David
     }
 }

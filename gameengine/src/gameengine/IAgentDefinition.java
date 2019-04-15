@@ -1,4 +1,6 @@
-package state.agent;
+package gameengine;
+
+import gameengine.IActionDecisionDefinition;
 
 import java.util.List;
 
@@ -20,7 +22,12 @@ public interface IAgentDefinition {
     String getName();
     void setName(String name);
 
-    List<IActionDecisionDefinition> getActionDecisions();
+    List<? extends IActionDecisionDefinition> getActionDecisions();
     void removeActionDecision(int index);
     void addActionDecision(IActionDecisionDefinition actionDecision);
+
+    List<? extends IPropertyDefinition> getProperties();
+    void removeProperty(String name);
+    void addProperty(IPropertyDefinition property);
+    <T> void setProperty(String name, T value);
 }

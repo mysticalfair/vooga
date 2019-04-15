@@ -1,4 +1,4 @@
-package state.agent;
+package gameengine;
 
 import java.util.Map;
 
@@ -10,6 +10,7 @@ public interface INameFieldsDefinition {
 
     String getName();
     void setName(String name);
+
     Map<String, String> getParams();
     void setParams(Map<String, String> params);
     // TODO: should be a map from String to Field, and field can have things like AgentOperation, Agent, etc.

@@ -1,14 +1,14 @@
 package engine;
 
 import gameengine.IGameDefinition;
-import gameengine.ILevelDefinition;
 import state.State;
+import utils.SerializationException;
+import utils.Serializer;
+import utils.SerializerSingleton;
 
-import java.util.ArrayList;
-import java.util.List;
-//import utils.SerializationException;
-//import utils.Serializer;
-//import utils.serializers.XStreamSerializer;
+import java.io.File;
+import java.io.IOException;
+
 
 /**
  * @author Jorge Raad
@@ -21,12 +21,14 @@ public class Game implements IGameDefinition {
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     public static final double DELTA_TIME = 0.0167;
-    //private Serializer serializer;
+    private Serializer serializer;
 
     private State state;
 
     public Game() {
         this.state = new State();
+        SerializerSingleton serializerSingleton = new SerializerSingleton();
+        serializer = serializerSingleton.getXMLInstance();
     }
 
     /**
@@ -65,17 +67,34 @@ public class Game implements IGameDefinition {
 
     }
 
-    private void startup() {
-        // TODO: deserialize a state from a file
-        // Levels = ...
+    private void startup(String gameFileLocation) {
+        loadState(gameFileLocation);
+        // TODO: What else must be initialized at startup? If nothing, then delete startup
+    }
+
+    private void loadState(String gameFileLocation){
+        try {
+            state = (State) serializer.load(new File(gameFileLocation));
+        } catch (SerializationException | IOException e) {
+            // TODO: Deal with Exceptions by letting player know invalid file was chosen.
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 
+     * @param saveName
+     */
+    public void saveState(String saveName){
+        try {
+            serializer.save(state, new File(saveName));
+        } catch (SerializationException | IOException e) {
+            // TODO: Deal with Exceptions by letting player know about problem.
+            e.printStackTrace();
+        }
     }
 
     public void stop(){
         runFlag = false;
     }
-
-//    @Override
-//    public void saveState (IState state) throws SerializationException {
-//        //serializer.serialize((LevelState)state);
-//    }
 }

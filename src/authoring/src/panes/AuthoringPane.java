@@ -1,5 +1,6 @@
 package panes;
 
+import javafx.beans.binding.ObjectExpression;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
@@ -61,5 +62,4 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     protected ObservableList<Node> getContentChildren() {
         return content.getChildren();
     }
-
 }

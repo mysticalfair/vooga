@@ -2,16 +2,21 @@ package panes;
 
 import frontend_objects.AgentView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import panes.attributes.AttributesPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Ellipse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapPane extends AuthoringPane {
 
-    public static final double DEFAULT_WIDTH = AuthoringEnvironment.DEFAULT_WIDTH - AttributesPane.WIDTH - AgentPane.WIDTH;
-    public static final double DEFAULT_HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT - ConsolePane.HEIGHT - ToolbarPane.HEIGHT;
+    public static final double DEFAULT_WIDTH = AuthoringEnvironment.MAP_WIDTH;
+    public static final double DEFAULT_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
 
     private List<AgentView> agentList;
     private Pane mapPane;
@@ -33,6 +38,16 @@ public class MapPane extends AuthoringPane {
         System.out.println("Removed: new size is " + agentList.size());
     }
 
+    public void selectAgents(Ellipse lassoEllipse){
+        for(AgentView agent: agentList){
+            agent.setSelect(lassoSelects(lassoEllipse, agent));
+        }
+    }
+
+    private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
+        return lassoEllipse.intersects(agent.getBoundsInParent());
+    }
+
     private void initMapPane(){
         mapPane = new Pane();
         agentList = new ArrayList<>();
@@ -45,12 +60,17 @@ public class MapPane extends AuthoringPane {
             return;
         }
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         mapPane.setBackground(new Background(backgroundImage));
     }
 
     @Override
     public void setStylesheet(String url) {
 
+    }
+
+    @Override
+    public void updateSize(double width, double height) {
+        mapPane.setPrefSize(width, height);
     }
 }

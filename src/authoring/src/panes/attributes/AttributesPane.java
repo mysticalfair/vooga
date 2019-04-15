@@ -10,8 +10,8 @@ public class AttributesPane extends AuthoringPane {
 
     private ScrollPane scrollPane;
 
-    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH/2;
-    public static final double HEIGHT = AgentPane.HEIGHT;
+    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH/4;
+    public static final double HEIGHT = AgentPane.HEIGHT - 2.25*ConsolePane.HEIGHT;
 
     public AttributesPane() {
         super();
@@ -19,6 +19,7 @@ public class AttributesPane extends AuthoringPane {
         scrollPane = new ScrollPane();
         scrollPane.setPrefViewportWidth(WIDTH);
         scrollPane.setPrefViewportHeight(HEIGHT);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         DefineAgentForm defineAgentForm = new DefineAgentForm();
         defineAgentForm.accessContainer(scrollPane::setContent);
 

@@ -4,6 +4,7 @@ import engine.Level;
 import gameengine.ILevelDefinition;
 import gameengine.IStateDefinition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author Jorge Raad
  * @author David Miron
  */
-public class State implements IStateDefinition {
+public class State implements IStateDefinition, Serializable {
     private static final int START_LEVEL = 1;
     private List<Level> levels;
     private int currentLevel;

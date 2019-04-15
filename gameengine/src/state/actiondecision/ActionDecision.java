@@ -4,6 +4,7 @@ import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +13,12 @@ import java.util.List;
  * @author David Miron
  * @author Jorge Raad
  */
-public class ActionDecision {
+public class ActionDecision implements Serializable{
 
     private Action action;
     private List<Condition> conditions;
 
-    public ActionDecision(Action action, List<Condition> conditions){
+    public ActionDecision(Action action, List<Condition> conditions) {
         this.action = action;
         this.conditions = conditions;
     }

@@ -7,6 +7,7 @@ import state.attribute.IAttribute;
 import state.objective.IPlayerObjective;
 import state.objective.Objective;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @author David Miron
  * @Author:Luke_Truitt
  */
-public class LevelState {
+public class LevelState implements Serializable {
 
     private List<Agent> agentsOptions;
     private List<Agent> agentsCurrent;

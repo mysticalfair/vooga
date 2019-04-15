@@ -3,13 +3,14 @@ package state.condition;
 
 import state.agent.Agent;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Abstract class to represent some condition for a group of agents
  * @author David Miron
  */
-public abstract class Condition {
+public abstract class Condition implements Serializable {
 
     /**
      * Filter out agents based on some condition

@@ -5,13 +5,14 @@ import state.IRequiresGameEventMaster;
 import state.agent.Agent;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 /**
  * An abstract class to define the common functionality of Actions.
  * @author Jamie Palka
  * @author David Miron
  */
-public abstract class Action implements IRequiresGameEventMaster {
+public abstract class Action implements IRequiresGameEventMaster, Serializable {
 
     protected GameEventMaster eventMaster;
 

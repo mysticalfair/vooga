@@ -9,11 +9,12 @@ import state.agent.Agent;
 import state.agent.Agent;
 import state.objective.Objective;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static engine.Game.DELTA_TIME;
 
-public class Level implements ILevelDefinition, IRequiresGameEventMaster {
+public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
 
     private LevelState levelState;
     private GameEventMaster eventMaster;

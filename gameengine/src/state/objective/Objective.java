@@ -1,9 +1,10 @@
 package state.objective;
 
 import state.LevelState;
-import state.agent.IPlayerAgent;
 
-public class Objective implements IPlayerObjective {
+import java.io.Serializable;
+
+public class Objective implements IPlayerObjective, Serializable {
     private int id;
     private boolean met;
     private String title;

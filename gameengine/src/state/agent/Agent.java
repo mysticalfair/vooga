@@ -6,6 +6,7 @@ import state.IRequiresGameEventMaster;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable {
+public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
     private int id;
     private int width;

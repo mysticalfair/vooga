@@ -2,9 +2,10 @@ package gameengine;
 
 import java.util.List;
 
-public class AvailableCondition {
+public class AvailableCondition extends AvailableNameFields {
 
-    private int name;
-    private List<Field> fields;
+    public AvailableCondition(String name, List<Field> fields) {
+        super(name, fields);
+    }
 
 }

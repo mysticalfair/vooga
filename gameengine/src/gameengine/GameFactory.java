@@ -3,7 +3,17 @@ package gameengine;
 import engine.Game;
 import engine.Level;
 import engine.event.GameEventMaster;
+import gameengine.exception.ConditionDoesNotExistException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import state.State;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,10 +22,22 @@ import java.util.List;
  */
 public class GameFactory {
 
+    public static final String FIELD_DEFINITIONS_FILE = "fields.xml";
+    public static final String CONDITION_DEFINITIONS_FILE = "conditions.xml";
+    public static final String ACTION_DEFINITIONS_FILE = "actions.xml";
+
     private GameEventMaster eventMaster;
 
-    public GameFactory() {
+    private Document fieldsDoc;
+    private Document conditionsDoc;
+    private Document actionsDoc;
+
+    public GameFactory() throws ParserConfigurationException, SAXException, IOException {
         this.eventMaster = new GameEventMaster();
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        this.fieldsDoc = documentBuilder.parse(getClass().getClassLoader().getResourceAsStream(FIELD_DEFINITIONS_FILE));
+        this.conditionsDoc = documentBuilder.parse(getClass().getClassLoader().getResourceAsStream(CONDITION_DEFINITIONS_FILE));
+        this.actionsDoc = documentBuilder.parse(getClass().getClassLoader().getResourceAsStream(ACTION_DEFINITIONS_FILE));
     }
 
     /**
@@ -24,6 +46,14 @@ public class GameFactory {
      */
     public IGameDefinition createGame() {
         return new Game();
+    }
+
+    /**
+     * Create a default state, with no levels
+     * @return A default state
+     */
+    public IStateDefinition createState() {
+        return new State();
     }
 
     /**
@@ -75,7 +105,16 @@ public class GameFactory {
      * @param params The parameters of that condition, should match fields in xml file
      * @return The condition object
      */
-    public IConditionDefinition createCondition(String name, Object ... params) {
+    public IConditionDefinition createCondition(String name, Object ... params) throws ConditionDoesNotExistException {
+
+        if (!hasNameTagWithText(conditionsDoc, name))
+            throw new ConditionDoesNotExistException();
+
+        NodeList conditions = conditionsDoc.getChildNodes();
+        Node targetNode = null;
+        for (int i = 0; i < conditions.getLength(); i++)
+            if (conditions.item(i).)
+
         return null;
     }
 
@@ -88,6 +127,16 @@ public class GameFactory {
      */
     public <T> IPropertyDefinition createProperty(String name, T value) {
         return null;
+    }
+
+    private boolean hasNameTagWithText(Document doc, String name) {
+        NodeList nameTags = doc.getElementsByTagName("name");
+        for (int i = 0; i < nameTags.getLength(); i++) {
+            if (nameTags.item(i).getTextContent().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

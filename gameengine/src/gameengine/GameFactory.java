@@ -3,6 +3,7 @@ package gameengine;
 import engine.Game;
 import engine.Level;
 import engine.event.GameEventMaster;
+import gameengine.exception.ActionDoesNotExistException;
 import gameengine.exception.ConditionDoesNotExistException;
 import gameengine.exception.IncorrectParametersException;
 import gameengine.exception.ReflectionException;
@@ -106,8 +107,13 @@ public class GameFactory {
      * @param params The parameters of that action, should match fields in xml file
      * @return The action object
      */
-    public IActionDefinition createAction(String name, Object ... params) {
-        return null;
+    public IActionDefinition createAction(String name, Object ... params) throws ActionDoesNotExistException,
+            IncorrectParametersException, ReflectionException {
+
+        if (!nameFieldsExists(availableActions, name))
+            throw new ActionDoesNotExistException();
+
+        return instantiateClass(actionClasses.getProperty(name), params);
     }
 
     /**
@@ -116,18 +122,13 @@ public class GameFactory {
      * @param params The parameters of that condition, should match fields in xml file
      * @return The condition object
      */
-    public IConditionDefinition createCondition(String name, Object ... params) throws ConditionDoesNotExistException, ClassNotFoundException {
+    public IConditionDefinition createCondition(String name, Object ... params) throws ConditionDoesNotExistException,
+            IncorrectParametersException, ReflectionException {
 
         if (!nameFieldsExists(availableConditions, name))
             throw new ConditionDoesNotExistException();
 
-        Class clazz = Class.forName(conditionClasses.getProperty(name));
-
-
-
-
-
-        return null;
+        return instantiateClass(conditionClasses.getProperty(name), params);
     }
 
     /**
@@ -141,7 +142,7 @@ public class GameFactory {
         return null;
     }
 
-    private <T> T createClass(String className, Object ... params) throws IncorrectParametersException, ReflectionException {
+    private <T> T instantiateClass(String className, Object ... params) throws IncorrectParametersException, ReflectionException {
 
         try {
             Class clazz = Class.forName(className);
@@ -150,9 +151,7 @@ public class GameFactory {
                 arguments[i] = params[i].getClass();
             }
 
-            Constructor constructor;
-
-            constructor = clazz.getConstructor(arguments);
+            Constructor constructor = clazz.getConstructor(arguments);
 
             return (T)constructor.newInstance(params);
         } catch (NoSuchMethodException e) {

@@ -8,9 +8,7 @@ import java.util.List;
  */
 public interface IGameDefinition {
 
-    // THIS HAS BEEN MOVED TO IStateDefinition
-//    List<? extends ILevelDefinition> getLevels();
-//    void removeLevel(int index);
-//    void addLevel(ILevelDefinition level);
+    void setState(IStateDefinition state);
+    void saveState(String filename);
 
 }

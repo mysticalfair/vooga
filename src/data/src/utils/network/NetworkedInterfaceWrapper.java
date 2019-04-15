@@ -12,13 +12,13 @@ import java.lang.reflect.Method;
  */
 public class NetworkedInterfaceWrapper implements InvocationHandler {
 
-    private GameBase networkInterface;
+    private NetworkedBase networkInterface;
 
     /**
      * Public instantiator for this wrapper proxy.
      * @param networkInterface GameBase network handler for sending packets
      */
-    public NetworkedInterfaceWrapper(GameBase networkInterface) {
+    public NetworkedInterfaceWrapper(NetworkedBase networkInterface) {
         this.networkInterface = networkInterface;
     }
 

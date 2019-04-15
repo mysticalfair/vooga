@@ -36,7 +36,7 @@ public class Request extends Datagram {
         }
         // We want to avoid repeatedly deserializing the same object, so store for runtime boost.
         if (deserialzedPayload == null)
-            deserialzedPayload = (Object[]) xmlSerializer.deserialize(payload);
+            deserialzedPayload = (Object[]) serializer.deserialize(payload);
         return deserialzedPayload;
     }
 

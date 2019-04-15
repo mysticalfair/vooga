@@ -4,7 +4,7 @@ package utils;
  * Interface for operating a game server.
  * @author Jake Mullett
  */
-public interface NetworkedServerInterface {
+public interface ConnectableServer extends Connectable {
 
     /**
      * Non-blocking call to open a socket at the provided port.
@@ -12,9 +12,4 @@ public interface NetworkedServerInterface {
      * @param port
      */
     public void accept(int port);
-
-    public boolean isConnected();
-
-    public void disconnect();
-
 }

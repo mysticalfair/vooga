@@ -8,22 +8,10 @@ import java.io.IOException;
  * On instantiation, the class should be passed the object that it will be calling methods on.
  * @author Jake Mullett
  */
-public interface NetworkedClientInterface {
-
-    /**
-     * Disconnects the client from the server it is currently connected to.
-     */
-    public void disconnect();
-
-
-    /**
-     * @return Returns if this client is currently connected to a server or not.
-     */
-    public boolean isConnected();
+public interface ConnectableClient extends Connectable {
 
     /**
      * Connects this client to a listening client on the specified ip and port. Returns false on unable to connect.
      */
-    public void connect(String ip, int port) throws IOException;
-
+    public void connect(String ip, int port) throws NetworkException;
 }

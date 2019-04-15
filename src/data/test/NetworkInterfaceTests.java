@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import utils.NetworkFactory;
-import utils.NetworkedClientInterface;
-import utils.NetworkedServerInterface;
+import utils.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -28,8 +26,8 @@ public class NetworkInterfaceTests {
     private static final int SLEEP_TIME = 50;
     private static final int TEST_RUN_ITERATIONS = 100;
 
-    private NetworkedServerInterface serverInterface;
-    private NetworkedClientInterface clientInterface;
+    private ConnectableServer serverInterface;
+    private ConnectableClient clientInterface;
     private BasicTestInterface interfaceViaClient;
     private BasicTestInterface iface;
 
@@ -39,7 +37,7 @@ public class NetworkInterfaceTests {
      * @throws IOException Issues with establishing the connection.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    public void setUp() throws NetworkException {
         iface = new TestObject();
         serverInterface = NetworkFactory.buildServer(BasicTestInterface.class, iface, SERVER_PORT);
         // the parentInstance here is this as for most usecases this will be the case, but it has no functionality during these tests
@@ -84,7 +82,7 @@ public class NetworkInterfaceTests {
     }
 
     @Test
-    public void testMultipleClientsOneObject() throws IOException, InterruptedException {
+    public void testMultipleClientsOneObject() throws NetworkException, InterruptedException {
         int newport = 1235;
         var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, iface, newport);
         BasicTestInterface client2 = (BasicTestInterface)NetworkFactory.buildClient(BasicTestInterface.class, this, LOCALHOST, newport);
@@ -93,12 +91,12 @@ public class NetworkInterfaceTests {
     }
 
     @Test
-    public void testGenericInterfaceType() throws IOException {
+    public void testGenericInterfaceType() throws NetworkException {
         int newport = 1238;
         String key = "t";
         Map<String, String> map = new HashMap<>();
-        var server2 =  NetworkFactory.buildServer(BasicTestInterface.class, map, newport);
-        var client2 = (Map<String, String> & NetworkedClientInterface)NetworkFactory.buildClient(Map.class, this, LOCALHOST, newport);
+        var server2 =  (ConnectableServer) NetworkFactory.buildServer(Map.class, map, newport);
+        var client2 = (Map<String, String> & ConnectableClient)NetworkFactory.buildClient(Map.class, this, LOCALHOST, newport);
         client2.put(key, "e");
         assertEquals(map.get(key), client2.get(key));
         runAndTime("put an object into a hashmap", () -> client2.put("q", "e"));

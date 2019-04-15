@@ -2,7 +2,7 @@ package state;
 
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
-import state.objective.IPlayerObjective;
+import state.objective.IObjective;
 
 /**
  * @Author:Luke_Truitt
@@ -11,6 +11,6 @@ import state.objective.IPlayerObjective;
 public interface IPlayerState {
     Iterable<IPlayerAgent> getImmutableOptions();
     Iterable<IPlayerAgent> getImmutableAgents();
-    Iterable<IPlayerObjective> getImmutableObjectives();
+    Iterable<IObjective> getImmutableObjectives();
     Iterable<IPlayerAttribute> getImmutableAttributes();
 }

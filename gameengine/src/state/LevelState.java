@@ -4,7 +4,7 @@ import state.agent.Agent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.objective.IPlayerObjective;
+import state.objective.IObjective;
 import state.objective.Objective;
 
 import java.io.Serializable;
@@ -104,7 +104,7 @@ public class LevelState implements Serializable {
         return List.copyOf(this.agentsCurrent);
     }
 
-    public Iterable<IPlayerObjective> getImmutableObjectives() {
+    public Iterable<IObjective> getImmutableObjectives() {
         return List.copyOf(this.objectivesCurrent);
     }
 

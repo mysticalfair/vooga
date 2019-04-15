@@ -1,4 +1,4 @@
-package state.agent;
+package gameengine;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface IActionDecisionDefinition {
     IActionDefinition getAction();
     void setAction(IActionDefinition actionDefinition);
 
-    List<IConditionDefinition> getConditions();
+    List<? extends IConditionDefinition> getConditions();
     void removeCondition(int index);
     void addCondition(IConditionDefinition conditionDefinition);
 

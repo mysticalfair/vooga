@@ -1,6 +1,6 @@
 package state.condition;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class IntervalCondition extends Condition {
      * @return All the agents if some interval has passed, or else an empty list
      */
     @Override
-    public List<IAgent> getValid(List<IAgent> agents) {
+    public List<Agent> getValid(List<Agent> agents) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastOccurrence > intervalMillis) {
             lastOccurrence = currentTime;

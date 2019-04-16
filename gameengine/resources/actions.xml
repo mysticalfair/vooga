@@ -20,11 +20,4 @@
         <fields></fields>
     </actionDefinition>
 
-    <actionDefinition>
-        <name>ApplyAgentOperation</name>
-        <fields>
-            <agentOperation>agentOperation</agentOperation>
-        </fields>
-    </actionDefinition>
-
 </actions>

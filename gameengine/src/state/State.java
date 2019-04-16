@@ -62,7 +62,6 @@ public class State implements IStateDefinition, Serializable {
         }
     }
 
-    @Override
     public void step(double deltaTime){
 
         //TODO: check all objectives

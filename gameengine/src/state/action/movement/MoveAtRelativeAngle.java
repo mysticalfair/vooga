@@ -30,11 +30,11 @@ public class MoveAtRelativeAngle extends BaseAgentAction {
      */
     @Override
     public void execute(Agent agent, double deltaTime) {
-
-        double curr_speed = Math.sqrt(Math.pow(agent.getXVelocity(), 2) + Math.pow(agent.getYVelocity(), 2));
-        double newAbsoluteAngle = agent.getDirection() - angle;
-        double newXVelocity = curr_speed * Math.cos(newAbsoluteAngle);
-        double newYVelocity = curr_speed * Math.sin(newAbsoluteAngle);
-        baseAgent.updateVelocity(newXVelocity, newYVelocity);
+//        TODO: update speed according to speed property
+//        double curr_speed = Math.sqrt(Math.pow(agent.getXVelocity(), 2) + Math.pow(agent.getYVelocity(), 2));
+//        double newAbsoluteAngle = agent.getDirection() - angle;
+//        double newXVelocity = curr_speed * Math.cos(newAbsoluteAngle);
+//        double newYVelocity = curr_speed * Math.sin(newAbsoluteAngle);
+//        baseAgent.updateVelocity(newXVelocity, newYVelocity);
     }
 }

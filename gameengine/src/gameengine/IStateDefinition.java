@@ -25,5 +25,4 @@ public interface IStateDefinition {
      * @param level
      */
     void addLevel(ILevelDefinition level);
-
 }

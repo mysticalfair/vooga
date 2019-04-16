@@ -2,6 +2,7 @@ package state.agent;
 
 import gameengine.IActionDecisionDefinition;
 import gameengine.IAgentDefinition;
+import gameengine.IPropertyDefinition;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent, IAgentDefinition, Cloneable {
+public  class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     private int id;
     private int width;
@@ -226,6 +227,26 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
 
     public void addActionDecision(IActionDecisionDefinition def) {
         // TODO:
+    }
+
+    @Override
+    public List<IPropertyDefinition> getProperties() {
+        return null;
+    }
+
+    @Override
+    public void removeProperty(String name) {
+
+    }
+
+    @Override
+    public void addProperty(IPropertyDefinition property) {
+
+    }
+
+    @Override
+    public <T> void setProperty(String name, T value) {
+
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {

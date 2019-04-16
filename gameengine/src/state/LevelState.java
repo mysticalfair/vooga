@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Version of state that is passed to player
  * @author David Miron
- * @Author:Luke_Truitt
+ * @author Luke Truitt
  */
 public class LevelState implements Serializable {
 

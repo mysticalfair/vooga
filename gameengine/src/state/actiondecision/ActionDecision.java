@@ -1,5 +1,7 @@
 package state.actiondecision;
 
+import gameengine.IActionDefinition;
+import gameengine.IConditionDefinition;
 import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;
@@ -17,6 +19,11 @@ public class ActionDecision implements Serializable{
 
     private Action action;
     private List<Condition> conditions;
+
+    public ActionDecision(IActionDefinition action, List<IConditionDefinition> conditions) {
+        this.action = (Action)action;
+        this.conditions = conditions.stream().map(c -> (Condition)c);
+    }
 
     public ActionDecision(Action action, List<Condition> conditions) {
         this.action = action;

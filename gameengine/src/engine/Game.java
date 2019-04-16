@@ -1,6 +1,7 @@
 package engine;
 
 import gameengine.IGameDefinition;
+import gameengine.IStateDefinition;
 import state.State;
 import utils.SerializationException;
 import utils.Serializer;
@@ -79,6 +80,11 @@ public class Game implements IGameDefinition {
             // TODO: Deal with Exceptions by letting player know invalid file was chosen.
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setState(IStateDefinition state) {
+        this.state = (State)state;
     }
 
     /**

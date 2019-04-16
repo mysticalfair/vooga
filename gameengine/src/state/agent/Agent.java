@@ -224,6 +224,5 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-
     }
 }

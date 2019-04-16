@@ -26,9 +26,4 @@ public interface IStateDefinition {
      */
     void addLevel(ILevelDefinition level);
 
-    /**
-     * Updates the State to given that deltaTime has passed. Called iteratively from within Game.
-     * @param deltaTime
-     */
-    public void step(double deltaTime);
 }

@@ -18,10 +18,14 @@ import java.util.List;
  */
 public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
+    private String imageURL;
     private int id;
+    private double x;
+    private double y;
     private int width;
     private int height;
     private double direction;
+    private String name;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
     /**
@@ -29,7 +33,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param id agent ID
      * @param x,y initial location
      */
-    public Agent(int id, int x, int y, String name, int width, int height, double direction) {
+    public Agent(int id, int x, int y, int width, int height, String name, double direction) {
         this.id = id;
         this.width = width;
         this.height = height;

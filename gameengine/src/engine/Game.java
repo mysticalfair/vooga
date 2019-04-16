@@ -39,7 +39,7 @@ public class Game implements IGameDefinition {
     public void run(String gameFile) {
         runFlag = true;
 
-        startup();
+        startup(gameFile);
         double nextTime = System.nanoTime() / nanoTrans;
 
         while(runFlag) {

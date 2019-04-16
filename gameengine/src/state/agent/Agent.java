@@ -2,10 +2,12 @@ package state.agent;
 
 import gameengine.IActionDecisionDefinition;
 import gameengine.IAgentDefinition;
+import gameengine.IPropertyDefinition;
 import state.IRequiresGameEventMaster;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -194,7 +196,34 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         // TODO:
     }
 
+    // TODO:  fill out all property-related methods
+
+    @Override
+    public List<? extends IPropertyDefinition> getProperties() {
+        return null;
+    }
+
+    @Override
+    public void removeProperty(String name) {
+
+    }
+
+    @Override
+    public void addProperty(IPropertyDefinition property) {
+
+    }
+
+    @Override
+    public <T> void setProperty(String name, T value) {
+
+    }
+
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+
     }
 }

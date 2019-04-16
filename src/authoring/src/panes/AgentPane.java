@@ -104,6 +104,10 @@ public class AgentPane extends AuthoringPane {
         return inventoryContainer;
     }
 
+    public ImageView getTrash() {
+        return trash;
+    }
+
     @Override
     public void setStylesheet(String url) {
 

@@ -87,6 +87,14 @@ public class PlayerAgent implements IPlayerAgent {
 
     public void setProperty(String name, Object value) {
 
+        for(Property property : this.properties) {
+            if(property.getName().equals(name)) {
+                var oldVal = property.getValue();
+                property.setValue(value);
+                pcs.firePropertyChange(name, oldVal, value);
+            }
+        }
+
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

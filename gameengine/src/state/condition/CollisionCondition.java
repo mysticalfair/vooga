@@ -5,6 +5,7 @@ import state.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A Condition that narrows down the given list of agents to only include the agents that are currently intersecting
@@ -13,9 +14,13 @@ import java.util.List;
  */
 public class CollisionCondition extends BaseAgentCondition{
 
-    // TODO: Remove this
-    public CollisionCondition(Agent base) {
-        this.baseAgent = base;
+    public CollisionCondition(Map<String, ? extends Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, ? extends Object> params) {
+        // Do nothing
     }
 
     @Override

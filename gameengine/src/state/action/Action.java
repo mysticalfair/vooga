@@ -1,5 +1,6 @@
 package state.action;
 
+import authoring.IActionDefinition;
 import engine.event.GameEventMaster;
 import state.IRequiresGameEventMaster;
 import state.agent.Agent;
@@ -12,9 +13,20 @@ import java.io.Serializable;
  * @author Jamie Palka
  * @author David Miron
  */
-public abstract class Action implements IRequiresGameEventMaster, Serializable {
+public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable {
 
     protected GameEventMaster eventMaster;
+
+    private String name;
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * Inject the GameEventMaster to an action

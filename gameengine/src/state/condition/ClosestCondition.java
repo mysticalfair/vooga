@@ -2,12 +2,24 @@ package state.condition;
 
 import state.agent.Agent;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class to that narrows down a group of agents to the single closest agent.
  * @author Jorge Raad
  */
 public class ClosestCondition extends BaseAgentCondition {
+
+
+    public ClosestCondition(Map<String, ? extends Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, ? extends Object> params) {
+        // Do nothing
+    }
+
     @Override
     public List<Agent> getValid(List<Agent> agents) {
         // if list has 0 or one agents, then return same list.

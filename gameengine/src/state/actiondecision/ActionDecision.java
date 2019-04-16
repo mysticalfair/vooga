@@ -1,7 +1,7 @@
 package state.actiondecision;
 
-import gameengine.IActionDefinition;
-import gameengine.IConditionDefinition;
+import authoring.IActionDefinition;
+import authoring.IConditionDefinition;
 import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;

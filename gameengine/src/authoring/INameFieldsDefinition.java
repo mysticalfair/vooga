@@ -1,4 +1,4 @@
-package gameengine;
+package authoring;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
 package engine;
 
-import gameengine.IGameDefinition;
-import gameengine.IStateDefinition;
+import authoring.IGameDefinition;
+import authoring.IStateDefinition;
 import state.State;
 import utils.SerializationException;
 import utils.Serializer;

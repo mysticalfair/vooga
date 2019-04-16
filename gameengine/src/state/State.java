@@ -1,8 +1,8 @@
 package state;
 
 import engine.Level;
-import gameengine.ILevelDefinition;
-import gameengine.IStateDefinition;
+import authoring.ILevelDefinition;
+import authoring.IStateDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;

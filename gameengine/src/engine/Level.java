@@ -1,18 +1,15 @@
 package engine;
 
 import engine.event.GameEventMaster;
-import gameengine.IAgentDefinition;
-import gameengine.ILevelDefinition;
+import authoring.IAgentDefinition;
+import authoring.ILevelDefinition;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
-import state.agent.Agent;
 import state.agent.Agent;
 import state.objective.Objective;
 
 import java.io.Serializable;
 import java.util.List;
-
-import static engine.Game.DELTA_TIME;
 
 public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
 

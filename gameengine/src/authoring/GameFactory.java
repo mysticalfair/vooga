@@ -1,18 +1,17 @@
-package gameengine;
+package authoring;
 
 import engine.Game;
 import engine.Level;
 import engine.event.GameEventMaster;
-import gameengine.exception.ActionDoesNotExistException;
-import gameengine.exception.ConditionDoesNotExistException;
-import gameengine.exception.IncorrectParametersException;
-import gameengine.exception.ReflectionException;
+import authoring.exception.ActionDoesNotExistException;
+import authoring.exception.ConditionDoesNotExistException;
+import authoring.exception.IncorrectParametersException;
+import authoring.exception.ReflectionException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import state.State;
-import state.actiondecision.ActionDecision;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

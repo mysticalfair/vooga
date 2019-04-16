@@ -1,6 +1,6 @@
 package state;
 
-import gameengine.IPropertyDefinition;
+import authoring.IPropertyDefinition;
 
 public class Property implements IPropertyDefinition {
 

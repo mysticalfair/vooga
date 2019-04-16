@@ -1,9 +1,8 @@
 package state.agent;
 
-import gameengine.IActionDecisionDefinition;
-import gameengine.IAgentDefinition;
-import gameengine.IPropertyDefinition;
-import state.IRequiresGameEventMaster;
+import authoring.IActionDecisionDefinition;
+import authoring.IAgentDefinition;
+import authoring.IPropertyDefinition;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;

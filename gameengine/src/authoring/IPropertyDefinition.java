@@ -1,4 +1,4 @@
-package gameengine;
+package authoring;
 
 /**
  * Interface to represent a single property

@@ -1,5 +1,6 @@
 package state.condition;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 import java.util.List;
 import java.util.Map;
@@ -8,16 +9,17 @@ import java.util.Map;
  * Class to that narrows down a group of agents to the single closest agent.
  * @author Jorge Raad
  */
-public class ClosestCondition extends BaseAgentCondition {
+public class ClosestCondition extends Condition implements IRequiresBaseAgent {
 
+    private Agent baseAgent;
 
     public ClosestCondition(Map<String, ? extends Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
-        // Do nothing
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 
     @Override

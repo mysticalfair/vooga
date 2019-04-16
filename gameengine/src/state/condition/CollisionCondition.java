@@ -1,5 +1,6 @@
 package state.condition;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 import state.agent.Agent;
 
@@ -12,15 +13,17 @@ import java.util.Map;
  * with the baseAgent.
  * @author Jorge Raad
  */
-public class CollisionCondition extends BaseAgentCondition{
+public class CollisionCondition extends Condition implements IRequiresBaseAgent {
+
+    private Agent baseAgent;
 
     public CollisionCondition(Map<String, ? extends Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
-        // Do nothing
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 
     @Override

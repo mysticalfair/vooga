@@ -4,14 +4,19 @@ import engine.event.events.AddAgentEvent;
 import state.action.Action;
 import state.agent.Agent;
 
+import java.util.Map;
+
 /**
  * Class to provide functionality of spawning an agent.
  * @author David Miron
  */
 public abstract class SpawnAgent extends Action {
 
-    protected void spawnAgent(Agent agent) {
+    public SpawnAgent(Map<String, ? extends Object> params) {
+        super(params);
+    }
 
+    protected void spawnAgent(Agent agent) {
         eventMaster.triggerAddAgentEvent(new AddAgentEvent(agent));
     }
 

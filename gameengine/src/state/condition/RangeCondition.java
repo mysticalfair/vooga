@@ -1,5 +1,6 @@
 package state.condition;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 
 import java.util.List;
@@ -9,12 +10,18 @@ import java.util.Map;
  * Condition that narrows the given list of agents to only include those within a given range.
  * @author Jorge Raad
  */
-public class RangeCondition extends BaseAgentCondition {
+public class RangeCondition extends Condition implements IRequiresBaseAgent {
 
+    private Agent baseAgent;
     private double range;
 
     public RangeCondition(Map<String, ? extends Object> params) {
         super(params);
+    }
+
+    @Override
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 
     @Override

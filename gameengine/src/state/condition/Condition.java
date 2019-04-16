@@ -24,6 +24,11 @@ public abstract class Condition implements IConditionDefinition, Serializable {
         setParams(params);
     }
 
+    public void setParams(Map<String, ? extends Object> params) {
+        // Do nothing
+        // This method should be overridden by subclasses that need parameters
+    }
+
     @Override
     public Map<String, ? extends Object> getParams() {
         return this.params;

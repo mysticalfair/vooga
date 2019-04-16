@@ -7,6 +7,7 @@ import state.agent.Agent;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * An abstract class to define the common functionality of Actions.
@@ -16,8 +17,22 @@ import java.io.Serializable;
 public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable {
 
     protected GameEventMaster eventMaster;
-
+    private Map<String, ? extends Object> params;
     private String name;
+
+    public Action(Map<String, ? extends Object> params) {
+        this.params = params;
+        setParams(params);
+    }
+
+    public Map<String, ? extends Object> getParams() {
+        return this.params;
+    }
+
+    public void setParams(Map<String, ? extends Object> params) {
+        // Do nothing
+        // This method should be overridden by subclasses that need parameters
+    }
 
     @Override
     public String getName() {

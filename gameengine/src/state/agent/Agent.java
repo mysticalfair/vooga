@@ -18,13 +18,6 @@ import java.util.List;
  */
 public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
-    private String imageURL;
-    private int id;
-    private double x;
-    private double y;
-    private int width;
-    private int height;
-    private double direction;
     private String name;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;

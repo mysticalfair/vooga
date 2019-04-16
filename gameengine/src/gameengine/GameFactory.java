@@ -99,7 +99,8 @@ public class GameFactory {
      */
     public IActionDecisionDefinition createActionDecision(IActionDefinition action,
                                                           List<IConditionDefinition> conditions) {
-        return new ActionDecision(action, conditions);
+        // TODO: return new ActionDecision(action, conditions);
+        return null;
     }
 
     /**

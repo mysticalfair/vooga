@@ -22,7 +22,7 @@ public class ActionDecision implements Serializable{
 
     public ActionDecision(IActionDefinition action, List<IConditionDefinition> conditions) {
         this.action = (Action)action;
-        this.conditions = conditions.stream().map(c -> (Condition)c);
+        // this.conditions = conditions.stream().map(c -> c);
     }
 
     public ActionDecision(Action action, List<Condition> conditions) {

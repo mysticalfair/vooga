@@ -1,7 +1,10 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import utils.*;
+import utils.ConnectableClient;
+import utils.ConnectableServer;
+import utils.NetworkException;
+import utils.NetworkFactory;
 
 import java.io.IOException;
 import java.util.Date;
@@ -28,6 +31,7 @@ public class NetworkInterfaceTests {
 
     private ConnectableServer serverInterface;
     private ConnectableClient clientInterface;
+
     private BasicTestInterface interfaceViaClient;
     private BasicTestInterface iface;
 

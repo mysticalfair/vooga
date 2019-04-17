@@ -39,6 +39,7 @@ public abstract class NetworkedBase implements Connectable {
     private static final String NON_BLOCKING_ERR_MSG = "Error in sending non-blocking request for method ";
 
 
+
     Logger LOGGER = Logger.getGlobal();
     private ConcurrentMap<String, Response> requestPool;
 

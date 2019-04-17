@@ -19,6 +19,7 @@ public abstract class Datagram implements Serializable {
     @XStreamOmitField
     protected transient Serializer serializer = SerializerSingleton.getInstance();
 
+
     protected String payload;
     protected String id;
 
@@ -37,7 +38,6 @@ public abstract class Datagram implements Serializable {
     private void init(DatagramType datagramType, Object payload) throws SerializationException {
         type = datagramType;
         this.payload = serializer.serialize((Serializable) payload);
-
     }
 
     public String getId() {

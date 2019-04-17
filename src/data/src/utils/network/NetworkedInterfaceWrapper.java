@@ -34,7 +34,6 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
         // if the method is a network command like connect, disconnect etc, call it.
         if (MethodUtils.isMethodInList(method, networkInterface.getClass().getMethods())) {
-//        if (MethodUtils.findMethodByNameAndArgs(method.getName(), method.getParameterTypes(), networkInterface.getClass().getMethods()) != null) {
             return method.invoke(networkInterface, args);
         }
         // else, send the request to the other side.

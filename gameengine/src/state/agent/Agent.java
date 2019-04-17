@@ -21,16 +21,13 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     private String name;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
+
     /**
      * Agent constructor.
      * @param id agent ID
      * @param x,y initial location
      */
     public Agent(int id, int x, int y, int width, int height, String name, double direction) {
-        this.id = id;
-        this.width = width;
-        this.height = height;
-        this.direction = direction;
 
         this.actionDecisions = new ArrayList<>();
         // TODO set imageURL somewhere
@@ -67,20 +64,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return playerAgent.getName();
     }
 
-    /**
-     * Returns the team of the Agent.
-     * @return String containing team of the Agent
-     */
-    public String getTeam() {
-        return playerAgent.getTeam();
-    }
-
     public void setWidth(int w) {
-        this.width = w;
+        this.playerAgent.setWidth(w);
     }
 
     public void setHeight(int h) {
-        this.height = h;
+        this.playerAgent.setHeight(h);
     }
 
     public String getImageURL() {
@@ -109,14 +98,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      */
     public double calculateDistance(Agent agent){
         return Math.sqrt(Math.pow(this.playerAgent.getX() - agent.getX(), 2) + Math.pow(this.playerAgent.getY() - agent.getY(), 2));
-    }
-
-    /**
-     * Returns the height and width in that order
-     * @return an array with first element of height and second element of width
-     */
-    public int[] getEdges() {
-        return new int[]{this.height, this.width};
     }
 
     /**
@@ -160,7 +141,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return an array with first element of height
      */
     public int getHeight() {
-        return this.height;
+        return this.playerAgent.getHeight();
     }
 
     /**
@@ -168,7 +149,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return an array with first element of width
      */
     public int getWidth() {
-        return this.width;
+        return this.playerAgent.getWidth();
     }
 
     /**
@@ -176,7 +157,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return the angle the agent is pointing to.
      */
     public double getDirection() {
-        return direction;
+        return this.playerAgent.getDirection();
     }
 
     public List<IActionDecisionDefinition> getActionDecisions() {

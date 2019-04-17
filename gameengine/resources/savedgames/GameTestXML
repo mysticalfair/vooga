@@ -12,7 +12,9 @@
                     <removeAgentListeners>
                       <null/>
                     </removeAgentListeners>
-                    <addAgentListeners/>
+                    <addAgentListeners>
+                      <null/>
+                    </addAgentListeners>
                   </eventMaster>
                   <params>
                     <entry>
@@ -34,10 +36,10 @@
             </actionDecisions>
             <playerAgent>
               <id>0</id>
-              <x>10.0</x>
-              <y>10.0</y>
+              <x>500.0</x>
+              <y>500.0</y>
               <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
+              <name>projectile</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -55,295 +57,59 @@
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
+                <action class="state.action.Spin">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
+                  <params>
+                    <entry>
+                      <string>angularSpeed</string>
+                      <double>90.0</double>
+                    </entry>
+                  </params>
+                  <name>Spin</name>
                   <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
+                  <angularSpeed>90.0</angularSpeed>
                 </action>
-                <conditions/>
+                <conditions>
+                  <state.condition.DoOnceCondition>
+                    <name>DoOnce</name>
+                    <params/>
+                  </state.condition.DoOnceCondition>
+                </conditions>
+              </state.actiondecision.ActionDecision>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.spawn.SpawnAgentInitialDirection">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params>
+                    <entry>
+                      <string>agent</string>
+                      <state.agent.Agent reference="../../../../../../../state.agent.Agent"/>
+                    </entry>
+                  </params>
+                  <name>SpawnAgentInitialDirection</name>
+                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <baseAgent reference="../../../.."/>
+                </action>
+                <conditions>
+                  <state.condition.IntervalCondition>
+                    <name>Interval</name>
+                    <params>
+                      <entry>
+                        <string>interval</string>
+                        <double>1.0</double>
+                      </entry>
+                    </params>
+                    <intervalMillis>1000.0</intervalMillis>
+                    <lastOccurrence>0</lastOccurrence>
+                  </state.condition.IntervalCondition>
+                </conditions>
               </state.actiondecision.ActionDecision>
             </actionDecisions>
             <playerAgent>
               <id>1</id>
-              <x>30.0</x>
-              <y>10.0</y>
+              <x>500.0</x>
+              <y>500.0</y>
               <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>2</id>
-              <x>50.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>3</id>
-              <x>70.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>4</id>
-              <x>90.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>5</id>
-              <x>110.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>6</id>
-              <x>130.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>7</id>
-              <x>150.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>8</id>
-              <x>170.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions/>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>9</id>
-              <x>190.0</x>
-              <y>10.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombieee</name>
+              <name>tower</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>

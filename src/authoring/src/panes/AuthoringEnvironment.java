@@ -21,7 +21,7 @@ public class AuthoringEnvironment extends Application {
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";
-    public static final double TOOLBAR_HEIGHT = DEFAULT_HEIGHT/7;
+    public static final double TOOLBAR_HEIGHT = 70;
     public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
     public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
     public static final double ATTRIBUTES_WIDTH = DEFAULT_WIDTH/4;
@@ -86,20 +86,13 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane();
+        toolbarPane = new ToolbarPane(map, scene);
         toolbarPane.accessContainer(borderPane::setTop);
-        var lasso = new LassoTool(map, scene, "Lasso.png");
-        var pen = new PathPenTool(map);
-        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
-        toolbarPane.addButton(toolbarPane.PEN_IMAGE, 25, 10, e -> pen.togglePenSelect(scene));
+        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayConsoleMessage("Multi-select tool enabled"));
+        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayConsoleMessage("Path drawing tool enabled"));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
-    }
-
-    private void selectToolAction(LassoTool lasso, Scene thisScene){
-        consolePane.displayConsoleMessage("Multi-select tool enabled");
-        lasso.toggleToolEnabled();
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {

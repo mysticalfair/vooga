@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 public class PlayerAgent implements IPlayerAgent {
+    private int id;
     private double x;
     private double y;
     private String imageURL;
@@ -17,6 +18,16 @@ public class PlayerAgent implements IPlayerAgent {
     private List<Property> properties;
 
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.direction = direction;
+        this.name = name;
+    }
 
     public double getX() {
         return x;

@@ -1,0 +1,30 @@
+<state.State>
+  <levels>
+    <engine.Level>
+      <levelState>
+        <agentsOptions/>
+        <agentsCurrent>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+        </agentsCurrent>
+        <objectivesCurrent/>
+        <attributesCurrent/>
+      </levelState>
+      <eventMaster>
+        <removeAgentListeners>
+          <null/>
+        </removeAgentListeners>
+        <addAgentListeners/>
+      </eventMaster>
+    </engine.Level>
+  </levels>
+  <currentLevel>1</currentLevel>
+</state.State>

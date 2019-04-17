@@ -17,13 +17,14 @@ public class MoveAtRelativeAngle extends MovementAction {
      */
     private double angle;
 
-    public MoveAtRelativeAngle(Map<String, ? extends Object> params) {
+    public MoveAtRelativeAngle(Map<String, Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         this.angle = (Double) params.get("angle");
+        this.speed = (Integer) params.get("speed");
     }
 
     /**

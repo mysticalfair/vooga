@@ -13,7 +13,7 @@ public class ClosestCondition extends Condition implements IRequiresBaseAgent {
 
     private Agent baseAgent;
 
-    public ClosestCondition(Map<String, ? extends Object> params) {
+    public ClosestCondition(Map<String, Object> params) {
         super(params);
     }
 

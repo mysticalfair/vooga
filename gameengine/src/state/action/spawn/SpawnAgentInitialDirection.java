@@ -21,12 +21,12 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
     /**
      * Create a SpawnAgentInitialDirection.
      */
-    public SpawnAgentInitialDirection(Map<String, ? extends Object> params) {
+    public SpawnAgentInitialDirection(Map<String, Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         this.spawnAgent = (Agent)params.get("agent");
     }
 

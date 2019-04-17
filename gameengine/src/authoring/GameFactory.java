@@ -58,6 +58,14 @@ public class GameFactory {
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
     }
 
+    public List<AvailableCondition> getAvailableConditions() {
+        return this.availableConditions;
+    }
+
+    public List<AvailableAction> getAvailableActions() {
+        return this.availableActions;
+    }
+
     /**
      * Create a default game, with no agents or objectives
      * @return A default game
@@ -113,7 +121,7 @@ public class GameFactory {
      * @param params The parameters of that action, should match fields in xml file
      * @return The action object
      */
-    public IActionDefinition createAction(String name, Map<String, ? extends Object> params) throws ActionDoesNotExistException,
+    public IActionDefinition createAction(String name, Map<String, Object> params) throws ActionDoesNotExistException,
             ReflectionException {
 
         if (!nameFieldsExists(availableActions, name))
@@ -130,7 +138,7 @@ public class GameFactory {
      * @param params The parameters of that condition, should match fields in xml file
      * @return The condition object
      */
-    public IConditionDefinition createCondition(String name, Map<String, ? extends Object> params) throws ConditionDoesNotExistException,
+    public IConditionDefinition createCondition(String name, Map<String, Object> params) throws ConditionDoesNotExistException,
             ReflectionException {
 
         if (!nameFieldsExists(availableConditions, name))
@@ -154,7 +162,7 @@ public class GameFactory {
         return null;
     }
 
-    private <T> T instantiateClass(String className, Map<String, ? extends Object> params) throws ReflectionException {
+    private <T> T instantiateClass(String className, Map<String, Object> params) throws ReflectionException {
 
         try {
             Class clazz = Class.forName(className);

@@ -15,7 +15,7 @@ public abstract class MovementAction extends Action implements IRequiresBaseAgen
    protected int speed;
    protected Agent baseAgent;
 
-   public MovementAction(Map<String, ? extends Object> params) {
+   public MovementAction(Map<String, Object> params) {
       super(params);
    }
 

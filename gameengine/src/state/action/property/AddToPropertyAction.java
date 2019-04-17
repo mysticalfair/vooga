@@ -10,11 +10,11 @@ public class AddToPropertyAction extends Action {
     private String propertyName;
     private double amount;
 
-    public AddToPropertyAction(Map<String, ? extends Object> params) {
+    public AddToPropertyAction(Map<String, Object> params) {
         super(params);
     }
 
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         this.propertyName = (String)params.get("propertyName");
         this.amount = (Double)params.get("amount");
     }

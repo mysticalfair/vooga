@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class MoveStraightToAgent extends MovementAction {
 
-    public MoveStraightToAgent(Map<String, ? extends Object> params) {
+    public MoveStraightToAgent(Map<String, Object> params) {
         super(params);
     }
 

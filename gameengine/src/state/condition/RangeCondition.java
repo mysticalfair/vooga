@@ -15,7 +15,7 @@ public class RangeCondition extends Condition implements IRequiresBaseAgent {
     private Agent baseAgent;
     private double range;
 
-    public RangeCondition(Map<String, ? extends Object> params) {
+    public RangeCondition(Map<String, Object> params) {
         super(params);
     }
 
@@ -25,7 +25,7 @@ public class RangeCondition extends Condition implements IRequiresBaseAgent {
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         range = (Double)params.get("range");
     }
 

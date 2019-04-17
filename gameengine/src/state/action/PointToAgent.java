@@ -14,7 +14,7 @@ public class PointToAgent extends Action implements IRequiresBaseAgent {
 
     private Agent baseAgent;
 
-    public PointToAgent(Map<String, ? extends Object> params) {
+    public PointToAgent(Map<String, Object> params) {
         super(params);
     }
 

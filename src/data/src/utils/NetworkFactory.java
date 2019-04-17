@@ -2,8 +2,8 @@ package utils;
 
 import utils.network.NetworkedBase;
 import utils.network.NetworkedClient;
-import utils.network.NetworkedServer;
 import utils.network.NetworkedInterfaceWrapper;
+import utils.network.NetworkedServer;
 
 import java.io.IOException;
 import java.lang.reflect.Proxy;

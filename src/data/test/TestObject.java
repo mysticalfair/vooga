@@ -1,6 +1,6 @@
 /**
  * This interface and the TestObject exist here for unit testing, as integration testing
- * in this package would add a dependency on the gameengine module.
+ * in this package would add a dependency on the authoring module.
  */
 public class TestObject implements BasicTestInterface {
 

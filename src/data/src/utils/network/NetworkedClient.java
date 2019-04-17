@@ -1,6 +1,5 @@
 package utils.network;
 
-import utils.Connectable;
 import utils.ConnectableClient;
 import utils.NetworkException;
 

@@ -2,10 +2,10 @@ package state;
 
 import authoring.IPropertyDefinition;
 
-public class Property implements IPropertyDefinition {
+public class Property<T> implements IPropertyDefinition<T> {
 
     private String name;
-    private Object value;
+    private T value;
 
     @Override
     public String getName() {
@@ -18,12 +18,12 @@ public class Property implements IPropertyDefinition {
     }
 
     @Override
-    public Object getValue() {
+    public T getValue() {
         return this.value;
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(T value) {
         this.value = value;
     }
 }

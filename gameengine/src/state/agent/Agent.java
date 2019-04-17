@@ -3,8 +3,10 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import state.IRequiresBaseAgent;
 import state.Property;
 import state.actiondecision.ActionDecision;
+import state.condition.Condition;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
@@ -32,9 +34,22 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     public Agent(int id, int x, int y, int width, int height, String name, double direction, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
+        injectBaseAgentWhereNecessary(this.actionDecisions);
         // TODO: set properties HERE
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction);
 
+    }
+
+    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
+        for (ActionDecision ad: actionDecisions) {
+            if (IRequiresBaseAgent.class.isAssignableFrom(ad.getAction().getClass()))
+                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(this);
+
+            for (Condition condition: ad.getConditions()) {
+                if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
+                    ((IRequiresBaseAgent)condition).injectBaseAgent(this);
+            }
+        }
     }
 
     /**

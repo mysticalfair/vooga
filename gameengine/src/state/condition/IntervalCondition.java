@@ -18,13 +18,13 @@ public class IntervalCondition extends Condition {
     /**
      * Create an IntervalCondition
      */
-    public IntervalCondition(Map<String, ? extends Object> params) {
+    public IntervalCondition(Map<String, Object> params) {
         super(params);
         this.lastOccurrence = 0;
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         this.intervalMillis = (Double)params.get("interval") * 1000;
     }
 

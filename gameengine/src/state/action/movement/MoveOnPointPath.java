@@ -11,12 +11,12 @@ import java.util.Map;
  */
 public class MoveOnPointPath extends MovementAction {
 
-    public MoveOnPointPath(Map<String, ? extends Object> params) {
+    public MoveOnPointPath(Map<String, Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         // TODO Paths?
     }
 

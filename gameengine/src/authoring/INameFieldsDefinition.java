@@ -11,5 +11,5 @@ public interface INameFieldsDefinition {
     String getName();
 
     Map<String, ? extends Object> getParams();
-    void setParams(Map<String, ? extends Object> params);
+    void setParams(Map<String, Object> params);
 }

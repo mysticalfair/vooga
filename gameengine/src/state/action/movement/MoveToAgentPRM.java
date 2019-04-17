@@ -12,12 +12,12 @@ public class MoveToAgentPRM extends MovementAction {
 
     Agent baseAgent;
 
-    public MoveToAgentPRM(Map<String, ? extends Object> params) {
+    public MoveToAgentPRM(Map<String, Object> params) {
         super(params);
     }
 
     @Override
-    public void setParams(Map<String, ? extends Object> params) {
+    public void setParams(Map<String, Object> params) {
         // TODO this
     }
 

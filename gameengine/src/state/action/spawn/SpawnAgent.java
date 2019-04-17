@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public abstract class SpawnAgent extends Action {
 
-    public SpawnAgent(Map<String, ? extends Object> params) {
+    public SpawnAgent(Map<String, Object> params) {
         super(params);
     }
 

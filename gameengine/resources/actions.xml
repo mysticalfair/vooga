@@ -1,9 +1,9 @@
 <actions>
 
     <actionDefinition>
-        <name>MoveStraight</name>
+        <name>MoveAtRelativeAngle</name>
         <fields>
-            <int>angle</int>
+            <double>angle</double>
             <int>speed</int>
         </fields>
     </actionDefinition>

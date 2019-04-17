@@ -17,7 +17,7 @@ public class CollisionCondition extends Condition implements IRequiresBaseAgent 
 
     private Agent baseAgent;
 
-    public CollisionCondition(Map<String, ? extends Object> params) {
+    public CollisionCondition(Map<String, Object> params) {
         super(params);
     }
 

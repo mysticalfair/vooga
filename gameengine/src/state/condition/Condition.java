@@ -17,14 +17,15 @@ import java.util.Properties;
 public abstract class Condition implements IConditionDefinition, Serializable {
 
     private String name;
-    private Map<String, ? extends Object> params;
+    private Map<String, Object> params;
 
-    public Condition(Map<String, ? extends Object> params) {
+    public Condition(Map<String, Object> params) {
         this.params = params;
         setParams(params);
     }
 
-    public void setParams(Map<String, ? extends Object> params) {
+    @Override
+    public void setParams(Map<String, Object> params) {
         // Do nothing
         // This method should be overridden by subclasses that need parameters
     }

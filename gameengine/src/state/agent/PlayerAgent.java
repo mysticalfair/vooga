@@ -1,12 +1,14 @@
 package state.agent;
 
 import state.Property;
+import utils.Serializer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.List;
 
-public class PlayerAgent implements IPlayerAgent {
+public class PlayerAgent implements IPlayerAgent, Serializable {
     private int id;
     private double x;
     private double y;
@@ -17,7 +19,7 @@ public class PlayerAgent implements IPlayerAgent {
     private int height;
     private List<Property> properties;
 
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private PropertyChangeSupport pcs;
 
     public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction) {
         this.id = id;
@@ -27,6 +29,7 @@ public class PlayerAgent implements IPlayerAgent {
         this.height = height;
         this.direction = direction;
         this.name = name;
+        pcs = new PropertyChangeSupport(this);
     }
 
     public double getX() {

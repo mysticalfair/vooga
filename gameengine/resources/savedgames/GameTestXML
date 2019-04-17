@@ -4,16 +4,216 @@
       <levelState>
         <agentsOptions/>
         <agentsCurrent>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
+          <state.agent.Agent>
+            <actionDecisions/>
+            <playerAgent>
+              <id>0</id>
+              <x>10.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>1</id>
+              <x>30.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>2</id>
+              <x>50.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>3</id>
+              <x>70.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>4</id>
+              <x>90.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>5</id>
+              <x>110.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>6</id>
+              <x>130.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>7</id>
+              <x>150.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>8</id>
+              <x>170.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
+          <state.agent.Agent>
+            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <playerAgent>
+              <id>9</id>
+              <x>190.0</x>
+              <y>10.0</y>
+              <name>zombie.gif</name>
+              <direction>0.0</direction>
+              <width>10</width>
+              <height>10</height>
+              <pcs serialization="custom">
+                <java.beans.PropertyChangeSupport>
+                  <default>
+                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                  </default>
+                  <null/>
+                </java.beans.PropertyChangeSupport>
+              </pcs>
+            </playerAgent>
+          </state.agent.Agent>
         </agentsCurrent>
         <objectivesCurrent/>
         <attributesCurrent/>

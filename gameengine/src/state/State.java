@@ -14,7 +14,7 @@ import java.util.List;
  * @author David Miron
  */
 public class State implements IStateDefinition, Serializable {
-    private static final int START_LEVEL = 1;
+    private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
 

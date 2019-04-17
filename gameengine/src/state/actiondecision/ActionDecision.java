@@ -41,7 +41,7 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable{
     }
 
     @Override
-    public IActionDefinition getAction() {
+    public Action getAction() {
         return action;
     }
 
@@ -51,7 +51,7 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable{
     }
 
     @Override
-    public List<? extends IConditionDefinition> getConditions() {
+    public List<Condition> getConditions() {
         return conditions;
     }
 

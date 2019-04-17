@@ -105,8 +105,7 @@ public class GameFactory {
     public IAgentDefinition createAgent(int x, int y, int width, int height, String imageURL, double direction,
                                         List<? extends IActionDecisionDefinition> actionDecisions,
                                         List<? extends IPropertyDefinition> properties) {
-        Agent agent = new Agent(currentAgentID++, x, y, width, height, imageURL, direction, actionDecisions, properties);
-        return agent;
+        return new Agent(currentAgentID++, x, y, width, height, imageURL, direction, actionDecisions, properties);
     }
 
     /**

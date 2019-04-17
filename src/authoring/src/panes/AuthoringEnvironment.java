@@ -46,6 +46,7 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
+        scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         initAllPanes();
         initStage(stage);
     }
@@ -60,7 +61,6 @@ public class AuthoringEnvironment extends Application {
 
     private void initMapPane() {
         map = new MapPane();
-        map.accessContainer(node -> borderPane.setCenter(node));
         map.accessContainer(borderPane::setCenter);
     }
 
@@ -88,7 +88,7 @@ public class AuthoringEnvironment extends Application {
     private void initToolbarPane() {
         toolbarPane = new ToolbarPane();
         toolbarPane.accessContainer(borderPane::setTop);
-        var lasso = new LassoTool(map);
+        var lasso = new LassoTool(map, scene, "Lasso.png");
         var pen = new PathPenTool(map);
         toolbarPane.addButton(toolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
         toolbarPane.addButton(toolbarPane.PEN_IMAGE, 25, 10, e -> pen.togglePenSelect(scene));
@@ -99,7 +99,7 @@ public class AuthoringEnvironment extends Application {
 
     private void selectToolAction(LassoTool lasso, Scene thisScene){
         consolePane.displayConsoleMessage("Multi-select tool enabled");
-        lasso.setMouseActions(thisScene);
+        lasso.toggleToolEnabled();
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
@@ -204,14 +204,12 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initStage(Stage stage) {
-        Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        scene = mainScene;
         stage.setTitle(TITLE);
-        stage.setScene(mainScene);
+        stage.setScene(scene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        mainScene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, mainScene.getHeight()));
-        mainScene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(mainScene.getWidth (), (double) newvalue));
+        scene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, scene.getHeight()));
+        scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
     }

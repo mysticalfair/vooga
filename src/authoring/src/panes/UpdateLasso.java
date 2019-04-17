@@ -11,12 +11,12 @@ import javafx.scene.shape.Ellipse;
  *  https://stackoverflow.com/questions/40629841/circle-not-visible-as-i-drag-the-mouse-in-javafx
  */
 
-public class LassoTool extends MapTool{
+public class UpdateLasso extends MapTool{
 
     private Ellipse ellipse;
     private double startingPosX, startingPosY;
 
-    public LassoTool(MapPane otherMap, Scene otherScene, String fileName){
+    public UpdateLasso(MapPane otherMap, Scene otherScene, String fileName){
         super(otherMap, otherScene, fileName);
         initEllipse();
     }

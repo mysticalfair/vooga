@@ -25,7 +25,6 @@ public class PointToAgent extends Action implements IRequiresBaseAgent {
 
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-        //baseAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
-        System.out.println("COLLISION");
+        baseAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
     }
 }

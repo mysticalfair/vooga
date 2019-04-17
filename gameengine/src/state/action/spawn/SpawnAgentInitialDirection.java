@@ -42,10 +42,9 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
      */
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
-        AgentUtils.getAngleBetween(baseAgent, agent);
+        newAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
         spawnAgent(newAgent);
     }
 

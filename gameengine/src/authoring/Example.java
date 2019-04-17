@@ -35,7 +35,7 @@ public class Example {
             List<IPropertyDefinition> props = new ArrayList<>();
             props.add(prop);
 
-            IAgentDefinition agent = g.createAgent(0, 0, 0, 0, "", 0, ads, props);
+            IAgentDefinition agent = g.createAgent(0, 0, 0, 0, 0, "", ads, props);
 
 
             System.out.println("Here");

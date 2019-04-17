@@ -34,7 +34,7 @@ class GameTest {
             List<IPropertyDefinition> properties = new ArrayList<>();
             for(int k = 0; k < AGENT_NUM; k++){
                 IAgentDefinition agent = factory.createAgent(10 + 20*k, 10, 10, 10,
-                        "zombie.gif", 0, actionDecisions, properties);
+                         0,"zombie.gif", actionDecisions, properties);
                 level.addAgent(agent);
             }
             state.addLevel(level);

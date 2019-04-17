@@ -129,6 +129,7 @@ public class GameFactory {
 
         Action a = instantiateClass(actionClasses.getProperty(name), params);
         a.setName(name);
+        a.injectGameEventMaster(eventMaster);
         return a;
     }
 

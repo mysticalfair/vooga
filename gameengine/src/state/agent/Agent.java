@@ -3,6 +3,7 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import state.Property;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
@@ -182,7 +183,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
-
     }
 
     @Override
@@ -192,13 +192,27 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public <T> void setProperty(String name, T value) {
-
+        this.playerAgent.setProperty(name, value);
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
     }
 
+    public Object getProperty(String name) {
+        for(Property property : this.playerAgent.getProperties()) {
+            if(property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
+    }
+
+    public void setProperties(String[] properties, Object[] values) {
+        for(int i = 0; i < properties.length; i++) {
+            this.playerAgent.setProperty(properties[i], values[i]);
+        }
+    }
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
     }

@@ -30,7 +30,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param x,y initial location
      */
 
-    public Agent(int id, int x, int y, int width, int height, String name, double direction, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
+    public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
         injectBaseAgentWhereNecessary(this.actionDecisions);

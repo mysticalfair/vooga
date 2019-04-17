@@ -103,10 +103,10 @@ public class GameFactory {
      * @param properties The properties
      * @return The new agent
      */
-    public IAgentDefinition createAgent(int x, int y, int width, int height, double direction, String imageURL,
+    public IAgentDefinition createAgent(int x, int y, int width, int height, double direction, String name, String imageURL,
                                         List<? extends IActionDecisionDefinition> actionDecisions,
                                         List<? extends IPropertyDefinition> properties) {
-        return new Agent(currentAgentID++, x, y, width, height, imageURL, direction, imageURL, actionDecisions, properties);
+        return new Agent(currentAgentID++, x, y, width, height, direction, name, imageURL, actionDecisions, properties);
     }
 
     /**

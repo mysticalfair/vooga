@@ -178,6 +178,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return this.playerAgent.getDirection();
     }
 
+    public void setDirection(double direction){
+        playerAgent.setDirection(direction);
+    }
+
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;
@@ -230,6 +234,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
             this.playerAgent.setProperty(properties[i], values[i]);
         }
     }
+
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
     }

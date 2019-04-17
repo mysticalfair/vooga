@@ -23,7 +23,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     public void injectGameEventMaster(GameEventMaster eventMaster) {
         this.eventMaster = eventMaster;
         this.eventMaster.addRemoveAgentListener(removeAgentEvent -> levelState.removeAgent(removeAgentEvent.getAgent()));
-
+        this.eventMaster.addAddAgentListener(addAgentEvent -> levelState.addCurrentAgent(addAgentEvent.getAgent()));
     }
 
     @Override

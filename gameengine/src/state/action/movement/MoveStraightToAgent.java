@@ -17,14 +17,21 @@ public class MoveStraightToAgent extends MovementAction {
         super(params);
     }
 
+    @Override
+    public void setParams(Map<String, Object> params) {
+        this.speed = (Integer) params.get("speed");
+    }
+
     /**
      * Move the baseAgent to the target agent in a straight line.
      * @param agent The agent to move to.
      */
     @Override
     public void execute(Agent agent, double deltaTime) {
-//        double speed = Math.sqrt(Math.pow(baseAgent.getXVelocity(), 2) + Math.pow(baseAgent.getYVelocity(), 2));
-//        double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
-//        baseAgent.updateVelocity(speed*Math.cos(absoluteAngle), speed*Math.sin(absoluteAngle));
+        double currentSpeed = speed;
+        double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
+        double xVel = currentSpeed*Math.cos(absoluteAngle);
+        double yVel = currentSpeed*Math.sin(absoluteAngle);
+        baseAgent.setLocation(xVel*deltaTime, yVel*deltaTime);
     }
 }

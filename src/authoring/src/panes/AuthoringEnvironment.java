@@ -66,6 +66,7 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane();
         agentPane.accessContainer(borderPane::setRight);
+        agentPane.addButton("add-button.png", 25, 10, e -> System.out.println("handle press method goes here"));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
@@ -102,7 +103,7 @@ public class AuthoringEnvironment extends Application {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
-            consolePane.displayConsoleMessage("Agent added");
+            consolePane.displayConsoleMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -149,14 +150,15 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void mouseReleased(DraggableAgentView draggableAgent) {
-        System.out.println(draggableAgent.getTranslateX() + " " + draggableAgent.getTranslateY());
         if (trashIntersect(draggableAgent)) {
             draggableAgent.setImage(null);
             map.removeAgent(draggableAgent);
+            consolePane.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
         } else if (outOfBounds(draggableAgent)) {
             draggableAgent.setEffect(null);
             draggableAgent.setTranslateX(draggableAgent.getStartX());
             draggableAgent.setTranslateY(draggableAgent.getStartY());
+            consolePane.displayConsoleMessage("Agent out of bounds: returning to original location");
         }
     }
 

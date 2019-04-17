@@ -60,6 +60,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initMapPane() {
         map = new MapPane();
+        map.accessContainer(node -> borderPane.setCenter(node));
         map.accessContainer(borderPane::setCenter);
     }
 
@@ -88,7 +89,9 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane();
         toolbarPane.accessContainer(borderPane::setTop);
         var lasso = new LassoTool(map);
+        var pen = new PathPenTool(map);
         toolbarPane.addButton(toolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
+        toolbarPane.addButton(toolbarPane.PEN_IMAGE, 25, 10, e -> pen.togglePenSelect(scene));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);

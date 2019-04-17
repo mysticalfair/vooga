@@ -1,8 +1,8 @@
 package state;
 
 import engine.Level;
-import gameengine.ILevelDefinition;
-import gameengine.IStateDefinition;
+import authoring.ILevelDefinition;
+import authoring.IStateDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,7 +62,6 @@ public class State implements IStateDefinition, Serializable {
         }
     }
 
-    @Override
     public void step(double deltaTime){
         // check "general" objectives (e.g. level change, game over, victory)
         levels.get(currentLevel).step(deltaTime);

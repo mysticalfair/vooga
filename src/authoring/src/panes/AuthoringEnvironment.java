@@ -67,6 +67,7 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane();
         agentPane.accessContainer(borderPane::setRight);
+        agentPane.addButton("add-button.png", 25, 10, e -> System.out.println("handle press method goes here"));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
@@ -105,7 +106,7 @@ public class AuthoringEnvironment extends Application {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
-            consolePane.displayConsoleMessage("Agent added");
+            consolePane.displayConsoleMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -132,31 +133,35 @@ public class AuthoringEnvironment extends Application {
         double newTranslateY = draggableAgent.getStartY() + offsetY;
         ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
         ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
-        if (outOfBounds(draggableAgent)) {
-            draggableAgent.setEffect(setLighting());
+        if (trashIntersect(draggableAgent)) {
+            draggableAgent.setEffect(setLighting(Color.RED));
+        } else if (outOfBounds(draggableAgent)) {
+            draggableAgent.setEffect(setLighting(Color.WHITE));
         } else {
             draggableAgent.setEffect(null);
         }
     }
 
-    private Lighting setLighting() {
+    private Lighting setLighting(Color color) {
         Lighting lighting = new Lighting();
         lighting.setDiffuseConstant(1.0);
         lighting.setSpecularConstant(0.0);
         lighting.setSpecularExponent(0.0);
         lighting.setSurfaceScale(0.0);
-        lighting.setLight(new Light.Distant(45, 45, Color.WHITE));
+        lighting.setLight(new Light.Distant(45, 45, color));
         return lighting;
     }
 
     private void mouseReleased(DraggableAgentView draggableAgent) {
-        System.out.println(draggableAgent.getTranslateX() + " " + draggableAgent.getTranslateY());
-        if (outOfBounds(draggableAgent)) {
-            //draggableAgent.setImage(null);
-            //map.removeAgent(draggableAgent);
+        if (trashIntersect(draggableAgent)) {
+            draggableAgent.setImage(null);
+            map.removeAgent(draggableAgent);
+            consolePane.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+        } else if (outOfBounds(draggableAgent)) {
             draggableAgent.setEffect(null);
             draggableAgent.setTranslateX(draggableAgent.getStartX());
             draggableAgent.setTranslateY(draggableAgent.getStartY());
+            consolePane.displayConsoleMessage("Agent out of bounds: returning to original location");
         }
     }
 
@@ -178,6 +183,14 @@ public class AuthoringEnvironment extends Application {
 
     private boolean outOfBounds(DraggableAgentView draggableAgent) {
         return outOfBoundsHorizontal(draggableAgent) || outOfBoundsVertical(draggableAgent);
+    }
+
+    private boolean trashIntersect(DraggableAgentView draggableAgentView) {
+        double yPos = draggableAgentView.getTranslateY();
+        double xPosRight = draggableAgentView.getTranslateX() + draggableAgentView.getFitWidth();
+        boolean topOutOfBounds = yPos < 0;
+        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        return topOutOfBounds && rightOutOfBounds;
     }
 
     private void updateDimensions(double width, double height){

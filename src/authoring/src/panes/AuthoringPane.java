@@ -2,7 +2,11 @@ package panes;
 
 import javafx.beans.binding.ObjectExpression;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -61,5 +65,16 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
 
     protected ObservableList<Node> getContentChildren() {
         return content.getChildren();
+    }
+
+    protected Button createButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+        var button = new Button();
+        var image = new ImageView(new Image(buttonImageName));
+        image.setFitWidth(buttonSize);
+        image.setFitHeight(buttonSize);
+        button.setGraphic(image);
+        button.setPrefSize(buttonImageSize, buttonImageSize);
+        button.setOnAction(action);
+        return button;
     }
 }

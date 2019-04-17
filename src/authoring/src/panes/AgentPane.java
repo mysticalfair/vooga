@@ -1,6 +1,8 @@
 package panes;
 
 import frontend_objects.CloneableAgentView;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -96,13 +98,15 @@ public class AgentPane extends AuthoringPane {
         return agentList;
     }
 
-    public ScrollPane getScrollInventory() {
-        return scrollInventory;
-    }
-
     public VBox getVBoxContainer() {
         return inventoryContainer;
     }
+
+    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+        Button button = createButton(buttonImageName, buttonSize, buttonImageSize, action);
+        buttonPane.getChildren().addAll(button);
+    }
+
 
     @Override
     public void setStylesheet(String url) {

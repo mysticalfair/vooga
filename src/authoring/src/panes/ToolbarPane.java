@@ -84,13 +84,7 @@ public class ToolbarPane extends AuthoringPane {
     }
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        var button = new Button();
-        var image = new ImageView(new Image(buttonImageName));
-        image.setFitWidth(buttonSize);
-        image.setFitHeight(buttonSize);
-        button.setGraphic(image);
-        button.setPrefSize(buttonImageSize, buttonImageSize);
-        button.setOnAction(action);
+        Button button = createButton(buttonImageName, buttonSize, buttonImageSize, action);
         toolBar.getItems().addAll(button);
     }
 

@@ -44,6 +44,10 @@ public class MapPane extends AuthoringPane {
         }
     }
 
+    public int getAgentCount() {
+        return agentList.size();
+    }
+
     private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
         return lassoEllipse.intersects(agent.getBoundsInParent());
     }

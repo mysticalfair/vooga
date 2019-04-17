@@ -1,10 +1,12 @@
-package panes;
+package panes.tools;
 
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
+import panes.MapPane;
 
 /**
  * Resources used:
@@ -43,17 +45,17 @@ public class LassoTool extends MapTool{
 
     private void mouseReleased(MouseEvent event){
         map.selectAgents(ellipse);
-        map.getContentChildren().remove(ellipse);
+        map.removeShape((Shape) ellipse);
         scene.setCursor(Cursor.HAND);
     }
 
     private void mouseDragged(MouseEvent event){
-        map.getContentChildren().remove(ellipse);
+        map.removeShape((Shape) ellipse);
         ellipse.setCenterX((event.getX() + startingPosX) / 2);
         ellipse.setCenterY((event.getY() + startingPosY) / 2);
         ellipse.setRadiusX(Math.abs((event.getX() - startingPosX) / 2));
         ellipse.setRadiusY(Math.abs((event.getY() - startingPosY) / 2));
-        map.getContentChildren().add(ellipse);
+        map.spawnShape((Shape) ellipse);
         scene.setCursor(Cursor.CLOSED_HAND);
     }
 
@@ -66,7 +68,7 @@ public class LassoTool extends MapTool{
         ellipse.setCenterY(startingPosY);
         ellipse.setRadiusX(0);
         ellipse.setRadiusY(0);
-        map.getContentChildren().add(ellipse);
+        map.spawnShape((Shape) ellipse);
         scene.setCursor(Cursor.HAND);
     }
 

@@ -1,6 +1,7 @@
-package panes;
+package panes.tools;
 
 import javafx.scene.Scene;
+import panes.MapPane;
 
 public abstract class Tool {
 

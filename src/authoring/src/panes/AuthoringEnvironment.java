@@ -10,9 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
+import panes.tools.ToolbarPane;
 
 public class AuthoringEnvironment extends Application {
     public static final String TITLE = "Electric Voogaloo!";

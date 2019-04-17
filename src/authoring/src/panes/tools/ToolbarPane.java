@@ -1,12 +1,16 @@
-package panes;
+package panes.tools;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import panes.AuthoringEnvironment;
+import panes.AuthoringPane;
+import panes.MapPane;
+import panes.tools.LassoTool;
+import panes.tools.PathPenTool;
+import panes.tools.Tool;
 
 import java.util.HashMap;
 import java.util.List;

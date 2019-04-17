@@ -1,4 +1,4 @@
-package panes;
+package panes.tools;
 
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
@@ -8,6 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
+import panes.MapPane;
 
 public class PathPenTool extends MapTool{
 
@@ -25,6 +27,8 @@ public class PathPenTool extends MapTool{
 
     private void removeMouseActions(){
         map.accessContainer(node -> node.setOnMouseClicked(null));
+        map.accessContainer(node -> node.setOnMouseDragged(null));
+        map.accessContainer(node -> node.setOnMouseReleased(null));
     }
 
     @Override
@@ -33,10 +37,10 @@ public class PathPenTool extends MapTool{
             return;
         }
         currentCircle = new Circle(event.getX(), event.getY(), 10, Color.BLACK);
-        map.getContentChildren().add(currentCircle);
+        map.spawnShape((Shape) currentCircle);
         if(previousCircle != null) {
             Line l = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
-            map.getContentChildren().add(l);
+            map.spawnShape((Shape) l);
         }
         previousCircle = currentCircle;
     }

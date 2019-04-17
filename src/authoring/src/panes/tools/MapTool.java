@@ -1,7 +1,8 @@
-package panes;
+package panes.tools;
 
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import panes.MapPane;
 
 public abstract class MapTool extends Tool{
 

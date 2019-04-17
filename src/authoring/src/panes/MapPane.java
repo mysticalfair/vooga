@@ -8,7 +8,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +40,34 @@ public class MapPane extends AuthoringPane {
         System.out.println("Removed: new size is " + agentList.size());
     }
 
+    public int getAgentCount() {
+        return agentList.size();
+    }
+
     public void selectAgents(Ellipse lassoEllipse){
         for(AgentView agent: agentList){
             agent.setSelect(lassoSelects(lassoEllipse, agent));
         }
     }
 
-    public int getAgentCount() {
-        return agentList.size();
-    }
-
     private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
         return lassoEllipse.intersects(agent.getBoundsInParent());
+    }
+
+    /**
+     * Called from Tools to add Tool image to display
+     * @param sprite
+     */
+    public void spawnShape(Shape sprite){
+        getContentChildren().add(sprite);
+    }
+
+    /**
+     * Called from Tools to remove Tool image from display
+     * @param sprite
+     */
+    public void removeShape(Shape sprite){
+        getContentChildren().remove(sprite);
     }
 
     private void initMapPane(){

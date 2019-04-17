@@ -36,7 +36,8 @@
               <id>0</id>
               <x>10.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -69,7 +70,8 @@
               <id>1</id>
               <x>30.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -102,7 +104,8 @@
               <id>2</id>
               <x>50.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -135,7 +138,8 @@
               <id>3</id>
               <x>70.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -168,7 +172,8 @@
               <id>4</id>
               <x>90.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -201,7 +206,8 @@
               <id>5</id>
               <x>110.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -234,7 +240,8 @@
               <id>6</id>
               <x>130.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -267,7 +274,8 @@
               <id>7</id>
               <x>150.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -300,7 +308,8 @@
               <id>8</id>
               <x>170.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>
@@ -333,7 +342,8 @@
               <id>9</id>
               <x>190.0</x>
               <y>10.0</y>
-              <name>zombie.gif</name>
+              <imageURL>zombie.gif</imageURL>
+              <name>zombieee</name>
               <direction>0.0</direction>
               <width>10</width>
               <height>10</height>

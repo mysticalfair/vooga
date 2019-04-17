@@ -21,13 +21,14 @@ public class PlayerAgent implements IPlayerAgent, Serializable {
 
     private PropertyChangeSupport pcs;
 
-    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction) {
+    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction, String imageURL) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.direction = direction;
+        this.imageURL = imageURL;
         this.name = name;
         pcs = new PropertyChangeSupport(this);
     }

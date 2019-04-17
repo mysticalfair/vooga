@@ -7,6 +7,11 @@ public class Property<T> implements IPropertyDefinition<T> {
     private String name;
     private T value;
 
+    public Property(String name, T value) {
+        this.name = name;
+        this.value = value;
+    }
+
     @Override
     public String getName() {
         return this.name;

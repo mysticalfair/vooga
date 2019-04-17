@@ -1,11 +1,12 @@
 package state.agent;
 
-import gameengine.IActionDecisionDefinition;
-import gameengine.IAgentDefinition;
-import state.IRequiresGameEventMaster;
+import authoring.IActionDecisionDefinition;
+import authoring.IAgentDefinition;
+import authoring.IPropertyDefinition;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,22 +18,16 @@ import java.util.List;
  */
 public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
-    private int id;
-    private int width;
-    private int height;
-    private double direction;
+    private String name;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
+
     /**
      * Agent constructor.
      * @param id agent ID
      * @param x,y initial location
      */
-    public Agent(int id, int x, int y, String name, int width, int height, double direction) {
-        this.id = id;
-        this.width = width;
-        this.height = height;
-        this.direction = direction;
+    public Agent(int id, int x, int y, int width, int height, String name, double direction) {
 
         this.actionDecisions = new ArrayList<>();
         // TODO set imageURL somewhere
@@ -69,20 +64,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return playerAgent.getName();
     }
 
-    /**
-     * Returns the team of the Agent.
-     * @return String containing team of the Agent
-     */
-    public String getTeam() {
-        return playerAgent.getTeam();
-    }
-
     public void setWidth(int w) {
-        this.width = w;
+        this.playerAgent.setWidth(w);
     }
 
     public void setHeight(int h) {
-        this.height = h;
+        this.playerAgent.setHeight(h);
     }
 
     public String getImageURL() {
@@ -111,14 +98,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      */
     public double calculateDistance(Agent agent){
         return Math.sqrt(Math.pow(this.playerAgent.getX() - agent.getX(), 2) + Math.pow(this.playerAgent.getY() - agent.getY(), 2));
-    }
-
-    /**
-     * Returns the height and width in that order
-     * @return an array with first element of height and second element of width
-     */
-    public int[] getEdges() {
-        return new int[]{this.height, this.width};
     }
 
     /**
@@ -162,7 +141,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return an array with first element of height
      */
     public int getHeight() {
-        return this.height;
+        return this.playerAgent.getHeight();
     }
 
     /**
@@ -170,7 +149,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return an array with first element of width
      */
     public int getWidth() {
-        return this.width;
+        return this.playerAgent.getWidth();
     }
 
     /**
@@ -178,7 +157,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return the angle the agent is pointing to.
      */
     public double getDirection() {
-        return direction;
+        return this.playerAgent.getDirection();
     }
 
     public List<IActionDecisionDefinition> getActionDecisions() {
@@ -194,7 +173,33 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         // TODO:
     }
 
+    // TODO:  fill out all property-related methods
+
+    @Override
+    public List<? extends IPropertyDefinition> getProperties() {
+        return null;
+    }
+
+    @Override
+    public void removeProperty(String name) {
+
+    }
+
+    @Override
+    public void addProperty(IPropertyDefinition property) {
+
+    }
+
+    @Override
+    public <T> void setProperty(String name, T value) {
+
+    }
+
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
     }
 }

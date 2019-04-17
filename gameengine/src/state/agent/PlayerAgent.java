@@ -1,20 +1,33 @@
 package state.agent;
 
-import java.beans.PropertyChangeEvent;
+import state.Property;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observable;
+import java.util.List;
 
 public class PlayerAgent implements IPlayerAgent {
+    private int id;
     private double x;
     private double y;
     private String imageURL;
-    private String team;
     private String name;
-    private int health;
     private double direction;
+    private int width;
+    private int height;
+    private List<Property> properties;
 
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.direction = direction;
+        this.name = name;
+    }
 
     public double getX() {
         return x;
@@ -25,18 +38,22 @@ public class PlayerAgent implements IPlayerAgent {
     public String getImageURL() {
         return imageURL;
     }
-    public String getTeam() {
-        return team;
-    }
     public String getName() {
         return name;
     }
-    public int getHealth() {
-        return health;
+    public int getWidth() {
+        return width;
     }
+    public int getHeight() {
+        return height;
+    }
+
     public double getDirection() {
         return direction;
     }
+
+    public List<Property> getProperties() {return this.properties; }
+
     public void setImageURL(String url) {
         var oldUrl = this.imageURL;
         this.imageURL = url;
@@ -48,33 +65,51 @@ public class PlayerAgent implements IPlayerAgent {
         this.name = name;
         pcs.firePropertyChange("name", oldName, name);
     }
+
     public void setX(double x){
         var oldX = this.x;
         this.x = x;
         pcs.firePropertyChange("x", oldX, x);
     }
+
     public void setY(double y){
         var oldY = this.y;
         this.y = y;
         pcs.firePropertyChange("y", oldY, y);
     }
-    public void setHealth(int health) {
-        var oldHealth = this.health;
-        this.health = health;
-        pcs.firePropertyChange("health", oldHealth, health);
-    }
-    public void setTeam(String team) {
-        var oldTeam = this.team;
-        this.team = team;
-        pcs.firePropertyChange("team", oldTeam, team);
 
+    public void setHeight(int height) {
+        var oldHeight = this.height;
+        this.height = height;
+        pcs.firePropertyChange("height", oldHeight, height);
     }
+
+    public void setWidth(int width) {
+        var oldWidth = this.width;
+        this.width = width;
+        pcs.firePropertyChange("width", oldWidth, width);
+    }
+
     public void setDirection(double direction){
         var oldDir = this.direction;
         this.direction = direction;
         pcs.firePropertyChange("direction", oldDir, direction);
     }
+
+    public void setProperty(String name, Object value) {
+
+        for(Property property : this.properties) {
+            if(property.getName().equals(name)) {
+                var oldVal = property.getValue();
+                property.setValue(value);
+                pcs.firePropertyChange(name, oldVal, value);
+            }
+        }
+
+    }
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
     }
+
 }

@@ -1,6 +1,4 @@
-package gameengine;
-
-import gameengine.IActionDecisionDefinition;
+package authoring;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package engine;
 
-import gameengine.IGameDefinition;
+import authoring.IGameDefinition;
+import authoring.IStateDefinition;
 import state.State;
 import utils.SerializationException;
 import utils.Serializer;
@@ -38,7 +39,7 @@ public class Game implements IGameDefinition {
     public void run(String gameFile) {
         runFlag = true;
 
-        startup();
+        startup(gameFile);
         double nextTime = System.nanoTime() / nanoTrans;
 
         while(runFlag) {
@@ -81,8 +82,13 @@ public class Game implements IGameDefinition {
         }
     }
 
+    @Override
+    public void setState(IStateDefinition state) {
+        this.state = (State)state;
+    }
+
     /**
-     * 
+     *
      * @param saveName
      */
     public void saveState(String saveName){

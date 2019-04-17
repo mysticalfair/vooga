@@ -1,4 +1,4 @@
-package gameengine;
+package authoring;
 
 /**
  * Interface for the authoring environment to use to define a condition

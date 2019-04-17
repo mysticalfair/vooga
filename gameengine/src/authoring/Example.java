@@ -28,6 +28,14 @@ public class Example {
             conditions.add(conditionDefinition);
 
             IActionDecisionDefinition ad = g.createActionDecision(actionDefinition, conditions);
+            List<IActionDecisionDefinition> ads = new ArrayList<>();
+            ads.add(ad);
+
+            IPropertyDefinition prop = g.createProperty("bob", -98.5);
+            List<IPropertyDefinition> props = new ArrayList<>();
+            props.add(prop);
+
+            IAgentDefinition agent = g.createAgent(0, 0, 0, 0, "", 0, ads, props);
 
 
             System.out.println("Here");

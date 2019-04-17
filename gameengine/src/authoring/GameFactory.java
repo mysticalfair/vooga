@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import state.Property;
 import state.State;
 import state.action.Action;
 import state.actiondecision.ActionDecision;
@@ -164,8 +165,7 @@ public class GameFactory {
      * @return The property
      */
     public <T> IPropertyDefinition createProperty(String name, T value) {
-        // TODO : this
-        return null;
+        return new Property(name, value);
     }
 
     private <T> T instantiateClass(String className, Map<String, Object> params) throws ReflectionException {

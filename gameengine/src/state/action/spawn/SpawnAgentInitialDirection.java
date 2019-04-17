@@ -1,8 +1,11 @@
 package state.action.spawn;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 import state.agent.AgentUtils;
 import state.agent.Agent;
+
+import java.util.Map;
 
 /**
  * Action to spawn an agent, at the location of a base agent, with a direction pointing to the agent given in the execute method.
@@ -10,20 +13,26 @@ import state.agent.Agent;
  * @author Jamie Palka
  * @author Jorge Raad
  */
-public class SpawnAgentInitialDirection extends SpawnAgent {
+public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresBaseAgent {
 
     private Agent spawnAgent;
     private Agent baseAgent;
 
     /**
      * Create a SpawnAgentInitialDirection.
-     * @param baseAgent The spawn agent is created at the location of this agent.
-     * @param spawnAgent The agent to spawn.
      */
-    public SpawnAgentInitialDirection(Agent baseAgent, Agent spawnAgent) {
+    public SpawnAgentInitialDirection(Map<String, ? extends Object> params) {
+        super(params);
+    }
 
-        this.spawnAgent = spawnAgent;
-        this.baseAgent = baseAgent;
+    @Override
+    public void setParams(Map<String, ? extends Object> params) {
+        this.spawnAgent = (Agent)params.get("agent");
+    }
+
+    @Override
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 
     /**

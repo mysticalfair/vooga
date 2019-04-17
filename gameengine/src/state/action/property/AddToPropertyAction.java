@@ -3,14 +3,20 @@ package state.action.property;
 import state.action.Action;
 import state.agent.Agent;
 
+import java.util.Map;
+
 public class AddToPropertyAction extends Action {
 
     private String propertyName;
     private double amount;
 
-    public AddToPropertyAction(String propertyName, double amount) {
-        this.propertyName = propertyName;
-        this.amount = amount;
+    public AddToPropertyAction(Map<String, ? extends Object> params) {
+        super(params);
+    }
+
+    public void setParams(Map<String, ? extends Object> params) {
+        this.propertyName = (String)params.get("propertyName");
+        this.amount = (Double)params.get("amount");
     }
 
     @Override

@@ -1,7 +1,10 @@
 package state.action.movement;
 
+import state.IRequiresBaseAgent;
 import state.agent.AgentUtils;
 import state.agent.Agent;
+
+import java.util.Map;
 
 /**
  * Allows an agent to move straight to a specified target agent.
@@ -9,10 +12,9 @@ import state.agent.Agent;
  * @author David Miron
  */
 public class MoveStraightToAgent extends MovementAction {
-    Agent baseAgent;
 
-    public MoveStraightToAgent(Agent baseAgent) {
-        this.baseAgent = baseAgent;
+    public MoveStraightToAgent(Map<String, ? extends Object> params) {
+        super(params);
     }
 
     /**

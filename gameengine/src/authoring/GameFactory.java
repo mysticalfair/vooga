@@ -12,6 +12,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import state.State;
+import state.action.Action;
+import state.actiondecision.ActionDecision;
+import state.condition.Condition;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -48,6 +52,8 @@ public class GameFactory {
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
         availableActions = parser.getNameFieldsList(ACTION_DEFINITIONS_FILE);
 
+        this.conditionClasses = new Properties();
+        this.actionClasses = new Properties();
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
     }
@@ -97,9 +103,8 @@ public class GameFactory {
      * @return The new action decision
      */
     public IActionDecisionDefinition createActionDecision(IActionDefinition action,
-                                                          List<IConditionDefinition> conditions) {
-        // TODO: return new ActionDecision(action, conditions);
-        return null;
+                                                          List<? extends IConditionDefinition> conditions) {
+        return new ActionDecision((Action)action, (List<Condition>)conditions);
     }
 
     /**
@@ -108,13 +113,15 @@ public class GameFactory {
      * @param params The parameters of that action, should match fields in xml file
      * @return The action object
      */
-    public IActionDefinition createAction(String name, Object ... params) throws ActionDoesNotExistException,
-            IncorrectParametersException, ReflectionException {
+    public IActionDefinition createAction(String name, Map<String, ? extends Object> params) throws ActionDoesNotExistException,
+            ReflectionException {
 
         if (!nameFieldsExists(availableActions, name))
             throw new ActionDoesNotExistException();
 
-        return instantiateClass(actionClasses.getProperty(name), params);
+        Action a = instantiateClass(actionClasses.getProperty(name), params);
+        a.setName(name);
+        return a;
     }
 
     /**
@@ -123,13 +130,17 @@ public class GameFactory {
      * @param params The parameters of that condition, should match fields in xml file
      * @return The condition object
      */
-    public IConditionDefinition createCondition(String name, Object ... params) throws ConditionDoesNotExistException,
-            IncorrectParametersException, ReflectionException {
+    public IConditionDefinition createCondition(String name, Map<String, ? extends Object> params) throws ConditionDoesNotExistException,
+            ReflectionException {
 
         if (!nameFieldsExists(availableConditions, name))
             throw new ConditionDoesNotExistException();
 
-        return instantiateClass(conditionClasses.getProperty(name), params);
+        // TODO: Check that parameters given are correct
+
+        Condition c = instantiateClass(conditionClasses.getProperty(name), params);
+        c.setName(name);
+        return c;
     }
 
     /**
@@ -143,20 +154,13 @@ public class GameFactory {
         return null;
     }
 
-    private <T> T instantiateClass(String className, Object ... params) throws IncorrectParametersException, ReflectionException {
+    private <T> T instantiateClass(String className, Map<String, ? extends Object> params) throws ReflectionException {
 
         try {
             Class clazz = Class.forName(className);
-            Class[] arguments = new Class[params.length];
-            for (int i = 0; i < params.length; i++) {
-                arguments[i] = params[i].getClass();
-            }
-
-            Constructor constructor = clazz.getConstructor(arguments);
-
+            Constructor constructor = clazz.getConstructor(Map.class);
             return (T)constructor.newInstance(params);
-        } catch (NoSuchMethodException e) {
-            throw new IncorrectParametersException();
+
         } catch (Exception e) {
             throw new ReflectionException();
         }
@@ -183,13 +187,17 @@ public class GameFactory {
         public <T extends AvailableNameFields> List<T> getNameFieldsList(String file) throws SAXException, IOException {
 
             Document doc = documentBuilder.parse(getClass().getClassLoader().getResourceAsStream(file));
-            NodeList nodes = doc.getChildNodes();
+            NodeList nodes = doc.getChildNodes().item(0).getChildNodes();
             List<T> nameFieldsList = new ArrayList<>();
 
             for (int i = 0; i < nodes.getLength(); i++) {
                 String name = "";
                 List<Field> fields = new ArrayList<>();
                 Node node = nodes.item(i);
+
+                if (node.getNodeName().equals("#text"))
+                    continue;
+
                 NodeList childNodes = node.getChildNodes();
 
                 for (int j = 0; j < childNodes.getLength(); j++) {
@@ -210,6 +218,8 @@ public class GameFactory {
             List<Field> fields = new ArrayList<>();
             for (int i = 0; i < children.getLength(); i++) {
                 Node node = children.item(i);
+                if (node.getNodeName().equals("#text"))
+                    continue;
                 String fieldName = node.getTextContent();
                 String fieldType = node.getNodeName();
                 fields.add(new Field(fieldName, fieldType));

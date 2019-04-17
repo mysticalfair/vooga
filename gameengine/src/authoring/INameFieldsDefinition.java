@@ -9,9 +9,7 @@ import java.util.Map;
 public interface INameFieldsDefinition {
 
     String getName();
-    void setName(String name);
 
-    Map<String, String> getParams();
-    void setParams(Map<String, String> params);
-    // TODO: should be a map from String to Field, and field can have things like AgentOperation, Agent, etc.
+    Map<String, ? extends Object> getParams();
+    void setParams(Map<String, ? extends Object> params);
 }

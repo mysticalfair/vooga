@@ -4,6 +4,7 @@ import state.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class to return valid agents based on some timing interval
@@ -16,11 +17,15 @@ public class IntervalCondition extends Condition {
 
     /**
      * Create an IntervalCondition
-     * @param interval The interval, in seconds
      */
-    public IntervalCondition(double interval) {
-        this.intervalMillis = interval * 1000;
+    public IntervalCondition(Map<String, ? extends Object> params) {
+        super(params);
         this.lastOccurrence = 0;
+    }
+
+    @Override
+    public void setParams(Map<String, ? extends Object> params) {
+        this.intervalMillis = (Double)params.get("interval") * 1000;
     }
 
     /**

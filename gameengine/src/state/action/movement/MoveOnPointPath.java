@@ -2,16 +2,22 @@ package state.action.movement;
 
 import state.agent.Agent;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Allows an agent to move on a pre-defined path.
  */
 public class MoveOnPointPath extends MovementAction {
 
-    Agent baseAgent;
+    public MoveOnPointPath(Map<String, ? extends Object> params) {
+        super(params);
+    }
 
-    public MoveOnPointPath(Agent baseAgent, int speed) {
-        this.speed = speed;
-        this.baseAgent = baseAgent;
+    @Override
+    public void setParams(Map<String, ? extends Object> params) {
+        // TODO Paths?
     }
 
     /**

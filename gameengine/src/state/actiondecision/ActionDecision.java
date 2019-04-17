@@ -1,5 +1,6 @@
 package state.actiondecision;
 
+import authoring.IActionDecisionDefinition;
 import authoring.IActionDefinition;
 import authoring.IConditionDefinition;
 import state.action.Action;
@@ -15,15 +16,10 @@ import java.util.List;
  * @author David Miron
  * @author Jorge Raad
  */
-public class ActionDecision implements Serializable{
+public class ActionDecision implements IActionDecisionDefinition, Serializable{
 
     private Action action;
     private List<Condition> conditions;
-
-    public ActionDecision(IActionDefinition action, List<IConditionDefinition> conditions) {
-        this.action = (Action)action;
-        // this.conditions = conditions.stream().map(c -> c);
-    }
 
     public ActionDecision(Action action, List<Condition> conditions) {
         this.action = action;
@@ -44,4 +40,28 @@ public class ActionDecision implements Serializable{
             action.execute(agent, deltaTime);
     }
 
+    @Override
+    public IActionDefinition getAction() {
+        return action;
+    }
+
+    @Override
+    public void setAction(IActionDefinition actionDefinition) {
+        this.action = (Action)actionDefinition;
+    }
+
+    @Override
+    public List<? extends IConditionDefinition> getConditions() {
+        return conditions;
+    }
+
+    @Override
+    public void removeCondition(int index) {
+        conditions.remove(index);
+    }
+
+    @Override
+    public void addCondition(IConditionDefinition conditionDefinition) {
+        conditions.add((Condition)conditionDefinition);
+    }
 }

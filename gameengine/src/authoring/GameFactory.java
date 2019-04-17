@@ -99,8 +99,8 @@ public class GameFactory {
      * @return The new agent
      */
     public IAgentDefinition createAgent(int x, int y, int width, int height, String imageURL,
-                                        List<IActionDecisionDefinition> actionDecisions,
-                                        List<IPropertyDefinition> properties) {
+                                        List<? extends IActionDecisionDefinition> actionDecisions,
+                                        List<? extends IPropertyDefinition> properties) {
         return null;
     }
 

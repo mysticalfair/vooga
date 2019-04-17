@@ -18,11 +18,12 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     public Level() {
         this.levelState = new LevelState();
-        this.eventMaster.addRemoveAgentListener(removeAgentEvent -> levelState.removeAgent(removeAgentEvent.getAgent()));
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
         this.eventMaster = eventMaster;
+        this.eventMaster.addRemoveAgentListener(removeAgentEvent -> levelState.removeAgent(removeAgentEvent.getAgent()));
+
     }
 
     @Override
@@ -68,15 +69,6 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);
-
-        for (Agent agent: levelState.getCurrentAgents()) {
-
-            //        TODO: update speed according to speed property
-//            double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
-//            double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);
-//            agent.setLocation(newX, newY);
-        }
-
     }
 
 }

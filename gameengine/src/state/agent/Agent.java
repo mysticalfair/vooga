@@ -28,10 +28,13 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param id agent ID
      * @param x,y initial location
      */
-    public Agent(int id, int x, int y, int width, int height, String name, double direction) {
 
-        this.actionDecisions = new ArrayList<>();
-        // TODO set imageURL somewhere
+    public Agent(int id, int x, int y, int width, int height, String name, double direction, List<? extends IActionDecisionDefinition> actionDecisions,
+                List<? extends IPropertyDefinition> properties) {
+        this.actionDecisions = (List<ActionDecision>)actionDecisions;
+        // TODO: set properties HERE
+        playerAgent = new PlayerAgent(id, x, y, width, height, name, direction);
+
     }
 
     /**

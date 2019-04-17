@@ -61,11 +61,13 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+                System.out.print(agent.getX() + ", " + agent.getY() + "| ");
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
             }
         }
+        System.out.println();
 
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);

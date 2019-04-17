@@ -5,7 +5,33 @@
         <agentsOptions/>
         <agentsCurrent>
           <state.agent.Agent>
-            <actionDecisions/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster>
+                    <removeAgentListeners>
+                      <null/>
+                    </removeAgentListeners>
+                    <addAgentListeners/>
+                  </eventMaster>
+                  <params>
+                    <entry>
+                      <string>angle</string>
+                      <double>0.0</double>
+                    </entry>
+                    <entry>
+                      <string>speed</string>
+                      <int>20</int>
+                    </entry>
+                  </params>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>0</id>
               <x>10.0</x>
@@ -26,7 +52,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>1</id>
               <x>30.0</x>
@@ -47,7 +85,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>2</id>
               <x>50.0</x>
@@ -68,7 +118,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>3</id>
               <x>70.0</x>
@@ -89,7 +151,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>4</id>
               <x>90.0</x>
@@ -110,7 +184,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>5</id>
               <x>110.0</x>
@@ -131,7 +217,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>6</id>
               <x>130.0</x>
@@ -152,7 +250,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>7</id>
               <x>150.0</x>
@@ -173,7 +283,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>8</id>
               <x>170.0</x>
@@ -194,7 +316,19 @@
             </playerAgent>
           </state.agent.Agent>
           <state.agent.Agent>
-            <actionDecisions reference="../../state.agent.Agent/actionDecisions"/>
+            <actionDecisions>
+              <state.actiondecision.ActionDecision>
+                <action class="state.action.movement.MoveAtRelativeAngle">
+                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <name>MoveAtRelativeAngle</name>
+                  <speed>20</speed>
+                  <baseAgent reference="../../../.."/>
+                  <angle>0.0</angle>
+                </action>
+                <conditions/>
+              </state.actiondecision.ActionDecision>
+            </actionDecisions>
             <playerAgent>
               <id>9</id>
               <x>190.0</x>
@@ -218,12 +352,7 @@
         <objectivesCurrent/>
         <attributesCurrent/>
       </levelState>
-      <eventMaster>
-        <removeAgentListeners>
-          <null/>
-        </removeAgentListeners>
-        <addAgentListeners/>
-      </eventMaster>
+      <eventMaster reference="../levelState/agentsCurrent/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>

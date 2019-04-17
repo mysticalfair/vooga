@@ -48,7 +48,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
             for (Condition condition: ad.getConditions()) {
                 if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
                     ((IRequiresBaseAgent)condition).injectBaseAgent(this);
-
             }
         }
     }

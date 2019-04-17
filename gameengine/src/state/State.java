@@ -63,7 +63,7 @@ public class State implements IStateDefinition, Serializable {
     }
 
     public void step(double deltaTime){
-        // check "general" objectives (e.g. level change, game over, victory)
+        // TODO: check "general" objectives (e.g. level change, game over, victory)
         levels.get(currentLevel).step(deltaTime);
     }
 

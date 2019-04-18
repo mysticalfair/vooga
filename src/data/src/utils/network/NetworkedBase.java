@@ -1,19 +1,26 @@
 package utils.network;
 
+import utils.Connectable;
+import utils.NetworkException;
 import utils.SerializationException;
 import utils.network.datagrams.Datagram;
 import utils.network.datagrams.Request;
 import utils.network.datagrams.Response;
+import utils.reflect.MethodUtils;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class which implements shared utilites between the client and the server.
@@ -21,14 +28,19 @@ import java.util.concurrent.TimeoutException;
  * calls if required.
  * @author Jake Mullett
  */
-public abstract class GameBase {
+public abstract class NetworkedBase implements Connectable {
 
     private static final String ERROR_IN_CLOSING_CONNECTION = "Error in closing connection! ";
     private static final String DATAGRAM_FROM_NETWORK_ERROR = "Error in trying to process datagram from network. Error: \n";
     private static final String METHOD_CALL_HAS_TIMED_OUT = "Method call has timed out.";
     private static final int TIMEOUT_REQUEST_MS = 500;
     private static final int WAIT_PER_CHECK_MS = 1;
+    private static final String BLOCKING_REQUEST_ERR_MSG = "Error in sending blocking request for method ";
+    private static final String NON_BLOCKING_ERR_MSG = "Error in sending non-blocking request for method ";
 
+
+
+    Logger LOGGER = Logger.getGlobal();
     private ConcurrentMap<String, Response> requestPool;
 
     protected Socket socket;
@@ -37,7 +49,7 @@ public abstract class GameBase {
     private Thread readerThread;
     private Object parent;
 
-    GameBase(Object parentObject) {
+    NetworkedBase(Object parentObject) {
         parent = parentObject;
         requestPool = new ConcurrentHashMap<>();
     }
@@ -47,11 +59,17 @@ public abstract class GameBase {
      * Package-private.
      * @param method Method to call on the interface expected on the other side
      * @param args Arguments for this message call
-     * @throws IOException Generic IOException run into in trying to put the request on the wire.
-     * @throws SerializationException Exception run into when trying to serialze the request arguments.
+     * @throws NetworkException Exception in trying to transmit request, contains information on origination.
      */
-    void sendNonBlockingRequest(Method method, Object[] args) throws IOException, SerializationException {
-        sendRequest(method, args);
+    void sendNonBlockingRequest(Method method, Object[] args) throws NetworkException {
+        try {
+            sendRequest(method, args);
+        } catch (Exception ex) {
+            String msg = NON_BLOCKING_ERR_MSG + method.getName();
+            LOGGER.log(Level.SEVERE, msg);
+            throw new NetworkException(msg, ex);
+        }
+
     }
 
     /**
@@ -59,23 +77,26 @@ public abstract class GameBase {
      * Package-private.
      * @param method Method to call on the interface expected on the other side
      * @param args Arguments for this message call
-     * @throws IOException Generic IOException run into in trying to put the request on the wire.
-     * @throws SerializationException Exception run into when trying to serialze the request arguments.
-     * @throws InterruptedException Exception in sleeping the thread.
-     * @throws TimeoutException When this request timed out due to no response from the network.
+     * @throws NetworkException Exception in trying to transmit request, contains information on origination.
      */
-    Object sendBlockingRequest(Method method, Object[] args) throws IOException, InterruptedException, TimeoutException, SerializationException {
-        String sentRequestID = sendRequest(method, args).getId();
-        int count = 0;
-        while(!requestPool.containsKey(sentRequestID)) {
-            if (count >= TIMEOUT_REQUEST_MS/WAIT_PER_CHECK_MS) {
-                throw new TimeoutException(METHOD_CALL_HAS_TIMED_OUT);
+    Object sendBlockingRequest(Method method, Object[] args) throws NetworkException {
+        try {
+            String sentRequestID = sendRequest(method, args).getId();
+            int count = 0;
+            while(!requestPool.containsKey(sentRequestID)) {
+                if (count >= TIMEOUT_REQUEST_MS/WAIT_PER_CHECK_MS) {
+                    throw new TimeoutException(METHOD_CALL_HAS_TIMED_OUT);
+                }
+                Thread.sleep(WAIT_PER_CHECK_MS);
+                count++;
             }
-            Thread.sleep(WAIT_PER_CHECK_MS);
-            count++;
-        }
 
-        return requestPool.remove(sentRequestID).getResult();
+            return requestPool.remove(sentRequestID).getResult();
+        } catch (Exception ex) {
+            String msg = BLOCKING_REQUEST_ERR_MSG + method.getName();
+            LOGGER.log(Level.SEVERE, msg);
+            throw new NetworkException(msg, ex);
+        }
     }
 
     private Request sendRequest(Method method, Object[] args) throws IOException, SerializationException {
@@ -99,7 +120,7 @@ public abstract class GameBase {
         } catch (IOException ex) {
             // Because this is running in a separate thread, we cannot bubble exceptions and have
             // the user see them.
-            System.out.println(ERROR_IN_CLOSING_CONNECTION + ex.getMessage());
+            LOGGER.log(Level.WARNING, ERROR_IN_CLOSING_CONNECTION + ex.getMessage());
         } finally {
             readerThread.interrupt();
         }
@@ -114,19 +135,21 @@ public abstract class GameBase {
      * Reads requests from the input stream and passes them to the callParent method for deserialization.
      */
     private void createInputReaderThread() {
-        Runnable runnable = () -> {
-            while (true) {
+        readerThread = new Thread(() -> {
+            boolean socketAlive = true;
+            while (socketAlive) {
                 try {
                     readDatagrams();
                     Thread.sleep(50);
+                } catch (SocketException | EOFException sockEx) {
+                    socketAlive = false;
                 } catch (Exception ex) {
                     // Again, this is a separate thread so we cannot pass this along to the user/GUI.
                     // Log the exception and try to continue.
-                    System.out.println(DATAGRAM_FROM_NETWORK_ERROR + ex.getMessage());
+                    LOGGER.log(Level.SEVERE, DATAGRAM_FROM_NETWORK_ERROR + ex.getMessage());
                 }
             }
-        };
-        readerThread = new Thread(runnable);
+        });
         readerThread.start();
     }
 
@@ -162,7 +185,16 @@ public abstract class GameBase {
     }
 
     private Object callParent(Request request) throws SerializationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method methodToCall = parent.getClass().getMethod(request.getMethod(), request.getArgClassTypes());
+        Method methodToCall;
+        try {
+            methodToCall = parent.getClass().getMethod(request.getMethod(), request.getArgClassTypes());
+        } catch (NoSuchMethodException ex) {
+            // Due to type erasure sometimes we can't find a
+            methodToCall = MethodUtils.findMethodByNameAndArgs(request.getMethod(), request.getArgClassTypes(), parent.getClass().getDeclaredMethods());
+            if (methodToCall == null) {
+                throw ex;
+            }
+        }
         return methodToCall.invoke(parent, request.getArgs());
     }
 
@@ -172,4 +204,5 @@ public abstract class GameBase {
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         createInputReaderThread();
     }
+
 }

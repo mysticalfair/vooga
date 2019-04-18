@@ -27,7 +27,6 @@ public class Game implements IGameDefinition {
     private State state;
 
     public Game() {
-        this.state = new State();
         SerializerSingleton serializerSingleton = new SerializerSingleton();
         serializer = serializerSingleton.getXMLInstance();
     }

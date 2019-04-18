@@ -3,6 +3,8 @@ package engine;
 import engine.event.GameEventMaster;
 import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
+import engine.event.events.AddAgentEvent;
+import engine.event.events.RemoveAgentEvent;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
@@ -10,6 +12,7 @@ import state.objective.Objective;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
 
@@ -22,8 +25,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
         this.eventMaster = eventMaster;
-        this.eventMaster.addRemoveAgentListener(removeAgentEvent -> levelState.removeAgent(removeAgentEvent.getAgent()));
-        this.eventMaster.addAddAgentListener(addAgentEvent -> levelState.addCurrentAgent(addAgentEvent.getAgent()));
+        this.eventMaster.addRemoveAgentListener((Consumer<RemoveAgentEvent> & Serializable) (removeAgentEvent) -> levelState.removeAgent(removeAgentEvent.getAgent()));
+        this.eventMaster.addAddAgentListener((Consumer<AddAgentEvent> & Serializable) addAgentEvent -> levelState.addCurrentAgent(addAgentEvent.getAgent()));
     }
 
     @Override

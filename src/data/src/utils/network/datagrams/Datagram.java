@@ -17,7 +17,8 @@ import java.io.Serializable;
 public abstract class Datagram implements Serializable {
 
     @XStreamOmitField
-    protected transient Serializer xmlSerializer = SerializerSingleton.getXMLInstance();
+    protected transient Serializer serializer = SerializerSingleton.getInstance();
+
 
     protected String payload;
     protected String id;
@@ -36,8 +37,7 @@ public abstract class Datagram implements Serializable {
 
     private void init(DatagramType datagramType, Object payload) throws SerializationException {
         type = datagramType;
-        this.payload = xmlSerializer.serialize((Serializable) payload);
-
+        this.payload = serializer.serialize((Serializable) payload);
     }
 
     public String getId() {
@@ -54,6 +54,6 @@ public abstract class Datagram implements Serializable {
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        xmlSerializer = SerializerSingleton.getXMLInstance();
+        serializer = SerializerSingleton.getInstance();
     }
 }

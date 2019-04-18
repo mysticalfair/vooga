@@ -27,7 +27,7 @@ public class XStreamSerializer extends SerializerBase {
         try {
             return xStream.toXML(object);
         } catch (Exception exception) {
-            throw new SerializationException(SERIALIZATION_ERR + exception.getMessage());
+            throw new SerializationException(SERIALIZATION_ERR + exception.getMessage(), exception);
         }
     }
 
@@ -36,7 +36,7 @@ public class XStreamSerializer extends SerializerBase {
         try {
             return xStream.fromXML(object);
         } catch (Exception exception) {
-            throw new SerializationException(DESERIALIZATION_ERR + exception.getMessage());
+            throw new SerializationException(DESERIALIZATION_ERR + exception.getMessage(), exception);
         }
     }
 }

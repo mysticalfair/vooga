@@ -100,6 +100,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable {
         pcs.firePropertyChange("direction", oldDir, direction);
     }
 
+    @Deprecated
     public void setProperty(String name, Object value) {
 
         for(Property property : this.properties) {
@@ -109,7 +110,16 @@ public class PlayerAgent implements IPlayerAgent, Serializable {
                 pcs.firePropertyChange(name, oldVal, value);
             }
         }
+    }
 
+    public void setProperty(Property newProperty){
+        for(Property p : this.properties) {
+            if(p.getName().equals(newProperty.getName())) {
+                var oldVal = p.getValue();
+                p.setValue(newProperty.getValue());
+                pcs.firePropertyChange(name, oldVal, newProperty.getValue());
+            }
+        }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

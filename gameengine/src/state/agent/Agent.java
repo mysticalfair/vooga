@@ -34,7 +34,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
         injectBaseAgentWhereNecessary(this.actionDecisions);
-        // TODO: set properties HERE
+        setProperties((List<Property>)properties);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
 
     }
@@ -229,9 +229,20 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return null;
     }
 
+    @Deprecated
     public void setProperties(String[] properties, Object[] values) {
         for(int i = 0; i < properties.length; i++) {
             this.playerAgent.setProperty(properties[i], values[i]);
+        }
+    }
+
+    /**
+     * Takes a given list of properties and adds them all to the list of properties held by the playerAgent.
+     * @param properties - properties to be transferred to the playerAgent
+     */
+    public void setProperties(List<Property> properties){
+        for(Property p : properties) {
+            this.playerAgent.setProperty(p);
         }
     }
 

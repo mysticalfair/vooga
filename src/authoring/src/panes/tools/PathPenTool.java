@@ -36,10 +36,12 @@ public class PathPenTool extends MapTool{
         if(!toolEnabled){
             return;
         }
-        currentCircle = new Circle(event.getX(), event.getY(), 10, Color.BLACK);
+        currentCircle = new Circle(event.getX(), event.getY(), 3, Color.BLUE);
         map.spawnShape((Shape) currentCircle);
         if(previousCircle != null) {
             Line l = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
+            l.getStrokeDashArray().addAll(2d, 4d);
+            l.setStroke(Color.BLUE);
             map.spawnShape((Shape) l);
         }
         previousCircle = currentCircle;

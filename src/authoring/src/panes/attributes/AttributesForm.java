@@ -1,9 +1,7 @@
 package panes.attributes;
 
 import authoring.GameFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import panes.AccessibleContainer;
 
 import java.util.ResourceBundle;

@@ -74,23 +74,19 @@ public class ConsolePane extends AuthoringPane{
      * Changes (good, neutral, and bad) to the environment that don't require immediate user action are sent to the console.
      * @param message String, message to send to user
      */
-    public void displayMessage(String message){
+    public void displayMessage(String message, CML level) {
         var text = new Text(message);
-        text.setId(MESSAGE);
-        myVBox.getChildren().add(text);
-        scrollPane.setVvalue(1);
-    }
 
-    public void displayErrorMessage(String message) {
-        var text = new Text(message);
-        text.setId(ERROR_MESSAGE);
-        myVBox.getChildren().add(text);
-        scrollPane.setVvalue(1);
-    }
+        if (level == CML.NEUTRAL) {
+            text.setId(MESSAGE);
+        }
+        else if (level == CML.ERROR) {
+            text.setId(ERROR_MESSAGE);
+        }
+        else if (level == CML.SUCCESS) {
+            text.setId(SUCCESS_MESSAGE);
+        }
 
-    public void displaySuccessMessage(String message) {
-        var text = new Text(message);
-        text.setId(SUCCESS_MESSAGE);
         myVBox.getChildren().add(text);
         scrollPane.setVvalue(1);
     }

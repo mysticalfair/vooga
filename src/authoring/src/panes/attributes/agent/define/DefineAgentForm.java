@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import panes.AuthoringEnvironment;
+import panes.CML;
 import panes.attributes.AttributesForm;
 
 import java.util.ResourceBundle;
@@ -60,6 +62,10 @@ public class DefineAgentForm extends AttributesForm {
     }
 
     public IAgentDefinition getAgentDefinition() {
+        String name = commonAgentFieldsForm.getName();
+        if (name.equals("")) {
+            AuthoringEnvironment.consoleMessage.accept(rb.getString("AgentNeedsName"), CML.ERROR);
+        }
         return gameFactory.createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
                 commonAgentFieldsForm.getImageUrl(), actionDecisionForm.getActionDecisionDefinitions(),
                 agentPropertiesForm.getPropertyDefinitions());

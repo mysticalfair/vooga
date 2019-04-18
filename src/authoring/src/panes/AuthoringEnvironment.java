@@ -17,8 +17,10 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 
 import java.util.ResourceBundle;
+import java.util.function.BiConsumer;
 
 public class AuthoringEnvironment extends Application {
+
     public static final String TITLE = "Electric Voogaloo!";
     public static final double DEFAULT_WIDTH = 1200;
     public static final double DEFAULT_HEIGHT = 650;
@@ -32,6 +34,9 @@ public class AuthoringEnvironment extends Application {
     public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
     public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
 
+
+    public static BiConsumer<String, CML> consoleMessage;
+
     // GUI instance variables
     private ResourceBundle rb;
     private StackPane stackPane;
@@ -43,7 +48,7 @@ public class AuthoringEnvironment extends Application {
     private MapPane map;
     private Scene scene;
 
-    // Engine
+    // Engine instance variables
     private GameFactory gameFactory;
     private IStateDefinition state;
     private IGameDefinition game;
@@ -63,13 +68,15 @@ public class AuthoringEnvironment extends Application {
         initEngineObjects();
         initAllPanes();
         initStage(stage);
+
+        consoleMessage = (message, level) -> consolePane.displayMessage(message, level);
     }
 
     private void initEngineObjects() {
         try {
             gameFactory = new GameFactory();
         } catch (Exception e) {
-            consolePane.displayErrorMessage(rb.getString("GameFactoryInitializationError"));
+            consolePane.displayMessage(rb.getString("GameFactoryInitializationError"), CML.ERROR);
         }
         state = gameFactory.createState();
         game = gameFactory.createGame();
@@ -102,7 +109,6 @@ public class AuthoringEnvironment extends Application {
     private void initAttributesPane() {
         attributesPane = new AttributesPane(rb);
         attributesPane.accessContainer(borderPane::setLeft);
-        //attributesPane.createNewAgentForm(gameFactory);
     }
 
     private void initConsolePane() {
@@ -121,8 +127,8 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
     }
 
-    private void selectToolAction(LassoTool lasso, Scene thisScene){
-        consolePane.displayMessage("Multi-select tool enabled");
+    private void selectToolAction(LassoTool lasso, Scene thisScene) {
+        consolePane.displayMessage("Multi-select tool enabled", CML.NEUTRAL);
         lasso.setMouseActions(thisScene);
     }
 
@@ -130,7 +136,7 @@ public class AuthoringEnvironment extends Application {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
-            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
+            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount(), CML.NEUTRAL);
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -180,12 +186,12 @@ public class AuthoringEnvironment extends Application {
         if (trashIntersect(draggableAgent)) {
             draggableAgent.setImage(null);
             map.removeAgent(draggableAgent);
-            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), CML.NEUTRAL);
         } else if (outOfBounds(draggableAgent)) {
             draggableAgent.setEffect(null);
             draggableAgent.setTranslateX(draggableAgent.getStartX());
             draggableAgent.setTranslateY(draggableAgent.getStartY());
-            consolePane.displayMessage("Agent out of bounds: returning to original location");
+            consolePane.displayMessage("Agent out of bounds: returning to original location", CML.NEUTRAL);
         }
     }
 

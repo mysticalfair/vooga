@@ -70,8 +70,8 @@ class GameTest {
     /**
      * Creates a tower that spins and spawns projectiles.
      */
-    @BeforeEach
-    void setUpTwo() {
+    @Test
+    void createAndSave() {
         try {
             GameFactory factory = new GameFactory();
             gameEngine = new Game();
@@ -116,6 +116,7 @@ class GameTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
+            gameEngine.saveState("John.xml");
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -133,8 +134,11 @@ class GameTest {
 
     @Test
     void run() {
-        gameEngine.run(GAME_FILE_NAME);
-        //assertEquals(AGENT_NUM, );
+        try {
+            new Game().run("John.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

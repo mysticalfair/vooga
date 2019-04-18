@@ -1,0 +1,23 @@
+<actions>
+
+    <actionDefinition>
+        <name>MoveAtRelativeAngle</name>
+        <fields>
+            <double>angle</double>
+            <int>speed</int>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>MoveStraightToAgent</name>
+        <fields>
+            <int>speed</int>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>PointToAgent</name>
+        <fields></fields>
+    </actionDefinition>
+
+</actions>

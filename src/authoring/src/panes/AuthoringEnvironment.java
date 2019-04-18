@@ -1,5 +1,8 @@
 package panes;
 
+import authoring.GameFactory;
+import authoring.IGameDefinition;
+import authoring.IStateDefinition;
 import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
@@ -10,9 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
+
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
     public static final String TITLE = "Electric Voogaloo!";
@@ -28,6 +32,8 @@ public class AuthoringEnvironment extends Application {
     public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
     public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
 
+    // GUI instance variables
+    private ResourceBundle rb;
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
@@ -37,17 +43,37 @@ public class AuthoringEnvironment extends Application {
     private MapPane map;
     private Scene scene;
 
+    // Engine
+    private GameFactory gameFactory;
+    private IStateDefinition state;
+    private IGameDefinition game;
+
     public static void main(String[] args){
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
+        rb = ResourceBundle.getBundle("strings/English");
+
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
+
+        initEngineObjects();
         initAllPanes();
         initStage(stage);
+    }
+
+    private void initEngineObjects() {
+        try {
+            gameFactory = new GameFactory();
+        } catch (Exception e) {
+            consolePane.displayErrorMessage(rb.getString("GameFactoryInitializationError"));
+        }
+        state = gameFactory.createState();
+        game = gameFactory.createGame();
+        game.setState(state);
     }
 
     private void initAllPanes() {
@@ -59,14 +85,14 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initMapPane() {
-        map = new MapPane();
+        map = new MapPane(rb);
         map.accessContainer(borderPane::setCenter);
     }
 
     private void initAgentPane() {
-        agentPane = new AgentPane();
+        agentPane = new AgentPane(rb);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton("add-button.png", 25, 10, e -> System.out.println("handle press method goes here"));
+        agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm(gameFactory));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
@@ -74,28 +100,29 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAttributesPane() {
-        attributesPane = new AttributesPane();
+        attributesPane = new AttributesPane(rb);
         attributesPane.accessContainer(borderPane::setLeft);
+        //attributesPane.createNewAgentForm(gameFactory);
     }
 
     private void initConsolePane() {
-        consolePane = new ConsolePane();
+        consolePane = new ConsolePane(rb);
         consolePane.accessContainer(borderPane::setBottom);
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane();
+        toolbarPane = new ToolbarPane(rb);
         toolbarPane.accessContainer(borderPane::setTop);
         var lasso = new LassoTool(map);
-        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
+        toolbarPane.addButton(ToolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
     }
 
     private void selectToolAction(LassoTool lasso, Scene thisScene){
-        consolePane.displayConsoleMessage("Multi-select tool enabled");
+        consolePane.displayMessage("Multi-select tool enabled");
         lasso.setMouseActions(thisScene);
     }
 
@@ -103,7 +130,7 @@ public class AuthoringEnvironment extends Application {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
-            consolePane.displayConsoleMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
+            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -153,12 +180,12 @@ public class AuthoringEnvironment extends Application {
         if (trashIntersect(draggableAgent)) {
             draggableAgent.setImage(null);
             map.removeAgent(draggableAgent);
-            consolePane.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
         } else if (outOfBounds(draggableAgent)) {
             draggableAgent.setEffect(null);
             draggableAgent.setTranslateX(draggableAgent.getStartX());
             draggableAgent.setTranslateY(draggableAgent.getStartY());
-            consolePane.displayConsoleMessage("Agent out of bounds: returning to original location");
+            consolePane.displayMessage("Agent out of bounds: returning to original location");
         }
     }
 

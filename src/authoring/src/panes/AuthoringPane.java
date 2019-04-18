@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class AuthoringPane implements IAuthoringPane, AccessibleContainer {
@@ -19,13 +20,17 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     static final double HANDLE_THICKNESS = 20;
     static final double HANDLE_ROUNDING_DIAMETER = 20;
 
+    protected ResourceBundle rb;
+
     private Pane container;
     private Pane hvbox;
     private boolean vertical;
     private Pane handle;
     private Pane content;
 
-    public AuthoringPane() {
+    public AuthoringPane(ResourceBundle rb) {
+        this.rb = rb;
+
         container = new Pane();
         handle = new Pane();
         content = new Pane();
@@ -65,16 +70,5 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
 
     protected ObservableList<Node> getContentChildren() {
         return content.getChildren();
-    }
-
-    protected Button createButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        var button = new Button();
-        var image = new ImageView(new Image(buttonImageName));
-        image.setFitWidth(buttonSize);
-        image.setFitHeight(buttonSize);
-        button.setGraphic(image);
-        button.setPrefSize(buttonImageSize, buttonImageSize);
-        button.setOnAction(action);
-        return button;
     }
 }

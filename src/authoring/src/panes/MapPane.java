@@ -12,6 +12,7 @@ import javafx.scene.shape.Ellipse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MapPane extends AuthoringPane {
 
@@ -21,8 +22,8 @@ public class MapPane extends AuthoringPane {
     private List<AgentView> agentList;
     private Pane mapPane;
 
-    public MapPane(){
-        super();
+    public MapPane(ResourceBundle rb) {
+        super(rb);
         initMapPane();
         getContentChildren().add(mapPane);
     }
@@ -59,13 +60,16 @@ public class MapPane extends AuthoringPane {
     }
 
     public void formatBackground(){
-        Image image = new ImageSelector().getUserImage();
-        if(image == null){
-            return;
-        }
-        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-        mapPane.setBackground(new Background(backgroundImage));
+        AuthoringUtil.openFileChooser(
+                rb.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
+                file -> {
+                    Image image = new Image(file.toURI().toString());
+                    BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
+                    BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+                    mapPane.setBackground(new Background(backgroundImage));
+                },
+                () -> System.err.println(rb.getString("BackgroundImageLoadError"))
+        );
     }
 
     @Override

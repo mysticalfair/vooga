@@ -2,13 +2,12 @@ package panes;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ToolbarPane extends AuthoringPane {
 
@@ -30,8 +29,8 @@ public class ToolbarPane extends AuthoringPane {
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(){
-        super();
+    public ToolbarPane(ResourceBundle rb){
+        super(rb);
         menuMap = new HashMap<>();
         initBars();
     }
@@ -83,7 +82,7 @@ public class ToolbarPane extends AuthoringPane {
     }
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        Button button = createButton(buttonImageName, buttonSize, buttonImageSize, action);
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         toolBar.getItems().addAll(button);
     }
 

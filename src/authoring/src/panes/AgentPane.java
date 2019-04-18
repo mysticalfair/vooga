@@ -15,10 +15,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AgentPane extends AuthoringPane {
 
@@ -32,8 +32,8 @@ public class AgentPane extends AuthoringPane {
     public static final double WIDTH = AuthoringEnvironment.AGENT_WIDTH;
     public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
 
-    public AgentPane() {
-        super();
+    public AgentPane(ResourceBundle rb) {
+        super(rb);
         initElements();
         getContentChildren().add(inventoryContainer);
     }
@@ -103,7 +103,7 @@ public class AgentPane extends AuthoringPane {
     }
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        Button button = createButton(buttonImageName, buttonSize, buttonImageSize, action);
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         buttonPane.getChildren().addAll(button);
     }
 

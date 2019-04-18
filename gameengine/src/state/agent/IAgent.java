@@ -8,7 +8,7 @@ import java.util.List;
  * @author Jamie Palka
  * These are the extensions for the full agent. The one authoring and engine need.
  */
-public interface IAgent extends IPlayerAgent {
+public interface IAgent {
     void update(List<IAgent> agents) throws CloneNotSupportedException;
 
     /**

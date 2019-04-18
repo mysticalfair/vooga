@@ -3,6 +3,7 @@ package state.agent;
 import state.actiondecision.ActionDecision;
 
 import java.awt.*;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -255,4 +256,5 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     }
 
     public boolean isDead() {return this.health<=0;}
+
 }

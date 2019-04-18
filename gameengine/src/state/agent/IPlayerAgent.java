@@ -1,8 +1,7 @@
 package state.agent;
 
-import java.beans.PropertyChangeEvent;
-import java.util.List;
+import java.beans.PropertyChangeListener;
 
 public interface IPlayerAgent {
-
+   void addPropertyChangerListener(PropertyChangeListener listener);
 }

@@ -17,7 +17,6 @@ public class DemoGame {
 
         State state = new State();
         Agent towerAgent = new Agent(0, 0, 0, "Jorge", "Bad Guys",50, 10, 10, 0, 90, 10);
-
         Agent meleeAgent = new Agent(0, 100, 100, "Luke", "Good Guys", 50, 10, 10, 5, 90, 20);
         IAction action = new MeleeOnCollision();
         List<Condition> conditions = new ArrayList<>();

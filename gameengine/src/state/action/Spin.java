@@ -27,6 +27,5 @@ public class Spin extends Action implements IRequiresBaseAgent {
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         baseAgent.setDirection(baseAgent.getDirection() + angularSpeed*deltaTime);
-        System.out.println(baseAgent.getDirection());
     }
 }

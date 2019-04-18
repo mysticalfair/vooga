@@ -45,7 +45,9 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
         newAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
+        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
         spawnAgent(newAgent);
+        System.out.println("FIRE!");
     }
 
 }

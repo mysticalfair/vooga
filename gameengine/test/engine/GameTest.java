@@ -78,37 +78,45 @@ class GameTest {
             state = new State();
             ILevelDefinition level = factory.createLevel();
             List<IAgentDefinition> currentAgents = new ArrayList<>();
-            Map<String, Object> actionParams = new HashMap<>();
-            actionParams.put("angle", 0.0);
-            actionParams.put("speed", 20);
-            List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
-            actionDecisions.add(factory.createActionDecision(
-                    factory.createAction("MoveAtRelativeAngle", actionParams), new ArrayList<IConditionDefinition>()));
+
+            // MAKING PROJECTILE
+            // making move action
+            Map<String, Object> moveParams = new HashMap<>();
+            moveParams.put("angle", 0.0);
+            moveParams.put("speed", 20);
+
+            List<IActionDecisionDefinition> AD1 = new ArrayList<>();
+            List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+            cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+            AD1.add(factory.createActionDecision(
+                    factory.createAction("MoveAtRelativeAngle", moveParams), new ArrayList<IConditionDefinition>()));
             List<IPropertyDefinition> properties = new ArrayList<>();
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
-                    0,"projectile", "zombie.gif", actionDecisions, properties);
+                    0,"projectile", "zombie.gif", AD1, properties);
 
             level.addAgent(projectile);
 
-            actionDecisions = new ArrayList<>();
-            actionParams = new HashMap<>();
-            actionParams.put("angularSpeed", 90.0);
-            IActionDefinition spinAction = factory.createAction("Spin", actionParams);
+            // MAKING TOWER
+            List<IActionDecisionDefinition> AD2 = new ArrayList<>();
+            // making spin action
+            Map<String, Object> spinParams = new HashMap<>();
+            spinParams.put("angularSpeed", 90.0);
+            IActionDefinition spinAction = factory.createAction("Spin", spinParams);
             List<IConditionDefinition> conditions = new ArrayList<IConditionDefinition>();
             conditions.add(factory.createCondition("DoOnce", new HashMap<>()));
-            actionDecisions.add(factory.createActionDecision(spinAction, conditions));
-
-            actionParams = new HashMap<>();
-            actionParams.put("agent", projectile);
-            IActionDefinition spawnAction = factory.createAction("SpawnAgentInitialDirection", actionParams);
+            AD2.add(factory.createActionDecision(spinAction, conditions));
+            //making spawn action
+            Map<String, Object> spawnParams = new HashMap<>();
+            spawnParams.put("agent", projectile);
+            IActionDefinition spawnAction = factory.createAction("SpawnAgentInitialDirection", spawnParams);
             conditions = new ArrayList<>();
             Map condParams = new HashMap();
             condParams.put("interval", 1.0);
             conditions.add(factory.createCondition("Interval", condParams));
             IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
-            actionDecisions.add(spawnAD);
+            AD2.add(spawnAD);
             IAgentDefinition tower = factory.createAgent(500, 500, 10, 10,
-                    0,"tower", "zombie.gif", actionDecisions, properties);
+                    0,"tower", "zombie.gif", AD2, properties);
 
 
 

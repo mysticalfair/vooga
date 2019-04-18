@@ -13,6 +13,11 @@ import panes.MapPane;
 
 public class PathPenTool extends MapTool{
 
+    public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
+    public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
+    public static final double X_ADJUSTMENT = -10;
+    public static final double Y_ADJUSTMENT = 10;
+
     private Circle previousCircle = null;
     private Circle currentCircle = null;
     // TODO: replace with list of linkedlists
@@ -22,13 +27,13 @@ public class PathPenTool extends MapTool{
     }
 
     public void setMouseActions(){
-        map.accessContainer(node -> node.setOnMouseClicked(e -> onMapClick(e)));
+        map.accessMap(node -> node.setOnMouseClicked(e -> onMapClick(e)));
     }
 
     private void removeMouseActions(){
-        map.accessContainer(node -> node.setOnMouseClicked(null));
-        map.accessContainer(node -> node.setOnMouseDragged(null));
-        map.accessContainer(node -> node.setOnMouseReleased(null));
+        map.accessMap(node -> node.setOnMouseClicked(null));
+        map.accessMap(node -> node.setOnMouseDragged(null));
+        map.accessMap(node -> node.setOnMouseReleased(null));
     }
 
     @Override
@@ -36,7 +41,7 @@ public class PathPenTool extends MapTool{
         if(!toolEnabled){
             return;
         }
-        currentCircle = new Circle(event.getX(), event.getY(), 3, Color.BLUE);
+        currentCircle = new Circle(event.getX() + X_ADJUSTMENT, event.getY() + Y_ADJUSTMENT, 3, Color.BLUE);
         map.spawnShape((Shape) currentCircle);
         if(previousCircle != null) {
             Line l = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
@@ -49,8 +54,7 @@ public class PathPenTool extends MapTool{
 
     @Override
     protected void enableTool() {
-        Image image = new Image(ToolbarPane.PEN_IMAGE);
-        scene.setCursor(new ImageCursor(image, image.getWidth() / 2, image.getHeight() /2));
+        scene.setCursor(PEN_CURSOR);
         setMouseActions();
     }
 

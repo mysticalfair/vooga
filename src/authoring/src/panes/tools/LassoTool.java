@@ -24,9 +24,9 @@ public class LassoTool extends MapTool{
     }
 
     public void setMouseActions(){
-        map.accessContainer(node -> node.setOnMouseClicked(e -> onMapClick(e)));
-        map.accessContainer(node -> node.setOnMouseDragged(e -> mouseDragged(e)));
-        map.accessContainer(node -> node.setOnMouseReleased(e -> mouseReleased(e)));
+        map.accessMap(node -> node.setOnMouseClicked(e -> onMapClick(e)));
+        map.accessMap(node -> node.setOnMouseDragged(e -> mouseDragged(e)));
+        map.accessMap(node -> node.setOnMouseReleased(e -> mouseReleased(e)));
     }
 
     private void initEllipse(){
@@ -38,9 +38,9 @@ public class LassoTool extends MapTool{
     }
 
     private void removeMouseActions(){
-        map.accessContainer(node -> node.setOnMouseClicked(null));
-        map.accessContainer(node -> node.setOnMouseDragged(null));
-        map.accessContainer(node -> node.setOnMouseReleased(null));
+        map.accessMap(node -> node.setOnMouseClicked(null));
+        map.accessMap(node -> node.setOnMouseDragged(null));
+        map.accessMap(node -> node.setOnMouseReleased(null));
     }
 
     private void mouseReleased(MouseEvent event){

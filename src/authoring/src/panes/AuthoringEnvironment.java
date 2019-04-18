@@ -161,7 +161,7 @@ public class AuthoringEnvironment extends Application {
     private boolean outOfBoundsHorizontal(DraggableAgentView draggableAgent) {
         double xPos = draggableAgent.getTranslateX();
         double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
-        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH;
         boolean leftOutOfBounds = xPos < 0;
         return leftOutOfBounds || rightOutOfBounds;
     }
@@ -170,7 +170,7 @@ public class AuthoringEnvironment extends Application {
         double yPos = draggableAgent.getTranslateY();
         double yPosBot = draggableAgent.getTranslateY() + draggableAgent.getFitHeight();
         boolean topOutOfBounds = yPos < 0;
-        boolean botOutOfBounds = yPosBot > borderPane.getHeight() - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
+        boolean botOutOfBounds = yPosBot > MapPane.MAP_HEIGHT;
         return topOutOfBounds || botOutOfBounds;
     }
 
@@ -182,7 +182,7 @@ public class AuthoringEnvironment extends Application {
         double yPos = draggableAgentView.getTranslateY();
         double xPosRight = draggableAgentView.getTranslateX() + draggableAgentView.getFitWidth();
         boolean topOutOfBounds = yPos < 0;
-        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH  + (borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth() - MapPane.MAP_WIDTH)/2;
         return topOutOfBounds && rightOutOfBounds;
     }
 

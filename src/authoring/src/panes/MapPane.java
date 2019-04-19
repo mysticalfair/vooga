@@ -1,7 +1,9 @@
 package panes;
 
 import frontend_objects.AgentView;
+import frontend_objects.DraggableAgentView;
 import javafx.geometry.Pos;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
@@ -10,6 +12,7 @@ import util.AuthoringContext;
 import util.AuthoringUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -28,16 +31,23 @@ public class MapPane extends AuthoringPane {
     private List<AgentView> agentList;
     private Pane mapPane;
     private StackPane overallPane;
+    private int level;
+    private Map<Integer, MapState> levelToState;
 
     public MapPane(AuthoringContext context) {
         super(context);
         agentList = new ArrayList<>();
+        levelToState = new HashMap<>();
         initPanes();
         getContentChildren().add(overallPane);
     }
 
     public void accessMap(Consumer<Pane> accessMethod) {
         accessMethod.accept(mapPane);
+    }
+
+    public Map<Integer, MapState> getStateMapping() {
+        return levelToState;
     }
 
     private void initPanes(){
@@ -59,6 +69,14 @@ public class MapPane extends AuthoringPane {
         return stack;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public double getPaneWidth() {
         return overallPane.getWidth();
     }
@@ -67,10 +85,10 @@ public class MapPane extends AuthoringPane {
      *
      * @param agent
      */
-    public void addAgent(AgentView agent){
-        agentList.add(agent);
+    public void addAgent(int level, AgentView agent){
+        levelToState.get(level).addToAgents(agent);
+        //levelToState.put(level, levelToState.get(level));
         mapPane.getChildren().add(agent);
-        System.out.println("Added: new size is " + agentList.size());
     }
 
     /**
@@ -128,9 +146,9 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                context.getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
-                file -> setMapImage(file.toURI().toString()),
-                () -> System.err.println(context.getString("BackgroundImageLoadError"))
+                IMAGE_FILE, IMAGE_EXTENSIONS, false, null,
+                file -> setMapImage(level, file.toURI().toString()),
+                () -> System.err.println(MAP_IMAGE_ERROR)
         );
     }
 
@@ -138,7 +156,8 @@ public class MapPane extends AuthoringPane {
      * Assumes input from formatBackground method, which gives exclusively valid correct file names
      * @param fileName
      */
-    private void setMapImage(String fileName){
+    public void setMapImage(int level, String fileName){
+        levelToState.get(level).setBackgroundURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +
                         fileName +
@@ -146,6 +165,15 @@ public class MapPane extends AuthoringPane {
                         "-fx-background-size: cover;"
         );
     }
+
+    public void clearMap() {
+        mapPane.getChildren().clear();
+    }
+
+    public Pane getMapPane() {
+        return mapPane;
+    }
+
 
     @Override
     public void setStylesheet(String url) {

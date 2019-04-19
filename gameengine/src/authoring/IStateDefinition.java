@@ -1,4 +1,4 @@
-package gameengine;
+package authoring;
 
 import java.util.List;
 
@@ -25,10 +25,4 @@ public interface IStateDefinition {
      * @param level
      */
     void addLevel(ILevelDefinition level);
-
-    /**
-     * Updates the State to given that deltaTime has passed. Called iteratively from within Game.
-     * @param deltaTime
-     */
-    public void step(double deltaTime);
 }

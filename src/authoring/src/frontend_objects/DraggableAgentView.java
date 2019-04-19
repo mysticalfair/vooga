@@ -1,10 +1,15 @@
 package frontend_objects;
 
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import panes.AgentPane;
+import panes.ConsolePane;
+import panes.MapPane;
 
 public class DraggableAgentView extends AgentView {
 
@@ -29,41 +34,85 @@ public class DraggableAgentView extends AgentView {
         super(agent.getUrl());
     }
 
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start x position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position X
-     */
-    public double getStartX(){
-        return myStartXOffset;
+    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
+        this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
+        this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
+        this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));
     }
 
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start y position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position Y
-     */
-    public double getStartY(){
-        return myStartYOffset;
+    private void mousePressed(MouseEvent event) {
+        myStartSceneX = event.getSceneX();
+        myStartSceneY = event.getSceneY();
+        myStartXOffset = ((DraggableAgentView)(event.getSource())).getTranslateX();
+        myStartYOffset = ((DraggableAgentView)(event.getSource())).getTranslateY();
+
     }
 
-    public void setMyStartXOffset(double x) {
-        myStartXOffset = x;
+    private void mouseDragged(MouseEvent event, MapPane map) {
+        double offsetX = event.getSceneX() - myStartSceneX;
+        double offsetY = event.getSceneY() - myStartSceneY;
+        double newTranslateX = myStartXOffset + offsetX;
+        double newTranslateY = myStartYOffset + offsetY;
+        ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
+        ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
+        if (trashIntersect(map)) {
+            setEffect(setLighting(Color.RED));
+        } else if (outOfBounds()) {
+            setEffect(setLighting(Color.WHITE));
+        } else {
+            setEffect(null);
+        }
     }
 
-    public void setMyStartYOffset(double y) {
-        myStartYOffset = y;
+    private Lighting setLighting(Color color) {
+        Lighting lighting = new Lighting();
+        lighting.setDiffuseConstant(1.0);
+        lighting.setSpecularConstant(0.0);
+        lighting.setSpecularExponent(0.0);
+        lighting.setSurfaceScale(0.0);
+        lighting.setLight(new Light.Distant(45, 45, color));
+        return lighting;
     }
 
-    public double getMyStartSceneX() { return myStartSceneX; }
-
-    public double getMyStartSceneY() { return myStartSceneY; }
-
-    public void setMyStartSceneX(double x) {
-        myStartSceneX = x;
+    private void mouseReleased(MapPane map, ConsolePane console) {
+        if (trashIntersect(map)) {
+            setImage(null);
+            map.removeAgent(this);
+            console.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+        } else if (outOfBounds()) {
+            setEffect(null);
+            setTranslateX(myStartXOffset);
+            setTranslateY(myStartYOffset);
+            console.displayConsoleMessage("Agent out of bounds: returning to original location");
+        }
     }
 
-    public void setMyStartSceneY(double y) {
-        myStartSceneY = y;
+    private boolean outOfBoundsHorizontal() {
+        double xPos = getTranslateX();
+        double xPosRight = getTranslateX() + getFitWidth();
+        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH;
+        boolean leftOutOfBounds = xPos < 0;
+        return leftOutOfBounds || rightOutOfBounds;
     }
+
+    private boolean outOfBoundsVertical() {
+        double yPos = getTranslateY();
+        double yPosBot = getTranslateY() + getFitHeight();
+        boolean topOutOfBounds = yPos < 0;
+        boolean botOutOfBounds = yPosBot > MapPane.MAP_HEIGHT;
+        return topOutOfBounds || botOutOfBounds;
+    }
+
+    private boolean outOfBounds() {
+        return outOfBoundsHorizontal() || outOfBoundsVertical();
+    }
+
+    private boolean trashIntersect(MapPane map) {
+        double yPos = getTranslateY();
+        double xPosRight = getTranslateX() + getFitWidth();
+        boolean topOutOfBounds = yPos < 0;
+        boolean rightOutOfBounds =  xPosRight > MapPane.MAP_WIDTH  + (map.getPaneWidth() - MapPane.MAP_WIDTH)/2;
+        return topOutOfBounds && rightOutOfBounds;
+    }
+
 }

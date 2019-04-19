@@ -58,6 +58,10 @@ public class MapPane extends AuthoringPane {
         return stack;
     }
 
+    public double getPaneWidth() {
+        return overallPane.getWidth();
+    }
+
     /**
      *
      * @param agent

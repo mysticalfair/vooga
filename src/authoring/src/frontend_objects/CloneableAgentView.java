@@ -1,5 +1,9 @@
 package frontend_objects;
 
+import javafx.scene.input.MouseEvent;
+import panes.ConsolePane;
+import panes.MapPane;
+
 public class CloneableAgentView extends AgentView {
 
     private DraggableAgentView draggableCopy;
@@ -8,23 +12,24 @@ public class CloneableAgentView extends AgentView {
     public CloneableAgentView(String url) {
         super(url);
         this.url = url;
-        //this.hoverLayer = hoverLayer;
-        //this.setOnMousePressed(e -> createDraggable(this));
     }
 
-    /*
-    private void createDraggable(ImageView agent) {
-        draggableCopy = new DraggableAgentView(url);
-        hoverLayer.getChildren().add(draggableCopy);
+    public void mousePressedOnClone(MouseEvent e, MapPane map, ConsolePane console) {
+        if (e.getClickCount() == 2) {
+            DraggableAgentView copy = new DraggableAgentView(this);
+            map.addAgent(copy);
+            console.displayConsoleMessage("Agent added to map. Agent count on map: " + map.getAgentCount());
+            copy.setMouseActionsForDrag(map, console);
+        } else {
+            // code to open up attributes pane.
+        }
     }
-    */
 
-    public DraggableAgentView getDraggableCopy() {
-        return draggableCopy;
-    }
 
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
+
+
 
 }

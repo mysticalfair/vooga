@@ -1,5 +1,6 @@
 package utils.network;
 
+import utils.network.datagrams.Request;
 import utils.reflect.MethodUtils;
 
 import java.lang.reflect.InvocationHandler;
@@ -36,13 +37,8 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
         if (MethodUtils.isMethodInList(method, networkInterface.getClass().getMethods())) {
             return method.invoke(networkInterface, args);
         }
-        // else, send the request to the other side.
-        if (method.getReturnType().equals(Void.TYPE)) {
-            networkInterface.sendNonBlockingRequest(method, args);
-            return null;
-        } else {
-            return networkInterface.sendBlockingRequest(method, args);
-        }
+        // Otherwise send out a request.
+        return networkInterface.sendRequest(new Request(method, args));
     }
 
 }

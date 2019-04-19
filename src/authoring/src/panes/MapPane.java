@@ -1,71 +1,149 @@
 package panes;
 
 import frontend_objects.AgentView;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
 
     public static final double DEFAULT_WIDTH = AuthoringEnvironment.MAP_WIDTH;
     public static final double DEFAULT_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
+    public static final double MAP_WIDTH = AuthoringEnvironment.MAP_WIDTH - 100;
+    public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
+
+    public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
+    public static final String IMAGE_FILE = "Image File";
+    public static final String MAP_IMAGE_ERROR = "Failed to load background for map.";
+    public static final String STYLE = "map-pane.css";
+    public static final String STYLE_ID = "general";
 
     private List<AgentView> agentList;
     private Pane mapPane;
+    private StackPane overallPane;
 
     public MapPane(){
         super();
-        initMapPane();
-        getContentChildren().add(mapPane);
+        agentList = new ArrayList<>();
+        initPanes();
+        getContentChildren().add(overallPane);
     }
 
+    public void accessMap(Consumer<Pane> accessMethod) {
+        accessMethod.accept(mapPane);
+    }
+
+    private void initPanes(){
+        overallPane = initOverallPane();
+
+        mapPane = new Pane();
+        mapPane.setMaxSize(MAP_WIDTH, MAP_HEIGHT);
+        mapPane.setMinSize(MAP_WIDTH, MAP_HEIGHT);
+
+        overallPane.getChildren().add(mapPane);
+    }
+
+    private StackPane initOverallPane(){
+        var stack = new StackPane();
+        stack.setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        stack.getStylesheets().add(STYLE);
+        stack.setId(STYLE_ID);
+        stack.setAlignment(Pos.CENTER);
+        return stack;
+    }
+
+    public double getPaneWidth() {
+        return overallPane.getWidth();
+    }
+
+    /**
+     *
+     * @param agent
+     */
     public void addAgent(AgentView agent){
         agentList.add(agent);
-        getContentChildren().add(agent);
+        mapPane.getChildren().add(agent);
         System.out.println("Added: new size is " + agentList.size());
     }
 
+    /**
+     *
+     * @param view
+     */
     public void removeAgent(AgentView view) {
         agentList.remove(view);
         System.out.println("Removed: new size is " + agentList.size());
     }
 
+    /**
+     *
+     * @return
+     */
+    public int getAgentCount() {
+        return agentList.size();
+    }
+
+    /**
+     *
+     * @param lassoEllipse
+     */
     public void selectAgents(Ellipse lassoEllipse){
         for(AgentView agent: agentList){
             agent.setSelect(lassoSelects(lassoEllipse, agent));
         }
     }
 
-    public int getAgentCount() {
-        return agentList.size();
-    }
-
     private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
         return lassoEllipse.intersects(agent.getBoundsInParent());
     }
 
-    private void initMapPane(){
-        mapPane = new Pane();
-        agentList = new ArrayList<>();
-        mapPane.setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    /**
+     * Called from Tools to add Tool image to display
+     * @param sprite
+     */
+    public void spawnShape(Shape sprite){
+        mapPane.getChildren().add(sprite);
     }
 
-    public void formatBackground(){
-        Image image = new ImageSelector().getUserImage();
-        if(image == null){
-            return;
+    /**
+     * Called from Tools to remove Tool image from display
+     * @param sprite
+     */
+    public void removeShape(Shape sprite){
+        if(mapPane.getChildren().contains(sprite)){
+            mapPane.getChildren().remove(sprite);
         }
-        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-        BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
-        mapPane.setBackground(new Background(backgroundImage));
+    }
+
+    /**
+     *
+     */
+    public void formatBackground(){
+        // TODO: replace System.err.println with Console display
+        AuthoringUtil.openFileChooser(
+                IMAGE_FILE, IMAGE_EXTENSIONS, false, null,
+                file -> setMapImage(file.toURI().toString()),
+                () -> System.err.println(MAP_IMAGE_ERROR)
+        );
+    }
+
+    /**
+     * Assumes input from formatBackground method, which gives exclusively valid correct file names
+     * @param fileName
+     */
+    private void setMapImage(String fileName){
+        mapPane.setStyle(
+                "-fx-background-image: url(" +
+                        fileName +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
     }
 
     @Override
@@ -73,8 +151,13 @@ public class MapPane extends AuthoringPane {
 
     }
 
+    /**
+     *
+     * @param width
+     * @param height
+     */
     @Override
     public void updateSize(double width, double height) {
-        mapPane.setPrefSize(width, height);
+        overallPane.setPrefSize(width, height);
     }
 }

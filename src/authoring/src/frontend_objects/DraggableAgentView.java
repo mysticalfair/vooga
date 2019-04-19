@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import panes.AgentPane;
+import panes.ConsolePane;
 import panes.MapPane;
 
 public class DraggableAgentView extends AgentView {
@@ -33,65 +34,28 @@ public class DraggableAgentView extends AgentView {
         super(agent.getUrl());
     }
 
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start x position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position X
-     */
-    public double getStartX(){
-        return myStartXOffset;
-    }
-
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start y position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position Y
-     */
-    public double getStartY(){
-        return myStartYOffset;
-    }
-
-    public void setMyStartXOffset(double x) {
-        myStartXOffset = x;
-    }
-
-    public void setMyStartYOffset(double y) {
-        myStartYOffset = y;
-    }
-
-    public double getMyStartSceneX() { return myStartSceneX; }
-
-    public double getMyStartSceneY() { return myStartSceneY; }
-
-    public void setMyStartSceneX(double x) {
-        myStartSceneX = x;
-    }
-
-    public void setMyStartSceneY(double y) {
-        myStartSceneY = y;
-    }
-
-    public void setMouseActionsForDrag() {
+    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
         this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
-        this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent));
-        this.setOnMouseReleased(mouseEvent -> mouseReleased());
+        this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
+        this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));
     }
 
     private void mousePressed(MouseEvent event) {
-        setMyStartSceneX(event.getSceneX());
-        setMyStartSceneY(event.getSceneY());
-        setMyStartXOffset(((DraggableAgentView)(event.getSource())).getTranslateX());
-        setMyStartYOffset(((DraggableAgentView)(event.getSource())).getTranslateY());
+        myStartSceneX = event.getSceneX();
+        myStartSceneY = event.getSceneY();
+        myStartXOffset = ((DraggableAgentView)(event.getSource())).getTranslateX();
+        myStartYOffset = ((DraggableAgentView)(event.getSource())).getTranslateY();
+
     }
 
-    private void mouseDragged(MouseEvent event) {
+    private void mouseDragged(MouseEvent event, MapPane map) {
         double offsetX = event.getSceneX() - myStartSceneX;
         double offsetY = event.getSceneY() - myStartSceneY;
         double newTranslateX = myStartXOffset + offsetX;
         double newTranslateY = myStartYOffset + offsetY;
         ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
         ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
-        if (trashIntersect()) {
+        if (trashIntersect(map)) {
             setEffect(setLighting(Color.RED));
         } else if (outOfBounds()) {
             setEffect(setLighting(Color.WHITE));
@@ -110,16 +74,16 @@ public class DraggableAgentView extends AgentView {
         return lighting;
     }
 
-    private void mouseReleased() {
-        if (trashIntersect()) {
+    private void mouseReleased(MapPane map, ConsolePane console) {
+        if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
-            consolePane.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+            console.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
         } else if (outOfBounds()) {
             setEffect(null);
             setTranslateX(myStartXOffset);
             setTranslateY(myStartYOffset);
-            consolePane.displayConsoleMessage("Agent out of bounds: returning to original location");
+            console.displayConsoleMessage("Agent out of bounds: returning to original location");
         }
     }
 
@@ -143,11 +107,11 @@ public class DraggableAgentView extends AgentView {
         return outOfBoundsHorizontal() || outOfBoundsVertical();
     }
 
-    private boolean trashIntersect() {
+    private boolean trashIntersect(MapPane map) {
         double yPos = getTranslateY();
         double xPosRight = getTranslateX() + getFitWidth();
         boolean topOutOfBounds = yPos < 0;
-        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds =  xPosRight > MapPane.MAP_WIDTH  + (map.getPaneWidth() - MapPane.MAP_WIDTH)/2;
         return topOutOfBounds && rightOutOfBounds;
     }
 

@@ -12,7 +12,7 @@ public class AttributesPane extends AuthoringPane {
 
     public static final double WIDTH = AuthoringEnvironment.ATTRIBUTES_WIDTH;
     public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
-    public static final double PADDING = 50;
+    public static final double PADDING = 20;
 
     public AttributesPane() {
         super();

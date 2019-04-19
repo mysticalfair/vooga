@@ -101,7 +101,7 @@ public class AuthoringEnvironment extends Application {
         agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm());
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
-            o.setOnMousePressed(e -> mousePressedOnClone(e, o));
+            o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
         }
     }
 
@@ -124,97 +124,6 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
-    }
-
-    private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
-        if (e.getClickCount() == 2) {
-            DraggableAgentView copy = new DraggableAgentView(agent);
-            map.addAgent(copy);
-            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
-            setMouseActionsForDrag(copy);
-        } else {
-            // code to open up attributes pane.
-        }
-    }
-
-    private void setMouseActionsForDrag(DraggableAgentView draggableAgent){
-        draggableAgent.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, draggableAgent));
-        draggableAgent.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, draggableAgent));
-        draggableAgent.setOnMouseReleased(mouseEvent -> mouseReleased(draggableAgent));
-    }
-
-    private void mousePressed(MouseEvent event, DraggableAgentView draggableAgent) {
-        draggableAgent.setMyStartSceneX(event.getSceneX());
-        draggableAgent.setMyStartSceneY(event.getSceneY());
-        draggableAgent.setMyStartXOffset(((DraggableAgentView)(event.getSource())).getTranslateX());
-        draggableAgent.setMyStartYOffset(((DraggableAgentView)(event.getSource())).getTranslateY());
-    }
-
-    private void mouseDragged(MouseEvent event, DraggableAgentView draggableAgent) {
-        double offsetX = event.getSceneX() - draggableAgent.getMyStartSceneX();
-        double offsetY = event.getSceneY() - draggableAgent.getMyStartSceneY();
-        double newTranslateX = draggableAgent.getStartX() + offsetX;
-        double newTranslateY = draggableAgent.getStartY() + offsetY;
-        ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
-        ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
-        if (trashIntersect(draggableAgent)) {
-            draggableAgent.setEffect(setLighting(Color.RED));
-        } else if (outOfBounds(draggableAgent)) {
-            draggableAgent.setEffect(setLighting(Color.WHITE));
-        } else {
-            draggableAgent.setEffect(null);
-        }
-    }
-
-    private Lighting setLighting(Color color) {
-        Lighting lighting = new Lighting();
-        lighting.setDiffuseConstant(1.0);
-        lighting.setSpecularConstant(0.0);
-        lighting.setSpecularExponent(0.0);
-        lighting.setSurfaceScale(0.0);
-        lighting.setLight(new Light.Distant(45, 45, color));
-        return lighting;
-    }
-
-    private void mouseReleased(DraggableAgentView draggableAgent) {
-        if (trashIntersect(draggableAgent)) {
-            draggableAgent.setImage(null);
-            map.removeAgent(draggableAgent);
-            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
-        } else if (outOfBounds(draggableAgent)) {
-            draggableAgent.setEffect(null);
-            draggableAgent.setTranslateX(draggableAgent.getStartX());
-            draggableAgent.setTranslateY(draggableAgent.getStartY());
-            consolePane.displayMessage("Agent out of bounds: returning to original location", ConsolePane.Level.NEUTRAL);
-        }
-    }
-
-    private boolean outOfBoundsHorizontal(DraggableAgentView draggableAgent) {
-        double xPos = draggableAgent.getTranslateX();
-        double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
-        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH;
-        boolean leftOutOfBounds = xPos < 0;
-        return leftOutOfBounds || rightOutOfBounds;
-    }
-
-    private boolean outOfBoundsVertical(DraggableAgentView draggableAgent) {
-        double yPos = draggableAgent.getTranslateY();
-        double yPosBot = draggableAgent.getTranslateY() + draggableAgent.getFitHeight();
-        boolean topOutOfBounds = yPos < 0;
-        boolean botOutOfBounds = yPosBot > MapPane.MAP_HEIGHT;
-        return topOutOfBounds || botOutOfBounds;
-    }
-
-    private boolean outOfBounds(DraggableAgentView draggableAgent) {
-        return outOfBoundsHorizontal(draggableAgent) || outOfBoundsVertical(draggableAgent);
-    }
-
-    private boolean trashIntersect(DraggableAgentView draggableAgentView) {
-        double yPos = draggableAgentView.getTranslateY();
-        double xPosRight = draggableAgentView.getTranslateX() + draggableAgentView.getFitWidth();
-        boolean topOutOfBounds = yPos < 0;
-        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH  + (borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth() - MapPane.MAP_WIDTH)/2;
-        return topOutOfBounds && rightOutOfBounds;
     }
 
     private void updateDimensions(double width, double height){

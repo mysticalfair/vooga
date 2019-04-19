@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
+import panes.tools.ToolbarPane;
 
 import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
@@ -27,7 +28,7 @@ public class AuthoringEnvironment extends Application {
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";
-    public static final double TOOLBAR_HEIGHT = DEFAULT_HEIGHT/7;
+    public static final double TOOLBAR_HEIGHT = 70;
     public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
     public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
     public static final double ATTRIBUTES_WIDTH = DEFAULT_WIDTH/4;
@@ -64,8 +65,8 @@ public class AuthoringEnvironment extends Application {
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
-
         initEngineObjects();
+        scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         initAllPanes();
         initStage(stage);
 
@@ -118,18 +119,13 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane(rb);
+        toolbarPane = new ToolbarPane(map, scene);
         toolbarPane.accessContainer(borderPane::setTop);
-        var lasso = new LassoTool(map);
-        toolbarPane.addButton(ToolbarPane.LASSO_IMAGE, 25, 10, e -> selectToolAction(lasso, scene));
+        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", CML.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", CML.NEUTRAL));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
-    }
-
-    private void selectToolAction(LassoTool lasso, Scene thisScene) {
-        consolePane.displayMessage("Multi-select tool enabled", CML.NEUTRAL);
-        lasso.setMouseActions(thisScene);
     }
 
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
@@ -198,7 +194,7 @@ public class AuthoringEnvironment extends Application {
     private boolean outOfBoundsHorizontal(DraggableAgentView draggableAgent) {
         double xPos = draggableAgent.getTranslateX();
         double xPosRight = draggableAgent.getTranslateX() + draggableAgent.getFitWidth();
-        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH;
         boolean leftOutOfBounds = xPos < 0;
         return leftOutOfBounds || rightOutOfBounds;
     }
@@ -207,7 +203,7 @@ public class AuthoringEnvironment extends Application {
         double yPos = draggableAgent.getTranslateY();
         double yPosBot = draggableAgent.getTranslateY() + draggableAgent.getFitHeight();
         boolean topOutOfBounds = yPos < 0;
-        boolean botOutOfBounds = yPosBot > borderPane.getHeight() - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
+        boolean botOutOfBounds = yPosBot > MapPane.MAP_HEIGHT;
         return topOutOfBounds || botOutOfBounds;
     }
 
@@ -219,7 +215,7 @@ public class AuthoringEnvironment extends Application {
         double yPos = draggableAgentView.getTranslateY();
         double xPosRight = draggableAgentView.getTranslateX() + draggableAgentView.getFitWidth();
         boolean topOutOfBounds = yPos < 0;
-        boolean rightOutOfBounds = xPosRight > borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth();
+        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH  + (borderPane.getWidth() - attributesPane.getWidth() - agentPane.getVBoxContainer().getWidth() - MapPane.MAP_WIDTH)/2;
         return topOutOfBounds && rightOutOfBounds;
     }
 
@@ -234,14 +230,12 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initStage(Stage stage) {
-        Scene mainScene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        scene = mainScene;
         stage.setTitle(TITLE);
-        stage.setScene(mainScene);
+        stage.setScene(scene);
         stage.setMinWidth(DEFAULT_WIDTH);
         stage.setMinHeight(DEFAULT_HEIGHT);
-        mainScene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, mainScene.getHeight()));
-        mainScene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(mainScene.getWidth (), (double) newvalue));
+        scene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, scene.getHeight()));
+        scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add("Midpoint.css");
         stage.show();
     }

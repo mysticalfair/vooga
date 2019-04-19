@@ -1,8 +1,17 @@
-package panes;
+package panes.tools;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import panes.AuthoringEnvironment;
+import panes.AuthoringPane;
+import panes.AuthoringUtil;
+import panes.MapPane;
+import panes.tools.LassoTool;
+import panes.tools.PathPenTool;
+import panes.tools.Tool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,27 +20,38 @@ import java.util.ResourceBundle;
 
 public class ToolbarPane extends AuthoringPane {
 
+    /**
+     * Want it so the public method called from AuthoringEnvironment gives an EventHandler for Button to Toolbar, then Toolbar sets the button action to this eventHandler AND the toggle method of the tool
+     * The AuthoringEnvironment is responsible for giving the Map and Scene to the ToolbarPane when needed for Tools
+     */
+
     private MenuBar menuBar;
     private ToolBar toolBar;
     private Map<String, Menu> menuMap;
     private VBox box;
+    private Map<String, Tool> toolImageMap;
+
+    private MapPane map;
+    private Scene scene;
 
     public static final double HEIGHT = AuthoringEnvironment.TOOLBAR_HEIGHT;
     public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH;
-    public static final double BUTTON_IMAGE_WIDTH = 10;
-    public static final double BUTTON_IMAGE_HEIGHT = 10;
-    public static final double BUTTON_WIDTH = 20;
-    public static final double BUTTON_HEIGHT = 20;
+    public static final double BUTTON_IMAGE_SIZE = 10;
+    public static final double BUTTON_SIZE = 20;
     public static final double TOOLBAR_PADDING = 25;
-    public static final double TOOLBAR_HEIGHT = BUTTON_HEIGHT + TOOLBAR_PADDING;
+    public static final double TOOLBAR_HEIGHT = BUTTON_SIZE + TOOLBAR_PADDING;
 
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
+    public static final String PEN_IMAGE = "Pen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(ResourceBundle rb){
+    public ToolbarPane(ResourceBundle rb, MapPane authorMap, Scene authorScene){
         super(rb);
+        map = authorMap;
+        scene = authorScene;
         menuMap = new HashMap<>();
+        toolImageMap = new HashMap<>();
         initBars();
     }
 
@@ -58,13 +78,10 @@ public class ToolbarPane extends AuthoringPane {
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
         toolbar.setPrefSize(WIDTH, TOOLBAR_HEIGHT);
-        /*var lasso = new Button();
-        var image = new ImageView(new Image(LASSO_IMAGE));
-        image.setFitWidth(BUTTON_IMAGE_WIDTH);
-        image.setFitHeight(BUTTON_IMAGE_HEIGHT);
-        lasso.setGraphic(image);
-        lasso.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        toolbar.getItems().addAll(lasso);*/
+        var lasso = new LassoTool(map, scene, LASSO_IMAGE);
+        var pen = new PathPenTool(map, scene, PEN_IMAGE);
+        toolImageMap.put(LASSO_IMAGE, lasso);
+        toolImageMap.put(PEN_IMAGE, pen);
         return toolbar;
     }
 
@@ -76,14 +93,20 @@ public class ToolbarPane extends AuthoringPane {
      */
     public void addAction(String menuName, String label, EventHandler action){
         var menu = menuMap.get(menuName);
-        var menutItem = new MenuItem(label);
-        menutItem.setOnAction(action);
-        menu.getItems().add(menutItem);
+        var menuItem = new MenuItem(label);
+        menuItem.setOnAction(action);
+        menu.getItems().add(menuItem);
     }
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
+        EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
+        button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
+    }
+
+    public void addButton(String buttonImageName, EventHandler action) {
+        addButton(buttonImageName, BUTTON_SIZE, BUTTON_IMAGE_SIZE, action);
     }
 
     public double getHeight() {

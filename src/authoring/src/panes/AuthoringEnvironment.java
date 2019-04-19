@@ -1,5 +1,6 @@
 package panes;
 
+import authoring.GameFactory;
 import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
@@ -13,8 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.ToolbarPane;
+import util.AuthoringContext;
+
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
+
     public static final String TITLE = "Electric Voogaloo!";
     public static final double DEFAULT_WIDTH = 1200;
     public static final double DEFAULT_HEIGHT = 650;
@@ -27,6 +32,8 @@ public class AuthoringEnvironment extends Application {
     public static final double ATTRIBUTES_WIDTH = DEFAULT_WIDTH/4;
     public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
     public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
+
+    private AuthoringContext context;
 
     private StackPane stackPane;
     private BorderPane borderPane;
@@ -43,12 +50,36 @@ public class AuthoringEnvironment extends Application {
 
     @Override
     public void start(Stage stage) {
+        GameFactory gameFactory = initGameFactory();
+        context = new AuthoringContext(ResourceBundle.getBundle("strings/English"),
+                null,
+                gameFactory,
+                gameFactory.createState(),
+                gameFactory.createGame());
+        context.getGame().setState(context.getState());
+
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
         scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         initAllPanes();
         initStage(stage);
+
+        // This is needed here because the context needs to be created to be passed to the consolePane, but it also
+        // needs access to this method from the consolePane. It is a bit of circular referencing, but since it's
+        // via a lambda it is not as bad.
+        context.setDisplayConsoleMessage((message, level) -> consolePane.displayMessage(message, level));
+    }
+
+    private GameFactory initGameFactory() {
+        try {
+            return new GameFactory();
+        } catch (Exception e) {
+            //ResourceBundle.getBundle("strings/English").getString("GameFactoryInitializationError");
+            System.err.println(e.getMessage());
+            System.exit(-1);
+            return null;
+        }
     }
 
     private void initAllPanes() {
@@ -60,14 +91,14 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initMapPane() {
-        map = new MapPane();
+        map = new MapPane(context);
         map.accessContainer(borderPane::setCenter);
     }
 
     private void initAgentPane() {
-        agentPane = new AgentPane();
+        agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton("add-button.png", 25, 10, e -> System.out.println("handle press method goes here"));
+        agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm());
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
@@ -75,21 +106,21 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAttributesPane() {
-        attributesPane = new AttributesPane();
+        attributesPane = new AttributesPane(context);
         attributesPane.accessContainer(borderPane::setLeft);
     }
 
     private void initConsolePane() {
-        consolePane = new ConsolePane();
+        consolePane = new ConsolePane(context);
         consolePane.accessContainer(borderPane::setBottom);
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane(map, scene);
+        toolbarPane = new ToolbarPane(context, map, scene);
         toolbarPane.accessContainer(borderPane::setTop);
-        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayConsoleMessage("Multi-select tool enabled"));
-        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayConsoleMessage("Path drawing tool enabled"));
+        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);

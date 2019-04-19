@@ -7,14 +7,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 import panes.MapPane;
-import panes.tools.LassoTool;
-import panes.tools.PathPenTool;
-import panes.tools.Tool;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ToolbarPane extends AuthoringPane {
 
@@ -44,8 +44,8 @@ public class ToolbarPane extends AuthoringPane {
     public static final String PEN_IMAGE = "Pen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(MapPane authorMap, Scene authorScene){
-        super();
+    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene){
+        super(context);
         map = authorMap;
         scene = authorScene;
         menuMap = new HashMap<>();
@@ -96,12 +96,15 @@ public class ToolbarPane extends AuthoringPane {
         menu.getItems().add(menuItem);
     }
 
-    public void addButton(String buttonImageName, EventHandler action){
+    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
-
-        Button button = createButton(buttonImageName, BUTTON_SIZE, BUTTON_IMAGE_SIZE, action);
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
+    }
+
+    public void addButton(String buttonImageName, EventHandler action) {
+        addButton(buttonImageName, BUTTON_SIZE, BUTTON_IMAGE_SIZE, action);
     }
 
     public double getHeight() {

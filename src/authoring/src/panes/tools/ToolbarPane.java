@@ -25,6 +25,7 @@ public class ToolbarPane extends AuthoringPane {
 
     private MenuBar menuBar;
     private ToolBar toolBar;
+    private Spinner levelChanger;
     private Map<String, Menu> menuMap;
     private VBox box;
     private Map<String, Tool> toolImageMap;
@@ -38,6 +39,8 @@ public class ToolbarPane extends AuthoringPane {
     public static final double BUTTON_SIZE = 20;
     public static final double TOOLBAR_PADDING = 25;
     public static final double TOOLBAR_HEIGHT = BUTTON_SIZE + TOOLBAR_PADDING;
+    public static final double INITIAL_LEVEL = 1;
+    public static final double MAX_LEVEL = Integer.MAX_VALUE;
 
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
@@ -51,6 +54,7 @@ public class ToolbarPane extends AuthoringPane {
         menuMap = new HashMap<>();
         toolImageMap = new HashMap<>();
         initBars();
+        initLevelChanger();
     }
 
     private void initBars(){
@@ -62,6 +66,7 @@ public class ToolbarPane extends AuthoringPane {
         box.setPrefSize(WIDTH, HEIGHT);
         getContentChildren().add(box);
     }
+
 
     private MenuBar initMenuBar(){
         var menu = new MenuBar();
@@ -81,6 +86,16 @@ public class ToolbarPane extends AuthoringPane {
         toolImageMap.put(LASSO_IMAGE, lasso);
         toolImageMap.put(PEN_IMAGE, pen);
         return toolbar;
+    }
+
+    private void initLevelChanger() {
+        levelChanger = new Spinner(INITIAL_LEVEL, MAX_LEVEL, INITIAL_LEVEL);
+        levelChanger.setPrefHeight(5);
+        toolBar.getItems().add(levelChanger);
+    }
+
+    public Spinner getLevelChanger() {
+        return levelChanger;
     }
 
     /**

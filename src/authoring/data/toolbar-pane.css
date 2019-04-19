@@ -19,7 +19,7 @@
 
 .menu-item {
     -fx-background-color: #424242;
-    -fx-padding: 1 5 1 5;
+    *-fx-padding: 1 5 1 5;
 }
 
 .menu-item:focused {

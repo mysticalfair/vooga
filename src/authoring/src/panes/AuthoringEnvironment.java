@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.ToolbarPane;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AuthoringEnvironment extends Application {
     public static final String TITLE = "Electric Voogaloo!";
     public static final double DEFAULT_WIDTH = 1200;
@@ -36,6 +39,7 @@ public class AuthoringEnvironment extends Application {
     private ToolbarPane toolbarPane;
     private MapPane map;
     private Scene scene;
+    private List<MapState> levels;
 
     public static void main(String[] args){
         launch(args);
@@ -52,16 +56,18 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
-        initMapPane();
+        initMapPane(1);
         initAttributesPane();
         initConsolePane();
         initToolbarPane();
         initAgentPane();
     }
 
-    private void initMapPane() {
+    private void initMapPane(int level) {
         map = new MapPane();
         map.accessContainer(borderPane::setCenter);
+        map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
+        map.setLevel(level);
     }
 
     private void initAgentPane() {
@@ -93,6 +99,18 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));
+    }
+
+    private void changeLevel(int oldValue, int newValue) {
+        map.setLevel(newValue);
+        if (!map.getStateMapping().containsKey(newValue)) {
+            map.getMapPane().getChildren().clear();
+            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
+        } else {
+            MapState revertToState = map.getStateMapping().get(newValue);
+            revertToState.updateMap(map);
+        }
     }
 
     private void updateDimensions(double width, double height){

@@ -8,11 +8,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
@@ -23,8 +25,6 @@ public class MapPane extends AuthoringPane {
     public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
 
     public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
-    public static final String IMAGE_FILE = "Image File";
-    public static final String MAP_IMAGE_ERROR = "Failed to load background for map.";
     public static final String STYLE = "map-pane.css";
     public static final String STYLE_ID = "general";
 
@@ -34,8 +34,8 @@ public class MapPane extends AuthoringPane {
     private int level;
     private Map<Integer, MapState> levelToState;
 
-    public MapPane(){
-        super();
+    public MapPane(AuthoringContext context) {
+        super(context);
         agentList = new ArrayList<>();
         levelToState = new HashMap<>();
         initPanes();

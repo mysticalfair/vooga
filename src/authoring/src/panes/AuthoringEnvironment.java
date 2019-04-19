@@ -70,7 +70,7 @@ public class AuthoringEnvironment extends Application {
         agentPane.addButton("add-button.png", 25, 10, e -> System.out.println("handle press method goes here"));
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
-            o.setOnMousePressed(e -> mousePressedOnClone(e, o));
+            o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
         }
     }
 
@@ -102,6 +102,8 @@ public class AuthoringEnvironment extends Application {
         lasso.setMouseActions(thisScene);
     }
 
+    /*
+
     private void mousePressedOnClone(MouseEvent e, CloneableAgentView agent) {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
@@ -111,7 +113,7 @@ public class AuthoringEnvironment extends Application {
         } else {
             // code to open up attributes pane.
         }
-    }
+    }*/
 
     private void setMouseActionsForDrag(DraggableAgentView draggableAgent){
         draggableAgent.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, draggableAgent));

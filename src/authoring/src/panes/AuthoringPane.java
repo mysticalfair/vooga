@@ -5,8 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import util.AuthoringContext;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class AuthoringPane implements IAuthoringPane, AccessibleContainer {
@@ -14,7 +14,7 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     static final double HANDLE_THICKNESS = 20;
     static final double HANDLE_ROUNDING_DIAMETER = 20;
 
-    protected ResourceBundle rb;
+    protected AuthoringContext context;
 
     private Pane container;
     private Pane hvbox;
@@ -22,8 +22,8 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     private Pane handle;
     private Pane content;
 
-    public AuthoringPane(ResourceBundle rb) {
-        this.rb = rb;
+    public AuthoringPane(AuthoringContext context) {
+        this.context = context;
 
         container = new Pane();
         handle = new Pane();

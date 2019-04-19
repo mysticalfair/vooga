@@ -11,7 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import panes.AuthoringUtil;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 import panes.attributes.AttributesForm;
 
 import java.util.ResourceBundle;
@@ -26,8 +27,8 @@ public class CommonAgentFieldsForm extends AttributesForm {
     private ImageView imageField;
     private String imageUrl;
 
-    public CommonAgentFieldsForm(ResourceBundle rb, GameFactory gameFactory) {
-        super(rb, gameFactory);
+    public CommonAgentFieldsForm(AuthoringContext context) {
+        super(context);
         initCommonFields();
     }
 
@@ -51,7 +52,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         try {
             return Integer.parseInt(textField.getText());
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, rb.getString(errorMessageKey));
+            Alert alert = new Alert(Alert.AlertType.ERROR, context.getString(errorMessageKey));
             alert.showAndWait();
         }
         return -1;
@@ -65,18 +66,18 @@ public class CommonAgentFieldsForm extends AttributesForm {
         GridPane gridPane = new GridPane();
 
         // Agent type
-        Label typeLabel = new Label(rb.getString("Type"));
+        Label typeLabel = new Label(context.getString("Type"));
         agentTypeField = new ChoiceBox<>();
-        agentTypeField.getItems().addAll(rb.getString("Custom"));
+        agentTypeField.getItems().addAll(context.getString("Custom"));
         gridPane.add(typeLabel, 0, 0);
         gridPane.add(agentTypeField, 1, 0, 3, 1);
 
 
         // Name
-        Label nameLabel = new Label(rb.getString("Name"));
+        Label nameLabel = new Label(context.getString("Name"));
         nameLabel.setId("paddedLabel");
         nameField = new TextField();
-        nameField.setPromptText(rb.getString("NamePrompt"));
+        nameField.setPromptText(context.getString("NamePrompt"));
         gridPane.add(nameLabel, 0, 1);
         gridPane.add(nameField, 1, 1, 3, 1);
 
@@ -91,7 +92,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         imageField.setCache(true);
 
         AnchorPane imageLabelAnchorPane = new AnchorPane();
-        Text chooseImageText = new Text(rb.getString("ChooseImage"));
+        Text chooseImageText = new Text(context.getString("ChooseImage"));
         AnchorPane.setBottomAnchor(chooseImageText, 0.0);
         imageLabelAnchorPane.getChildren().add(chooseImageText);
 
@@ -101,14 +102,14 @@ public class CommonAgentFieldsForm extends AttributesForm {
 
 
         // Width and height
-        Label widthLabel = new Label(rb.getString("Width"));
+        Label widthLabel = new Label(context.getString("Width"));
         widthLabel.setId("paddedLabel");
         widthField = new TextField();
-        widthField.setPromptText(rb.getString("WidthHeightPrompt"));
-        Label heightLabel = new Label(rb.getString("Height"));
+        widthField.setPromptText(context.getString("WidthHeightPrompt"));
+        Label heightLabel = new Label(context.getString("Height"));
         heightLabel.setId("paddedLabel");
         heightField = new TextField();
-        heightField.setPromptText(rb.getString("WidthHeightPrompt"));
+        heightField.setPromptText(context.getString("WidthHeightPrompt"));
         gridPane.add(widthLabel, 2, 2);
         gridPane.add(widthField, 3, 2);
         gridPane.add(heightLabel, 2, 3);
@@ -119,7 +120,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
 
     private void chooseAgentImage() {
         AuthoringUtil.openFileChooser(
-                rb.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
+                context.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> {
                     imageUrl = file.toURI().toString();
                     imageField.setImage(new Image(imageUrl));

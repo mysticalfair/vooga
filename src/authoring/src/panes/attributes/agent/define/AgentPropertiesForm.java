@@ -5,7 +5,8 @@ import authoring.IPropertyDefinition;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import panes.AuthoringUtil;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 import panes.attributes.AttributesForm;
 
 import java.util.ArrayList;
@@ -19,15 +20,15 @@ public class AgentPropertiesForm extends AttributesForm {
     private VBox propertiesVBox;
     private List<AgentPropertyLine> propertyLines;
 
-    public AgentPropertiesForm(ResourceBundle rb, GameFactory gameFactory) {
-        super(rb, gameFactory);
+    public AgentPropertiesForm(AuthoringContext context) {
+        super(context);
 
         GridPane gridPane = new GridPane();
-        gridPane.add(new Label(rb.getString("Properties")), 0, 0, 3, 1);
+        gridPane.add(new Label(context.getString("Properties")), 0, 0, 3, 1);
         gridPane.add(AuthoringUtil.createSquareImageButton(
                 ADD_BUTTON_IMAGE_FILE, 25, 10,
                 e -> {
-                    AgentPropertyLine p = new AgentPropertyLine(rb, gameFactory, null);
+                    AgentPropertyLine p = new AgentPropertyLine(context, null);
                     propertyLines.add(p);
                     p.accessContainer(propertiesVBox.getChildren()::add);
                     p.setOnDelete(e2 -> {

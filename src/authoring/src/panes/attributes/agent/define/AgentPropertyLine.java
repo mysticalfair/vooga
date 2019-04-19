@@ -8,7 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import panes.AuthoringUtil;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 import panes.attributes.AttributesForm;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class AgentPropertyLine extends AttributesForm {
     private TextField valueField;
     private Button deleteButton;
 
-    public AgentPropertyLine(ResourceBundle rb, GameFactory gameFactory, EventHandler onDelete) {
-        this(rb, gameFactory, "", DEFAULT_TYPES, "", onDelete);
+    public AgentPropertyLine(AuthoringContext context, EventHandler onDelete) {
+        this(context, "", DEFAULT_TYPES, "", onDelete);
     }
 
-    public AgentPropertyLine(ResourceBundle rb, GameFactory gameFactory, String name, List<String> types, String value, EventHandler onDelete) {
-        super(rb, gameFactory);
+    public AgentPropertyLine(AuthoringContext context, String name, List<String> types, String value, EventHandler onDelete) {
+        super(context);
         init(name, types, value, onDelete);
     }
 
@@ -46,9 +47,9 @@ public class AgentPropertyLine extends AttributesForm {
         if (type.equals("Integer")) {
             try {
                 int value = Integer.parseInt(valueField.getText());
-                return gameFactory.createProperty(name, value);
+                return context.getGameFactory().createProperty(name, value);
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(rb.getString("PropertyMustBeOfType"), name, type));
+                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(context.getString("PropertyMustBeOfType"), name, type));
                 alert.showAndWait();
                 return null;
             }
@@ -56,15 +57,15 @@ public class AgentPropertyLine extends AttributesForm {
         else if (type.equals("Double")) {
             try {
                 double value = Double.parseDouble(valueField.getText());
-                return gameFactory.createProperty(name, value);
+                return context.getGameFactory().createProperty(name, value);
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(rb.getString("PropertyMustBeOfType"), name, type));
+                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(context.getString("PropertyMustBeOfType"), name, type));
                 alert.showAndWait();
                 return null;
             }
         }
         else if (type.equals("String")) {
-            return gameFactory.createProperty(name, valueField.getText());
+            return context.getGameFactory().createProperty(name, valueField.getText());
         }
         return null;
     }
@@ -73,7 +74,7 @@ public class AgentPropertyLine extends AttributesForm {
         HBox propertyHBox = new HBox();
 
         nameField = new TextField(name);
-        nameField.setPromptText(rb.getString("Name"));
+        nameField.setPromptText(context.getString("Name"));
         propertyHBox.getChildren().add(nameField);
 
         typeBox = new ChoiceBox<>();
@@ -81,7 +82,7 @@ public class AgentPropertyLine extends AttributesForm {
         propertyHBox.getChildren().add(typeBox);
 
         valueField = new TextField(value);
-        valueField.setPromptText(rb.getString("Value"));
+        valueField.setPromptText(context.getString("Value"));
         propertyHBox.getChildren().add(valueField);
 
         deleteButton = AuthoringUtil.createSquareImageButton(

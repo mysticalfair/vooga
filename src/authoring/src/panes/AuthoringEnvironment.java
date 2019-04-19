@@ -1,8 +1,6 @@
 package panes;
 
 import authoring.GameFactory;
-import authoring.IGameDefinition;
-import authoring.IStateDefinition;
 import frontend_objects.CloneableAgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
@@ -16,9 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.ToolbarPane;
+import util.AuthoringContext;
 
 import java.util.ResourceBundle;
-import java.util.function.BiConsumer;
 
 public class AuthoringEnvironment extends Application {
 
@@ -35,11 +33,8 @@ public class AuthoringEnvironment extends Application {
     public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
     public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
 
+    private AuthoringContext context;
 
-    public static BiConsumer<String, CML> consoleMessage;
-
-    // GUI instance variables
-    private ResourceBundle rb;
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
@@ -49,39 +44,42 @@ public class AuthoringEnvironment extends Application {
     private MapPane map;
     private Scene scene;
 
-    // Engine instance variables
-    private GameFactory gameFactory;
-    private IStateDefinition state;
-    private IGameDefinition game;
-
     public static void main(String[] args){
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
-        rb = ResourceBundle.getBundle("strings/English");
+        GameFactory gameFactory = initGameFactory();
+        context = new AuthoringContext(ResourceBundle.getBundle("strings/English"),
+                null,
+                gameFactory,
+                gameFactory.createState(),
+                gameFactory.createGame());
+        context.getGame().setState(context.getState());
 
         stackPane = new StackPane();
         borderPane = new BorderPane();
         stackPane.getChildren().add(borderPane);
-        initEngineObjects();
         scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         initAllPanes();
         initStage(stage);
 
-        consoleMessage = (message, level) -> consolePane.displayMessage(message, level);
+        // This is needed here because the context needs to be created to be passed to the consolePane, but it also
+        // needs access to this method from the consolePane. It is a bit of circular referencing, but since it's
+        // via a lambda it is not as bad.
+        context.setDisplayConsoleMessage((message, level) -> consolePane.displayMessage(message, level));
     }
 
-    private void initEngineObjects() {
+    private GameFactory initGameFactory() {
         try {
-            gameFactory = new GameFactory();
+            return new GameFactory();
         } catch (Exception e) {
-            consolePane.displayMessage(rb.getString("GameFactoryInitializationError"), CML.ERROR);
+            //ResourceBundle.getBundle("strings/English").getString("GameFactoryInitializationError");
+            System.err.println(e.getMessage());
+            System.exit(-1);
+            return null;
         }
-        state = gameFactory.createState();
-        game = gameFactory.createGame();
-        game.setState(state);
     }
 
     private void initAllPanes() {
@@ -93,14 +91,14 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initMapPane() {
-        map = new MapPane(rb);
+        map = new MapPane(context);
         map.accessContainer(borderPane::setCenter);
     }
 
     private void initAgentPane() {
-        agentPane = new AgentPane(rb);
+        agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm(gameFactory));
+        agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm());
         for (CloneableAgentView o : agentPane.getAgentList()) {
             o.setId("img");
             o.setOnMousePressed(e -> mousePressedOnClone(e, o));
@@ -108,21 +106,21 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAttributesPane() {
-        attributesPane = new AttributesPane(rb);
+        attributesPane = new AttributesPane(context);
         attributesPane.accessContainer(borderPane::setLeft);
     }
 
     private void initConsolePane() {
-        consolePane = new ConsolePane(rb);
+        consolePane = new ConsolePane(context);
         consolePane.accessContainer(borderPane::setBottom);
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane(map, scene);
+        toolbarPane = new ToolbarPane(context, map, scene);
         toolbarPane.accessContainer(borderPane::setTop);
-        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", CML.NEUTRAL));
-        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", CML.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
@@ -132,7 +130,7 @@ public class AuthoringEnvironment extends Application {
         if (e.getClickCount() == 2) {
             DraggableAgentView copy = new DraggableAgentView(agent);
             map.addAgent(copy);
-            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount(), CML.NEUTRAL);
+            consolePane.displayMessage("Agent added to map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
             setMouseActionsForDrag(copy);
         } else {
             // code to open up attributes pane.
@@ -182,12 +180,12 @@ public class AuthoringEnvironment extends Application {
         if (trashIntersect(draggableAgent)) {
             draggableAgent.setImage(null);
             map.removeAgent(draggableAgent);
-            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), CML.NEUTRAL);
+            consolePane.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
         } else if (outOfBounds(draggableAgent)) {
             draggableAgent.setEffect(null);
             draggableAgent.setTranslateX(draggableAgent.getStartX());
             draggableAgent.setTranslateY(draggableAgent.getStartY());
-            consolePane.displayMessage("Agent out of bounds: returning to original location", CML.NEUTRAL);
+            consolePane.displayMessage("Agent out of bounds: returning to original location", ConsolePane.Level.NEUTRAL);
         }
     }
 

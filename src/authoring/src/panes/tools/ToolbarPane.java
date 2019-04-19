@@ -7,11 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
-import panes.AuthoringUtil;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 import panes.MapPane;
-import panes.tools.LassoTool;
-import panes.tools.PathPenTool;
-import panes.tools.Tool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +44,8 @@ public class ToolbarPane extends AuthoringPane {
     public static final String PEN_IMAGE = "Pen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(ResourceBundle rb, MapPane authorMap, Scene authorScene){
-        super(rb);
+    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene){
+        super(context);
         map = authorMap;
         scene = authorScene;
         menuMap = new HashMap<>();

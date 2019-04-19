@@ -4,20 +4,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import util.AuthoringContext;
 
 import java.util.ResourceBundle;
 
 /**
+ * A pane that shows a console for notifying the user of changes and will eventually allow user input.
+ *
+ * @author Mary Stuart Elder
+ * @author Samuel Rabinowitz
+ *
  * Styling resources:
  *  https://www.w3.org/TR/css-backgrounds-3/#propdef-border-style
  *  https://stackoverflow.com/questions/48048943/javafx-8-scroll-bar-css
  */
-
-public class ConsolePane extends AuthoringPane{
-
-    private VBox myVBox;
-    private VBox fullBox;
-    private ScrollPane scrollPane;
+public class ConsolePane extends AuthoringPane {
 
     public static final String OVERALL_STYLE = "terminal_overall";
     public static final String TITLE_STYLE = "terminal_heading";
@@ -29,8 +30,22 @@ public class ConsolePane extends AuthoringPane{
     public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH;
     public static final double HEIGHT = AuthoringEnvironment.CONSOLE_HEIGHT;
 
-    public ConsolePane(ResourceBundle rb) {
-        super(rb);
+    /**
+     * Console message level.
+     * @author Samuel Rabinowitz
+     */
+    public enum Level {
+        NEUTRAL,
+        ERROR,
+        SUCCESS
+    }
+
+    private VBox myVBox;
+    private VBox fullBox;
+    private ScrollPane scrollPane;
+
+    public ConsolePane(AuthoringContext context) {
+        super(context);
         getContentChildren().add(initializeContent());
     }
 
@@ -73,17 +88,18 @@ public class ConsolePane extends AuthoringPane{
      * This method can be called externally to notify the user of environment changes.
      * Changes (good, neutral, and bad) to the environment that don't require immediate user action are sent to the console.
      * @param message String, message to send to user
+     * @param level ConsolePane.Level, indicates the importance of the message
      */
-    public void displayMessage(String message, CML level) {
+    public void displayMessage(String message, Level level) {
         var text = new Text(message);
 
-        if (level == CML.NEUTRAL) {
+        if (level == Level.NEUTRAL) {
             text.setId(MESSAGE);
         }
-        else if (level == CML.ERROR) {
+        else if (level == Level.ERROR) {
             text.setId(ERROR_MESSAGE);
         }
-        else if (level == CML.SUCCESS) {
+        else if (level == Level.SUCCESS) {
             text.setId(SUCCESS_MESSAGE);
         }
 

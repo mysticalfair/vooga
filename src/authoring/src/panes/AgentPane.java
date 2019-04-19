@@ -15,6 +15,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,8 @@ public class AgentPane extends AuthoringPane {
     public static final double WIDTH = AuthoringEnvironment.AGENT_WIDTH;
     public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
 
-    public AgentPane(ResourceBundle rb) {
-        super(rb);
+    public AgentPane(AuthoringContext context) {
+        super(context);
         initElements();
         getContentChildren().add(inventoryContainer);
     }

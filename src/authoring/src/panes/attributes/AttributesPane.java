@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
 import panes.attributes.agent.define.DefineAgentForm;
+import util.AuthoringContext;
 
 import java.util.ResourceBundle;
 
@@ -16,8 +17,8 @@ public class AttributesPane extends AuthoringPane {
     public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
     public static final double PADDING = 20;
 
-    public AttributesPane(ResourceBundle rb) {
-        super(rb);
+    public AttributesPane(AuthoringContext context) {
+        super(context);
         scrollPane = new ScrollPane();
         scrollPane.setPrefViewportWidth(WIDTH - PADDING);
         scrollPane.setPrefViewportHeight(HEIGHT - PADDING);
@@ -46,9 +47,9 @@ public class AttributesPane extends AuthoringPane {
         return scrollPane.getWidth();
     }
 
-    public void createNewAgentForm(GameFactory gameFactory) {
+    public void createNewAgentForm() {
         scrollPane.setContent(null);
-        DefineAgentForm defineAgentForm = new DefineAgentForm(rb, gameFactory);
+        DefineAgentForm defineAgentForm = new DefineAgentForm(context);
         defineAgentForm.accessContainer(scrollPane::setContent);
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
         defineAgentForm.setOnSave(e -> defineAgentForm.getAgentDefinition());

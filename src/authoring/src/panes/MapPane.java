@@ -6,6 +6,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,6 @@ public class MapPane extends AuthoringPane {
     public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
 
     public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
-    public static final String IMAGE_FILE = "Image File";
-    public static final String MAP_IMAGE_ERROR = "Failed to load background for map.";
     public static final String STYLE = "map-pane.css";
     public static final String STYLE_ID = "general";
 
@@ -29,8 +29,8 @@ public class MapPane extends AuthoringPane {
     private Pane mapPane;
     private StackPane overallPane;
 
-    public MapPane(ResourceBundle rb){
-        super(rb);
+    public MapPane(AuthoringContext context) {
+        super(context);
         agentList = new ArrayList<>();
         initPanes();
         getContentChildren().add(overallPane);
@@ -124,9 +124,9 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                rb.getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
+                context.getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(file.toURI().toString()),
-                () -> System.err.println(rb.getString("BackgroundImageLoadError"))
+                () -> System.err.println(context.getString("BackgroundImageLoadError"))
         );
     }
 

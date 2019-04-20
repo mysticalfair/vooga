@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import state.LevelState;
 import state.Property;
 import state.State;
 import state.action.Action;
@@ -91,8 +92,8 @@ public class GameFactory {
      * Create a default level, with no agents defined
      * @return A default level
      */
-    public ILevelDefinition createLevel() {
-        Level level = new Level();
+    public ILevelDefinition createLevel(LevelState state) {
+        Level level = new Level(state);
         level.injectGameEventMaster(eventMaster);
         return level;
     }

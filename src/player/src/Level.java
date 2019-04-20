@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import state.IPlayerLevelState;
 import state.agent.IPlayerAgent;
 
 import java.awt.*;
@@ -38,12 +39,13 @@ public class Level extends Scene {
    private Button initDemoButton;
    private Button updateDemoButton;
 
-   public Level(){
+   public Level(IPlayerLevelState levelState){
       super(new BorderPane(), HEIGHT, WIDTH);
       this.setRoot();
       this.initializeButtons();
       this.initializePanes();
       this.setStyles();
+      this.mapPane.addAgents(levelState.getImmutableAgents());
    }
 
    private void setRoot(){

@@ -8,8 +8,8 @@ public class GameApplication extends Application {
    }
 
    public void start(Stage stage) {
-      Level level = new Level();
-      stage.setScene(level);
+      //Level level = new Level();
+      //stage.setScene(level);
       stage.show();
    }
 }

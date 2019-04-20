@@ -124,8 +124,18 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      */
     @Override
     public Agent clone() throws CloneNotSupportedException {
-        return (Agent)super.clone();
-        // TODO is this hacky or ok
+        Agent clone = (Agent)super.clone();
+        // TODO: ensure internal structure of agent is cloned as well
+        // clone the playerAgent, so they aren't always in the same position, etc.
+        clone.playerAgent = playerAgent.clone();
+        // TODO: clone conditions and actions within ActionDecisions (without cloning the event handler)
+        List<ActionDecision> newActionDecisions = new ArrayList<>();
+        for(ActionDecision ad : actionDecisions){
+            newActionDecisions.add(ad.clone(clone));
+        }
+        actionDecisions = newActionDecisions;
+        return clone;
+
     }
 
 

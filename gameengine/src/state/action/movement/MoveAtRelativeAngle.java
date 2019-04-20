@@ -39,8 +39,8 @@ public class MoveAtRelativeAngle extends MovementAction {
         double currentSpeed = speed;
         // possibly apply some kind of multiplier or something from properties idk
         double newAbsoluteAngle = agent.getDirection() - angle;
-        double xVel = currentSpeed*Math.cos(newAbsoluteAngle);
-        double yVel = currentSpeed*Math.sin(newAbsoluteAngle);
+        double xVel = currentSpeed*Math.cos(Math.PI/180*newAbsoluteAngle);
+        double yVel = currentSpeed*Math.sin(Math.PI/180*newAbsoluteAngle);
         baseAgent.setLocation(xVel*deltaTime + baseAgent.getX(), yVel*deltaTime + baseAgent.getY());
     }
 }

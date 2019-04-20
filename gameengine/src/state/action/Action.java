@@ -2,6 +2,7 @@ package state.action;
 
 import authoring.IActionDefinition;
 import engine.event.GameEventMaster;
+import state.IRequiresBaseAgent;
 import state.IRequiresGameEventMaster;
 import state.agent.Agent;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author Jamie Palka
  * @author David Miron
  */
-public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable {
+public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable, Cloneable {
 
     protected GameEventMaster eventMaster;
     private Map<String, Object> params;
@@ -61,8 +62,14 @@ public abstract class Action implements IActionDefinition, IRequiresGameEventMas
      * a meleee action will be executed on the agent parameter.
      */
     public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException;
-
-
     // TODO assumption in comment correct?
+
+    public Action clone(Agent clonedBaseAgent) throws CloneNotSupportedException{
+        Action clone = (Action)super.clone();
+        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
+            ((IRequiresBaseAgent)clone).injectBaseAgent(clonedBaseAgent);
+        }
+        return clone;
+    }
 
 }

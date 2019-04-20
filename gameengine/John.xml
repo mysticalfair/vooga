@@ -127,6 +127,10 @@
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
+                  <state.condition.DoOnceCondition>
+                    <name>DoOnce</name>
+                    <params reference="../../state.condition.IntervalCondition/params"/>
+                  </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
             </actionDecisions>

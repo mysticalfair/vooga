@@ -16,7 +16,7 @@ import java.util.List;
  * @author David Miron
  * @author Jorge Raad
  */
-public class ActionDecision implements IActionDecisionDefinition, Serializable{
+public class ActionDecision implements IActionDecisionDefinition, Serializable, Cloneable{
 
     private Action action;
     private List<Condition> conditions;
@@ -63,5 +63,16 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable{
     @Override
     public void addCondition(IConditionDefinition conditionDefinition) {
         conditions.add((Condition)conditionDefinition);
+    }
+
+    public ActionDecision clone (Agent clonedBaseAgent) throws CloneNotSupportedException {
+        ActionDecision clone = (ActionDecision)super.clone();
+        action = action.clone(clonedBaseAgent);
+        List<Condition> newConditions = new ArrayList<>();
+        for(Condition c : conditions){
+            newConditions.add(c.clone(clonedBaseAgent));
+        }
+        clone.conditions = newConditions;
+        return clone;
     }
 }

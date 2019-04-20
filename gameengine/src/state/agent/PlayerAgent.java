@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.List;
 
-public class PlayerAgent implements IPlayerAgent, Serializable {
+public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     private int id;
     private double x;
     private double y;
@@ -126,4 +126,9 @@ public class PlayerAgent implements IPlayerAgent, Serializable {
         this.pcs.addPropertyChangeListener(listener);
     }
 
+    @Override
+    public PlayerAgent clone() throws CloneNotSupportedException {
+        PlayerAgent clone = (PlayerAgent) super.clone();
+        return clone;
+    }
 }

@@ -113,6 +113,7 @@ class GameTest {
             Map condParams = new HashMap();
             condParams.put("interval", 1.0);
             conditions.add(factory.createCondition("Interval", condParams));
+            conditions.add(factory.createCondition("DoOnce", condParams));
             IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
             AD2.add(spawnAD);
             IAgentDefinition tower = factory.createAgent(500, 500, 10, 10,

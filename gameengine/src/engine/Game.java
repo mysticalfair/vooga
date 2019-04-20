@@ -46,7 +46,7 @@ public class Game implements IGameDefinition {
     public void run(String gameFile) {
         runFlag = true;
 
-        startup(gameFile);
+//        startup(gameFile);
         double nextTime = System.nanoTime() / nanoTrans;
 
         while(runFlag) {
@@ -88,7 +88,7 @@ public class Game implements IGameDefinition {
     public IPlayerLevelState getLevelState(){
         return this.state.getLevelState();
     }
-    private void startup(String gameFileLocation) {
+    public void startup(String gameFileLocation) {
         loadState(gameFileLocation);
         // TODO: What else must be initialized at startup? If nothing, then delete startup
     }

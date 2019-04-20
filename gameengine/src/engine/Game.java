@@ -1,14 +1,22 @@
 package engine;
 
+import authoring.IActionDefinition;
 import authoring.IGameDefinition;
 import authoring.IStateDefinition;
+import state.IPlayerLevelState;
+import state.LevelState;
+import state.Property;
 import state.State;
+import state.actiondecision.ActionDecision;
+import state.agent.Agent;
 import utils.SerializationException;
 import utils.Serializer;
 import utils.SerializerSingleton;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -64,9 +72,22 @@ public class Game implements IGameDefinition {
 //                }
 //            }
         }
-
     }
 
+//    public IPlayerLevelState getInitial(){
+//        LevelState test = new LevelState();
+//        List<ActionDecision> def = new ArrayList<>();
+//        List<Property> props = new ArrayList<>();
+//        Agent agentOrange = new Agent(0, 100,0,10,10,10,"Jamal", "This Image", def, props);
+//        test.placeAgent(agentOrange);
+//        Level level = new Level(test);
+//        this.state.addLevel(level);
+//        return test;
+//    }
+
+    public IPlayerLevelState getLevelState(){
+        return this.state.getLevelState();
+    }
     private void startup(String gameFileLocation) {
         loadState(gameFileLocation);
         // TODO: What else must be initialized at startup? If nothing, then delete startup
@@ -86,6 +107,9 @@ public class Game implements IGameDefinition {
         this.state = (State)state;
     }
 
+    public void step() {
+        this.state.step(DELTA_TIME);
+    }
     /**
      *
      * @param saveName

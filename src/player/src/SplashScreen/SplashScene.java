@@ -4,7 +4,6 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
-
 import java.io.File;
 
 
@@ -13,22 +12,36 @@ public class SplashScene {
     private static final String GAMEDIR = "gamefiles/";
     private Stage myStage;
     private String myGame;
-    private Pane root;
-    private Scene scene;
 
     public SplashScene(Stage stage)
     {
         myStage = stage;
-        root = new BorderPane();
-        root.setId("pane");
-        scene=new Scene(root, 1000,600);
-        scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
 
     }
 
     public Scene pickGame()
     {
-        root = new BorderPane();
+        BorderPane root = new BorderPane();
+        //GridPane gp = new GridPane();
+        root.setId("pane");
+
+        var scene=new Scene(root, 1000,600);
+        scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
+        //SplashButton game1 = new SplashButton("star.png", );
+        //game1.getStyleClass().add("butt");
+
+        //a.setOnMouseClicked(e -> myStage.setScene(multiPlayer()));
+        //SplashButton game2 = new SplashButton("clover.png");
+        //game2.getStyleClass().add("butt");
+        //gp.setGridLinesVisible(true);
+
+
+        //box.getChildren().add(game1);
+        //box.getChildren().add(game2);
+        //gp.setConstraints(box, 3, 3);
+        //game1.setLayoutX(400);
+        //game1.setLayoutY(300);
+        //root.setCenter(box);
         HBox box = new HBox();
         box.setSpacing(200);
         box.setLayoutX(380);
@@ -40,8 +53,9 @@ public class SplashScene {
         game1.getStyleClass().add("butt");
         game2.getStyleClass().add("butt");
 
-        box.getChildren().addAll(game2, game1);
-
+        box.getChildren().add(game2);
+        box.getChildren().add(game1);
+        //box.getStyleClass().add("butt");
 
 
         game1.setOnMouseClicked(e -> handleLoad());
@@ -59,9 +73,36 @@ public class SplashScene {
 
 
 
+   /*public Scene MultiPlayerMode()
+   {
+
+       StackPane root = new StackPane();
+       var scene = new Scene(root, 1000,600);
+       scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
+       root.setId("pane");
+       SplashButton create = new SplashButton ("creategame.png");
+       SplashButton join = new SplashButton ("joingame.png");
+
+       //b.setOnMouseClicked(e -> myStage.setScene(pickGame()));
+       Text instructions= new Text(300, 90, "Select if you want to create a new game or join a game");
+       //root.getChildren().add(a);
+       HBox box = new HBox();
+       box.setSpacing(200);
+       box.setLayoutX(400);
+       box.setLayoutY(300);
+       box.getChildren().addAll(create,join);
+       root.getChildren().addAll(box,instructions);
+       return scene;
+   }
+*/
+
    public Scene pickPlayerMode()
    {
-       root = new Pane();
+       Pane root = new Pane();
+       var scene = new Scene(root, 1000,600);
+       scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
+       root.setId("pane");
+
        //b.setOnMouseClicked(e -> myStage.setScene(pickGame()));
        Text instructions= new Text("Select single SplashScreen or multiplayer");
        //root.getChildren().add(a);
@@ -73,6 +114,7 @@ public class SplashScene {
        SplashButton single = new SplashButton ("user.png", box.getPrefWidth(), box.getPrefHeight() );
        SplashButton multi = new SplashButton ("multi.png", box.getPrefWidth(), box.getPrefHeight());
        multi.setOnMouseClicked(e -> myStage.setScene(pickMultiMode()));
+       //single.setOnMouseClicked(e -> myStage.setScene(new Level()));
        box.getChildren().addAll(single,multi);
        instructions.relocate(500,200);
        root.getChildren().addAll(box,instructions);
@@ -82,8 +124,12 @@ public class SplashScene {
     public Scene pickMultiMode()
     {
 
-        root = new Pane();
+        Pane root = new Pane();
+        var scene = new Scene(root, 1000,600);
+        scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
+        root.setId("pane");
 
+        //b.setOnMouseClicked(e -> myStage.setScene(pickGame()));
         Text instructions= new Text("Select if you want to create a new game or join a game");
         //root.getChildren().add(a);
         HBox box = new HBox();

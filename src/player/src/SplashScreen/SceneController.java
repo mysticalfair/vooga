@@ -1,4 +1,4 @@
-package player.src.SplashScreen;
+package SplashScreen;
 
 
 import javafx.scene.Scene;

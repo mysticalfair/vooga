@@ -1,9 +1,14 @@
 package state.agent;
-
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public interface IPlayerAgent {
-    void addPropertyChangeListener(PropertyChangeListener listener);
+
+    double getX();
+    double getY();
+    String getImageURL();
+    String getName();
+    int getWidth();
+    int getHeight();
+    double getDirection();
+   void addPropertyChangeListener(PropertyChangeListener listener);
 }

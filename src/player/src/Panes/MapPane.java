@@ -3,14 +3,15 @@ package Panes;
 import Agent.AgentController;
 import Agent.AgentView;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import state.agent.IPlayerAgent;
 
 import java.util.List;
 
-public class MapPane extends StackPane {
-   private static double WIDTH = 600;
-   private static double HEIGHT = 360;
+public class MapPane extends Pane {
+   private static double WIDTH = 1000;
+   private static double HEIGHT = 1000;
 
    private Canvas myBackgroundCanvas;
    private AgentController agentController;

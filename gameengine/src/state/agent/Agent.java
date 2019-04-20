@@ -10,6 +10,7 @@ import state.condition.Condition;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
+    private PropertyChangeSupport pcs;
 
     /**
      * Agent constructor.
@@ -36,7 +38,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         injectBaseAgentWhereNecessary(this.actionDecisions);
         setProperties((List<Property>)properties);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
-
+        pcs = new PropertyChangeSupport(this);
     }
 
     private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
@@ -258,5 +260,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.playerAgent.addPropertyChangeListener(listener);
     }
 }

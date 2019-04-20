@@ -21,7 +21,7 @@ public class AgentController {
 
    public AgentView addAgent(IPlayerAgent playerAgent){
       AgentView agentView = new AgentView(playerAgent);
-      playerAgent.addPropertyChangerListener(new PropertyChangeListener() {
+      playerAgent.addPropertyChangeListener(new PropertyChangeListener() {
          @Override
          public void propertyChange(PropertyChangeEvent evt) {
 
@@ -37,6 +37,5 @@ public class AgentController {
          views.add(this.addAgent(playerAgent));
       }
       return views;
-
    }
 }

@@ -5,15 +5,9 @@ import Panes.SettingsPane;
 import Store.StoreButton;
 import Store.StorePane;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import state.IPlayerLevelState;
-import state.agent.IPlayerAgent;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Level extends Scene {
    private static int WIDTH = 600;
@@ -35,10 +29,6 @@ public class Level extends Scene {
    private StorePane storePane;
    private MapPane mapPane;
 
-   private List<IPlayerAgent> fakeAgents;
-   private Button initDemoButton;
-   private Button updateDemoButton;
-
    public Level(IPlayerLevelState levelState){
       super(new BorderPane(), HEIGHT, WIDTH);
       this.setRoot();
@@ -58,8 +48,6 @@ public class Level extends Scene {
       /*
        * For purpose of demo
        */
-      this.updateDemoButton = new Button("UPDATE DEMO");
-      this.initDemoButton = new Button("INITIALIZE DEMO");
 
       this.initializeButtonActions();
       this.root.setRight(this.rightPane);
@@ -84,7 +72,7 @@ public class Level extends Scene {
    private void placePanes(){
       this.leftPane.getChildren().add(this.attributePane);
       this.centerPane.getChildren().add(this.mapPane);
-      this.rightPane.getChildren().addAll(this.settingsButton, this.storeButton, this.updateDemoButton, this.initDemoButton);
+      this.rightPane.getChildren().addAll(this.settingsButton, this.storeButton);
 
       this.root.setLeft(this.leftPane);
       this.root.setRight(this.rightPane);
@@ -101,8 +89,6 @@ public class Level extends Scene {
    private void initializeButtonActions(){
       this.settingsButton.setOnAction(e -> toggleSettingsPane());
       this.storeButton.setOnAction(e -> toggleStorePane());
-      this.initDemoButton.setOnAction(e -> initDemo());
-      this.updateDemoButton.setOnAction(e -> updateDemo());
 
    }
 
@@ -126,16 +112,6 @@ public class Level extends Scene {
       }
    }
 
-   /*
-      For purpose of demo
-    */
-
-   private void initDemo() {
-
-   }
-
-   private void updateDemo(){
-   }
 
 
 }

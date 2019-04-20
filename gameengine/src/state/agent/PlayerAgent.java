@@ -74,7 +74,6 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         var oldX = this.x;
         this.x = x;
         pcs.firePropertyChange("x", oldX, x);
-        System.out.println("changing x");
     }
 
     public void setY(double y){
@@ -125,7 +124,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
-        System.out.println("theres a listener");
+        System.out.println("it's a listener");
     }
 
     @Override

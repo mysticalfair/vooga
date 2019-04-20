@@ -1,14 +1,12 @@
 package panes.attributes;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import panes.AccessibleContainer;
 
 import java.util.ResourceBundle;
@@ -32,7 +30,7 @@ public class ActionDecisionForm implements AccessibleContainer {
         //Text typeLabel = new Text(rb.getString("ActionDecision"));
         //typeLabel.setId("textTest");
         type = new ChoiceBox<>();
-        type.getItems().addAll("Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
+        type.getItems().addAll("MoveForward", "AttackWithInterval", "MoveTowards", "FollowPath");//"Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
         type.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {

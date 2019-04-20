@@ -1,9 +1,7 @@
 package panes;
 
 import frontend_objects.AgentView;
-import frontend_objects.DraggableAgentView;
 import javafx.geometry.Pos;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
@@ -14,7 +12,7 @@ import util.AuthoringUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
@@ -146,9 +144,9 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                IMAGE_FILE, IMAGE_EXTENSIONS, false, null,
+                getContext().getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),
-                () -> System.err.println(MAP_IMAGE_ERROR)
+                () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );
     }
 

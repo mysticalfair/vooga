@@ -1,17 +1,15 @@
 package panes.attributes;
 
-import authoring.GameFactory;
 import javafx.scene.layout.Pane;
 import panes.AccessibleContainer;
 import util.AuthoringContext;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public abstract class AttributesForm implements AccessibleContainer {
 
-    protected AuthoringContext context;
-    protected Pane pane;
+    private AuthoringContext context;
+    private Pane pane;
 
     public AttributesForm(AuthoringContext context) {
         this.context = context;
@@ -22,5 +20,13 @@ public abstract class AttributesForm implements AccessibleContainer {
     @Override
     public void accessContainer(Consumer<Pane> accessMethod) {
         accessMethod.accept(pane);
+    }
+
+    protected AuthoringContext getContext() {
+        return context;
+    }
+
+    protected Pane getPane() {
+        return pane;
     }
 }

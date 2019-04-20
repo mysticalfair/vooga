@@ -86,9 +86,3 @@
 .money-icon {
     -fx-graphic: url('themes/forest/icons/money.png')
 }
-
-.demo-agent {
-    -fx-image: url('themes/forest/towers/tower1.png');
-    -fx-scale-x: .4;
-    -fx-scale-y: .4;
-}

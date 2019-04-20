@@ -25,8 +25,8 @@ public class Level implements ILevelDefinition, IPlayerLevel, IRequiresGameEvent
     private List<Agent> agentsToAdd;
     private List<Agent> agentsToRemove;
 
-    public Level(LevelState levelState) {
-        this.levelState = levelState;
+    public Level() {
+        this.levelState = new LevelState();
         this.agentsToAdd = new ArrayList<>();
         this.agentsToRemove = new ArrayList<>();
     }

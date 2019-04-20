@@ -36,7 +36,7 @@ public class Game implements IGameDefinition {
 
     public Game() {
         SerializerSingleton serializerSingleton = new SerializerSingleton();
-        serializer = serializerSingleton.getXMLInstance();
+        serializer = serializerSingleton.getInstance();
     }
 
     /**

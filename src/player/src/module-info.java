@@ -4,4 +4,5 @@ module player {
     requires javafx.graphics;
     requires javafx.media;
     requires java.desktop;
+    requires gameengine;
 }

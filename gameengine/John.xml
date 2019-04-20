@@ -62,8 +62,8 @@
             </actionDecisions>
             <playerAgent>
               <id>0</id>
-              <x>500.0</x>
-              <y>500.0</y>
+              <x>200.0</x>
+              <y>200.0</y>
               <imageURL>zombie.gif</imageURL>
               <name>projectile</name>
               <direction>0.0</direction>
@@ -79,6 +79,15 @@
                 </java.beans.PropertyChangeSupport>
               </pcs>
             </playerAgent>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.Agent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
@@ -136,8 +145,8 @@
             </actionDecisions>
             <playerAgent>
               <id>1</id>
-              <x>500.0</x>
-              <y>500.0</y>
+              <x>200.0</x>
+              <y>200.0</y>
               <imageURL>zombie.gif</imageURL>
               <name>tower</name>
               <direction>0.0</direction>
@@ -153,6 +162,15 @@
                 </java.beans.PropertyChangeSupport>
               </pcs>
             </playerAgent>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.Agent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
           </state.agent.Agent>
         </agentsCurrent>
         <objectivesCurrent/>

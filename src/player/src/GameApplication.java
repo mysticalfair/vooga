@@ -33,11 +33,12 @@ public class GameApplication extends Application {
       primaryStage.show();
       setAnimation();
       game = new Game();
-      this.game.run("John.xml");
+      game.startup("gameengine/John.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);
       this.primaryStage.show();
+     // this.game.run("gameengine/John.xml");
    }
 
    private void step(){

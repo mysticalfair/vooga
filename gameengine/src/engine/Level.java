@@ -5,17 +5,19 @@ import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
+import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
 import state.objective.Objective;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
+public class Level implements ILevelDefinition, IPlayerLevel, IRequiresGameEventMaster, Serializable {
 
     private LevelState levelState;
     private GameEventMaster eventMaster;
@@ -23,8 +25,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     private List<Agent> agentsToAdd;
     private List<Agent> agentsToRemove;
 
-    public Level() {
-        this.levelState = new LevelState();
+    public Level(LevelState levelState) {
+        this.levelState = levelState;
         this.agentsToAdd = new ArrayList<>();
         this.agentsToRemove = new ArrayList<>();
     }
@@ -71,7 +73,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
+                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
+
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+                agent.setImageURL("HelloWorld");
                 System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
                 System.out.print("Angle: " + (int)agent.getDirection() + "| ");
             } catch (CloneNotSupportedException e) {
@@ -106,4 +111,14 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         agentsToRemove.add(agent);
     }
 
+    private void setLevelState(LevelState state) {
+        this.levelState = state;
+    }
+
+    public IPlayerLevelState getLevelState(){return this.levelState;}
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+
+    }
 }

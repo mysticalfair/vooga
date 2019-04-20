@@ -37,6 +37,5 @@ public class AgentController {
          views.add(this.addAgent(playerAgent));
       }
       return views;
-
    }
 }

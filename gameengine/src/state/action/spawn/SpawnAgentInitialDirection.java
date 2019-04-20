@@ -1,8 +1,11 @@
 package state.action.spawn;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 import state.agent.AgentUtils;
-import state.agent.IAgent;
+import state.agent.Agent;
+
+import java.util.Map;
 
 /**
  * Action to spawn an agent, at the location of a base agent, with a direction pointing to the agent given in the execute method.
@@ -10,20 +13,26 @@ import state.agent.IAgent;
  * @author Jamie Palka
  * @author Jorge Raad
  */
-public class SpawnAgentInitialDirection extends SpawnAgent {
+public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresBaseAgent {
 
     private Agent spawnAgent;
     private Agent baseAgent;
 
     /**
      * Create a SpawnAgentInitialDirection.
-     * @param baseAgent The spawn agent is created at the location of this agent.
-     * @param spawnAgent The agent to spawn.
      */
-    public SpawnAgentInitialDirection(Agent baseAgent, Agent spawnAgent) {
+    public SpawnAgentInitialDirection(Map<String, Object> params) {
+        super(params);
+    }
 
-        this.spawnAgent = spawnAgent;
-        this.baseAgent = baseAgent;
+    @Override
+    public void setParams(Map<String, Object> params) {
+        this.spawnAgent = (Agent)params.get("agent");
+    }
+
+    @Override
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 
     /**
@@ -32,12 +41,16 @@ public class SpawnAgentInitialDirection extends SpawnAgent {
      * @param agent The spawnAgent will be given a movement with the destination of this agent.
      */
     @Override
-    public void execute(IAgent agent) throws CloneNotSupportedException {
-
+    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
-        AgentUtils.getAngleBetween(baseAgent, agent);
+        // This commented-out line is to set the projectile direction towards the given agent
+//        newAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
+        // This line sets the projectile direction in the direction the "tower" is facing
+        newAgent.setDirection(baseAgent.getDirection());
+        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
         spawnAgent(newAgent);
+        System.out.println("FIRE! Heading: " + baseAgent.getDirection());
     }
 
 }

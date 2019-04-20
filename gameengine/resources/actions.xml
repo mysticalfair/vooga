@@ -1,9 +1,9 @@
 <actions>
 
     <actionDefinition>
-        <name>MoveStraight</name>
+        <name>MoveAtRelativeAngle</name>
         <fields>
-            <int>angle</int>
+            <double>angle</double>
             <int>speed</int>
         </fields>
     </actionDefinition>
@@ -20,10 +20,33 @@
         <fields></fields>
     </actionDefinition>
 
+    <!--
+    MoveOnPointPath
+    MoveStraightToAgentPRM
+    NOT DONE SO MAKE SURE FIELDS EVENTUALLY VALID
+    -->
+
     <actionDefinition>
-        <name>ApplyAgentOperation</name>
+        <name>MoveOnPointPath</name>
+        <fields></fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>MoveStraightToAgentPRM</name>
+        <fields></fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>Spin</name>
         <fields>
-            <agentOperation>agentOperation</agentOperation>
+            <double>angularSpeed</double>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>SpawnAgentInitialDirection</name>
+        <fields>
+            <double>agent</double>
         </fields>
     </actionDefinition>
 

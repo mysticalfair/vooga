@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jamie Palka
  * @Author:Luke_Truitt
  */
-public interface 2IState extends IPlayerState {
+public interface IState extends IPlayerState {
     // List of all the Agents that are available in the store, can be altered by anyone
     List<IAgent> getMutableOptions();
     // List of all the Agents on screen, can be altered by anyone

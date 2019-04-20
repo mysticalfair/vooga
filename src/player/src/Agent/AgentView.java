@@ -23,7 +23,7 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       super();
       this.update(playerAgent);
       this.getStyleClass().add(AGENT_STYLE);
-      this.playerAgent.addPropertyChangeListener
+      playerAgent.addPropertyChangeListener(this);
    }
 
    public void update(IPlayerAgent playerAgent){

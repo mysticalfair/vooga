@@ -1,6 +1,8 @@
 package state.action.movement;
 
-import state.agent.IAgent;
+import state.agent.Agent;
+
+import java.util.Map;
 
 /**
  * Allows an agent to move to a specified target agent using the shortest path.
@@ -8,11 +10,15 @@ import state.agent.IAgent;
  */
 public class MoveToAgentPRM extends MovementAction {
 
-    IAgent baseAgent;
+    Agent baseAgent;
 
-    public MoveToAgentPRM(IAgent baseAgent, int speed) {
-        this.speed = speed;
-        this.baseAgent = baseAgent;
+    public MoveToAgentPRM(Map<String, Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, Object> params) {
+        // TODO this
     }
 
     /**
@@ -20,7 +26,7 @@ public class MoveToAgentPRM extends MovementAction {
      * @param agent The agent to move to.
      */
     @Override
-    public void execute(IAgent agent) {
+    public void execute(Agent agent, double deltaTime) {
 
     }
 }

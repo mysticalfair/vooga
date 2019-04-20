@@ -1,9 +1,10 @@
 package state.condition;
 
-import state.agent.IAgent;
+import state.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class to return valid agents based on some timing interval
@@ -16,11 +17,15 @@ public class IntervalCondition extends Condition {
 
     /**
      * Create an IntervalCondition
-     * @param interval The interval, in seconds
      */
-    public IntervalCondition(double interval) {
-        this.intervalMillis = interval * 1000;
+    public IntervalCondition(Map<String, Object> params) {
+        super(params);
         this.lastOccurrence = 0;
+    }
+
+    @Override
+    public void setParams(Map<String, Object> params) {
+        this.intervalMillis = (Double)params.get("interval") * 1000;
     }
 
     /**
@@ -29,7 +34,7 @@ public class IntervalCondition extends Condition {
      * @return All the agents if some interval has passed, or else an empty list
      */
     @Override
-    public List<IAgent> getValid(List<IAgent> agents) {
+    public List<Agent> getValid(List<Agent> agents) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastOccurrence > intervalMillis) {
             lastOccurrence = currentTime;

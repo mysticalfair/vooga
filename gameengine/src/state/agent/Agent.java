@@ -1,9 +1,19 @@
 package state.agent;
 
+import authoring.IActionDecisionDefinition;
+import authoring.IAgentDefinition;
+import authoring.IPropertyDefinition;
+import state.IRequiresBaseAgent;
+import state.Property;
 import state.actiondecision.ActionDecision;
+import state.condition.Condition;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
+<<<<<<< HEAD
+=======
+import java.io.Serializable;
+>>>>>>> 10f2768806e173c0ea1e6ab92988baaf6c4bdaf2
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -12,125 +22,103 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgent, IAgentDefinition, Cloneable {
+public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
-    private int id;
-    private double x;
-    private double y;
-    private String name;
-    private String imageURL;
-    private String team;
-    private int health;
-    private int width;
-    private int height;
-    private int attackDamage;
-    private double direction;
-    private double xVelocity;
-    private double yVelocity;
     protected List<ActionDecision> actionDecisions;
+    private PlayerAgent playerAgent;
 
     /**
      * Agent constructor.
      * @param id agent ID
      * @param x,y initial location
-     * @param team the agent's respective team
      */
-    public Agent(int id, int x, int y, String name, String team, int health, int width, int height, double speed, double direction, int attackDamage) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.name = name;
-        this.health = health;
-        this.attackDamage = attackDamage;
-        this.width = width;
-        this.height = height;
-        this.xVelocity = speed * Math.sqrt(2);
-        this.yVelocity = speed * Math.sqrt(2);
-        this.direction = direction;
 
-        this.actionDecisions = new ArrayList<>();
-        // TODO set imageURL somewhere
+    public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
+                List<? extends IPropertyDefinition> properties) {
+        this.actionDecisions = (List<ActionDecision>)actionDecisions;
+        injectBaseAgentWhereNecessary(this.actionDecisions);
+        setProperties((List<Property>)properties);
+        playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
+
+    }
+
+    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
+        for (ActionDecision ad: actionDecisions) {
+            if (IRequiresBaseAgent.class.isAssignableFrom(ad.getAction().getClass()))
+                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(this);
+
+            for (Condition condition: ad.getConditions()) {
+                if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
+                    ((IRequiresBaseAgent)condition).injectBaseAgent(this);
+            }
+        }
     }
 
     /**
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */
-    @Override
-    public void update(List<IAgent> agents) throws CloneNotSupportedException {
+    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
 
         for (ActionDecision decision: actionDecisions)
-            decision.execute(agents);
+            decision.execute(agents, delta_time);
 
     }
 
+    /**
+     * Returns the X location of the Agent.
+     * @return int - X location of the agent
+     */
     public double getX() {
-        return x;
+        return playerAgent.getX();
     }
 
+    /**
+     * Returns the Y location of the Agent.
+     * @return int - Y location of the agent
+     */
     public double getY() {
-        return y;
+        return playerAgent.getY();
     }
 
     public String getName() {
-        return this.name;
+        return playerAgent.getName();
     }
-    public void stop() {
-        this.xVelocity = 0;
-        this.yVelocity = 0;
-    }
+
     public void setWidth(int w) {
-        this.width = w;
+        this.playerAgent.setWidth(w);
     }
 
     public void setHeight(int h) {
-        this.height = h;
-    }
-
-    public void setImageURL(String url) {
-        this.imageURL = url;
+        this.playerAgent.setHeight(h);
     }
 
     public String getImageURL() {
-        return this.imageURL;
+        return playerAgent.getImageURL();
     }
 
-    public void setName(String name) {
-        // TODO: this
-    }
     /**
      * Move the current agent a specified distance
      * @param x The vector representing the movement in x
      * @param y The vector representing the movement in y
      */
-    public void move(int x, int y) {
-        this.x = this.x + x;
-        this.y = this.y + y;
+
+    public void move(double x, double y) {
+        this.playerAgent.setX(x);
+        this.playerAgent.setY(y);
     }
 
-    /**
-     * Returns the team of the Agent.
-     * @return String containing team of the Agent
-     */
-    public String getTeam(){
-        return team;
-    }
+    public void setName(String name ) { this.playerAgent.setName(name);}
+
+    public void setImageURL(String url) { this.playerAgent.setImageURL(url);}
 
     /**
      * Returns the distance between this Agent and the given Agent
      * @param agent Agent to which the distance will be calculated
      * @return distance
      */
-    public double calculateDistance(IAgent agent){
-        return Math.sqrt(Math.pow(this.x - agent.getX(), 2) + Math.pow(this.y - agent.getY(), 2));
-    }
-
-    /**
-     * Returns the height and width in that order
-     * @return an array with first element of height and second element of width
-     */
-    public int[] getEdges() {
-        return new int[]{this.height, this.width};
+    public double calculateDistance(Agent agent){
+        return Math.sqrt(Math.pow(this.playerAgent.getX() - agent.getX(), 2) + Math.pow(this.playerAgent.getY() - agent.getY(), 2));
     }
 
     /**
@@ -139,6 +127,7 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      */
     @Override
     public Agent clone() throws CloneNotSupportedException {
+<<<<<<< HEAD
         return (Agent)super.clone();
         // TODO is this hacky or ok
     }
@@ -156,17 +145,22 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      */
     public void gainHealth(int healthIncrease) {
         health += healthIncrease;
+=======
+        Agent clone = (Agent)super.clone();
+        // TODO: ensure internal structure of agent is cloned as well
+        // clone the playerAgent, so they aren't always in the same position, etc.
+        clone.playerAgent = playerAgent.clone();
+        // TODO: clone conditions and actions within ActionDecisions (without cloning the event handler)
+        List<ActionDecision> newActionDecisions = new ArrayList<>();
+        for(ActionDecision ad : actionDecisions){
+            newActionDecisions.add(ad.clone(clone));
+        }
+        actionDecisions = newActionDecisions;
+        return clone;
+
+>>>>>>> 10f2768806e173c0ea1e6ab92988baaf6c4bdaf2
     }
 
-    /**
-     * Updates the x and y velocity vectors of the agent
-     * @param xVelocity x velocity the agent will now have
-     * @param yVelocity y velocity the agent will now have
-     */
-    public void updateVelocity(double xVelocity, double yVelocity) {
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
-    }
 
     /**
      * Updates location of the agent
@@ -174,24 +168,8 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * @param y - the new y location to give to the agent
      */
     public void setLocation(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    /**
-     * Returns the current x velocity of the agent
-     * @return xVelocity current x velocity the agent
-     */
-    public double getXVelocity() {
-        return xVelocity;
-    }
-
-    /**
-     * Returns the current y velocity of the agent
-     * @return yVelocity current y velocity the agent
-     */
-    public double getYVelocity() {
-        return yVelocity;
+        playerAgent.setX(x);
+        playerAgent.setY(y);
     }
 
 
@@ -199,44 +177,44 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
      * Determines if two agents are intersecting.
      * @param agent check if this agent is intersecting with this agent.
      */
-    public boolean isColliding(IAgent agent) {
+    public boolean isColliding(Agent agent) {
         return createBoundingRect(this).intersects(createBoundingRect(agent));
     }
 
-    private Rectangle createBoundingRect(IAgent agent) {
+    private Rectangle createBoundingRect(Agent agent) {
         int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
         int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
         return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
+    /**
+     * Returns the height in that order
+     * @return an array with first element of height
+     */
     public int getHeight() {
-        return this.height;
+        return this.playerAgent.getHeight();
     }
 
+    /**
+     * Returns the width in that order
+     * @return an array with first element of width
+     */
     public int getWidth() {
-        return this.width;
+        return this.playerAgent.getWidth();
     }
 
+    /**
+     * Returns the direction angle of the agent.
+     * @return the angle the agent is pointing to.
+     */
     public double getDirection() {
-        return direction;
+        return this.playerAgent.getDirection();
     }
 
     public void setDirection(double direction){
-        this.direction = direction;
+        playerAgent.setDirection(direction);
     }
 
-    public int getAttackDamage() {
-        return this.attackDamage;
-    }
-    public void setAttackDamage(int damage) {
-        this.attackDamage = damage;
-    }
-    public void setHealth(int health) {
-
-    }
-    public int getHealth() {
-        return this.health;
-    }
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;
@@ -250,10 +228,63 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
         // TODO:
     }
 
+    // TODO:  fill out all property-related methods
+
+    @Override
+    public List<? extends IPropertyDefinition> getProperties() {
+        return null;
+    }
+
+    @Override
+    public void removeProperty(String name) {
+    }
+
+    @Override
+    public void addProperty(IPropertyDefinition property) {
+
+    }
+
+    @Override
+    public <T> void setProperty(String name, T value) {
+        this.playerAgent.setProperty(name, value);
+    }
+
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
     }
 
+<<<<<<< HEAD
     public boolean isDead() {return this.health<=0;}
 
+=======
+    public Object getProperty(String name) {
+        for(Property property : this.playerAgent.getProperties()) {
+            if(property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Deprecated
+    public void setProperties(String[] properties, Object[] values) {
+        for(int i = 0; i < properties.length; i++) {
+            this.playerAgent.setProperty(properties[i], values[i]);
+        }
+    }
+
+    /**
+     * Takes a given list of properties and adds them all to the list of properties held by the playerAgent.
+     * @param properties - properties to be transferred to the playerAgent
+     */
+    public void setProperties(List<Property> properties){
+        for(Property p : properties) {
+            this.playerAgent.setProperty(p);
+        }
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+    }
+>>>>>>> 10f2768806e173c0ea1e6ab92988baaf6c4bdaf2
 }

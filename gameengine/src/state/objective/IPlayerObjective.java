@@ -1,6 +1,7 @@
 package state.objective;
 
 
+import java.beans.PropertyChangeListener;
 
 /**
  * @Author:Luke_Truitt
@@ -8,7 +9,4 @@ package state.objective;
  */
 
 public interface IPlayerObjective {
-    int getId();
-    String getTitle();
-    boolean getMet();
 }

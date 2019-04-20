@@ -8,7 +8,7 @@ public class AgentUtils {
      * @param agent2 The second agent
      * @return The angle between the two agents
      */
-    public static double getAngleBetween(IAgent agent1, IAgent agent2) {
+    public static double getAngleBetween(Agent agent1, Agent agent2) {
         double dx = agent2.getX() - agent1.getX();
         dx = dx == 0 ? 1 : dx;
         double dy = agent2.getY() - agent1.getY();

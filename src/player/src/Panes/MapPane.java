@@ -30,7 +30,7 @@ public class MapPane extends StackPane {
          this.agentController.addAgent(playerAgent));
    }
 
-   public void addAgents(List<IPlayerAgent> agents){
+   public void addAgents(Iterable<IPlayerAgent> agents){
       for(IPlayerAgent a: agents){
          this.addAgent(a);
       }

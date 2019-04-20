@@ -2,6 +2,7 @@ package utils.serializers;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import utils.SerializationException;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class XStreamSerializer extends SerializerBase {
      * so that default transient fields are instantiated.
      */
     public XStreamSerializer() {
-        xStream = new XStream(new PureJavaReflectionProvider());
+        xStream = new XStream(new DomDriver());
     }
 
     @Override

@@ -1,12 +1,15 @@
 package engine;
 
-import state.IState;
-import state.agent.IAgent;
-import state.objective.IObjective;
+import authoring.IGameDefinition;
+import authoring.IStateDefinition;
 import state.State;
 import utils.SerializationException;
 import utils.Serializer;
-import utils.serializers.XStreamSerializer;
+import utils.SerializerSingleton;
+
+import java.io.File;
+import java.io.IOException;
+
 
 /**
  * @author Jorge Raad
@@ -14,17 +17,18 @@ import utils.serializers.XStreamSerializer;
  * @author David Miron
  * @author Jamie Palka
  */
-public class Game implements GameEngineAuthoring {
+public class Game implements IGameDefinition {
+
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
-    private IState state;
+    public static final double DELTA_TIME = 0.0167;
     private Serializer serializer;
 
-    public static final double DELTA_TIME = 0.3;
+    private State state;
 
-    public void setState(IState state) {
-        this.state = state;
-        serializer = new XStreamSerializer();
+    public Game() {
+        SerializerSingleton serializerSingleton = new SerializerSingleton();
+        serializer = serializerSingleton.getXMLInstance();
     }
 
     /**
@@ -33,81 +37,73 @@ public class Game implements GameEngineAuthoring {
      */
     public void run(String gameFile) {
         runFlag = true;
-        startup();
-        double nextTime = System.nanoTime()/nanoTrans;
-        while(runFlag){
-            double currentTime = System.nanoTime()/nanoTrans;
+
+        startup(gameFile);
+        double nextTime = System.nanoTime() / nanoTrans;
+
+        while(runFlag) {
+            double currentTime = System.nanoTime() / nanoTrans;
 
             // if deltaTime has passed, then update
             if(currentTime >= nextTime){
+
                 // assign time of next update
                 nextTime += DELTA_TIME;
-                step();
+                state.step(DELTA_TIME);
             }
-            //else{
-                // TODO: may change according to how game engine interacts with player
-                // must convert from seconds to milliseconds
-                //int sleepTime = 1000 * (int)(nextTime - currentTime);
-                //game loop should stop until it is time to update again
-                //try {
-                 //   Thread.sleep(sleepTime);
-                //} catch (InterruptedException e) {
-                    // TODO: handle this exception
-                //}
-            //}
+
+//            else{
+//                 // TODO: may change according to how game engine interacts with player
+//                 // must convert from seconds to milliseconds
+//                int sleepTime = 1000 * (int)(nextTime - currentTime);
+//                // game loop should stop until it is time to update again
+//                try {
+//                    Thread.sleep(sleepTime);
+//                } catch (InterruptedException e) {
+//                     // TODO: handle this exception
+//                }
+//            }
         }
 
     }
 
-    private void startup() {
-        // TODO: deserialize a state from a file
-        // state = **
+    private void startup(String gameFileLocation) {
+        loadState(gameFileLocation);
+        // TODO: What else must be initialized at startup? If nothing, then delete startup
     }
 
-    private void step() {
-
-        for (IAgent agent: state.getMutableAgents()) {
-            try {
-                agent.update(state.getMutableAgentsExcludingSelf(agent));
-            } catch (CloneNotSupportedException e) {
-                // TODO: Deal with exception
-                e.printStackTrace();
-            }
+    private void loadState(String gameFileLocation){
+        try {
+            state = (State) serializer.load(new File(gameFileLocation));
+        } catch (SerializationException | IOException e) {
+            // TODO: Deal with Exceptions by letting player know invalid file was chosen.
+            e.printStackTrace();
         }
+    }
 
-        for (IObjective objective: state.getMutableObjectives())
-            objective.execute(state);
-
-        for (IAgent agent: state.getMutableAgents()) {
-            if(agent.isDead()) {
-                System.out.println("Agent: " + agent.getName() + " from team " + agent.getTeam());
-                state.removeAgent(agent);
-                continue;
-            }
-            double newX = agent.getX() + (agent.getXVelocity() * DELTA_TIME);
-            double newY = agent.getY() + (agent.getYVelocity() * DELTA_TIME);
-            agent.setLocation(newX, newY);
-            System.out.println(agent.getName() + " at " + " X: " + newX + ", Y: " + newY + "\n");
-            System.out.println("Health: " + agent.getHealth());
-        }
-
-        sendState();
-
+    @Override
+    public void setState(IStateDefinition state) {
+        this.state = (State)state;
     }
 
     /**
-     * Send the state to the Player
+     *
+     * @param saveName
      */
-    private void sendState() {
-        // TODO DO
+    public void saveState(String saveName){
+        try {
+            serializer.save(state, new File(saveName));
+        } catch (SerializationException | IOException e) {
+            // TODO: Deal with Exceptions by letting player know about problem.
+            e.printStackTrace();
+        }
+    }
+
+    public void registerPlayer(/* Should probably accept a player somehow*/){
+
     }
 
     public void stop(){
         runFlag = false;
-    }
-
-    @Override
-    public void saveState (IState state) throws SerializationException {
-        serializer.serialize((State)state);
     }
 }

@@ -9,8 +9,8 @@ import state.agent.IPlayerAgent;
 import java.util.List;
 
 public class MapPane extends StackPane {
-   private static double WIDTH = 600;
-   private static double HEIGHT = 360;
+   private static double WIDTH = 1000;
+   private static double HEIGHT = 1000;
 
    private Canvas myBackgroundCanvas;
    private AgentController agentController;

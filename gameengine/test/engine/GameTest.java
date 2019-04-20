@@ -91,7 +91,7 @@ class GameTest {
             AD1.add(factory.createActionDecision(
                     factory.createAction("MoveAtRelativeAngle", moveParams), new ArrayList<IConditionDefinition>()));
             List<IPropertyDefinition> properties = new ArrayList<>();
-            IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
+            IAgentDefinition projectile = factory.createAgent(200, 200, 10, 10,
                     0,"projectile", "zombie.gif", AD1, properties);
 
             level.addAgent(projectile);
@@ -116,10 +116,8 @@ class GameTest {
             conditions.add(factory.createCondition("DoOnce", condParams));
             IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
             AD2.add(spawnAD);
-            IAgentDefinition tower = factory.createAgent(500, 500, 10, 10,
+            IAgentDefinition tower = factory.createAgent(200, 200, 10, 10,
                     0,"tower", "zombie.gif", AD2, properties);
-
-
 
             level.addAgent(tower);
 

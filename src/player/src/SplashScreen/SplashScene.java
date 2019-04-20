@@ -1,4 +1,4 @@
-package player.src.SplashScreen;
+package SplashScreen;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;

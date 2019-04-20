@@ -1,4 +1,4 @@
-package player.src.SplashScreen;
+package SplashScreen;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;

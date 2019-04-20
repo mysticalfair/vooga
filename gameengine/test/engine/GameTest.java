@@ -89,7 +89,7 @@ class GameTest {
             List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
             cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
             AD1.add(factory.createActionDecision(
-                    factory.createAction("MoveAtRelativeAngle", moveParams), new ArrayList<IConditionDefinition>()));
+                    factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
             List<IPropertyDefinition> properties = new ArrayList<>();
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
                     0,"projectile", "zombie.gif", AD1, properties);

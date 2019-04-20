@@ -57,7 +57,12 @@
                   <baseAgent reference="../../../.."/>
                   <angle>0.0</angle>
                 </action>
-                <conditions/>
+                <conditions>
+                  <state.condition.DoOnceCondition>
+                    <name>DoOnce</name>
+                    <params/>
+                  </state.condition.DoOnceCondition>
+                </conditions>
               </state.actiondecision.ActionDecision>
             </actionDecisions>
             <playerAgent>

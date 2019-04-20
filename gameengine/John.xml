@@ -157,6 +157,15 @@
         </agentsCurrent>
         <objectivesCurrent/>
         <attributesCurrent/>
+        <pcs serialization="custom">
+          <java.beans.PropertyChangeSupport>
+            <default>
+              <source class="state.LevelState" reference="../../../.."/>
+              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+            </default>
+            <null/>
+          </java.beans.PropertyChangeSupport>
+        </pcs>
       </levelState>
       <eventMaster reference="../levelState/agentsCurrent/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
       <agentsToAdd/>

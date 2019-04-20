@@ -92,8 +92,8 @@ public class GameFactory {
      * Create a default level, with no agents defined
      * @return A default level
      */
-    public ILevelDefinition createLevel(LevelState state) {
-        Level level = new Level(state);
+    public ILevelDefinition createLevel() {
+        Level level = new Level();
         level.injectGameEventMaster(eventMaster);
         return level;
     }

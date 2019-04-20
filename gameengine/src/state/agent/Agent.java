@@ -150,7 +150,6 @@ public class Agent implements IAgent, IAgentDefinition, Cloneable {
     public void loseHealth(int healthDeduction) {
         health -= healthDeduction;
     }
-
     /**
      * Increases the health value of the agent.
      * @param healthIncrease amount by which to increase the health of the agent.

@@ -21,11 +21,14 @@ public class AddToPropertyAction extends Action {
 
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-        // TODO: implement agent.getPropertyValue(propertyName), agent.setProperty(propertyName, current_value)
-//        if (agent.hasNumberProperty(propertyName)) {
-//            double current_value = agent.getPropertyValue(propertyName);
-//            current_value += amount;
-//            agent.setProperty(propertyName, current_value);
-//        }
+        try{
+            double current_value = (double) agent.getProperty(propertyName);
+            current_value += amount;
+            agent.setProperty(propertyName, current_value);
+        }
+        catch(NullPointerException e) {
+            // No such property, so do nothing
+            // TODO: probably throw an exception here
+        }
     }
 }

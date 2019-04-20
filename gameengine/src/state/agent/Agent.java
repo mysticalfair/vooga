@@ -3,7 +3,10 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import state.IRequiresBaseAgent;
+import state.Property;
 import state.actiondecision.ActionDecision;
+import state.condition.Condition;
 
 import java.awt.*;
 import java.beans.PropertyChangeListener;
@@ -18,7 +21,6 @@ import java.util.List;
  */
 public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
 
-    private String name;
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
 
@@ -27,10 +29,26 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param id agent ID
      * @param x,y initial location
      */
-    public Agent(int id, int x, int y, int width, int height, String name, double direction) {
 
-        this.actionDecisions = new ArrayList<>();
-        // TODO set imageURL somewhere
+    public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
+                List<? extends IPropertyDefinition> properties) {
+        this.actionDecisions = (List<ActionDecision>)actionDecisions;
+        injectBaseAgentWhereNecessary(this.actionDecisions);
+        setProperties((List<Property>)properties);
+        playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
+
+    }
+
+    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
+        for (ActionDecision ad: actionDecisions) {
+            if (IRequiresBaseAgent.class.isAssignableFrom(ad.getAction().getClass()))
+                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(this);
+
+            for (Condition condition: ad.getConditions()) {
+                if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
+                    ((IRequiresBaseAgent)condition).injectBaseAgent(this);
+            }
+        }
     }
 
     /**
@@ -106,8 +124,18 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      */
     @Override
     public Agent clone() throws CloneNotSupportedException {
-        return (Agent)super.clone();
-        // TODO is this hacky or ok
+        Agent clone = (Agent)super.clone();
+        // TODO: ensure internal structure of agent is cloned as well
+        // clone the playerAgent, so they aren't always in the same position, etc.
+        clone.playerAgent = playerAgent.clone();
+        // TODO: clone conditions and actions within ActionDecisions (without cloning the event handler)
+        List<ActionDecision> newActionDecisions = new ArrayList<>();
+        for(ActionDecision ad : actionDecisions){
+            newActionDecisions.add(ad.clone(clone));
+        }
+        actionDecisions = newActionDecisions;
+        return clone;
+
     }
 
 
@@ -160,6 +188,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return this.playerAgent.getDirection();
     }
 
+    public void setDirection(double direction){
+        playerAgent.setDirection(direction);
+    }
+
     public List<IActionDecisionDefinition> getActionDecisions() {
         // TODO:
         return null;
@@ -182,7 +214,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
-
     }
 
     @Override
@@ -192,11 +223,37 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public <T> void setProperty(String name, T value) {
-
+        this.playerAgent.setProperty(name, value);
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+    public Object getProperty(String name) {
+        for(Property property : this.playerAgent.getProperties()) {
+            if(property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Deprecated
+    public void setProperties(String[] properties, Object[] values) {
+        for(int i = 0; i < properties.length; i++) {
+            this.playerAgent.setProperty(properties[i], values[i]);
+        }
+    }
+
+    /**
+     * Takes a given list of properties and adds them all to the list of properties held by the playerAgent.
+     * @param properties - properties to be transferred to the playerAgent
+     */
+    public void setProperties(List<Property> properties){
+        for(Property p : properties) {
+            this.playerAgent.setProperty(p);
+        }
     }
 
     @Override

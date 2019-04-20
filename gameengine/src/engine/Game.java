@@ -27,7 +27,6 @@ public class Game implements IGameDefinition {
     private State state;
 
     public Game() {
-        this.state = new State();
         SerializerSingleton serializerSingleton = new SerializerSingleton();
         serializer = serializerSingleton.getXMLInstance();
     }
@@ -53,17 +52,17 @@ public class Game implements IGameDefinition {
                 state.step(DELTA_TIME);
             }
 
-            //else{
-                // TODO: may change according to how game engine interacts with player
-                // must convert from seconds to milliseconds
-                //int sleepTime = 1000 * (int)(nextTime - currentTime);
-                //game loop should stop until it is time to update again
-                //try {
-                 //   Thread.sleep(sleepTime);
-                //} catch (InterruptedException e) {
-                    // TODO: handle this exception
-                //}
-            //}
+//            else{
+//                 // TODO: may change according to how game engine interacts with player
+//                 // must convert from seconds to milliseconds
+//                int sleepTime = 1000 * (int)(nextTime - currentTime);
+//                // game loop should stop until it is time to update again
+//                try {
+//                    Thread.sleep(sleepTime);
+//                } catch (InterruptedException e) {
+//                     // TODO: handle this exception
+//                }
+//            }
         }
 
     }
@@ -98,6 +97,10 @@ public class Game implements IGameDefinition {
             // TODO: Deal with Exceptions by letting player know about problem.
             e.printStackTrace();
         }
+    }
+
+    public void registerPlayer(/* Should probably accept a player somehow*/){
+
     }
 
     public void stop(){

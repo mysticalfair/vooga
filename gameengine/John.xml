@@ -10,10 +10,36 @@
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster>
                     <removeAgentListeners>
-                      <null/>
+                      <java.util.function.Consumer resolves-to="serialized-lambda">
+                        <capturingClass>engine.Level</capturingClass>
+                        <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
+                        <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
+                        <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
+                        <implClass>engine/Level</implClass>
+                        <implMethodName>lambda$injectGameEventMaster$5384b112$1</implMethodName>
+                        <implMethodSignature>(Lengine/event/events/RemoveAgentEvent;)V</implMethodSignature>
+                        <implMethodKind>7</implMethodKind>
+                        <instantiatedMethodType>(Lengine/event/events/RemoveAgentEvent;)V</instantiatedMethodType>
+                        <capturedArgs>
+                          <engine.Level reference="../../../../../../../../../../.."/>
+                        </capturedArgs>
+                      </java.util.function.Consumer>
                     </removeAgentListeners>
                     <addAgentListeners>
-                      <null/>
+                      <java.util.function.Consumer resolves-to="serialized-lambda">
+                        <capturingClass>engine.Level</capturingClass>
+                        <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
+                        <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
+                        <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
+                        <implClass>engine/Level</implClass>
+                        <implMethodName>lambda$injectGameEventMaster$5384b112$2</implMethodName>
+                        <implMethodSignature>(Lengine/event/events/AddAgentEvent;)V</implMethodSignature>
+                        <implMethodKind>7</implMethodKind>
+                        <instantiatedMethodType>(Lengine/event/events/AddAgentEvent;)V</instantiatedMethodType>
+                        <capturedArgs>
+                          <engine.Level reference="../../../../../../../../../../.."/>
+                        </capturedArgs>
+                      </java.util.function.Consumer>
                     </addAgentListeners>
                   </eventMaster>
                   <params>
@@ -101,6 +127,10 @@
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
+                  <state.condition.DoOnceCondition>
+                    <name>DoOnce</name>
+                    <params reference="../../state.condition.IntervalCondition/params"/>
+                  </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
             </actionDecisions>
@@ -129,6 +159,8 @@
         <attributesCurrent/>
       </levelState>
       <eventMaster reference="../levelState/agentsCurrent/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+      <agentsToAdd/>
+      <agentsToRemove/>
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>

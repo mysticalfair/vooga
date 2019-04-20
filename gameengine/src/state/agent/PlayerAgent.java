@@ -1,12 +1,14 @@
 package state.agent;
 
 import state.Property;
+import utils.Serializer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.List;
 
-public class PlayerAgent implements IPlayerAgent {
+public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     private int id;
     private double x;
     private double y;
@@ -17,16 +19,18 @@ public class PlayerAgent implements IPlayerAgent {
     private int height;
     private List<Property> properties;
 
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private PropertyChangeSupport pcs;
 
-    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction) {
+    public PlayerAgent(int id, int x, int y, int width, int height, String name, double direction, String imageURL) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.direction = direction;
+        this.imageURL = imageURL;
         this.name = name;
+        pcs = new PropertyChangeSupport(this);
     }
 
     public double getX() {
@@ -96,6 +100,7 @@ public class PlayerAgent implements IPlayerAgent {
         pcs.firePropertyChange("direction", oldDir, direction);
     }
 
+    @Deprecated
     public void setProperty(String name, Object value) {
 
         for(Property property : this.properties) {
@@ -105,11 +110,25 @@ public class PlayerAgent implements IPlayerAgent {
                 pcs.firePropertyChange(name, oldVal, value);
             }
         }
+    }
 
+    public void setProperty(Property newProperty){
+        for(Property p : this.properties) {
+            if(p.getName().equals(newProperty.getName())) {
+                var oldVal = p.getValue();
+                p.setValue(newProperty.getValue());
+                pcs.firePropertyChange(name, oldVal, newProperty.getValue());
+            }
+        }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
     }
 
+    @Override
+    public PlayerAgent clone() throws CloneNotSupportedException {
+        PlayerAgent clone = (PlayerAgent) super.clone();
+        return clone;
+    }
 }

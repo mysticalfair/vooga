@@ -42,11 +42,15 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
      */
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-
         Agent newAgent = spawnAgent.clone();
         newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
-        AgentUtils.getAngleBetween(baseAgent, agent);
+        // This commented-out line is to set the projectile direction towards the given agent
+//        newAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
+        // This line sets the projectile direction in the direction the "tower" is facing
+        newAgent.setDirection(baseAgent.getDirection());
+        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
         spawnAgent(newAgent);
+        System.out.println("FIRE! Heading: " + baseAgent.getDirection());
     }
 
 }

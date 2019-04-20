@@ -11,9 +11,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import state.Property;
 import state.State;
 import state.action.Action;
 import state.actiondecision.ActionDecision;
+import state.agent.Agent;
 import state.condition.Condition;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,7 +48,10 @@ public class GameFactory {
     private Properties conditionClasses;
     private Properties actionClasses;
 
+    private int currentAgentID;
+
     public GameFactory() throws ParserConfigurationException, SAXException, IOException {
+        currentAgentID = 0;
         this.eventMaster = new GameEventMaster();
         XMLToAvailbableObjectsParser parser = new XMLToAvailbableObjectsParser();
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
@@ -98,10 +103,10 @@ public class GameFactory {
      * @param properties The properties
      * @return The new agent
      */
-    public IAgentDefinition createAgent(int x, int y, int width, int height, String imageURL,
-                                        List<IActionDecisionDefinition> actionDecisions,
-                                        List<IPropertyDefinition> properties) {
-        return null;
+    public IAgentDefinition createAgent(int x, int y, int width, int height, double direction, String name, String imageURL,
+                                        List<? extends IActionDecisionDefinition> actionDecisions,
+                                        List<? extends IPropertyDefinition> properties) {
+        return new Agent(currentAgentID++, x, y, width, height, direction, name, imageURL, actionDecisions, properties);
     }
 
     /**
@@ -160,7 +165,7 @@ public class GameFactory {
      * @return The property
      */
     public <T> IPropertyDefinition createProperty(String name, T value) {
-        return null;
+        return new Property(name, value);
     }
 
     private <T> T instantiateClass(String className, Map<String, Object> params) throws ReflectionException {

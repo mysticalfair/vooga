@@ -3,6 +3,7 @@ package state.condition;
 
 import authoring.GameFactory;
 import authoring.IConditionDefinition;
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.Properties;
  * Abstract class to represent some condition for a group of agents
  * @author David Miron
  */
-public abstract class Condition implements IConditionDefinition, Serializable {
+public abstract class Condition implements IConditionDefinition, Serializable, Cloneable {
 
     private String name;
     private Map<String, Object> params;
@@ -49,5 +50,13 @@ public abstract class Condition implements IConditionDefinition, Serializable {
      * @return A new version of the list of agents, filtered based on some condition
      */
     public abstract List<Agent> getValid(List<Agent> agents);
+
+    public Condition clone(Agent clonedBaseAgent) throws CloneNotSupportedException{
+        Condition clone = (Condition)super.clone();
+        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
+            ((IRequiresBaseAgent)clone).injectBaseAgent(clonedBaseAgent);
+        }
+        return clone;
+    }
 
 }

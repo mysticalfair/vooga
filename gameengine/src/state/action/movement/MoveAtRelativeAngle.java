@@ -1,5 +1,6 @@
 package state.action.movement;
 
+import state.Property;
 import state.agent.Agent;
 
 import java.util.Map;
@@ -34,11 +35,12 @@ public class MoveAtRelativeAngle extends MovementAction {
      */
     @Override
     public void execute(Agent agent, double deltaTime) {
-//        TODO: update speed according to speed property
-//        double curr_speed = Math.sqrt(Math.pow(agent.getXVelocity(), 2) + Math.pow(agent.getYVelocity(), 2));
-//        double newAbsoluteAngle = agent.getDirection() - angle;
-//        double newXVelocity = curr_speed * Math.cos(newAbsoluteAngle);
-//        double newYVelocity = curr_speed * Math.sin(newAbsoluteAngle);
-//        baseAgent.updateVelocity(newXVelocity, newYVelocity);
+        var properties = agent.getProperties();
+        double currentSpeed = speed;
+        // possibly apply some kind of multiplier or something from properties idk
+        double newAbsoluteAngle = agent.getDirection() - angle;
+        double xVel = currentSpeed*Math.cos(Math.PI/180*newAbsoluteAngle);
+        double yVel = currentSpeed*Math.sin(Math.PI/180*newAbsoluteAngle);
+        baseAgent.setLocation(xVel*deltaTime + baseAgent.getX(), yVel*deltaTime + baseAgent.getY());
     }
 }

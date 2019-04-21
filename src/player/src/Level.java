@@ -49,7 +49,6 @@ public class Level extends Scene {
       this.setStyles();
 
       this.attributes = new ArrayList<>();
-      this.mapPane.addAgents(levelState.getImmutableAgents());
       for(IPlayerAttribute attribute : levelState.getImmutableAttributes()) {
          this.attributes.add(new AttributeView(attribute));
       }

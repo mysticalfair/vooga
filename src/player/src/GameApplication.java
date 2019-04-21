@@ -10,6 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
 public class GameApplication extends Application {
    private static final int MILLISECOND_DELAY = 100;
 

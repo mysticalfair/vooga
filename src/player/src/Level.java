@@ -1,4 +1,5 @@
 import Attribute.AttributeView;
+import Controllers.LevelController;
 import Panes.AttributePane;
 import Panes.MapPane;
 import Panes.SettingsButton;
@@ -28,21 +29,22 @@ public class Level extends Scene {
    private VBox centerPane;
    private VBox bottomPane;
 
-   private AttributePane attributePane;
    private SettingsButton settingsButton;
    private StoreButton storeButton;
    private SettingsPane settingsPane;
-   private StorePane storePane;
-   private MapPane mapPane;
+
+   private LevelController levelController;
 
    private List<AttributeView> attributes;
 
    public Level(IPlayerLevelState levelState){
       super(new BorderPane(), HEIGHT, WIDTH);
       this.setRoot();
+      this.levelController = new LevelController(levelState);
       this.initializeButtons();
       this.initializePanes();
       this.setStyles();
+
       this.attributes = new ArrayList<>();
       this.mapPane.addAgents(levelState.getImmutableAgents());
       for(IPlayerAttribute attribute : levelState.getImmutableAttributes()) {
@@ -57,13 +59,7 @@ public class Level extends Scene {
    private void initializeButtons(){
       this.settingsButton = new SettingsButton();
       this.storeButton = new StoreButton();
-      /*
-       * For purpose of demo
-       */
-
       this.initializeButtonActions();
-      this.root.setRight(this.rightPane);
-
    }
 
    private void initializePanes(){
@@ -72,18 +68,12 @@ public class Level extends Scene {
       this.centerPane = new VBox();
       this.bottomPane = new VBox();
 
-      this.attributePane = new AttributePane();
-      this.settingsPane = new SettingsPane();
-      this.mapPane = new MapPane();
-      this.storePane = new StorePane();
-
       this.placePanes();
    }
 
-
    private void placePanes(){
-      this.leftPane.getChildren().add(this.attributePane);
-      this.centerPane.getChildren().add(this.mapPane);
+      this.leftPane.getChildren().add(this.levelController.getAttributePane());
+      this.centerPane.getChildren().add(this.levelController.getMapPane());
       this.rightPane.getChildren().addAll(this.settingsButton, this.storeButton);
 
       this.root.setLeft(this.leftPane);
@@ -107,23 +97,22 @@ public class Level extends Scene {
    private void toggleSettingsPane(){
       if(this.centerPane.getChildren().contains(this.settingsPane)){
          this.centerPane.getChildren().remove(this.settingsPane);
-         this.centerPane.getChildren().add(this.mapPane);
+         this.centerPane.getChildren().add(this.levelController.getMapPane());
       }
       else {
-         this.centerPane.getChildren().remove(this.mapPane);
-         this.centerPane.getChildren().add(this.settingsPane);
+         this.centerPane.getChildren().remove(this.levelController.getMapPane());
+         this.centerPane.getChildren().add(this.levelController.getMapPane());
       }
    }
 
    private void toggleStorePane(){
-      if(this.bottomPane.getChildren().contains(this.storePane)){
-         this.bottomPane.getChildren().remove(this.storePane);
+      if(this.bottomPane.getChildren().contains(this.levelController.getStorePane())){
+         this.bottomPane.getChildren().remove(this.levelController.getStorePane());
       }
       else {
-         this.bottomPane.getChildren().add(this.storePane);
+         this.bottomPane.getChildren().add(this.levelController.getStorePane());
       }
    }
-
 
 
 }

@@ -25,7 +25,7 @@ public class StoreItem extends GridPane {
    private StackPane itemContainer;
    private Text itemPrice;
    private StackPane itemPriceContainer;
-   private StoreAgent agent;
+   //private StoreAgent agent;
    private Rectangle itemPriceContainerBackground;
    private Rectangle itemContainerBackground;
 

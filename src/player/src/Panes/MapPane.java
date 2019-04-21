@@ -1,11 +1,8 @@
 package Panes;
 
-import Agent.AgentController;
 import Agent.AgentView;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import state.agent.IPlayerAgent;
 
 import java.util.List;
 
@@ -14,7 +11,6 @@ public class MapPane extends Pane {
    private static double HEIGHT = 1000;
 
    private Canvas myBackgroundCanvas;
-   private AgentController agentController;
    private double myHeight;
    private double myWidth;
 
@@ -23,18 +19,20 @@ public class MapPane extends Pane {
       this.myHeight = HEIGHT;
       this.myWidth = WIDTH;
       this.initBackground();
-      this.agentController = new AgentController();
    }
 
-   public void addAgent(IPlayerAgent playerAgent){
-      this.getChildren().add(
-         this.agentController.addAgent(playerAgent));
+   public void addAgent(AgentView agentView){
+      this.getChildren().add(agentView);
    }
 
-   public void addAgents(Iterable<IPlayerAgent> agents){
-      for(IPlayerAgent a: agents){
+   public void addAgents(List<AgentView> agentViews){
+      for(AgentView a: agentViews){
          this.addAgent(a);
       }
+   }
+
+   public void clearAgents(){
+      this.getChildren().removeAll();
    }
 
    private void initBackground(){

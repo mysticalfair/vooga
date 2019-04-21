@@ -1,9 +1,7 @@
 package Store;
 
 import javafx.scene.layout.VBox;
-import state.agent.PlayerAgent;
-
-import java.util.ArrayList;
+import state.agent.IPlayerAgent;
 import java.util.List;
 
 /**
@@ -12,14 +10,10 @@ import java.util.List;
  */
 
 public class StorePane extends VBox{
-   private List<PlayerAgent> engineInventory;
-   private List<StoreItem> storeInventory;
 
-   public StorePane(){
-      this.engineInventory = new ArrayList<PlayerAgent>();
+   public StorePane(){}
+
+   public StorePane(List<IPlayerAgent> options){
    }
 
-   public void update(List<PlayerAgent> newInventory){
-      this.engineInventory = newInventory;
-   }
 }

@@ -41,6 +41,9 @@ public class Level extends Scene {
       super(new BorderPane(), HEIGHT, WIDTH);
       this.setRoot();
       this.levelController = new LevelController(levelState);
+
+
+      this.settingsPane = new SettingsPane();
       this.initializeButtons();
       this.initializePanes();
       this.setStyles();
@@ -95,13 +98,14 @@ public class Level extends Scene {
    }
 
    private void toggleSettingsPane(){
+      System.out.println("TOGGLING");
       if(this.centerPane.getChildren().contains(this.settingsPane)){
          this.centerPane.getChildren().remove(this.settingsPane);
          this.centerPane.getChildren().add(this.levelController.getMapPane());
       }
       else {
+         this.centerPane.getChildren().add(this.settingsPane);
          this.centerPane.getChildren().remove(this.levelController.getMapPane());
-         this.centerPane.getChildren().add(this.levelController.getMapPane());
       }
    }
 

@@ -115,6 +115,15 @@ public class NetworkInterfaceTests {
         assertThrows(IndexOutOfBoundsException.class, () -> client2.get(0));
     }
 
+    @Test
+    public void testIncorrectServerInterfaces() throws NetworkException {
+        int newport = 1241;
+        List<String> arr = new ArrayList<>();
+        var server2 =  (ConnectableServer) NetworkFactory.buildServer(List.class, arr, newport);
+        var client2 = (ConnectableClient)NetworkFactory.buildClient(List.class, this);
+        assertThrows(NetworkException.class, () -> client2.connect(LOCALHOST, newport, Map.class));
+    }
+
     private void runAndTime(String description, Runnable runnable) {
         long curtime = System.nanoTime();
         for (int i = 0; i < TEST_RUN_ITERATIONS; i++) {

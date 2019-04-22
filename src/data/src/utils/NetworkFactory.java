@@ -5,7 +5,6 @@ import utils.network.NetworkedClient;
 import utils.network.NetworkedInterfaceWrapper;
 import utils.network.NetworkedServer;
 
-import java.io.IOException;
 import java.lang.reflect.Proxy;
 
 /**
@@ -32,7 +31,7 @@ public class NetworkFactory {
      * @param interfaceToImplement Interface that the server we are connecting to is implementing.
      * @param parentInstance Class that calls from the server should be forwarded to. Usually just pass back 'this'.
      * @return NetworkedClientInterface interfacer
-     * @throws IOException Exceptions on trying to connect/construct sockets.
+     * @throws NetworkException Exceptions on trying to connect/construct sockets.
      */
     public static ConnectableClient buildClient(Class<?> interfaceToImplement, Object parentInstance) throws NetworkException {
         return buildClient(interfaceToImplement, parentInstance, null, 0);
@@ -46,7 +45,7 @@ public class NetworkFactory {
      * @param ip String of ip to connect to of the server
      * @param port port of the server for this client
      * @return NetworkedClientInterface interfacer
-     * @throws IOException Exceptions on trying to connect/construct sockets.
+     * @throws NetworkException Exceptions on trying to connect/construct sockets.
      */
     public static ConnectableClient buildClient(Class<?> interfaceToImplement, Object parentInstance, String ip, int port) throws NetworkException {
         Class[] interfaces = new Class[] {ConnectableClient.class, interfaceToImplement};

@@ -1,7 +1,6 @@
 package utils.network;
 
 import utils.Connectable;
-import utils.NetworkException;
 import utils.SerializationException;
 import utils.network.datagrams.Datagram;
 import utils.network.datagrams.Request;
@@ -11,7 +10,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,23 +54,16 @@ public abstract class NetworkedBase implements Connectable {
      * Send a request which expects a response, and thus has to wait for the response from the network.
      * Package-private.
      * @param request request to be made.
-     * @throws NetworkException Exception in trying to transmit request, contains information on origination.
+     * @throws Throwable Exception which either occured in trying to transmit the request,
+     * or an exception in the operation of the request's method call.
      */
     Object sendRequest(Request request) throws Throwable {
-        try {
-            sendDatagram(request);
-            return request.requiresResponse() ? getResponse(request.getId()) : null;
-        } catch (InvocationTargetException ex) {
-            // Because we use reflection, if it is an InvocationTargetException we get the wrapped
-            // exception inside it that was the cause so we abstract the reflection away.
-            throw ex.getTargetException();
-        } catch (Exception ex) {
-            throw ex;
-        }
+        sendDatagram(request);
+        return request.requiresResponse() ? getResponse(request.getId()) : null;
     }
 
-    // Throws Exception as our response could be any kind of exception.
-    private Object getResponse(String id) throws Exception {
+    // Has Throwable as we could get literally any exception in response to the method call.
+    private Object getResponse(String id) throws Throwable {
         int count = 0;
         // TODO: make this async/not use sleep.
         while(!requestPool.containsKey(id)) {
@@ -84,8 +75,8 @@ public abstract class NetworkedBase implements Connectable {
         }
         Object result = requestPool.remove(id).getResult();
         // If we got an error as a result, throw it instead of returning it.
-        if (result instanceof Exception) {
-            throw ((Exception) result);
+        if (result instanceof Throwable) {
+            throw ((Throwable) result);
         }
         return result;
     }
@@ -144,7 +135,7 @@ public abstract class NetworkedBase implements Connectable {
         readerThread.start();
     }
 
-    private void readDatagrams() throws IOException, ClassNotFoundException, SerializationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private void readDatagrams() throws IOException, ClassNotFoundException, SerializationException {
         Datagram datagram = readDatagram();
         while (datagram != null) {
             switch (datagram.getType()) {

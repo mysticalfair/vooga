@@ -19,8 +19,6 @@ public class Request extends Datagram {
 
     @XStreamOmitField
     private transient UnaryOperator<Object> operation;
-    @XStreamOmitField
-    private transient Method deserializedMethod;
 
     public Request(Method method, Object[] args) throws SerializationException {
         super(DatagramType.REQUEST);
@@ -30,8 +28,8 @@ public class Request extends Datagram {
                 return method.invoke(parent, args);
             } catch (Exception ex) {
                 Logger.getGlobal().log(Level.SEVERE, "Error in invoking method " + method.getName() + ex.getMessage());
+                return ex;
             }
-            return null;
         });
         this.requiresResponse = !method.getReturnType().equals(Void.TYPE);
     }

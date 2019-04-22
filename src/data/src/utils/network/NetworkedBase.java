@@ -58,15 +58,16 @@ public abstract class NetworkedBase implements Connectable {
      * @param request request to be made.
      * @throws NetworkException Exception in trying to transmit request, contains information on origination.
      */
-    Object sendRequest(Request request) throws NetworkException {
+    Object sendRequest(Request request) throws Throwable {
         try {
             sendDatagram(request);
             return request.requiresResponse() ? getResponse(request.getId()) : null;
+        } catch (InvocationTargetException ex) {
+            // Because we use reflection, if it is an InvocationTargetException we get the wrapped
+            // exception inside it that was the cause so we abstract the reflection away.
+            throw ex.getTargetException();
         } catch (Exception ex) {
-            // Wrap exception so that anyone calling this only has one exception type to catch.
-            // TODO: make logging better
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new NetworkException(ex.getMessage(), ex);
+            throw ex;
         }
     }
 
@@ -165,7 +166,6 @@ public abstract class NetworkedBase implements Connectable {
     private void handleResponse(Response response) {
         requestPool.put(response.getId(), response);
     }
-
 
     protected void createStreams() throws IOException {
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

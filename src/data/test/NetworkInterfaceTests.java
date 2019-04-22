@@ -112,7 +112,7 @@ public class NetworkInterfaceTests {
         List<String> arr = new ArrayList<>();
         var server2 =  (ConnectableServer) NetworkFactory.buildServer(List.class, arr, newport);
         var client2 = (List<String> & ConnectableClient)NetworkFactory.buildClient(List.class, this, LOCALHOST, newport);
-        assertThrows(Exception.class, () -> client2.get(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> client2.get(0));
     }
 
     private void runAndTime(String description, Runnable runnable) {

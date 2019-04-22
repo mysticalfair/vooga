@@ -1,5 +1,6 @@
 package utils.network;
 
+import utils.NetworkException;
 import utils.network.datagrams.Request;
 import utils.reflect.MethodUtils;
 
@@ -13,6 +14,7 @@ import java.lang.reflect.Method;
  */
 public class NetworkedInterfaceWrapper implements InvocationHandler {
 
+    private static final String EXCEPTION_WRAPPER = "Exception in calling method ";
     private NetworkedBase networkInterface;
 
     /**
@@ -29,10 +31,10 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
      * @param method Method that was called
      * @param args Arguments supplied to this method
      * @return Result of method call, if any.
-     * @throws Exception Any exceptions that occur during the method call.
+     * @throws NetworkException Wrapper around any exceptions that occur during the method call.
      */
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // if the method is a network command like connect, disconnect etc, call it.
         if (MethodUtils.isMethodInList(method, networkInterface.getClass().getMethods())) {
             return method.invoke(networkInterface, args);
@@ -40,5 +42,6 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
         // Otherwise send out a request.
         return networkInterface.sendRequest(new Request(method, args));
     }
+
 
 }

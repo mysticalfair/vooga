@@ -21,6 +21,11 @@ public class AttributeController {
       this.attributePane = new AttributePane();
    }
 
+   public void addAttribute(IPlayerAttribute attribute)
+   {
+      attributes.add(attribute);
+   }
+
    public AttributePane getPane(){
       return this.attributePane;
    }

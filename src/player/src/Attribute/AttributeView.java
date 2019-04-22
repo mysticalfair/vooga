@@ -1,5 +1,8 @@
 package Attribute;
-
+/**
+ * Attribute front-end class
+ * @author Joanna Li, Luke Truitt
+ */
 
 import state.attribute.IPlayerAttribute;
 
@@ -19,6 +22,7 @@ public class AttributeView implements PropertyChangeListener {
     public void init(IPlayerAttribute attribute){
         this.name = attribute.getName();
         this.value = attribute.getValue();
+        attribute.addPropertyChangeListener(this);
 
     }
 
@@ -36,6 +40,7 @@ public class AttributeView implements PropertyChangeListener {
             System.out.println("Changed name: " + e.getNewValue());
         } else if(e.getPropertyName().equals("value")) {
             this.setValue((Integer) e.getNewValue());
+
             System.out.println("Changed value: "+ e.getNewValue());
         }
     }

@@ -4,19 +4,25 @@ package Attribute;
  * @author Joanna Li, Luke Truitt
  */
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.scene.text.Text;
 import state.attribute.IPlayerAttribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class AttributeView implements PropertyChangeListener {
+public class AttributeView extends Text implements PropertyChangeListener {
     private String name;
     private int value;
+    //private LongProperty property = new SimpleLongProperty(0);
 
     public AttributeView(IPlayerAttribute attribute){
         super();
         this.init(attribute);
         attribute.addPropertyChangeListener(this);
+        this.textProperty().bind(Bindings.createStringBinding(() -> (name + this.value)));
     }
 
     public void init(IPlayerAttribute attribute){
@@ -40,8 +46,10 @@ public class AttributeView implements PropertyChangeListener {
             System.out.println("Changed name: " + e.getNewValue());
         } else if(e.getPropertyName().equals("value")) {
             this.setValue((Integer) e.getNewValue());
-
             System.out.println("Changed value: "+ e.getNewValue());
         }
     }
+
+
+
 }

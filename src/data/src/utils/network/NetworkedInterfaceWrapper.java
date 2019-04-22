@@ -18,6 +18,7 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
 
     /**
      * Public instantiator for this wrapper proxy.
+     *
      * @param networkInterface GameBase network handler for sending packets
      */
     public NetworkedInterfaceWrapper(NetworkedBase networkInterface) {
@@ -26,9 +27,10 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
 
     /**
      * Proxy wrapper which parses the method and determines which class should handle the method call.
-     * @param proxy Object this method was called on. Unused here.
+     *
+     * @param proxy  Object this method was called on. Unused here.
      * @param method Method that was called
-     * @param args Arguments supplied to this method
+     * @param args   Arguments supplied to this method
      * @return Result of method call, if any.
      * @throws Throwable Any exception that occurs during this method call.
      */
@@ -47,6 +49,5 @@ public class NetworkedInterfaceWrapper implements InvocationHandler {
             throw ex.getTargetException();
         }
     }
-
 
 }

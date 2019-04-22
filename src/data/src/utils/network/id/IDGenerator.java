@@ -8,11 +8,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class IDGenerator {
 
-    private static AtomicLong idCounter = new AtomicLong();
-
     private IDGenerator() {
         // private constructor so cannot be instantiated
     }
+
+    private static AtomicLong idCounter = new AtomicLong();
+
 
     public static String createID()
     {

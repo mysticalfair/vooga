@@ -13,9 +13,4 @@ public interface Connectable {
      */
     public boolean isConnected();
 
-
-    /**
-     * @return Class type that this Connectable object is representing and passing method calls to.
-     */
-    public Class getServiceInterface();
 }

@@ -1,5 +1,5 @@
 
-import engine.Game;
+import engine.Game1;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -26,15 +26,15 @@ public class GameApplication extends Application {
    public static final Paint BACKGROUND = Color.WHITE;
    public static final String GAME_NAME = "Game Time";
    private Timeline animation;
-   private Game game;
+   private Game1 game;
 
    @Override
    public void start(Stage primaryStage) {
       this.primaryStage = primaryStage;
       primaryStage.show();
       setAnimation();
-      game = new Game();
-      game.startup("gameengine/John.xml");
+      game = new Game1();
+      game.startup("src/gameengine/John.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);

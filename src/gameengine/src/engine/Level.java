@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Level implements ILevelDefinition, IPlayerLevel, IRequiresGameEventMaster, Serializable {
+public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
 
     private LevelState levelState;
     private GameEventMaster eventMaster;
@@ -117,7 +117,7 @@ public class Level implements ILevelDefinition, IPlayerLevel, IRequiresGameEvent
 
     public IPlayerLevelState getLevelState(){return this.levelState;}
 
-    @Override
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 
     }

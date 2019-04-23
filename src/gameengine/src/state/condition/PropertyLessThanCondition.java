@@ -5,9 +5,9 @@ import state.agent.Agent;
 import java.util.List;
 import java.util.Map;
 
-public class PropertyLessThan extends Condition {
+public class PropertyLessThanCondition extends Condition {
 
-    public PropertyLessThan(Map<String, Object> params) {
+    public PropertyLessThanCondition(Map<String, Object> params) {
         super(params);
     }
 

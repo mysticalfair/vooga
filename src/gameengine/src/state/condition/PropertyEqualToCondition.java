@@ -33,6 +33,6 @@ public class PropertyEqualToCondition extends Condition {
      */
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-        return agents.stream().filter(agent -> (this.value == agent.getProperty(this.propertyName))).collect(Collectors.toList());
+        return agents.stream().filter(agent -> (this.value.equals(agent.getProperty(this.propertyName)))).collect(Collectors.toList());
     }
 }

@@ -25,4 +25,14 @@ public interface IStateDefinition {
      * @param level
      */
     void addLevel(ILevelDefinition level);
+
+    /**
+     * Get the agents that are defined to exist
+     * @return The defined agents
+     */
+    List<? extends IAgentDefinition> getDefinedAgents();
+    void removeDefinedAgent(int index);
+    void addDefinedAgent(IAgentDefinition agent);
+
+
 }

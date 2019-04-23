@@ -8,6 +8,12 @@ import java.util.List;
  */
 public interface IAgentDefinition {
 
+    int getX();
+    void setX(int x);
+
+    int getY();
+    void setY(int y);
+
     int getWidth();
     void setWidth(int width);
 

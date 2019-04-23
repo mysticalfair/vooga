@@ -21,13 +21,11 @@ public class LevelState implements Serializable {
 
     private List<Agent> agentsOptions;
     private List<Agent> agentsCurrent;
-    private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
     public LevelState() {
         this.agentsOptions = new ArrayList<>();
         this.agentsCurrent = new ArrayList<>();
-        this.objectivesCurrent = new ArrayList<>();
         this.attributesCurrent = new ArrayList<>();
     }
 
@@ -60,14 +58,6 @@ public class LevelState implements Serializable {
         agentsCurrent.add(agent);
     }
 
-    public List<Objective> getObjectives() {
-        return this.objectivesCurrent;
-    }
-
-    public void setObjectives(List<Objective> objectivesCurrent) {
-        this.objectivesCurrent = objectivesCurrent;
-    }
-
     public List<IAttribute> getMutableAttributes() { return this.attributesCurrent; }
 
     public void setAttributes(List<IAttribute> attributesCurrent) {
@@ -89,9 +79,6 @@ public class LevelState implements Serializable {
     public void placeAgent(Agent agent) {
         this.agentsCurrent.add(agent);
     }
-    public void defineObjective(Objective objective) {
-        this.objectivesCurrent.add(objective);
-    }
     public void defineAttribute(IAttribute attribute) {
         this.attributesCurrent.add(attribute);
     }
@@ -103,10 +90,6 @@ public class LevelState implements Serializable {
 
     public Iterable<IPlayerAgent> getImmutableAgents() {
         return List.copyOf(this.agentsCurrent);
-    }
-
-    public Iterable<IObjective> getImmutableObjectives() {
-        return List.copyOf(this.objectivesCurrent);
     }
 
     public Iterable<IPlayerAttribute> getImmutableAttributes() {

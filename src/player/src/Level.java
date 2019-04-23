@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import state.IPlayerLevelState;
-import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 
 import java.util.ArrayList;

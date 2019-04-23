@@ -8,12 +8,12 @@ import java.io.Serializable;
  * @author Jamie Palka
  * Class to define the objectives within the a game which incite a change in the game flow.
  */
-public class Objective implements IObjective, Serializable {
+public class attributeObjective implements IObjective, Serializable {
 
     private int id;
     private String title;
 
-    public Objective(int id, String title) {
+    public attributeObjective(int id, String title) {
         this.id = id;
         this.title = title;
     }

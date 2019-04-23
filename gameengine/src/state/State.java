@@ -4,7 +4,7 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.objective.IObjective;
-import state.objective.Objective;
+import state.objective.attributeObjective;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,12 +14,13 @@ import java.util.List;
  * Interface to represent the game as the authoring environment should see it
  * @author Jorge Raad
  * @author David Miron
+ * @auhor Jamie Palka
  */
 public class State implements IStateDefinition, Serializable {
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
-    private List<Objective> currentObjectives;
+    private List<IObjective> currentObjectives;
 
     public State(){
         this.currentLevel = START_LEVEL;
@@ -60,7 +61,7 @@ public class State implements IStateDefinition, Serializable {
      * Add an objective to the current list of objectives.
      * @param objective the objective to be added
      */
-    public void defineObjective(Objective objective) {
+    public void defineObjective(IObjective objective) {
         currentObjectives.add(objective);
     }
 

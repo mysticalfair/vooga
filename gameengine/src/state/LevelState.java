@@ -4,10 +4,7 @@ import state.agent.Agent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.objective.IObjective;
-import state.objective.Objective;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package utils.network.datagrams;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import utils.SerializationException;
 import utils.Serializer;
 import utils.SerializerSingleton;
 import utils.network.id.IDGenerator;
@@ -17,28 +16,23 @@ import java.io.Serializable;
 public abstract class Datagram implements Serializable {
 
     @XStreamOmitField
-    protected transient Serializer xmlSerializer = SerializerSingleton.getXMLInstance();
+    protected transient Serializer serializer = SerializerSingleton.getInstance();
 
     protected String payload;
     protected String id;
 
     private DatagramType type;
 
-    Datagram(DatagramType datagramType, String id, Object payload) throws SerializationException {
+    Datagram(DatagramType datagramType, String id) {
         this.id = id;
-        init(datagramType, payload);
-    }
-
-    Datagram(DatagramType datagramType, Object payload) throws SerializationException {
-        this.id = IDGenerator.createID();
-        init(datagramType, payload);
-    }
-
-    private void init(DatagramType datagramType, Object payload) throws SerializationException {
         type = datagramType;
-        this.payload = xmlSerializer.serialize((Serializable) payload);
-
     }
+
+    Datagram(DatagramType datagramType) {
+        this.id = IDGenerator.createID();
+        type = datagramType;
+    }
+
 
     public String getId() {
         return id;
@@ -54,6 +48,6 @@ public abstract class Datagram implements Serializable {
     private void readObject(ObjectInputStream stream)
             throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        xmlSerializer = SerializerSingleton.getXMLInstance();
+        serializer = SerializerSingleton.getInstance();
     }
 }

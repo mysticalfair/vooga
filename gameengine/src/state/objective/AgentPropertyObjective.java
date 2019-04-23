@@ -4,6 +4,7 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Jamie Palka
  * Class to define the objectives within the game which are triggered by the value of an agent property.
  */
-public class AgentPropertyObjective<T> {
+public class AgentPropertyObjective<T> implements IObjective, Serializable {
 
     private int id;
     private String title;
@@ -19,7 +20,6 @@ public class AgentPropertyObjective<T> {
     private T targetValue;
     private IObjectiveOutcome outcome;
     private List<Agent> agents;
-    //TODO add player for which want to check attribute
     //TODO add another constructor which also takes a specific level that the objective corresponds to
     //TODO make this a map, so can track different targetValues for different agents
 
@@ -47,7 +47,7 @@ public class AgentPropertyObjective<T> {
 
         for(Agent agent : agents) {
 
-            if(agent.getPropertyValue(title).equals(targetValue)) {
+            if(!agent.getPropertyValue(title).equals(targetValue)) {
                 return;
             }
 

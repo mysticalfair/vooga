@@ -56,17 +56,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         return direction;
     }
 
-    public List<Property> getProperties() {return this.properties; }
-
-    public Property getPropertyValue(String propertyName) {
-
-        for(Property property : properties) {
-            if(property.getName().equals(propertyName)) {
-                return property;
-            }
-        }
-        return null;
-    }
+    public List<Property> getProperties() { return this.properties; }
 
     public void setImageURL(String url) {
         var oldUrl = this.imageURL;

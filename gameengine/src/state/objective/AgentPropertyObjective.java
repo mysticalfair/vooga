@@ -11,18 +11,19 @@ import java.util.List;
  * @author Jamie Palka
  * Class to define the objectives within the game which are triggered by the value of an agent property.
  */
-public class AgentPropertyObjective {
+public class AgentPropertyObjective<T> {
 
     private int id;
     private String title;
     private String propertyName;
-    private int targetValue;
+    private T targetValue;
     private IObjectiveOutcome outcome;
     private List<Agent> agents;
     //TODO add player for which want to check attribute
     //TODO add another constructor which also takes a specific level that the objective corresponds to
+    //TODO make this a map, so can track different targetValues for different agents
 
-    public AgentPropertyObjective(int id, String title, String propertyName, int targetValue, IObjectiveOutcome outcome) {
+    public AgentPropertyObjective(int id, String title, String propertyName, T targetValue, IObjectiveOutcome outcome) {
         this.id = id;
         this.title = title;
         this.propertyName = propertyName;
@@ -44,12 +45,14 @@ public class AgentPropertyObjective {
      */
     public void execute(State state) {
 
-        for(Agent agent : agents)
+        for(Agent agent : agents) {
 
-            if(agent.)
+            if(agent.getPropertyValue(title).equals(targetValue)) {
+                return;
+            }
+
             outcome.execute(state);
         }
-
     }
 
 }

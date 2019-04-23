@@ -1,8 +1,8 @@
-package gameengine;
+package authoring;
 
 import java.util.List;
 
-public class AvailableNameFields  {
+public class AvailableNameFields {
 
     private String name;
     private List<Field> fields;

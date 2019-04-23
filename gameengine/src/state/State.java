@@ -1,8 +1,8 @@
 package state;
 
 import engine.Level;
-import gameengine.ILevelDefinition;
-import gameengine.IStateDefinition;
+import authoring.ILevelDefinition;
+import authoring.IStateDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author David Miron
  */
 public class State implements IStateDefinition, Serializable {
-    private static final int START_LEVEL = 1;
+    private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
 
@@ -65,7 +65,6 @@ public class State implements IStateDefinition, Serializable {
     public void step(double deltaTime){
 
         //TODO: check all objectives
-
         levels.get(currentLevel).step(deltaTime);
     }
 

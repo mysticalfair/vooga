@@ -1,7 +1,10 @@
 package state.action.movement;
 
+import state.IRequiresBaseAgent;
 import state.agent.AgentUtils;
 import state.agent.Agent;
+
+import java.util.Map;
 
 /**
  * Allows an agent to move straight to a specified target agent.
@@ -9,10 +12,14 @@ import state.agent.Agent;
  * @author David Miron
  */
 public class MoveStraightToAgent extends MovementAction {
-    Agent baseAgent;
 
-    public MoveStraightToAgent(Agent baseAgent) {
-        this.baseAgent = baseAgent;
+    public MoveStraightToAgent(Map<String, Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, Object> params) {
+        this.speed = (Integer) params.get("speed");
     }
 
     /**
@@ -21,8 +28,10 @@ public class MoveStraightToAgent extends MovementAction {
      */
     @Override
     public void execute(Agent agent, double deltaTime) {
-//        double speed = Math.sqrt(Math.pow(baseAgent.getXVelocity(), 2) + Math.pow(baseAgent.getYVelocity(), 2));
-//        double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
-//        baseAgent.updateVelocity(speed*Math.cos(absoluteAngle), speed*Math.sin(absoluteAngle));
+        double currentSpeed = speed;
+        double absoluteAngle = AgentUtils.getAngleBetween(baseAgent, agent);
+        double xVel = currentSpeed*Math.cos(absoluteAngle);
+        double yVel = currentSpeed*Math.sin(absoluteAngle);
+        baseAgent.setLocation(xVel*deltaTime, yVel*deltaTime);
     }
 }

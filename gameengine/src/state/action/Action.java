@@ -1,20 +1,48 @@
 package state.action;
 
+import authoring.IActionDefinition;
 import engine.event.GameEventMaster;
+import state.IRequiresBaseAgent;
 import state.IRequiresGameEventMaster;
 import state.agent.Agent;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * An abstract class to define the common functionality of Actions.
  * @author Jamie Palka
  * @author David Miron
  */
-public abstract class Action implements IRequiresGameEventMaster, Serializable {
+public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable, Cloneable {
 
     protected GameEventMaster eventMaster;
+    private Map<String, Object> params;
+    private String name;
+
+    public Action(Map<String, Object> params) {
+        this.params = params;
+        setParams(params);
+    }
+
+    public Map<String, Object> getParams() {
+        return this.params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        // Do nothing
+        // This method should be overridden by subclasses that need parameters
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * Inject the GameEventMaster to an action
@@ -34,8 +62,14 @@ public abstract class Action implements IRequiresGameEventMaster, Serializable {
      * a meleee action will be executed on the agent parameter.
      */
     public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException;
-
-
     // TODO assumption in comment correct?
+
+    public Action clone(Agent clonedBaseAgent) throws CloneNotSupportedException{
+        Action clone = (Action)super.clone();
+        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
+            ((IRequiresBaseAgent)clone).injectBaseAgent(clonedBaseAgent);
+        }
+        return clone;
+    }
 
 }

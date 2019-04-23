@@ -1,6 +1,4 @@
-package gameengine;
-
-import java.util.List;
+package authoring;
 
 /**
  * Interface to represent the game as the authoring environment should see it

@@ -29,4 +29,9 @@
         <fields></fields>
     </conditionDefinition>
 
+    <conditionDefinition>
+        <name>DoOnce</name>
+        <fields></fields>
+    </conditionDefinition>
+
 </conditionDefinitions>

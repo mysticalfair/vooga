@@ -7,6 +7,7 @@ import state.attribute.IAttribute;
 import state.objective.IObjective;
 import state.objective.Objective;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

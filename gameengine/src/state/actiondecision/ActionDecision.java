@@ -1,7 +1,8 @@
 package state.actiondecision;
 
-import gameengine.IActionDefinition;
-import gameengine.IConditionDefinition;
+import authoring.IActionDecisionDefinition;
+import authoring.IActionDefinition;
+import authoring.IConditionDefinition;
 import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;
@@ -15,15 +16,10 @@ import java.util.List;
  * @author David Miron
  * @author Jorge Raad
  */
-public class ActionDecision implements Serializable{
+public class ActionDecision implements IActionDecisionDefinition, Serializable, Cloneable{
 
     private Action action;
     private List<Condition> conditions;
-
-    public ActionDecision(IActionDefinition action, List<IConditionDefinition> conditions) {
-        this.action = (Action)action;
-        // this.conditions = conditions.stream().map(c -> c);
-    }
 
     public ActionDecision(Action action, List<Condition> conditions) {
         this.action = action;
@@ -44,4 +40,39 @@ public class ActionDecision implements Serializable{
             action.execute(agent, deltaTime);
     }
 
+    @Override
+    public Action getAction() {
+        return action;
+    }
+
+    @Override
+    public void setAction(IActionDefinition actionDefinition) {
+        this.action = (Action)actionDefinition;
+    }
+
+    @Override
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    @Override
+    public void removeCondition(int index) {
+        conditions.remove(index);
+    }
+
+    @Override
+    public void addCondition(IConditionDefinition conditionDefinition) {
+        conditions.add((Condition)conditionDefinition);
+    }
+
+    public ActionDecision clone (Agent clonedBaseAgent) throws CloneNotSupportedException {
+        ActionDecision clone = (ActionDecision)super.clone();
+        action = action.clone(clonedBaseAgent);
+        List<Condition> newConditions = new ArrayList<>();
+        for(Condition c : conditions){
+            newConditions.add(c.clone(clonedBaseAgent));
+        }
+        clone.conditions = newConditions;
+        return clone;
+    }
 }

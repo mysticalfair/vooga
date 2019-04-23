@@ -1,11 +1,10 @@
 package utils;
 
-import utils.network.GameBase;
-import utils.network.GameClient;
-import utils.network.GameServer;
+import utils.network.NetworkedBase;
+import utils.network.NetworkedClient;
 import utils.network.NetworkedInterfaceWrapper;
+import utils.network.NetworkedServer;
 
-import java.io.IOException;
 import java.lang.reflect.Proxy;
 
 /**
@@ -32,9 +31,9 @@ public class NetworkFactory {
      * @param interfaceToImplement Interface that the server we are connecting to is implementing.
      * @param parentInstance Class that calls from the server should be forwarded to. Usually just pass back 'this'.
      * @return NetworkedClientInterface interfacer
-     * @throws IOException Exceptions on trying to connect/construct sockets.
+     * @throws NetworkException Exceptions on trying to connect/construct sockets.
      */
-    public static NetworkedClientInterface buildClient(Class<?> interfaceToImplement, Object parentInstance) throws IOException{
+    public static ConnectableClient buildClient(Class<?> interfaceToImplement, Object parentInstance) throws NetworkException {
         return buildClient(interfaceToImplement, parentInstance, null, 0);
     }
 
@@ -46,15 +45,15 @@ public class NetworkFactory {
      * @param ip String of ip to connect to of the server
      * @param port port of the server for this client
      * @return NetworkedClientInterface interfacer
-     * @throws IOException Exceptions on trying to connect/construct sockets.
+     * @throws NetworkException Exceptions on trying to connect/construct sockets.
      */
-    public static NetworkedClientInterface buildClient(Class<?> interfaceToImplement, Object parentInstance, String ip, int port) throws IOException {
-        Class[] interfaces = new Class[] {NetworkedClientInterface.class, interfaceToImplement};
-        GameBase gameBase = (ip == null || port == 0) ? new GameClient(parentInstance) : new GameClient(parentInstance, ip, port);
-        return (NetworkedClientInterface) Proxy.newProxyInstance(
+    public static ConnectableClient buildClient(Class<?> interfaceToImplement, Object parentInstance, String ip, int port) throws NetworkException {
+        Class[] interfaces = new Class[] {ConnectableClient.class, interfaceToImplement};
+        NetworkedBase networkedBase = (ip == null || port == 0) ? new NetworkedClient(parentInstance) : new NetworkedClient(parentInstance, ip, port);
+        return (ConnectableClient) Proxy.newProxyInstance(
                 NetworkedInterfaceWrapper.class.getClassLoader(),
                 interfaces,
-                new NetworkedInterfaceWrapper(gameBase));
+                new NetworkedInterfaceWrapper(networkedBase));
     }
 
     /**
@@ -64,14 +63,13 @@ public class NetworkFactory {
      * @param parentInstance Parent that method calls from the client should be passed to
      * @param port Port to listen on
      * @return NetworkedServerInterface interfacer
-     * @throws IOException Exceptions on setting up listening/sockets.
      */
-    public static NetworkedServerInterface buildServer(Class<?> interfaceToImplement, Object parentInstance, int port) throws IOException {
-        Class[] interfaces = new Class[] {NetworkedServerInterface.class, interfaceToImplement};
-        GameBase gameBase = new GameServer(parentInstance, port);
-        return (NetworkedServerInterface) Proxy.newProxyInstance(
+    public static ConnectableServer buildServer(Class<?> interfaceToImplement, Object parentInstance, int port) {
+        Class[] interfaces = new Class[] {ConnectableServer.class, interfaceToImplement};
+        NetworkedBase networkedBase = new NetworkedServer(parentInstance, port);
+        return (ConnectableServer) Proxy.newProxyInstance(
                 NetworkedInterfaceWrapper.class.getClassLoader(),
                 interfaces,
-                new NetworkedInterfaceWrapper(gameBase));
+                new NetworkedInterfaceWrapper(networkedBase));
     }
 }

@@ -1,7 +1,6 @@
 package utils.serializers;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import utils.SerializationException;
 
@@ -28,7 +27,7 @@ public class XStreamSerializer extends SerializerBase {
         try {
             return xStream.toXML(object);
         } catch (Exception exception) {
-            throw new SerializationException(SERIALIZATION_ERR + exception.getMessage());
+            throw new SerializationException(SERIALIZATION_ERR + exception.getMessage(), exception);
         }
     }
 
@@ -37,7 +36,7 @@ public class XStreamSerializer extends SerializerBase {
         try {
             return xStream.fromXML(object);
         } catch (Exception exception) {
-            throw new SerializationException(DESERIALIZATION_ERR + exception.getMessage());
+            throw new SerializationException(DESERIALIZATION_ERR + exception.getMessage(), exception);
         }
     }
 }

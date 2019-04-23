@@ -35,14 +35,12 @@ public class MoveAtRelativeAngle extends MovementAction {
      */
     @Override
     public void execute(Agent agent, double deltaTime) {
-        var properties = agent.getProperties();
         double currentSpeed = speed;
         // possibly apply some kind of multiplier or something from properties idk
+        //var properties = agent.getProperties();
         double newAbsoluteAngle = baseAgent.getDirection() - angle;
         double xVel = currentSpeed*Math.cos(Math.PI/180*newAbsoluteAngle);
         double yVel = currentSpeed*Math.sin(Math.PI/180*newAbsoluteAngle);
-        double deltaX = xVel*deltaTime;
-        double deltaY = yVel*deltaTime;
         baseAgent.setLocation(xVel*deltaTime + baseAgent.getX(), yVel*deltaTime + baseAgent.getY());
     }
 }

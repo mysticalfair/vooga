@@ -18,6 +18,7 @@ public class attributeObjective implements IObjective, Serializable {
     private int targetValue;
     private IObjectiveOutcome outcome;
     //TODO add player for which want to check attribute
+    //TODO add another constructor which also takes a specific level that the objective corresponds to
 
     public attributeObjective(int id, String title, Attribute attribute, int targetValue, IObjectiveOutcome outcome) {
         this.id = id;
@@ -27,14 +28,8 @@ public class attributeObjective implements IObjective, Serializable {
         this.outcome = outcome;
     }
 
-    public int getId() { return this.id; }
+    public void execute(State state) {
+        
 
-    public String getTitle() {
-        return this.title;
-    }
-
-    public boolean execute(State state) {
-
-        return true;
     }
 }

@@ -1,16 +1,12 @@
 package panes;
 
 import authoring.GameFactory;
-import frontend_objects.CloneableAgentView;
-import frontend_objects.DraggableAgentView;
+import frontend_objects.CloneableAgentView;;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.ToolbarPane;
@@ -47,6 +43,7 @@ public class AuthoringEnvironment extends Application {
     private MapPane map;
     private Scene scene;
     private List<MapState> levels;
+    private List<Path> paths;
 
     public static void main(String[] args){
         launch(args);
@@ -64,6 +61,7 @@ public class AuthoringEnvironment extends Application {
 
         stackPane = new StackPane();
         borderPane = new BorderPane();
+        paths = new ArrayList<>();
         stackPane.getChildren().add(borderPane);
         scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         initAllPanes();
@@ -123,13 +121,17 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane(context, map, scene);
+        toolbarPane = new ToolbarPane(context, map, scene, paths);
         toolbarPane.accessContainer(borderPane::setTop);
+
         toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.GRAB_IMAGE, e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
+
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
+
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));
     }
 

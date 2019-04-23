@@ -1,6 +1,5 @@
 package panes;
 
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -28,40 +27,72 @@ public class Path {
 
     private List<PathPoint> points;
     private List<Line> lines;
+    private boolean draggable, removable;
 
     public Path(){
         points = new ArrayList<>();
         lines = new ArrayList<>();
+        draggable = false;
+        removable = false;
     }
 
-    public void addPoint(Group root, double x, double y){
-        var point = new PathPoint(x, y);
-        var visual = point.getPoint();
-        visual.layoutXProperty().addListener(e -> updateLines(root));
-        visual.layoutYProperty().addListener(e -> updateLines(root));
-        points.add(point);
-        root.getChildren().add(visual);
-        updateLines(root);
+    public List<Circle> getPoints(){
+        var list = new ArrayList<Circle>();
+        for(PathPoint p: points){
+            list.add((Circle) p.getPoint());
+        }
+        return list;
     }
 
-    public void removePoint(Group root, Circle visual){
+    public List<Line> getLines(){
+        return lines;
+    }
+
+    public void toggleDraggable(){
+        draggable = !draggable;
         for(PathPoint point: points){
-            var pointVisual = (Circle) point.getPoint();
-            if(pointVisual == visual){
-                root.getChildren().remove(visual);
-                points.remove(point);
-                updateLines(root);
-            }
+            point.toggleDragMode();
         }
     }
 
-    private void updateLines(Group root){
-        root.getChildren().removeAll(lines);
+    public void toggleRemovable(){
+        removable = !removable;
+        for(PathPoint point: points){
+            point.toggleRemoveMode();
+        }
+    }
+
+    public Circle addPoint(double x, double y){
+        var point = new PathPoint(x, y);
+        var visual = point.getPoint();
+        points.add(point);
+        return (Circle) visual;
+    }
+
+    public Circle removePoint(Circle visual){
+        var point = getPoint(visual);
+        if(point != null){
+            points.remove(point);
+        }
+        return visual;
+    }
+
+    public PathPoint getPoint(Circle visual){
+        for(PathPoint point: points){
+            var pointVisual = (Circle) point.getPoint();
+            if(pointVisual == visual){
+                return point;
+            }
+        }
+        return null;
+    }
+
+    public List<Line> updateLines(){
         lines = new ArrayList<>();
 
         int pointsCount = points.size();
         if(pointsCount <= MINIMUM_SIZE){
-            return;
+            return List.of();
         }
 
         Circle currentCircle = (Circle) points.get(FIRST_POINT).getPoint();
@@ -75,6 +106,6 @@ public class Path {
             line.setStroke(LINE_COLOR);
             lines.add(line);
         }
-        root.getChildren().addAll(lines);
+        return lines;
     }
 }

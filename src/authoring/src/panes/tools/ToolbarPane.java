@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
+import panes.Path;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 import panes.MapPane;
@@ -29,6 +30,7 @@ public class ToolbarPane extends AuthoringPane {
     private Map<String, Menu> menuMap;
     private VBox box;
     private Map<String, Tool> toolImageMap;
+    private List<Path> pathOptions;
 
     private MapPane map;
     private Scene scene;
@@ -45,14 +47,16 @@ public class ToolbarPane extends AuthoringPane {
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final String PEN_IMAGE = "Pen.png";
+    public static final String GRAB_IMAGE = "GrabIcon.jpg";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene){
+    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, List<Path> paths){
         super(context);
         map = authorMap;
         scene = authorScene;
         menuMap = new HashMap<>();
         toolImageMap = new HashMap<>();
+        pathOptions = paths;
         initBars();
         initLevelChanger();
     }
@@ -81,10 +85,15 @@ public class ToolbarPane extends AuthoringPane {
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
         toolbar.setPrefSize(WIDTH, TOOLBAR_HEIGHT);
+
         var lasso = new LassoTool(map, scene, LASSO_IMAGE);
-        var pen = new PathPenTool(map, scene, PEN_IMAGE);
+        var pen = new PathPenTool(map, scene, PEN_IMAGE, pathOptions);
+        // TODO: change PEN_IMAGE to a dragging image
+        var dragger = new PathDragTool(map, scene, GRAB_IMAGE, pathOptions);
+
         toolImageMap.put(LASSO_IMAGE, lasso);
         toolImageMap.put(PEN_IMAGE, pen);
+        toolImageMap.put(GRAB_IMAGE, dragger);
         return toolbar;
     }
 
@@ -114,6 +123,10 @@ public class ToolbarPane extends AuthoringPane {
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
+        if(buttonImageName == GRAB_IMAGE){
+            EventHandler update = e -> ((PathDragTool) toolImageMap.get(buttonImageName)).updatePaths(pathOptions);
+            button.addEventHandler(ActionEvent.ACTION, update);
+        }
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
     }

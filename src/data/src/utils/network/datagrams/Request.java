@@ -3,10 +3,11 @@ package utils.network.datagrams;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import utils.SerializationException;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class for sending method calls across the network, these are sent via TCP.
@@ -14,41 +15,31 @@ import java.util.List;
  */
 public class Request extends Datagram {
 
-    private String method;
     private boolean requiresResponse;
 
     @XStreamOmitField
-    private transient Object[] deserialzedPayload;
+    private transient UnaryOperator<Object> operation;
 
     public Request(Method method, Object[] args) throws SerializationException {
-        super(DatagramType.REQUEST, args);
-        this.method = method.getName();
+        super(DatagramType.REQUEST);
+        // Methods cannot be serialized directly, so instead we wrap it in a lambda.
+        this.payload = serializer.serialize((Serializable & UnaryOperator<Object>) (parent) -> {
+            try {
+                return method.invoke(parent, args);
+            } catch (Exception ex) {
+                Logger.getGlobal().log(Level.SEVERE, "Error in invoking method " + method.getName() + ex.getMessage());
+                return ex;
+            }
+        });
         this.requiresResponse = !method.getReturnType().equals(Void.TYPE);
     }
 
-    public String getMethod() {
-        return method;
-    }
-
-    public Object[] getArgs() throws SerializationException {
-        if (payload == null) {
-            return null;
+    public Response applyRequest(Object target) throws SerializationException {
+        if (operation == null) {
+            operation = (UnaryOperator<Object>)serializer.deserialize(payload);
         }
-        // We want to avoid repeatedly deserializing the same object, so store for runtime boost.
-        if (deserialzedPayload == null) {
-            deserialzedPayload = (Object[]) serializer.deserialize(payload);
-        }
-        return deserialzedPayload;
-    }
-
-    public Class<?>[] getArgClassTypes() throws SerializationException {
-        Object[] params = getArgs();
-        if (params == null) {
-            return null;
-        }
-        List<Class<?>> arr = new ArrayList<>();
-        Arrays.stream(params).forEach(param -> arr.add(param.getClass()));
-        return arr.toArray(Class<?>[]::new);
+        Object result = operation.apply(target);
+        return requiresResponse ? new Response(id, result) : null;
     }
 
     public boolean requiresResponse() {

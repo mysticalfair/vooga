@@ -12,4 +12,6 @@ public interface ConnectableClient extends Connectable {
      * Connects this client to a listening client on the specified ip and port. Returns false on unable to connect.
      */
     public void connect(String ip, int port) throws NetworkException;
+
+    public void connect(String ip, int port, Class interfaceKlazz) throws NetworkException;
 }

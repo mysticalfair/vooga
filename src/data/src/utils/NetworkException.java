@@ -10,4 +10,12 @@ public class NetworkException extends Exception {
         super(message, throwable);
     }
 
+    public NetworkException(String message, Object... args) {
+        super(String.format(message, args));
+    }
+
+    public NetworkException(String message, Throwable throwable,  Object... args) {
+        super(String.format(message, args), throwable);
+    }
+
 }

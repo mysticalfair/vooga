@@ -5,13 +5,11 @@ import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
-import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
 import state.objective.Objective;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,18 +71,15 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
-                agent.setImageURL("HelloWorld");
-                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-                System.out.print("Angle: " + (int)agent.getDirection() + "| ");
+//                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
+//                System.out.print("Angle: " + (int)agent.getDirection() + "| ");
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
             }
         }
-        System.out.println("______________________________________________________");
+//        System.out.println("______________________________________________________");
 
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);
@@ -111,14 +106,9 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         agentsToRemove.add(agent);
     }
 
-    private void setLevelState(LevelState state) {
-        this.levelState = state;
+    public LevelState getLevelState()
+    {
+        return levelState;
     }
 
-    public IPlayerLevelState getLevelState(){return this.levelState;}
-
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-    }
 }

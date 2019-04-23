@@ -14,11 +14,15 @@ public class DoOnceCondition extends Condition {
 
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-        if (agents.size() > 0){
-            Agent agent = agents.get(0);
-            agents = new ArrayList<>();
-            agents.add(agent);
-        }
+//        if (agents.size() > 0){
+//            Agent agent = agents.get(0);
+//            agents = new ArrayList<>();
+//            agents.add(agent);
+//        }
+        // pass a dummy agent always, that way the action will always occur once, even if the given list is empty.
+        // This means that other conditions such as interval must be checked afterwards
+        agents = new ArrayList<>();
+        agents.add(null);
         return agents;
     }
 }

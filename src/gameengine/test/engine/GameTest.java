@@ -146,8 +146,6 @@ class GameTest {
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
                     0,"projectile", "pea.gif", AD1, properties);
 
-            level.addAgent(projectile);
-
             // MAKING TOWER
             List<IActionDecisionDefinition> AD2 = new ArrayList<>();
 
@@ -209,9 +207,6 @@ class GameTest {
             level.addAgent(zombie3);
             level.addAgent(zombie4);
             level.addAgent(zombie5);
-
-
-
 
             state.addLevel(level);
             gameEngine.setState(state);

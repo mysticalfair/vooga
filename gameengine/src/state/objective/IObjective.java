@@ -9,12 +9,6 @@ import state.State;
  */
 public interface IObjective {
 
-    public int getId();
-
-    public String getTitle();
-
-    public boolean checkObjective(State state);
-
-    public void execute(State state);
+    void execute(State state);
 
 }

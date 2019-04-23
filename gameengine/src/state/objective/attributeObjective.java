@@ -1,6 +1,8 @@
 package state.objective;
 
+import org.w3c.dom.Attr;
 import state.State;
+import state.attribute.Attribute;
 
 import java.io.Serializable;
 
@@ -12,10 +14,17 @@ public class attributeObjective implements IObjective, Serializable {
 
     private int id;
     private String title;
+    private Attribute attribute;
+    private int targetValue;
+    private IObjectiveOutcome outcome;
+    //TODO add player for which want to check attribute
 
-    public attributeObjective(int id, String title) {
+    public attributeObjective(int id, String title, Attribute attribute, int targetValue, IObjectiveOutcome outcome) {
         this.id = id;
         this.title = title;
+        this.attribute = attribute;
+        this.targetValue = targetValue;
+        this.outcome = outcome;
     }
 
     public int getId() { return this.id; }
@@ -24,12 +33,8 @@ public class attributeObjective implements IObjective, Serializable {
         return this.title;
     }
 
-    public boolean checkObjective(State state) {
+    public boolean execute(State state) {
 
         return true;
-    }
-
-    public void execute(State state) {
-
     }
 }

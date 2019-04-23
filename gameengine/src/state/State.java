@@ -82,9 +82,16 @@ public class State implements IStateDefinition, Serializable {
         }
     }
 
+    /**
+     * Executes any outcomes necessary for existing objectives and then calls step() on the current level.
+     * @param deltaTime the change in time
+     */
     public void step(double deltaTime){
 
-        //TODO: check all objectives
+        for(IObjective objective: currentObjectives) {
+            objective.execute(this);
+        }
+
         levels.get(currentLevel).step(deltaTime);
     }
 

@@ -7,21 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PropertyGreaterThanCondition extends Condition {
-    private Comparable value;
-    private String propertyName;
+public class PropertyGreaterThanCondition extends PropertyCondition {
 
     /**
      * Create an IntervalCondition
      */
     public PropertyGreaterThanCondition(Map<String, Object> params) {
         super(params);
-    }
-
-    @Override
-    public void setParams(Map<String, Object> params) {
-        this.propertyName = (String) params.get("property");
-        this.value = (Comparable) params.get("value");
     }
 
     /**

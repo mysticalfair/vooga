@@ -9,22 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PropertyEqualToCondition extends Condition {
-
-    private Object value;
-    private String propertyName;
+public class PropertyEqualToCondition extends PropertyCondition {
 
     /**
      * Create an IntervalCondition
      */
     public PropertyEqualToCondition(Map<String, Object> params) {
         super(params);
-    }
-
-    @Override
-    public void setParams(Map<String, Object> params) {
-        this.propertyName = (String) params.get("property");
-        this.value = params.get("value");
     }
 
     /**

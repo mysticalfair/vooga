@@ -1,6 +1,7 @@
-package state.condition;
+package state.condition.propertyCondition;
 
 import state.agent.Agent;
+import state.condition.Condition;
 
 import java.util.List;
 import java.util.Map;

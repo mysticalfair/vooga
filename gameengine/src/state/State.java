@@ -3,6 +3,8 @@ package state;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
+import state.objective.IObjective;
+import state.objective.Objective;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,10 +19,12 @@ public class State implements IStateDefinition, Serializable {
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
+    private List<Objective> currentObjectives;
 
     public State(){
         this.currentLevel = START_LEVEL;
-        levels = new ArrayList<>();
+        this.levels = new ArrayList<>();
+        this.currentObjectives = new ArrayList<>();
     }
 
     /**
@@ -50,6 +54,21 @@ public class State implements IStateDefinition, Serializable {
     @Override
     public void addLevel(ILevelDefinition level) {
         levels.add((Level)level);
+    }
+
+    /**
+     * Add an objective to the current list of objectives.
+     * @param objective the objective to be added
+     */
+    public void defineObjective(Objective objective) {
+        currentObjectives.add(objective);
+    }
+
+    /**
+     * For Player - Iterate through and update your copy based on the corresponding ID.
+     */
+    public Iterable<IObjective> getImmutableObjectives() {
+        return List.copyOf(this.currentObjectives);
     }
 
     /**

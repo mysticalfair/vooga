@@ -29,7 +29,10 @@ public class attributeObjective implements IObjective, Serializable {
     }
 
     public void execute(State state) {
-        
+
+        if(attribute.getValue() == targetValue) {
+            outcome.execute(state);
+        }
 
     }
 }

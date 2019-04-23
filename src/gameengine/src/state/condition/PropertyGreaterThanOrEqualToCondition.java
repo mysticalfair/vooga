@@ -5,8 +5,9 @@ import state.agent.Agent;
 import java.util.List;
 import java.util.Map;
 
-public class PropertyGreaterThanOrEqualTo extends Condition {
-    public PropertyGreaterThanOrEqualTo(Map<String, Object> params) {
+public class PropertyGreaterThanOrEqualToCondition extends Condition {
+
+    public PropertyGreaterThanOrEqualToCondition(Map<String, Object> params) {
         super(params);
     }
 

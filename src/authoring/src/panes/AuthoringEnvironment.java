@@ -95,7 +95,7 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initMapPane(int level) {
-        map = new MapPane();
+        map = new MapPane(context);
         map.accessContainer(borderPane::setCenter);
         map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
         map.setLevel(level);

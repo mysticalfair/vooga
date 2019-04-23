@@ -29,8 +29,8 @@ public class DefineAgentForm extends AttributesForm {
     private void init() {
         VBox vBox = new VBox();
 
-        saveButton = new Button(context.getString("Save"));
-        cancelButton = new Button(context.getString("Cancel"));
+        saveButton = new Button(getContext().getString("Save"));
+        cancelButton = new Button(getContext().getString("Cancel"));
 
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(saveButton, cancelButton);
@@ -38,20 +38,20 @@ public class DefineAgentForm extends AttributesForm {
 
         vBox.getChildren().add(new Label(""));
 
-        commonAgentFieldsForm = new CommonAgentFieldsForm(context);
+        commonAgentFieldsForm = new CommonAgentFieldsForm(getContext());
         commonAgentFieldsForm.accessContainer(vBox.getChildren()::add);
 
         vBox.getChildren().add(new Label(""));
 
-        agentPropertiesForm = new AgentPropertiesForm(context);
+        agentPropertiesForm = new AgentPropertiesForm(getContext());
         agentPropertiesForm.accessContainer(vBox.getChildren()::add);
 
         vBox.getChildren().add(new Label(""));
 
-        actionDecisionForm = new ActionDecisionForm(context);
+        actionDecisionForm = new ActionDecisionForm(getContext());
         actionDecisionForm.accessContainer(vBox.getChildren()::add);
 
-        pane.getChildren().add(vBox);
+        getPane().getChildren().add(vBox);
     }
 
     public void setOnSave(EventHandler onSave) {
@@ -65,9 +65,9 @@ public class DefineAgentForm extends AttributesForm {
     public IAgentDefinition getAgentDefinition() {
         String name = commonAgentFieldsForm.getName();
         if (name.equals("")) {
-            context.displayConsoleMessage(context.getString("AgentNeedsName"), ConsolePane.Level.ERROR);
+            getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
         }
-        return context.getGameFactory().createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
+        return getContext().getGameFactory().createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
                 commonAgentFieldsForm.getImageUrl(), actionDecisionForm.getActionDecisionDefinitions(),
                 agentPropertiesForm.getPropertyDefinitions());
     }

@@ -78,12 +78,12 @@ public class DraggableAgentView extends AgentView {
         if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
-            //console.displayConsoleMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount());
+            console.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
         } else if (outOfBounds()) {
             setEffect(null);
             setTranslateX(myStartXOffset);
             setTranslateY(myStartYOffset);
-            //console.displayConsoleMessage("Agent out of bounds: returning to original location");
+            console.displayMessage("Agent out of bounds: returning to original location", ConsolePane.Level.NEUTRAL);
         }
     }
 

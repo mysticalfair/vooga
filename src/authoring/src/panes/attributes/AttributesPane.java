@@ -1,13 +1,10 @@
 package panes.attributes;
 
-import authoring.GameFactory;
 import javafx.scene.control.ScrollPane;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
 import panes.attributes.agent.define.DefineAgentForm;
 import util.AuthoringContext;
-
-import java.util.ResourceBundle;
 
 public class AttributesPane extends AuthoringPane {
 
@@ -49,7 +46,7 @@ public class AttributesPane extends AuthoringPane {
 
     public void createNewAgentForm() {
         scrollPane.setContent(null);
-        DefineAgentForm defineAgentForm = new DefineAgentForm(context);
+        DefineAgentForm defineAgentForm = new DefineAgentForm(getContext());
         defineAgentForm.accessContainer(scrollPane::setContent);
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
         defineAgentForm.setOnSave(e -> defineAgentForm.getAgentDefinition());

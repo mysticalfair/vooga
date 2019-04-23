@@ -1,9 +1,7 @@
 package panes;
 
 import frontend_objects.AgentView;
-import frontend_objects.DraggableAgentView;
 import javafx.geometry.Pos;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Ellipse;
@@ -11,7 +9,10 @@ import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
@@ -21,8 +22,6 @@ public class MapPane extends AuthoringPane {
     public static final double MAP_WIDTH = AuthoringEnvironment.MAP_WIDTH - 100;
     public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
 
-    public static final String IMAGE_FILE = "Image files";
-    public static final String MAP_IMAGE_ERROR = "Could not load map image";
     public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
     public static final String STYLE = "map-pane.css";
     public static final String STYLE_ID = "general";
@@ -145,9 +144,9 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                IMAGE_FILE, IMAGE_EXTENSIONS, false, null,
+                getContext().getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),
-                () -> System.err.println(MAP_IMAGE_ERROR)
+                () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );
     }
 

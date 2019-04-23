@@ -1,7 +1,8 @@
-package state.condition;
+package state.condition.propertyCondition;
 
 import state.Property;
 import state.agent.Agent;
+import state.condition.Condition;
 
 import java.util.ArrayList;
 import java.util.List;

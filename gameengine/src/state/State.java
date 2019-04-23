@@ -4,7 +4,6 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.objective.IObjective;
-import state.objective.attributeObjective;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -88,7 +87,7 @@ public class State implements IStateDefinition, Serializable {
      */
     public void step(double deltaTime){
 
-        for(IObjective objective: currentObjectives) {
+        for(IObjective objective : currentObjectives) {
             objective.execute(this);
         }
 

@@ -8,7 +8,7 @@ import engine.event.events.RemoveAgentEvent;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
-import state.objective.attributeObjective;
+import state.objective.AttributeObjective;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         }
         System.out.println("______________________________________________________");
 
-        for (attributeObjective objective: levelState.getObjectives())
+        for (AttributeObjective objective: levelState.getObjectives())
             objective.execute(levelState);
 
         updateAgentsList();

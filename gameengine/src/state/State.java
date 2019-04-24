@@ -1,8 +1,10 @@
 package state;
 
+import authoring.IAgentDefinition;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
+import state.agent.Agent;
 import state.objective.IObjective;
 
 import java.io.Serializable;
@@ -117,6 +119,13 @@ public class State implements IStateDefinition, Serializable {
      */
     public void makeGameOver() {
         gameOver = true;
+    }
+
+    /**
+     * Returns the list of agents that exist in the current level.
+     */
+    public List<? extends IAgentDefinition> getCurrentAgents() {
+        return levels.get(currentLevel).getCurrentAgents();
     }
 
 

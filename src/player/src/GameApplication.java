@@ -34,7 +34,7 @@ public class GameApplication extends Application {
       primaryStage.show();
       setAnimation();
       game = new Game();
-      game.loadState("gameengine/John.xml");
+      game.loadState("src/gameengine/John.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);

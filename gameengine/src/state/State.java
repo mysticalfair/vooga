@@ -97,6 +97,13 @@ public class State implements IStateDefinition, Serializable {
     }
 
     /**
+     * @return level the current levelg
+     */
+    public Level getCurrentLevel() {
+        return levels.get(currentLevel);
+    }
+
+    /**
      * Gives the Game the status of the state regarding gameOver.
      * @return a boolean value representing if the game is over or not
      */

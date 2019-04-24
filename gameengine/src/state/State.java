@@ -105,5 +105,12 @@ public class State implements IStateDefinition, Serializable {
         return gameOver;
     }
 
+    /**
+     * Changes the value of gameOver to true.
+     */
+    public void makeGameOver() {
+        gameOver = true;
+    }
+
 
 }

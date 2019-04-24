@@ -9,6 +9,6 @@ import state.State;
 public class GameOverOutcome implements IObjectiveOutcome {
 
     public void execute(State state) {
-
+        state.makeGameOver();
     }
 }

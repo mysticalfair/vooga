@@ -8,7 +8,10 @@ import state.State;
  */
 public class GameOverOutcome implements IObjectiveOutcome {
 
-    public void execute(State state) {
+    private static final String GAME_OVER_MESSAGE = "GAME OVER";
+
+    public String execute(State state) {
         state.makeGameOver();
+        return GAME_OVER_MESSAGE;
     }
 }

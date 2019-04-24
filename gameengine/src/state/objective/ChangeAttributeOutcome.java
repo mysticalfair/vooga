@@ -17,8 +17,9 @@ public class ChangeAttributeOutcome implements IObjectiveOutcome {
         this.change = change;
     }
 
-    public void execute(State state) {
+    public String execute(State state) {
         attribute.setValue(attribute.getValue() + change);
+        return null;
     }
 
 }

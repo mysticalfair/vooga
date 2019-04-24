@@ -8,8 +8,11 @@ import state.State;
  */
 public class WinOutcome implements IObjectiveOutcome {
 
-    public void execute(State state) {
+    private static final String WIN_MESSAGE = "YOU WIN!";
 
+    public String execute(State state) {
+        state.makeGameOver();
+        return WIN_MESSAGE;
     }
 
 }

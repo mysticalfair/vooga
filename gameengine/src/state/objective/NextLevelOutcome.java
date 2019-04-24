@@ -8,8 +8,9 @@ import state.State;
  */
 public class NextLevelOutcome implements IObjectiveOutcome {
 
-    public void execute(State state) {
+    public String execute(State state) {
         state.nextLevel();
+        return null;
     }
 
 }

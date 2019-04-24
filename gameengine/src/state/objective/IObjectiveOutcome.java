@@ -2,6 +2,10 @@ package state.objective;
 
 import state.State;
 
+/**
+ * @author Jamie Palka
+ * Interface to define functions necessary for all ObjectiveOutcomes.
+ */
 public interface IObjectiveOutcome {
 
     /**

@@ -9,7 +9,7 @@ public class AgentPropertyObjectiveEqualTo<T> extends AgentPropertyObjective {
 
     public AgentPropertyObjectiveEqualTo(int id, String title, String propertyName, T targetValue, IObjectiveOutcome outcome) {
         super(id, title, propertyName, targetValue, outcome);
-        agents = new ArrayList<Agent>();
+        this.agents = new ArrayList();
     }
 
     /**
@@ -17,7 +17,7 @@ public class AgentPropertyObjectiveEqualTo<T> extends AgentPropertyObjective {
      */
     public void execute(State state) {
 
-        for(Agent agent : agents) {
+        for(Agent agent : this.agents) {
 
             //TODO fix this error
 

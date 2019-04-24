@@ -8,18 +8,18 @@ import java.io.Serializable;
 
 /**
  * @author Jamie Palka
- * Class to define the objectives within the game which are triggered by the value of an attribute of a user.
+ * Abstract class to define the objectives within the game which are triggered by the value of an attribute of a user.
  */
-public class AttributeObjective implements IObjective, Serializable {
+abstract public class AttributeObjective implements IObjective, Serializable {
 
-    private int id;
-    private String title;
-    private Attribute attribute;
-    private int targetValue;
-    private IObjectiveOutcome outcome;
+    protected int id;
+    protected String title;
+    protected Attribute attribute;
+    protected int targetValue;
+    protected IObjectiveOutcome outcome;
     //TODO add player for which want to check attribute
-    //TODO add another constructor which also takes a specific level that the objective corresponds to
 
+    //TODO okay that need an Attribute object? Where check if Attribute even exists in list of current Attributes?
     public AttributeObjective(int id, String title, Attribute attribute, int targetValue, IObjectiveOutcome outcome) {
         this.id = id;
         this.title = title;
@@ -28,11 +28,9 @@ public class AttributeObjective implements IObjective, Serializable {
         this.outcome = outcome;
     }
 
-    public void execute(State state) {
-
-        if(attribute.getValue() == targetValue) {
-            outcome.execute(state);
-        }
-
-    }
+    /**
+     * Abstract method which will define the conditions necessary regarding the value of the attribute prior to
+     * executing the ObjectiveOutcome
+     */
+    abstract public void execute(State state);
 }

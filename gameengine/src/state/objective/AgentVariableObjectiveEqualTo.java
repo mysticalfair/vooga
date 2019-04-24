@@ -5,14 +5,14 @@ import state.agent.Agent;
 
 /**
  * @author Jamie Palka
- * Abstract class to define the objectives within the game which are triggered by the value of a variable of an agent
- * (x value, y value, or direction)
+ * Class to define the objectives within the game which are triggered by the value of a variable of an agent
+ * (x value, y value, or direction) being equal to a targetValue.
  */
 public class AgentVariableObjectiveEqualTo extends AgentVariableObjective {
 
-    public AgentVariableObjectiveEqualTo(int id, String title, String variableName,
-                                          double targetValue, IObjectiveOutcome outcome) {
-        super(id, title, variableName, targetValue, outcome);
+    public AgentVariableObjectiveEqualTo(int id, String title, String variableName, Agent agent,
+                                         double targetValue, IObjectiveOutcome outcome) {
+        super(id, title, variableName, agent, targetValue, outcome);
     }
 
     /**
@@ -20,14 +20,7 @@ public class AgentVariableObjectiveEqualTo extends AgentVariableObjective {
      */
     public void execute(State state) {
 
-        double variableValue = 0;
-
-        for(Agent agent : agents) {
-
-            if(variableName.equals("x")) { variableValue = agent.getX(); }
-            if(variableName.equals("y")) { variableValue = agent.getY(); }
-            if(variableName.equals("direction")) { variableValue = agent.getDirection(); }
-            if(variableValue != targetValue) { return; }
+        if(variableValue == targetValue) {
             outcome.execute(state);
         }
     }

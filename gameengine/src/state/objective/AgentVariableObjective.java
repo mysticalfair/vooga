@@ -21,6 +21,7 @@ abstract public class AgentVariableObjective implements IObjective, Serializable
     protected double targetValue;
     protected IObjectiveOutcome outcome;
     protected Agent agent;
+    protected double variableValue;
     //TODO possible extension - make the agent variable a map of agents so can track different
     // targetValues for different agents
 
@@ -34,6 +35,18 @@ abstract public class AgentVariableObjective implements IObjective, Serializable
         this.targetValue = targetValue;
         this.outcome = outcome;
         this.agent = agent;
+
+        if(variableName.equals("x")) {
+            variableValue = agent.getX();
+        }
+
+        if(variableName.equals("y")) {
+            variableValue = agent.getY();
+        }
+
+        if(variableName.equals("direction")) {
+            variableValue = agent.getDirection();
+        }
     }
 
     /**

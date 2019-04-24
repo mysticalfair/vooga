@@ -20,7 +20,8 @@ public class AgentVariableObjectiveGreaterThan extends AgentVariableObjective {
      */
     public void execute(State state) {
 
-        //TODO
-
+        if(variableValue >= targetValue) {
+            outcome.execute(state);
+        }
     }
 }

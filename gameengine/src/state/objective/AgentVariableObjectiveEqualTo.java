@@ -3,6 +3,11 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 
+/**
+ * @author Jamie Palka
+ * Abstract class to define the objectives within the game which are triggered by the value of a variable of an agent
+ * (x value, y value, or direction)
+ */
 public class AgentVariableObjectiveEqualTo extends AgentVariableObjective {
 
     public AgentVariableObjectiveEqualTo(int id, String title, String variableName,
@@ -11,7 +16,7 @@ public class AgentVariableObjectiveEqualTo extends AgentVariableObjective {
     }
 
     /**
-     * Executes the outcome if every agent in agents has the targetValue for the given variable.
+     * Executes the outcome if the given agent's property is equal to the target value.
      */
     public void execute(State state) {
 

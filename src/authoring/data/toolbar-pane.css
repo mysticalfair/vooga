@@ -2,6 +2,15 @@
     -fx-background-color: #424242;
 }
 
+
+.button{
+    -fx-text-fill: rgb(0, 0, 0);
+    -fx-background-color: transparent;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 5;
+}
+
 .label {
     -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
     -fx-font-size: 10pt;
@@ -24,11 +33,4 @@
 
 .menu-item:focused {
     -fx-background-color: darkgray;
-}
-
-.tool-bar {
-    -fx-background-color: #424242;
-    -fx-border-style: solid none none none;
-    -fx-border-width: 2px;
-    -fx-border-color: grey;
 }

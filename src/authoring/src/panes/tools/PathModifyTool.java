@@ -2,7 +2,6 @@ package panes.tools;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import panes.MapPane;
 import panes.Path;
@@ -25,10 +24,6 @@ public abstract class PathModifyTool extends PathTool {
      */
     public PathModifyTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
         super(otherMap, otherScene, fileName, paths);
-    }
-
-    public void updatePaths(List<Path> paths){
-        pathOptions = paths;
     }
 
     protected boolean checkPointSelected(double checkX, double checkY){

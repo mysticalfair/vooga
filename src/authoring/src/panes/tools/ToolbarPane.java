@@ -43,7 +43,6 @@ public class ToolbarPane extends AuthoringPane {
     public static final double TOOLBAR_HEIGHT = BUTTON_SIZE + TOOLBAR_PADDING;
     public static final double INITIAL_LEVEL = 1;
     public static final double MAX_LEVEL = Integer.MAX_VALUE;
-
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final String PEN_IMAGE = "Pen.png";
@@ -65,6 +64,7 @@ public class ToolbarPane extends AuthoringPane {
     private void initBars(){
         menuBar = initMenuBar();
         toolBar = initToolBar();
+        toolBar.setId("toolbar");
         box = new VBox();
         box.getStylesheets().add(STYLE);
         box.getChildren().addAll(menuBar, toolBar);
@@ -89,7 +89,6 @@ public class ToolbarPane extends AuthoringPane {
 
         var lasso = new LassoTool(map, scene, LASSO_IMAGE);
         var pen = new PathPenTool(map, scene, PEN_IMAGE, pathOptions);
-        // TODO: change PEN_IMAGE to a dragging image
         var dragger = new PathDragTool(map, scene, GRAB_IMAGE, pathOptions);
         var remover = new PathDeleteTool(map, scene, DELETE_IMAGE, pathOptions);
 

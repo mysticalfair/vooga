@@ -24,12 +24,6 @@ public class PathDragTool extends PathModifyTool{
         super(otherMap, otherScene, fileName, paths);
     }
 
-    private void togglePathDraggable(){
-        for(Path p: pathOptions){
-            p.toggleDraggable();
-        }
-    }
-
     @Override
     public void onMapClick(MouseEvent event) {
         var selected = checkPointSelected(event.getX(), event.getY());
@@ -55,14 +49,12 @@ public class PathDragTool extends PathModifyTool{
     @Override
     protected void enableTool() {
         scene.setCursor(GRAB_CURSOR);
-        //togglePathDraggable();
         setMouseActions();
     }
 
     @Override
     protected void disableTool() {
         scene.setCursor(Cursor.DEFAULT);
-        //togglePathDraggable();
         removeMouseActions();
     }
 }

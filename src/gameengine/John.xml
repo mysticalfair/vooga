@@ -7,7 +7,7 @@
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
+                <action class="state.action.spawn.SpawnAgentInitialDirection">
                   <eventMaster>
                     <removeAgentListeners>
                       <java.util.function.Consumer resolves-to="serialized-lambda">
@@ -44,60 +44,68 @@
                   </eventMaster>
                   <params>
                     <entry>
-                      <string>angle</string>
-                      <double>0.0</double>
-                    </entry>
-                    <entry>
-                      <string>speed</string>
-                      <int>10</int>
-                    </entry>
-                  </params>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions>
-                  <state.condition.DoOnceCondition>
-                    <name>DoOnce</name>
-                    <params/>
-                  </state.condition.DoOnceCondition>
-                </conditions>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>0</id>
-              <x>500.0</x>
-              <y>500.0</y>
-              <imageURL>pea.gif</imageURL>
-              <name>projectile</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.spawn.SpawnAgentInitialDirection">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params>
-                    <entry>
                       <string>agent</string>
-                      <state.agent.Agent reference="../../../../../../../state.agent.Agent"/>
+                      <state.agent.Agent>
+                        <actionDecisions>
+                          <state.actiondecision.ActionDecision>
+                            <action class="state.action.movement.MoveAtRelativeAngle">
+                              <eventMaster reference="../../../../../../../eventMaster"/>
+                              <params>
+                                <entry>
+                                  <string>angle</string>
+                                  <double>0.0</double>
+                                </entry>
+                                <entry>
+                                  <string>speed</string>
+                                  <int>10</int>
+                                </entry>
+                              </params>
+                              <name>MoveAtRelativeAngle</name>
+                              <speed>20</speed>
+                              <baseAgent reference="../../../.."/>
+                              <angle>0.0</angle>
+                            </action>
+                            <conditions>
+                              <state.condition.DoOnceCondition>
+                                <name>DoOnce</name>
+                                <params/>
+                              </state.condition.DoOnceCondition>
+                            </conditions>
+                          </state.actiondecision.ActionDecision>
+                        </actionDecisions>
+                        <playerAgent>
+                          <id>0</id>
+                          <x>500.0</x>
+                          <y>500.0</y>
+                          <imageURL>pea.gif</imageURL>
+                          <name>projectile</name>
+                          <direction>0.0</direction>
+                          <width>10</width>
+                          <height>10</height>
+                          <pcs serialization="custom">
+                            <java.beans.PropertyChangeSupport>
+                              <default>
+                                <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                              </default>
+                              <null/>
+                            </java.beans.PropertyChangeSupport>
+                          </pcs>
+                        </playerAgent>
+                        <pcs serialization="custom">
+                          <java.beans.PropertyChangeSupport>
+                            <default>
+                              <source class="state.agent.Agent" reference="../../../.."/>
+                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                            </default>
+                            <null/>
+                          </java.beans.PropertyChangeSupport>
+                        </pcs>
+                      </state.agent.Agent>
                     </entry>
                   </params>
                   <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <spawnAgent reference="../params/entry/state.agent.Agent"/>
                   <baseAgent reference="../../../.."/>
                 </action>
                 <conditions>
@@ -138,25 +146,34 @@
                 </java.beans.PropertyChangeSupport>
               </pcs>
             </playerAgent>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.Agent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.spawn.SpawnAgentInitialDirection">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <spawnAgent reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent"/>
                   <baseAgent reference="../../../.."/>
                 </action>
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                   <state.condition.IntervalCondition>
                     <name>Interval</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
@@ -172,27 +189,28 @@
               <direction>0.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[2]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.spawn.SpawnAgentInitialDirection">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <spawnAgent reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent"/>
                   <baseAgent reference="../../../.."/>
                 </action>
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                   <state.condition.IntervalCondition>
                     <name>Interval</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
@@ -208,27 +226,28 @@
               <direction>0.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[2]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.spawn.SpawnAgentInitialDirection">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <spawnAgent reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent"/>
                   <baseAgent reference="../../../.."/>
                 </action>
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                   <state.condition.IntervalCondition>
                     <name>Interval</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
@@ -244,27 +263,28 @@
               <direction>0.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[2]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.spawn.SpawnAgentInitialDirection">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
+                  <spawnAgent reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent"/>
                   <baseAgent reference="../../../.."/>
                 </action>
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                   <state.condition.IntervalCondition>
                     <name>Interval</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                     <intervalMillis>1000.0</intervalMillis>
                     <lastOccurrence>0</lastOccurrence>
                   </state.condition.IntervalCondition>
@@ -280,15 +300,16 @@
               <direction>0.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[2]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
                   <speed>10</speed>
                   <baseAgent reference="../../../.."/>
@@ -297,7 +318,7 @@
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
@@ -321,13 +342,22 @@
                 </java.beans.PropertyChangeSupport>
               </pcs>
             </playerAgent>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.Agent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
                   <speed>10</speed>
                   <baseAgent reference="../../../.."/>
@@ -336,7 +366,7 @@
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
@@ -350,15 +380,16 @@
               <direction>180.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[7]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent[6]/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent[6]/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
                   <speed>10</speed>
                   <baseAgent reference="../../../.."/>
@@ -367,7 +398,7 @@
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
@@ -381,15 +412,16 @@
               <direction>180.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[7]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent[6]/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent[6]/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
                   <speed>10</speed>
                   <baseAgent reference="../../../.."/>
@@ -398,7 +430,7 @@
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
@@ -412,15 +444,16 @@
               <direction>180.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[7]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent[6]/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent[6]/pcs"/>
           </state.agent.Agent>
           <state.agent.Agent>
             <actionDecisions>
               <state.actiondecision.ActionDecision>
                 <action class="state.action.movement.MoveAtRelativeAngle">
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
                   <speed>10</speed>
                   <baseAgent reference="../../../.."/>
@@ -429,7 +462,7 @@
                 <conditions>
                   <state.condition.DoOnceCondition>
                     <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent[2]/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
                   </state.condition.DoOnceCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
@@ -443,12 +476,22 @@
               <direction>180.0</direction>
               <width>30</width>
               <height>30</height>
-              <pcs reference="../../../state.agent.Agent[7]/playerAgent/pcs"/>
+              <pcs reference="../../../state.agent.Agent[6]/playerAgent/pcs"/>
             </playerAgent>
+            <pcs reference="../../state.agent.Agent[6]/pcs"/>
           </state.agent.Agent>
         </agentsCurrent>
         <objectivesCurrent/>
         <attributesCurrent/>
+        <pcs serialization="custom">
+          <java.beans.PropertyChangeSupport>
+            <default>
+              <source class="state.LevelState" reference="../../../.."/>
+              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+            </default>
+            <null/>
+          </java.beans.PropertyChangeSupport>
+        </pcs>
       </levelState>
       <eventMaster reference="../levelState/agentsCurrent/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
       <agentsToAdd/>

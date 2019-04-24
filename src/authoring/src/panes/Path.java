@@ -69,12 +69,10 @@ public class Path {
         return (Circle) visual;
     }
 
-    public Circle removePoint(Circle visual){
-        var point = getPoint(visual);
+    public void removePoint(PathPoint point){
         if(point != null){
             points.remove(point);
         }
-        return visual;
     }
 
     public PathPoint getPoint(Circle visual){

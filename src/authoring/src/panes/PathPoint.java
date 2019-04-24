@@ -3,7 +3,6 @@ package panes;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -16,9 +15,7 @@ public class PathPoint {
 
     private Circle visualPoint;
     private double locationX, locationY;
-    private double circleStartX, circleStartY;
     private double dragStartX, dragStartY;
-    private double dragOffsetX, dragOffsetY;
     private SimpleBooleanProperty dragMode;
     private SimpleBooleanProperty removeMode;
     private EventHandler removeMethod;
@@ -71,8 +68,6 @@ public class PathPoint {
     public void dragSetup(MouseEvent event){
         dragStartX = event.getSceneX();
         dragStartY = event.getSceneY();
-        circleStartX = visualPoint.getTranslateX();
-        circleStartY = visualPoint.getTranslateY();
     }
 
     public void onDrag(MouseEvent event){

@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class PathTool extends MapTool{
 
-    private List<Path> pathOptions;
+    protected List<Path> pathOptions;
 
     /**
      * These tools have an action in the MapPane on click
@@ -34,6 +34,12 @@ public abstract class PathTool extends MapTool{
         for(Line l: path.updateLines()){
             map.spawnShape(l);
         }
+    }
+
+    protected void removeMouseActions(){
+        map.accessMap(node -> node.setOnMousePressed(null));
+        map.accessMap(node -> node.setOnMouseDragged(null));
+        map.accessMap(node -> node.setOnMouseReleased(null));
     }
 
     protected void removePath(Path path){

@@ -48,6 +48,7 @@ public class ToolbarPane extends AuthoringPane {
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final String PEN_IMAGE = "Pen.png";
     public static final String GRAB_IMAGE = "GrabIcon.jpg";
+    public static final String DELETE_IMAGE = "DeletePen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
     public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, List<Path> paths){
@@ -90,10 +91,12 @@ public class ToolbarPane extends AuthoringPane {
         var pen = new PathPenTool(map, scene, PEN_IMAGE, pathOptions);
         // TODO: change PEN_IMAGE to a dragging image
         var dragger = new PathDragTool(map, scene, GRAB_IMAGE, pathOptions);
+        var remover = new PathDeleteTool(map, scene, DELETE_IMAGE, pathOptions);
 
         toolImageMap.put(LASSO_IMAGE, lasso);
         toolImageMap.put(PEN_IMAGE, pen);
         toolImageMap.put(GRAB_IMAGE, dragger);
+        toolImageMap.put(DELETE_IMAGE, remover);
         return toolbar;
     }
 
@@ -123,10 +126,6 @@ public class ToolbarPane extends AuthoringPane {
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
-        if(buttonImageName == GRAB_IMAGE){
-            EventHandler update = e -> ((PathDragTool) toolImageMap.get(buttonImageName)).updatePaths(pathOptions);
-            button.addEventHandler(ActionEvent.ACTION, update);
-        }
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
     }

@@ -5,7 +5,6 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
 import panes.MapPane;
 import panes.Path;
 
@@ -28,17 +27,8 @@ public class PathPenTool extends PathTool{
         map.accessMap(node -> node.setOnMousePressed(e -> onMapClick(e)));
     }
 
-    private void removeMouseActions(){
-        map.accessMap(node -> node.setOnMousePressed(null));
-        map.accessMap(node -> node.setOnMouseDragged(null));
-        map.accessMap(node -> node.setOnMouseReleased(null));
-    }
-
     @Override
     public void onMapClick(MouseEvent event) {
-        if(!toolEnabled){
-            return;
-        }
         var circle = currentPath.addPoint(event.getX() + X_ADJUSTMENT, event.getY() + Y_ADJUSTMENT);
         map.spawnShape(circle);
         updatePathLines(currentPath);

@@ -127,6 +127,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.GRAB_IMAGE, e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(toolbarPane.DELETE_IMAGE, e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);

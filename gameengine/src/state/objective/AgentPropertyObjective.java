@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author Jamie Palka
- * Class to define the objectives within the game which are triggered by the value of an agent property.
+ * Absrtact class to define the objectives within the game which are triggered by the value of an agent property.
  */
 abstract public class AgentPropertyObjective<T> implements IObjective, Serializable {
 

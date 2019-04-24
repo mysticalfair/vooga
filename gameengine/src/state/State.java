@@ -127,6 +127,4 @@ public class State implements IStateDefinition, Serializable {
     public List<? extends IAgentDefinition> getCurrentAgents() {
         return levels.get(currentLevel).getCurrentAgents();
     }
-
-
 }

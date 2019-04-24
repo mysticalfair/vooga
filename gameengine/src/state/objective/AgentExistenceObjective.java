@@ -1,5 +1,6 @@
 package state.objective;
 
+import authoring.IAgentDefinition;
 import state.Property;
 import state.State;
 import state.agent.Agent;
@@ -30,9 +31,12 @@ public class AgentExistenceObjective<T> implements IObjective {
      */
     public void execute(State state) {
 
-        state.getCurrentLevel().removeAgent(agent);
-
+        int count = 0;
+        for(IAgentDefinition agent : state.getCurrentAgents()) {
+            if(((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) == 0) {
+                count++;
+            }
+        }
+        if(count == targetNumber) { outcome.execute(state); }
     }
-
-
 }

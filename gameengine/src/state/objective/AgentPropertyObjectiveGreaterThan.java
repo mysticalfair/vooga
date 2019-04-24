@@ -20,7 +20,7 @@ public class AgentPropertyObjectiveGreaterThan<T> extends AgentPropertyObjective
      */
     public void execute(State state) {
 
-        if(((Comparable) agent.getPropertyValue(title)).compareTo(targetValue) >= 0) {
+        if(((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) >= 0) {
             outcome.execute(state);
         }
 

@@ -28,4 +28,5 @@ public interface IAgentDefinition {
     void removeProperty(String name);
     void addProperty(IPropertyDefinition property);
     <T> void setProperty(String name, T value);
+    Object getPropertyValue(String name);
 }

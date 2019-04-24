@@ -75,7 +75,7 @@ public class State implements IStateDefinition, Serializable {
      * Switches the current level being played to the next level. Currently the order in which the levels of a game are
      * played are simply determined by their order within the levels list.
      */
-    private void nextLevel(){
+    public void nextLevel(){
         if (levels.get(currentLevel) != levels.get(levels.size() - 1)){
             currentLevel++;
         }

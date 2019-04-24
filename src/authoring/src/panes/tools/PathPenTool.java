@@ -15,7 +15,7 @@ public class PathPenTool extends PathTool{
     public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
     public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
     public static final double X_ADJUSTMENT = -10;
-    public static final double Y_ADJUSTMENT = 10;
+    public static final double Y_ADJUSTMENT = -10;
 
     private Path currentPath;
 

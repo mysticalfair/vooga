@@ -47,7 +47,7 @@ public class ToolbarPane extends AuthoringPane {
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final String PEN_IMAGE = "Pen.png";
-    public static final String GRAB_IMAGE = "GrabIcon.jpg";
+    public static final String GRAB_IMAGE = "GrabIcon.png";
     public static final String DELETE_IMAGE = "DeletePen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 

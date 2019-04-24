@@ -17,8 +17,8 @@ public class PathDragTool extends PathModifyTool{
      * Establishes triggers for Paths/points so they drag and update
      */
 
-    public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
-    public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
+    public static final Image GRAB = new Image(ToolbarPane.GRAB_IMAGE);
+    public static final ImageCursor GRAB_CURSOR = new ImageCursor(GRAB, GRAB.getWidth() / 2, GRAB.getWidth()/2);
 
     public PathDragTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
         super(otherMap, otherScene, fileName, paths);
@@ -32,7 +32,7 @@ public class PathDragTool extends PathModifyTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var selected = checkPointSelected(event);
+        var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
             selectedPoint.dragSetup(event);
             updatePathLines(selectedPath);
@@ -40,7 +40,7 @@ public class PathDragTool extends PathModifyTool{
     }
 
     private void onMapDrag(MouseEvent event){
-        var selected = checkPointSelected(event);
+        var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
             selectedPoint.onDrag(event);
             updatePathLines(selectedPath);
@@ -54,7 +54,7 @@ public class PathDragTool extends PathModifyTool{
 
     @Override
     protected void enableTool() {
-        //scene.setCursor(PEN_CURSOR);
+        scene.setCursor(GRAB_CURSOR);
         //togglePathDraggable();
         setMouseActions();
     }

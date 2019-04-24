@@ -31,11 +31,11 @@ public abstract class PathModifyTool extends PathTool {
         pathOptions = paths;
     }
 
-    protected boolean checkPointSelected(MouseEvent event){
+    protected boolean checkPointSelected(double checkX, double checkY){
         var select = false;
         for(Path path: pathOptions){
             for(Circle point: path.getPoints()){
-                if(point.contains(new Point2D(event.getX(), event.getY()))){
+                if(point.contains(new Point2D(checkX, checkY))){
                     selectedPoint = path.getPoint(point);
                     selectedPath = path;
                     select = true;

@@ -12,8 +12,11 @@ import java.util.List;
 
 public class PathDeleteTool extends PathModifyTool{
 
-    public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
-    public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
+    public static final Image DELETE = new Image(ToolbarPane.DELETE_IMAGE);
+    public static final ImageCursor DELETE_CURSOR = new ImageCursor(DELETE, DELETE.getWidth() / 2, DELETE.getWidth()/2);
+
+    public static final double X_ADJUSTMENT = -10;
+    public static final double Y_ADJUSTMENT = -10;
 
     public PathDeleteTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
         super(otherMap, otherScene, fileName, paths);
@@ -25,7 +28,7 @@ public class PathDeleteTool extends PathModifyTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var selected = checkPointSelected(event);
+        var selected = checkPointSelected(event.getX() + X_ADJUSTMENT, event.getY() + Y_ADJUSTMENT);
         if(selected){
             selectedPath.removePoint(selectedPoint);
             map.removeShape(selectedPoint.getPoint());
@@ -35,6 +38,7 @@ public class PathDeleteTool extends PathModifyTool{
 
     @Override
     protected void enableTool() {
+        scene.setCursor(DELETE_CURSOR);
         setMouseActions();
     }
 

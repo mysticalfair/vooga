@@ -97,7 +97,7 @@ public class State implements IStateDefinition, Serializable {
     }
 
     /**
-     * @return level the current levelg
+     * @return level the current level
      */
     public Level getCurrentLevel() {
         return levels.get(currentLevel);

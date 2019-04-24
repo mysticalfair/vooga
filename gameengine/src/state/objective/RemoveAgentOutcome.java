@@ -16,7 +16,7 @@ public class RemoveAgentOutcome implements IObjectiveOutcome {
     }
 
     public void execute(State state) {
-
+        state.getCurrentLevel().removeAgent(agent);
     }
 
 }

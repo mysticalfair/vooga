@@ -62,6 +62,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         levelState.removeCurrentAgent(index);
     }
 
+    public void removeAgent(Agent agent) {
+        levelState.removeAgent(agent);
+    }
+
     @Override
     public void addAgent(IAgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);

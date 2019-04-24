@@ -38,6 +38,8 @@ public class Game implements IGameDefinition {
     public void run(String gameFile) {
         runFlag = true;
 
+        if(state.getGameOverStatus()) { runFlag = false; }
+
         startup(gameFile);
         double nextTime = System.nanoTime() / nanoTrans;
 

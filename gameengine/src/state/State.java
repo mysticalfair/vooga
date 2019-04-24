@@ -20,11 +20,13 @@ public class State implements IStateDefinition, Serializable {
     private List<Level> levels;
     private int currentLevel;
     private List<IObjective> currentObjectives;
+    private boolean gameOver;
 
     public State(){
         this.currentLevel = START_LEVEL;
         this.levels = new ArrayList<>();
         this.currentObjectives = new ArrayList<>();
+        this.gameOver = false;
     }
 
     /**
@@ -93,5 +95,15 @@ public class State implements IStateDefinition, Serializable {
 
         levels.get(currentLevel).step(deltaTime);
     }
+
+    /**
+     * Gives the Game the status of the state regarding gameOver.
+     * @return a boolean value representing if the game is over or not
+     */
+    public boolean getGameOverStatus() {
+
+        return gameOver;
+    }
+
 
 }

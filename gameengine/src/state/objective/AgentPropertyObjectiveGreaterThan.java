@@ -11,8 +11,8 @@ import state.agent.Agent;
 public class AgentPropertyObjectiveGreaterThan<T> extends AgentPropertyObjective {
 
     public AgentPropertyObjectiveGreaterThan(int id, String title, String propertyName, Agent agent,
-                                         T targetValue, IObjectiveOutcome outcome) {
-        super(id, title, propertyName, agent, targetValue, outcome);
+                                         T targetValue, IObjectiveOutcome outcome, int level) {
+        super(id, title, propertyName, agent, targetValue, outcome, level);
     }
 
     /**
@@ -20,7 +20,8 @@ public class AgentPropertyObjectiveGreaterThan<T> extends AgentPropertyObjective
      */
     public void execute(State state) {
 
-        if(((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) >= 0) {
+        if((state.getCurrentLevelInt() == level || level == -1) &&
+                ((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) >= 0) {
             outcome.execute(state);
         }
 

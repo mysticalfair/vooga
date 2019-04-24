@@ -10,8 +10,9 @@ import state.attribute.Attribute;
  */
 public class AttributeObjectiveEqualTo extends AttributeObjective {
 
-    public AttributeObjectiveEqualTo(int id, String title, Attribute attribute, int targetValue, IObjectiveOutcome outcome) {
-        super(id, title, attribute, targetValue, outcome);
+    public AttributeObjectiveEqualTo(int id, String title, Attribute attribute, int targetValue,
+                                     IObjectiveOutcome outcome, int level) {
+        super(id, title, attribute, targetValue, outcome, level);
     }
 
     /**
@@ -19,7 +20,7 @@ public class AttributeObjectiveEqualTo extends AttributeObjective {
      */
     public void execute(State state) {
 
-        if(attribute.getValue() == targetValue) {
+        if((state.getCurrentLevelInt() == level || level == -1) && attribute.getValue() == targetValue) {
             outcome.execute(state);
         }
     }

@@ -11,8 +11,8 @@ import state.agent.Agent;
 public class AgentVariableObjectiveLessThan extends AgentVariableObjective {
 
     public AgentVariableObjectiveLessThan(int id, String title, String variableName, Agent agent,
-                                         double targetValue, IObjectiveOutcome outcome) {
-        super(id, title, variableName, agent, targetValue, outcome);
+                                         double targetValue, IObjectiveOutcome outcome, int level) {
+        super(id, title, variableName, agent, targetValue, outcome, level);
     }
 
     /**
@@ -20,7 +20,7 @@ public class AgentVariableObjectiveLessThan extends AgentVariableObjective {
      */
     public void execute(State state) {
 
-        if(variableValue <= targetValue) {
+        if((state.getCurrentLevelInt() == level || level == -1) && variableValue <= targetValue) {
             outcome.execute(state);
         }
     }

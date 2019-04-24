@@ -22,19 +22,21 @@ abstract public class AgentVariableObjective implements IObjective, Serializable
     protected IObjectiveOutcome outcome;
     protected Agent agent;
     protected double variableValue;
+    protected int level;
     //TODO possible extension - make the agent variable a map of agents so can track different
     // targetValues for different agents
 
 
     //TODO ok that takes in an agent or want an agent ID? Where check if agent exists?
     public AgentVariableObjective(int id, String title, String variableName, Agent agent,
-                                  double targetValue, IObjectiveOutcome outcome) {
+                                  double targetValue, IObjectiveOutcome outcome, int level) {
         this.id = id;
         this.title = title;
         this.variableName = variableName;
         this.targetValue = targetValue;
         this.outcome = outcome;
         this.agent = agent;
+        this.level = level;
 
         if(variableName.equals("x")) {
             variableValue = agent.getX();

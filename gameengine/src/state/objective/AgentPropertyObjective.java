@@ -20,18 +20,21 @@ abstract public class AgentPropertyObjective<T> implements IObjective, Serializa
     protected T targetValue;
     protected IObjectiveOutcome outcome;
     protected Agent agent;
+    protected int level;
     //TODO possible extension - make the agent variable a map of agents so can track different
     // targetValues for different agents
 
 
     //TODO ok that takes in an agent or want an agent ID? Where check if agent exists?
-    public AgentPropertyObjective(int id, String title, String propertyName, Agent agent, T targetValue, IObjectiveOutcome outcome) {
+    public AgentPropertyObjective(int id, String title, String propertyName, Agent agent,
+                                  T targetValue, IObjectiveOutcome outcome, int level) {
         this.id = id;
         this.title = title;
         this.propertyName = propertyName;
         this.agent = agent;
         this.targetValue = targetValue;
         this.outcome = outcome;
+        this.level = level;
     }
 
     /**

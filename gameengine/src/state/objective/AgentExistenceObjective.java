@@ -17,13 +17,16 @@ public class AgentExistenceObjective<T> implements IObjective {
     protected IObjectiveOutcome outcome;
     protected String propertyName; // the property the user wishes to check agents by
     protected T targetValue; // the value for the property needed
+    protected int level;
 
-    public AgentExistenceObjective(int id, String title, String propertyName, int targetNumber, IObjectiveOutcome outcome) {
+    public AgentExistenceObjective(int id, String title, String propertyName, int targetNumber,
+                                   IObjectiveOutcome outcome, int level) {
         this.id = id;
         this.title = title;
         this.propertyName = propertyName;
         this.targetNumber = targetNumber;
         this.outcome = outcome;
+        this.level = level;
     }
 
     /**
@@ -37,6 +40,6 @@ public class AgentExistenceObjective<T> implements IObjective {
                 count++;
             }
         }
-        if(count == targetNumber) { outcome.execute(state); }
+        if((state.getCurrentLevelInt() == level || level == -1) && count == targetNumber) { outcome.execute(state); }
     }
 }

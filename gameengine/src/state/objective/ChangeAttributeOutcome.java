@@ -1,6 +1,7 @@
 package state.objective;
 
 import state.State;
+import state.attribute.Attribute;
 
 /**
  * @author Jamie Palka
@@ -8,8 +9,16 @@ import state.State;
  */
 public class ChangeAttributeOutcome implements IObjectiveOutcome {
 
-    public void execute(State state) {
+    private Attribute attribute;
+    private int change;
 
+    public ChangeAttributeOutcome(Attribute attribute, int change) {
+        this.attribute = attribute;
+        this.change = change;
+    }
+
+    public void execute(State state) {
+        attribute.setValue(attribute.getValue() + change);
     }
 
 }

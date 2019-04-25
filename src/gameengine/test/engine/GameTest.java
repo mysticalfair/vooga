@@ -22,7 +22,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-    public static final String GAME_FILE_NAME = "resources/savedgames/GameTestXML";
+    public static final String GAME_FILE_NAME = "GameTest.xml";
     public static final int AGENT_NUM = 10;
 
     Game gameEngine;
@@ -144,8 +144,6 @@ class GameTest {
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
                     0,"projectile", "pea.gif", AD1, properties);
 
-            level.addAgent(projectile);
-
             // MAKING TOWER
             List<IActionDecisionDefinition> AD2 = new ArrayList<>();
 
@@ -208,9 +206,6 @@ class GameTest {
             level.addAgent(zombie4);
             level.addAgent(zombie5);
 
-
-
-
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -222,7 +217,7 @@ class GameTest {
     @Test
     void run() {
         try {
-            new Game().run("John.xml");
+            new Game().run();
         } catch (Exception e) {
             e.printStackTrace();
         }

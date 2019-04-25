@@ -1,5 +1,6 @@
 
-import engine.Game1;
+import engine.Game;
+import engine.IPlayerGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -9,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 
 public class GameApplication extends Application {
    private static final int MILLISECOND_DELAY = 100;
@@ -26,15 +26,15 @@ public class GameApplication extends Application {
    public static final Paint BACKGROUND = Color.WHITE;
    public static final String GAME_NAME = "Game Time";
    private Timeline animation;
-   private Game1 game;
+   private IPlayerGame game;
 
    @Override
    public void start(Stage primaryStage) {
       this.primaryStage = primaryStage;
       primaryStage.show();
       setAnimation();
-      game = new Game1();
-      game.startup("src/gameengine/John.xml");
+      game = new Game();
+      game.loadState("src/gameengine/John.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);

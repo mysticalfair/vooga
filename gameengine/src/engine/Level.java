@@ -67,6 +67,7 @@ public class Level implements ILevelDefinition, IPlayerLevel, IRequiresGameEvent
     @Override
     public void addAgent(IAgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);
+        System.out.println("***************TRIED TO ADD AN AGENT ************");
     }
 
     public void step(double deltaTime) {

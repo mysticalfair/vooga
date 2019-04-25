@@ -132,9 +132,18 @@ public class ToolbarPane extends AuthoringPane {
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
-        EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
+        EventHandler handler = e -> toggleTool(toolImageMap.get(buttonImageName));
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
+    }
+
+    private void toggleTool(Tool enabled){
+        for(Tool t: toolImageMap.values()){
+            if(t != enabled){
+                t.setToolEnabled(false);
+            }
+        }
+        enabled.setToolEnabled(!enabled.getToolEnabled());
     }
 
     public void addButton(String buttonImageName, EventHandler action) {

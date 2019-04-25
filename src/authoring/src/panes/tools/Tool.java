@@ -17,14 +17,18 @@ public abstract class Tool {
         imageFile = fileName;
     }
 
-    public void toggleToolEnabled(){
-        toolEnabled = !toolEnabled;
+    public void setToolEnabled(boolean enable){
+        toolEnabled = enable;
         if(toolEnabled){
             enableTool();
         }
         else{
             disableTool();
         }
+    }
+
+    public boolean getToolEnabled(){
+        return toolEnabled;
     }
 
     protected abstract void enableTool();

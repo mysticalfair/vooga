@@ -4,6 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
@@ -102,7 +105,12 @@ public class ToolbarPane extends AuthoringPane {
     private void initLevelChanger() {
         levelChanger = new Spinner(INITIAL_LEVEL, MAX_LEVEL, INITIAL_LEVEL);
         levelChanger.setPrefHeight(5);
-        toolBar.getItems().add(levelChanger);
+//        levelChanger.setMinHeight(15);
+
+        final Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        toolBar.getItems().addAll(levelChanger, spacer);
     }
 
     public Spinner getLevelChanger() {

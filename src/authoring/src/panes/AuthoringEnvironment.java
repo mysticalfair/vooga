@@ -1,9 +1,8 @@
 package panes;
 
 import authoring.GameFactory;
-import frontend_objects.CloneableAgentView;;
+import frontend_objects.CloneableAgentView;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -25,6 +24,7 @@ public class AuthoringEnvironment extends Application {
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";
+    public static final String GAME_SAVE_NAME = "AuthorTestGameXML";
     public static final double TOOLBAR_HEIGHT = 70;
     public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
     public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
@@ -123,14 +123,15 @@ public class AuthoringEnvironment extends Application {
     private void initToolbarPane() {
         toolbarPane = new ToolbarPane(context, map, scene, paths);
         toolbarPane.accessContainer(borderPane::setTop);
-
+        // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
         toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.GRAB_IMAGE, e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(toolbarPane.DELETE_IMAGE, e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
-        toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
+        toolbarPane.addAction("File", MENU_ITEM_SAVE, e -> context.getGame().saveState(GAME_SAVE_NAME));
+        // TODO: implement loading an old game
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
 
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));

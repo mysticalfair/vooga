@@ -2,13 +2,38 @@
     -fx-background-color: #424242;
 }
 
+.spinner {
+    -fx-background-color: transparent;
+}
+
+.spinner .increment-arrow-button, .decrement-arrow-button {
+    -fx-border-style: solid;
+    -fx-border-width: 2.5px;
+    -fx-border-color: #424242;
+}
+
+.spinner .text-field{
+    -fx-pref-width: 80;
+    -fx-font-weight: bold;
+    -fx-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    -fx-font-size: 10pt;
+    -fx-text-fill: black;
+}
+
+.tool-bar{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
 
 .button{
     -fx-text-fill: rgb(0, 0, 0);
     -fx-background-color: transparent;
-    -fx-border-radius: 0;
-    -fx-background-radius: 0;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
     -fx-padding: 5;
+}
+
+.button:hover{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
 .label {
@@ -28,7 +53,7 @@
 
 .menu-item {
     -fx-background-color: #424242;
-    *-fx-padding: 1 5 1 5;
+    -fx-padding: 1 5 1 5;
 }
 
 .menu-item:focused {

@@ -87,18 +87,18 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
-        initMapPane(1);
+        initMapPane();
         initAttributesPane();
         initConsolePane();
         initToolbarPane();
         initAgentPane();
     }
 
-    private void initMapPane(int level) {
-        map = new MapPane();
+    private void initMapPane() {
+        map = new MapPane(context);
         map.accessContainer(borderPane::setCenter);
-        map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
-        map.setLevel(level);
+        map.getStateMapping().put(1, new MapState(null, new ArrayList<>()));
+        map.setLevel(1);
     }
 
     private void initAgentPane() {
@@ -130,10 +130,10 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, null);
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
-        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) newValue)));
     }
 
-    private void changeLevel(int oldValue, int newValue) {
+    private void changeLevel(int newValue) {
         map.setLevel(newValue);
         if (!map.getStateMapping().containsKey(newValue)) {
             map.getMapPane().getChildren().clear();

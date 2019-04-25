@@ -1,4 +1,5 @@
 module data {
+
     requires xstream;
     requires org.junit.jupiter.api;
     requires kxml2;

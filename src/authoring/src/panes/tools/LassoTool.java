@@ -44,7 +44,7 @@ public class LassoTool extends MapTool{
     }
 
     private void mouseReleased(MouseEvent event){
-        map.selectAgents(ellipse);
+        map.getCurrentState().selectAgents(ellipse);
         map.removeShape((Shape) ellipse);
         startingPosX = 0;
         startingPosY = 0;

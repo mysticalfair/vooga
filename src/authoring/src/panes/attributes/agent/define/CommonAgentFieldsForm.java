@@ -10,11 +10,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import panes.attributes.AttributesForm;
+import panes.attributes.FormElement;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
-public class CommonAgentFieldsForm extends AttributesForm {
+public class CommonAgentFieldsForm extends FormElement {
 
     static final String DEFAULT_IMAGE_FILENAME = "default_image.jpg";
     static final double IMAGE_FIELD_SIZE = 100;
@@ -27,6 +27,15 @@ public class CommonAgentFieldsForm extends AttributesForm {
     public CommonAgentFieldsForm(AuthoringContext context) {
         super(context);
         initCommonFields();
+    }
+
+    /**
+     * <b>Do <em>not</em> use this method for this form element. Rather, use the specific-to-field methods to get the data.</b>
+     * @return null
+     */
+    @Override
+    public Object packageData() {
+        return null;
     }
 
     public String getName() {
@@ -112,7 +121,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         gridPane.add(heightLabel, 2, 3);
         gridPane.add(heightField, 3, 3);
 
-        getPane().getChildren().add(gridPane);
+        getContentChildren().add(gridPane);
     }
 
     private void chooseAgentImage() {

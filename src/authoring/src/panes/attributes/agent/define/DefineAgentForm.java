@@ -1,20 +1,17 @@
 package panes.attributes.agent.define;
 
-import authoring.GameFactory;
 import authoring.IAgentDefinition;
 import javafx.event.EventHandler;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import panes.AuthoringEnvironment;
+import panes.AuthoringPane;
 import panes.ConsolePane;
-import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 
-import java.util.ResourceBundle;
 
-
-public class DefineAgentForm extends AttributesForm {
+public class DefineAgentForm extends AuthoringPane {
 
     private CommonAgentFieldsForm commonAgentFieldsForm;
     private AgentPropertiesForm agentPropertiesForm;
@@ -23,6 +20,7 @@ public class DefineAgentForm extends AttributesForm {
 
     public DefineAgentForm(AuthoringContext context) {
         super(context);
+
         init();
     }
 
@@ -51,7 +49,7 @@ public class DefineAgentForm extends AttributesForm {
         actionDecisionForm = new ActionDecisionForm(getContext());
         actionDecisionForm.accessContainer(vBox.getChildren()::add);
 
-        getPane().getChildren().add(vBox);
+        getContentChildren().add(vBox);
     }
 
     public void setOnSave(EventHandler onSave) {
@@ -68,7 +66,7 @@ public class DefineAgentForm extends AttributesForm {
             getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
         }
         return getContext().getGameFactory().createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
-                commonAgentFieldsForm.getImageUrl(), actionDecisionForm.getActionDecisionDefinitions(),
-                agentPropertiesForm.getPropertyDefinitions());
+                0, commonAgentFieldsForm.getName(), commonAgentFieldsForm.getImageUrl(),
+                actionDecisionForm.packageData(), agentPropertiesForm.packageData());
     }
 }

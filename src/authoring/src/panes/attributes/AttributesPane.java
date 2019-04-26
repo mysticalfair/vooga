@@ -16,11 +16,13 @@ public class AttributesPane extends AuthoringPane {
 
     public AttributesPane(AuthoringContext context) {
         super(context);
+        setStylesheet("attributes-pane.css");
+        
         scrollPane = new ScrollPane();
         scrollPane.setPrefViewportWidth(WIDTH - PADDING);
         scrollPane.setPrefViewportHeight(HEIGHT - PADDING);
         //scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.getStylesheets().add("attributes-pane.css");
+        //scrollPane.getStylesheets().add("attributes-pane.css");
         getContentChildren().add(scrollPane);
     }
 

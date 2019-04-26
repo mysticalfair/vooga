@@ -119,7 +119,7 @@ class GameTest {
     }
 
     /**
-     * Creates a tower that spins and spawns projectiles.
+     * Creates five peashooters that shoot at five zombies
      */
     @Test
     void setupThree() {
@@ -214,10 +214,77 @@ class GameTest {
         }
     }
 
+    /**
+     * Creates ONE peashooter that shoots at ONE zombie.
+     */
+    @Test
+    void setupFour() {
+        try {
+            GameFactory factory = new GameFactory();
+            gameEngine = new Game();
+            state = new State();
+            ILevelDefinition level = factory.createLevel();
+
+            // MAKING PROJECTILE
+            // making move action
+            Map<String, Object> moveParams = new HashMap<>();
+            moveParams.put("angle", 0.0);
+            moveParams.put("speed", 20);
+
+            List<IActionDecisionDefinition> AD1 = new ArrayList<>();
+            List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+            cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+            AD1.add(factory.createActionDecision(
+                    factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
+            List<IPropertyDefinition> properties = new ArrayList<>();
+            IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
+                    0,"projectile", "pea.gif", AD1, properties);
+
+            // MAKING TOWER
+            List<IActionDecisionDefinition> AD2 = new ArrayList<>();
+
+            //making spawn action
+            Map<String, Object> spawnParams = new HashMap<>();
+            spawnParams.put("agent", projectile);
+            IActionDefinition spawnAction = factory.createAction("SpawnAgentInitialDirection", spawnParams);
+            List<IConditionDefinition> conditions = new ArrayList<>();
+            Map condParams = new HashMap();
+            condParams.put("interval", 5.0);
+            conditions.add(factory.createCondition("DoOnce", condParams));
+            conditions.add(factory.createCondition("Interval", condParams));
+            IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
+            AD2.add(spawnAD);
+            IAgentDefinition tower = factory.createAgent(50, 50, 30, 30,
+                    0,"tower", "peashooter.gif", AD2, properties);
+
+
+            List<IActionDecisionDefinition> AD3 = new ArrayList<>();
+            moveParams.put("speed", 10);
+            IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
+            List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
+            zombieMoveConditions.add(factory.createCondition("DoOnce", condParams));
+            AD3.add(factory.createActionDecision(move, zombieMoveConditions));
+
+            IAgentDefinition zombie = factory.createAgent(250, 50, 30, 30,
+                    180, "zombie", "zombie.gif", AD3, properties);
+
+            level.addAgent(tower);
+            level.addAgent(zombie);
+
+            state.addLevel(level);
+            gameEngine.setState(state);
+            gameEngine.saveState("John.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     void run() {
         try {
-            new Game().run();
+            Game game = new Game();
+            game.loadState("John.xml");
+            game.run();
         } catch (Exception e) {
             e.printStackTrace();
         }

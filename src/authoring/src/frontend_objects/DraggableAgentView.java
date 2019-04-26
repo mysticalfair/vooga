@@ -1,6 +1,5 @@
 package frontend_objects;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
@@ -31,10 +30,6 @@ public class DraggableAgentView extends AgentView {
     public DraggableAgentView(CloneableAgentView agent) {
         super(agent.getUrl());
         selected = false;
-    }
-
-    private void dragWithGroup() {
-
     }
 
     void setMouseActionsForDrag(MapPane map, ConsolePane console) {

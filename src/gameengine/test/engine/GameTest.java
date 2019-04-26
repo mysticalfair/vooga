@@ -124,6 +124,9 @@ class GameTest {
     @Test
     void setupThree() {
         try {
+            String team1 = "team1";
+            String team2 = "team2";
+
             GameFactory factory = new GameFactory();
             gameEngine = new Game();
             state = new State();
@@ -136,11 +139,23 @@ class GameTest {
             moveParams.put("speed", 20);
 
             List<IActionDecisionDefinition> AD1 = new ArrayList<>();
-            List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+            List<IConditionDefinition> cond1 = new ArrayList<>();
+
+            // add do once condition
             cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
             AD1.add(factory.createActionDecision(
                     factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
+
+            List<IConditionDefinition> damageConditions = new ArrayList<>();
+
+            // add collision condition
+            damageConditions.add(factory.createCondition("Collision", new HashMap<>()));
+            // add enemy condition
             List<IPropertyDefinition> properties = new ArrayList<>();
+            Map<String, Object> enemyParams = new HashMap();
+            enemyParams.put("property", "team");
+            enemyParams.put("value", team1);
+            damageConditions.add(factory.createCondition("PropertyEqualTo", new HashMap<>()));
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
                     0,"projectile", "pea.gif", AD1, properties);
 
@@ -259,7 +274,7 @@ class GameTest {
 
 
             List<IActionDecisionDefinition> AD3 = new ArrayList<>();
-            moveParams.put("speed", 10);
+            moveParams.put("speed", 100);
             IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
             List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
             zombieMoveConditions.add(factory.createCondition("DoOnce", condParams));

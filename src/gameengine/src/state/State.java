@@ -4,6 +4,7 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.agent.Agent;
+import state.attribute.Attribute;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class State implements IStateDefinition, Serializable {
     private int currentLevel;
     private List<Agent> agentsCurrent;
     private List<Agent> agentsOptions;
+    private List<Attribute> attributes;
 
     public State(){
         this.currentLevel = START_LEVEL;

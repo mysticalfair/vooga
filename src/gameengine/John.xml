@@ -156,54 +156,6 @@
               </java.beans.PropertyChangeSupport>
             </pcs>
           </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>100</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions>
-                  <state.condition.DoOnceCondition>
-                    <name>DoOnce</name>
-                    <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
-                  </state.condition.DoOnceCondition>
-                </conditions>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>2</id>
-              <x>250.0</x>
-              <y>50.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>zombie</name>
-              <direction>180.0</direction>
-              <width>30</width>
-              <height>30</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.Agent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </state.agent.Agent>
         </agentsCurrent>
         <objectivesCurrent/>
         <attributesCurrent/>

@@ -20,7 +20,11 @@
 }
 
 .attribute-pane {
+}
 
+.attribute-box {
+    -fx-background-image: url("themes/forest/panes/board4.png");
+    -fx-background-repeat: repeat;
 }
 
 .store-button {
@@ -85,9 +89,7 @@
     -fx-fill: WHITE;
 }
 
-.money-icon {
-    -fx-graphic: url('themes/forest/icons/money.png')
-}
+
 
 .demo-agent {
     -fx-scale-x: 4;

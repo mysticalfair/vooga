@@ -18,6 +18,7 @@ import java.util.List;
 
 public class AttributePane extends VBox {
    private static String ATTRIBUTE_STYLE = "attribute-pane";
+   private static String ATTRIBUTE_BOX = "attribute-box";
    private static int INIT_ATTRIBUTE = 0;
 
    private ImageView healthBar;
@@ -38,6 +39,7 @@ public class AttributePane extends VBox {
       box.setSpacing(50);
       box.setLayoutX(50);
       box.setLayoutY(this.getLayoutY());
+      box.getStyleClass().add(ATTRIBUTE_BOX);
       //scoreText.textProperty().bind(Bindings.createStringBinding(() -> ("Current: " + score.get())));
       //moneyText.textProperty().bind(Bindings.createStringBinding(() -> ("Money: " + money.get())));
       this.getChildren().addAll(this.healthBar, box);

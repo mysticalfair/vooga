@@ -32,6 +32,7 @@ public class MapController{
       for(IPlayerAgent playerAgent: playerAgents){
          this.addAgent(playerAgent);
       }
+      System.out.println("********************CHANGING LENGTH " + this.agentViews.size() + "***************************");
    }
 
    public void clearAgents(){

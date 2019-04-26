@@ -304,6 +304,35 @@ class GameTest {
         }
     }
 
+    /**
+     * Creates ten Agents all moving in the +x direction with the same speed.
+     */
+    @Test
+    void setUpSix() {
+        try {
+            GameFactory factory = new GameFactory();
+            gameEngine = factory.createGame();
+            state = factory.createState();
+            ILevelDefinition level = factory.createLevel();
+            Map<String, Object> condParams = new HashMap<>();
+            condParams.put("property", "health");
+            condParams.put("value", 0);
+            Map<String, Object> actionParams = new HashMap<>();
+            List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
+
+            actionDecisions.add(factory.createActionDecision(
+                    factory.createAction("PropertyLessThanOrEqualToCondition", actionParams), factory.createCondition("PropertyLessThanOrEqualToCondition", )));
+            List<IPropertyDefinition> properties = new ArrayList<>();
+            var prop = factory.createProperty("health", 50);
+            properties.add(prop);
+            IAgentDefinition healthyAgent = factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
+            state.addDefinedAgent(healthyAgent);
+            state.addLevel(level);
+            gameEngine.setState(state);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Test
     void run() {
         try {

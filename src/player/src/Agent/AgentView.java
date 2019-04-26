@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 
 /**
  * @author: Mary Gooneratne
+ * @author:Luke_Truitt
  * Frontend object for Agents
  */
 public class AgentView extends ImageView implements PropertyChangeListener {

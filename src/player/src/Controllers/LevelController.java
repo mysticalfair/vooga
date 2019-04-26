@@ -41,6 +41,7 @@ public class LevelController implements PropertyChangeListener {
    }
 
    public void propertyChange(PropertyChangeEvent e){
+      System.out.println("A PROPERTY CHANGE EVENT");
       if(e.getPropertyName().equals("CurrentAgent")){
          System.out.println("adding new agents BABYYYY");
          this.mapController.clearAgents();

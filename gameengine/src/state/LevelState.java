@@ -62,9 +62,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public void addCurrentAgent(Agent agent) {
         var oldAgents = this.agentsCurrent;
         agentsCurrent.add(agent);
-        this.pcs.firePropertyChange("CurrentAgent", oldAgents, this.agentsCurrent);
-        System.out.println("TRYING TO PLACE A NEW AGENTULHDUHFLUFHSDLFSUDHF----------------------------------------------------------");
-    }
+        this.pcs.firePropertyChange("CurrentAgent", oldAgents, this.agentsCurrent); }
 
     public List<Objective> getObjectives() {
         return this.objectivesCurrent;
@@ -96,6 +94,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
         var agentsOld = this.agentsCurrent;
         this.agentsCurrent.add(agent);
         this.pcs.firePropertyChange("CurrentAgent", agentsOld, this.agentsCurrent);
+        System.out.println("LISTENERS" + pcs.getPropertyChangeListeners());
         System.out.println("TRYING TO PLACE A NEW AGENTULHDUHFLUFHSDLFSUDHF----------------------------------------------------------");
     }
     public void defineObjective(Objective objective) {

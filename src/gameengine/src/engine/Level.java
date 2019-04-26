@@ -5,6 +5,7 @@ import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
+import state.AgentReference;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
@@ -23,10 +24,15 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     private List<Agent> agentsToAdd;
     private List<Agent> agentsToRemove;
 
+    private List<AgentReference> authoringAgentsPlaced;
+    private List<String> authoringPlaceableAgents;
+
     public Level() {
         this.levelState = new LevelState();
         this.agentsToAdd = new ArrayList<>();
         this.agentsToRemove = new ArrayList<>();
+        this.authoringAgentsPlaced = new ArrayList<>();
+        this.authoringPlaceableAgents = new ArrayList<>();
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -38,33 +44,38 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public List<? extends IAgentDefinition> getDefinedAgents() {
-        return levelState.getDefinedAgents();
-    }
-
-    @Override
-    public void removeDefinedAgent(int index) {
-        levelState.removeDefinedAgent(index);
-    }
-
-    @Override
-    public void addIAgentDefinition(IAgentDefinition agent) {
-        levelState.addDefinedAgent((Agent)agent);
-    }
-
-    @Override
     public List<? extends IAgentDefinition> getCurrentAgents() {
-        return levelState.getCurrentAgents();
+        //return levelState.getCurrentAgents();
     }
 
     @Override
     public void removeAgent(int index) {
-        levelState.removeCurrentAgent(index);
+        authoringAgentsPlaced.remove(index);
     }
 
     @Override
-    public void addAgent(IAgentDefinition agent) {
-        levelState.addCurrentAgent((Agent)agent);
+    public void addAgent(String agentName, int x, int y, double direction) {
+        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction));
+    }
+
+    @Override
+    public List<? extends IAgentDefinition> getPlaceableAgents() {
+        return null;
+    }
+
+    @Override
+    public void removePlaceableAgent(int index) {
+        authoringPlaceableAgents.remove(index);
+    }
+
+    @Override
+    public void removePlaceableAgent(String agentName) {
+        authoringPlaceableAgents.remove(agentName);
+    }
+
+    @Override
+    public void addPlaceableAgent(String agentName) {
+        authoringPlaceableAgents.add(agentName);
     }
 
     public void step(double deltaTime) {

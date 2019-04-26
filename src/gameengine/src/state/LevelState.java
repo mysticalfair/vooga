@@ -19,13 +19,13 @@ import java.util.List;
  */
 public class LevelState implements Serializable {
 
-    private List<Agent> agentsOptions;
+    private List<Agent> placeableAgents;
     private List<Agent> agentsCurrent;
     private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
     public LevelState() {
-        this.agentsOptions = new ArrayList<>();
+        this.placeableAgents = new ArrayList<>();
         this.agentsCurrent = new ArrayList<>();
         this.objectivesCurrent = new ArrayList<>();
         this.attributesCurrent = new ArrayList<>();
@@ -34,17 +34,17 @@ public class LevelState implements Serializable {
     /**
      * For Engine
      */
-    public List<Agent> getDefinedAgents() {
-        return this.agentsOptions;
+    public List<Agent> getPlaceableAgents() {
+        return this.placeableAgents;
     }
 
-    public void removeDefinedAgent(int index) {
-        if (agentsOptions.size() > index)
-            agentsOptions.remove(index);
+    public void removePlaceableAgent(int index) {
+        if (placeableAgents.size() > index)
+            placeableAgents.remove(index);
     }
 
-    public void addDefinedAgent(Agent agent) {
-        agentsOptions.add(agent);
+    public void addPlaceableAgent(Agent agent) {
+        placeableAgents.add(agent);
     }
 
     public List<Agent> getCurrentAgents() {
@@ -80,12 +80,9 @@ public class LevelState implements Serializable {
         return agentsWithoutSelf;
     }
 
-    /**
+    /*
      * For Author
      */
-    public void defineAgent(Agent agent) {
-        this.agentsOptions.add(agent);
-    }
     public void placeAgent(Agent agent) {
         this.agentsCurrent.add(agent);
     }
@@ -96,10 +93,10 @@ public class LevelState implements Serializable {
         this.attributesCurrent.add(attribute);
     }
 
-    /**
+    /*
      * For Player - Iterate through and update your copy based on the corresponding ID.
      */
-    public Iterable<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.agentsOptions); }
+    public Iterable<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.placeableAgents); }
 
     public Iterable<IPlayerAgent> getImmutableAgents() {
         return List.copyOf(this.agentsCurrent);
@@ -114,7 +111,7 @@ public class LevelState implements Serializable {
     }
 
     public void removeAgent(Agent agent) {
-        if(this.agentsCurrent.contains(agent)){
+        if (this.agentsCurrent.contains(agent)){
             this.agentsCurrent.remove(agent);
         }
     }

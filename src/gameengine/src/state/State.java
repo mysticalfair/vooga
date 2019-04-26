@@ -1,8 +1,10 @@
 package state;
 
+import authoring.IAgentDefinition;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
+import state.agent.Agent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,13 +16,17 @@ import java.util.List;
  * @author David Miron
  */
 public class State implements IStateDefinition, Serializable {
+
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
 
+    private List<Agent> definedAgents;
+
     public State(){
         this.currentLevel = START_LEVEL;
         levels = new ArrayList<>();
+        this.definedAgents = new ArrayList<>();
     }
 
     /**
@@ -50,6 +56,21 @@ public class State implements IStateDefinition, Serializable {
     @Override
     public void addLevel(ILevelDefinition level) {
         levels.add((Level)level);
+    }
+
+    @Override
+    public List<? extends IAgentDefinition> getDefinedAgents() {
+        return definedAgents;
+    }
+
+    @Override
+    public void removeDefinedAgent(int index) {
+        definedAgents.remove(index);
+    }
+
+    @Override
+    public void addDefinedAgent(IAgentDefinition agent) {
+        definedAgents.add((Agent)agent);
     }
 
     /**

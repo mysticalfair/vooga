@@ -18,26 +18,6 @@ import java.util.List;
 
 public class AuthoringEnvironment extends Application {
 
-    public static final String TITLE = "Electric Voogaloo!";
-    public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
-    public static final String MENU_ITEM_SAVE = "Save Game";
-    public static final String MENU_ITEM_OPEN = "Open Game";
-    public static final String GAME_SAVE_NAME = "AuthorTestGameXML";
-    public static final String AGENT_BUTTON_FILE = "add-button.png";
-    public static final String BUTTON_STYLE = "img";
-    public static final String STYLE = "Midpoint.css";
-
-    public static final double DEFAULT_WIDTH = 1200;
-    public static final double DEFAULT_HEIGHT = 650;
-    public static final double AGENT_BUTTON_SIZE = 25;
-    public static final double AGENT_BUTTON_IMAGE_SIZE = 10;
-    public static final double TOOLBAR_HEIGHT = 70;
-    public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
-    public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
-    public static final double ATTRIBUTES_WIDTH = DEFAULT_WIDTH/4;
-    public static final double AGENT_WIDTH = DEFAULT_WIDTH/7;
-    public static final double MAP_WIDTH = DEFAULT_WIDTH - ATTRIBUTES_WIDTH - AGENT_WIDTH;
-
     private AuthoringContext context;
 
     private StackPane stackPane;
@@ -69,7 +49,7 @@ public class AuthoringEnvironment extends Application {
         borderPane = new BorderPane();
         paths = new ArrayList<>();
         stackPane.getChildren().add(borderPane);
-        scene = new Scene(stackPane, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        scene = new Scene(stackPane, context.getDouble("DefaultWidth"), context.getDouble("DefaultHeight"));
         initAllPanes();
         initStage(stage);
 
@@ -108,9 +88,9 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton(AGENT_BUTTON_FILE, AGENT_BUTTON_SIZE, AGENT_BUTTON_IMAGE_SIZE, e -> attributesPane.createNewAgentForm());
+        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"), context.getDouble("ButtonImageSize"), e -> attributesPane.createNewAgentForm());
         for (CloneableAgentView o : agentPane.getAgentList()) {
-            o.setId(BUTTON_STYLE);
+            o.setId(context.getString("ButtonStyle"));
             o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
         }
     }
@@ -135,10 +115,10 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("DeleteFile"), e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
-        toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
-        toolbarPane.addAction("File", MENU_ITEM_SAVE, e -> context.getGame().saveState(GAME_SAVE_NAME));
+        toolbarPane.addAction("File", context.getString("MenuItemUpload"), e -> map.formatBackground());
+        toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> context.getGame().saveState(context.getString("GameSaveName")));
         // TODO: implement loading an old game
-        toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
+        toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
 
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));
     }
@@ -155,23 +135,23 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void updateDimensions(double width, double height){
-        var middleWidth = width - ATTRIBUTES_WIDTH - AGENT_WIDTH;
-        var middleHeight = height - CONSOLE_HEIGHT - TOOLBAR_HEIGHT;
-        consolePane.updateSize(width, CONSOLE_HEIGHT);
-        toolbarPane.updateSize(width, TOOLBAR_HEIGHT);
+        var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentWidth");
+        var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarHeight");
+        consolePane.updateSize(width, context.getDouble("ConsoleHeight"));
+        toolbarPane.updateSize(width, context.getDouble("ToolbarHeight"));
         map.updateSize(middleWidth, middleHeight);
-        attributesPane.updateSize(ATTRIBUTES_WIDTH, middleHeight);
-        agentPane.updateSize(AGENT_WIDTH, middleHeight);
+        attributesPane.updateSize(context.getDouble("AttributesWidth"), middleHeight);
+        agentPane.updateSize(context.getDouble("AgentWidth"), middleHeight);
     }
 
     private void initStage(Stage stage) {
-        stage.setTitle(TITLE);
+        stage.setTitle(context.getString("Title"));
         stage.setScene(scene);
-        stage.setMinWidth(DEFAULT_WIDTH);
-        stage.setMinHeight(DEFAULT_HEIGHT);
+        stage.setMinWidth(context.getDouble("DefaultWidth"));
+        stage.setMinHeight(context.getDouble("DefaultHeight"));
         scene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, scene.getHeight()));
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
-        stage.getScene().getStylesheets().add(STYLE);
+        stage.getScene().getStylesheets().add(context.getString("MainStyle"));
         stage.show();
     }
 }

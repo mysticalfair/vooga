@@ -11,7 +11,9 @@ import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -37,7 +39,6 @@ public class MapPane extends AuthoringPane {
         super(context);
         this.console = console;
         selection.set(false);
-        //selection.addListener((observable, oldValue, newValue) -> handleSelection(newValue));
         levelToState = new HashMap<>();
         initPanes();
         getContentChildren().add(overallPane);
@@ -90,7 +91,8 @@ public class MapPane extends AuthoringPane {
 
     private void releaseMultiple() {
         MapState currentLevel = levelToState.get(level);
-        for (DraggableAgentView agent: currentLevel.getAgents()) {
+        List<DraggableAgentView> agentsCopy = new ArrayList<>(currentLevel.getAgents());
+        for (DraggableAgentView agent : agentsCopy) {
             if (agent.getSelect()) {
                 agent.mouseReleased(this, console);
             }

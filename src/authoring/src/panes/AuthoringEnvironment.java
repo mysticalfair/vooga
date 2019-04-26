@@ -139,7 +139,6 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", MENU_ITEM_SAVE, e -> context.getGame().saveState(GAME_SAVE_NAME));
         // TODO: implement loading an old game
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
-
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) newValue)));
     }
 
@@ -148,6 +147,7 @@ public class AuthoringEnvironment extends Application {
         if (!map.getStateMapping().containsKey(newValue)) {
             map.getMapPane().getChildren().clear();
             map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
+            map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
         } else {
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);

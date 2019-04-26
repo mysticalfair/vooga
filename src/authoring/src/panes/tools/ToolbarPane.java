@@ -4,9 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import panes.AuthoringEnvironment;
 import panes.AuthoringPane;
+import panes.Path;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 import panes.MapPane;
@@ -29,6 +33,7 @@ public class ToolbarPane extends AuthoringPane {
     private Map<String, Menu> menuMap;
     private VBox box;
     private Map<String, Tool> toolImageMap;
+    private List<Path> pathOptions;
 
     private MapPane map;
     private Scene scene;
@@ -41,18 +46,20 @@ public class ToolbarPane extends AuthoringPane {
     public static final double TOOLBAR_HEIGHT = BUTTON_SIZE + TOOLBAR_PADDING;
     public static final double INITIAL_LEVEL = 1;
     public static final double MAX_LEVEL = Integer.MAX_VALUE;
-
     public static final String STYLE = "toolbar-pane.css";
     public static final String LASSO_IMAGE = "Lasso.png";
     public static final String PEN_IMAGE = "Pen.png";
+    public static final String GRAB_IMAGE = "GrabIcon.png";
+    public static final String DELETE_IMAGE = "DeletePen.png";
     public static final List<String> MENU_OPTIONS = List.of("File", "Edit", "View");
 
-    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene){
+    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, List<Path> paths){
         super(context);
         map = authorMap;
         scene = authorScene;
         menuMap = new HashMap<>();
         toolImageMap = new HashMap<>();
+        pathOptions = paths;
         initBars();
         initLevelChanger();
     }
@@ -60,6 +67,7 @@ public class ToolbarPane extends AuthoringPane {
     private void initBars(){
         menuBar = initMenuBar();
         toolBar = initToolBar();
+        toolBar.setId("toolbar");
         box = new VBox();
         box.getStylesheets().add(STYLE);
         box.getChildren().addAll(menuBar, toolBar);
@@ -81,17 +89,28 @@ public class ToolbarPane extends AuthoringPane {
     private ToolBar initToolBar(){
         var toolbar = new ToolBar();
         toolbar.setPrefSize(WIDTH, TOOLBAR_HEIGHT);
+
         var lasso = new LassoTool(map, scene, LASSO_IMAGE);
-        var pen = new PathPenTool(map, scene, PEN_IMAGE);
+        var pen = new PathPenTool(map, scene, PEN_IMAGE, pathOptions);
+        var dragger = new PathDragTool(map, scene, GRAB_IMAGE, pathOptions);
+        var remover = new PathDeleteTool(map, scene, DELETE_IMAGE, pathOptions);
+
         toolImageMap.put(LASSO_IMAGE, lasso);
         toolImageMap.put(PEN_IMAGE, pen);
+        toolImageMap.put(GRAB_IMAGE, dragger);
+        toolImageMap.put(DELETE_IMAGE, remover);
         return toolbar;
     }
 
     private void initLevelChanger() {
         levelChanger = new Spinner(INITIAL_LEVEL, MAX_LEVEL, INITIAL_LEVEL);
         levelChanger.setPrefHeight(5);
-        toolBar.getItems().add(levelChanger);
+//        levelChanger.setMinHeight(15);
+
+        final Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        toolBar.getItems().addAll(levelChanger, spacer);
     }
 
     public Spinner getLevelChanger() {
@@ -113,9 +132,18 @@ public class ToolbarPane extends AuthoringPane {
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
-        EventHandler handler = e -> toolImageMap.get(buttonImageName).toggleToolEnabled();
+        EventHandler handler = e -> toggleTool(toolImageMap.get(buttonImageName));
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
+    }
+
+    private void toggleTool(Tool enabled){
+        for(Tool t: toolImageMap.values()){
+            if(t != enabled){
+                t.setToolEnabled(false);
+            }
+        }
+        enabled.setToolEnabled(!enabled.getToolEnabled());
     }
 
     public void addButton(String buttonImageName, EventHandler action) {

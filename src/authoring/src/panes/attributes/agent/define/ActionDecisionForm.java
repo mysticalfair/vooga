@@ -1,6 +1,5 @@
 package panes.attributes.agent.define;
 
-import authoring.GameFactory;
 import authoring.IActionDecisionDefinition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,12 +10,11 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-import panes.attributes.AttributesForm;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class ActionDecisionForm extends AttributesForm {
 
@@ -36,7 +34,7 @@ public class ActionDecisionForm extends AttributesForm {
         accordion = new Accordion();
         gridPane.add(accordion, 0, 1, 4, 1);
 
-        pane.getChildren().add(gridPane);
+        getPane().getChildren().add(gridPane);
     }
 
     public List<IActionDecisionDefinition> getActionDecisionDefinitions() {
@@ -63,13 +61,13 @@ public class ActionDecisionForm extends AttributesForm {
 
         // Action
         HBox actionHBox = new HBox();
-        Label actionLabel = new Label(context.getString("Action"));
+        Label actionLabel = new Label(getContext().getString("Action"));
         ChoiceBox<String> actionChoiceBox = new ChoiceBox<>();
         //actionChoiceBox.getItems().addAll("MoveForward", "AttackWithInterval", "MoveTowards", "FollowPath");//"Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
         actionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                actionDecisionTitledPane.setText(String.format(context.getString("ActionDecisionFormTitle"),
+                actionDecisionTitledPane.setText(String.format(getContext().getString("ActionDecisionFormTitle"),
                         actionLabel.getText(), actionChoiceBox.getItems().get((Integer) number2)));
             }
         });

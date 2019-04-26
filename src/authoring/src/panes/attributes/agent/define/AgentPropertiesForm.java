@@ -1,17 +1,15 @@
 package panes.attributes.agent.define;
 
-import authoring.GameFactory;
 import authoring.IPropertyDefinition;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-import panes.attributes.AttributesForm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class AgentPropertiesForm extends AttributesForm {
 
@@ -41,7 +39,7 @@ public class AgentPropertiesForm extends AttributesForm {
         gridPane.add(propertiesVBox, 0, 1, 4, 1);
         propertyLines = new ArrayList<>();
 
-        pane.getChildren().add(gridPane);
+        getPane().getChildren().add(gridPane);
     }
 
     public List<IPropertyDefinition> getPropertyDefinitions() {

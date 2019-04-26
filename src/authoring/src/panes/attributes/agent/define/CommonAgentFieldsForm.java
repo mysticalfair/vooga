@@ -1,6 +1,5 @@
 package panes.attributes.agent.define;
 
-import authoring.GameFactory;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -11,11 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-import panes.attributes.AttributesForm;
-
-import java.util.ResourceBundle;
 
 public class CommonAgentFieldsForm extends AttributesForm {
 
@@ -52,7 +49,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         try {
             return Integer.parseInt(textField.getText());
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, context.getString(errorMessageKey));
+            Alert alert = new Alert(Alert.AlertType.ERROR, getContext().getString(errorMessageKey));
             alert.showAndWait();
         }
         return -1;
@@ -66,18 +63,18 @@ public class CommonAgentFieldsForm extends AttributesForm {
         GridPane gridPane = new GridPane();
 
         // Agent type
-        Label typeLabel = new Label(context.getString("Type"));
+        Label typeLabel = new Label(getContext().getString("Type"));
         agentTypeField = new ChoiceBox<>();
-        agentTypeField.getItems().addAll(context.getString("Custom"));
+        agentTypeField.getItems().addAll(getContext().getString("Custom"));
         gridPane.add(typeLabel, 0, 0);
         gridPane.add(agentTypeField, 1, 0, 3, 1);
 
 
         // Name
-        Label nameLabel = new Label(context.getString("Name"));
+        Label nameLabel = new Label(getContext().getString("Name"));
         nameLabel.setId("paddedLabel");
         nameField = new TextField();
-        nameField.setPromptText(context.getString("NamePrompt"));
+        nameField.setPromptText(getContext().getString("NamePrompt"));
         gridPane.add(nameLabel, 0, 1);
         gridPane.add(nameField, 1, 1, 3, 1);
 
@@ -92,7 +89,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         imageField.setCache(true);
 
         AnchorPane imageLabelAnchorPane = new AnchorPane();
-        Text chooseImageText = new Text(context.getString("ChooseImage"));
+        Text chooseImageText = new Text(getContext().getString("ChooseImage"));
         AnchorPane.setBottomAnchor(chooseImageText, 0.0);
         imageLabelAnchorPane.getChildren().add(chooseImageText);
 
@@ -102,25 +99,25 @@ public class CommonAgentFieldsForm extends AttributesForm {
 
 
         // Width and height
-        Label widthLabel = new Label(context.getString("Width"));
+        Label widthLabel = new Label(getContext().getString("Width"));
         widthLabel.setId("paddedLabel");
         widthField = new TextField();
-        widthField.setPromptText(context.getString("WidthHeightPrompt"));
-        Label heightLabel = new Label(context.getString("Height"));
+        widthField.setPromptText(getContext().getString("WidthHeightPrompt"));
+        Label heightLabel = new Label(getContext().getString("Height"));
         heightLabel.setId("paddedLabel");
         heightField = new TextField();
-        heightField.setPromptText(context.getString("WidthHeightPrompt"));
+        heightField.setPromptText(getContext().getString("WidthHeightPrompt"));
         gridPane.add(widthLabel, 2, 2);
         gridPane.add(widthField, 3, 2);
         gridPane.add(heightLabel, 2, 3);
         gridPane.add(heightField, 3, 3);
 
-        pane.getChildren().add(gridPane);
+        getPane().getChildren().add(gridPane);
     }
 
     private void chooseAgentImage() {
         AuthoringUtil.openFileChooser(
-                context.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
+                getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> {
                     imageUrl = file.toURI().toString();
                     imageField.setImage(new Image(imageUrl));

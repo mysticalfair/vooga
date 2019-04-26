@@ -1,0 +1,52 @@
+package panes.tools;
+
+import javafx.scene.Scene;
+import javafx.scene.shape.Line;
+import panes.MapPane;
+import panes.Path;
+
+import java.util.List;
+
+public abstract class PathTool extends MapTool{
+
+    protected List<Path> pathOptions;
+
+    /**
+     * These tools have an action in the MapPane on click
+     *
+     * @param otherMap
+     * @param otherScene
+     * @param fileName
+     */
+    public PathTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+        super(otherMap, otherScene, fileName);
+        pathOptions = paths;
+    }
+
+    protected void addPath(Path path){
+        pathOptions.add(path);
+    }
+
+    protected void updatePathLines(Path path){
+        for(Line l: path.getLines()){
+            map.removeShape(l);
+        }
+        for(Line l: path.updateLines()){
+            map.spawnShape(l);
+        }
+    }
+
+    protected void removeMouseActions(){
+        map.accessMap(node -> node.setOnMousePressed(null));
+        map.accessMap(node -> node.setOnMouseDragged(null));
+        map.accessMap(node -> node.setOnMouseReleased(null));
+    }
+
+    protected void removePath(Path path){
+        pathOptions.remove(path);
+    }
+
+    protected Path getPath(int pathIndex){
+        return pathOptions.get(pathIndex);
+    }
+}

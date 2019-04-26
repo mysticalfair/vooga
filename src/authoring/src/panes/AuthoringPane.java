@@ -14,7 +14,7 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     static final double HANDLE_THICKNESS = 20;
     static final double HANDLE_ROUNDING_DIAMETER = 20;
 
-    protected AuthoringContext context;
+    private AuthoringContext context;
 
     private Pane container;
     private Pane hvbox;
@@ -39,6 +39,10 @@ public abstract class AuthoringPane implements IAuthoringPane, AccessibleContain
     @Override
     public void accessContainer(Consumer<Pane> accessMethod) {
         accessMethod.accept(container);
+    }
+
+    protected AuthoringContext getContext() {
+        return context;
     }
 
     protected void setVertical(boolean vertical) {

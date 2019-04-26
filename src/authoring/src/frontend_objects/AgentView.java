@@ -3,6 +3,9 @@ package frontend_objects;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
 
+import java.util.AbstractMap;
+import java.util.SimpleTimeZone;
+
 public class AgentView extends ImageView {
 
     /**
@@ -20,6 +23,9 @@ public class AgentView extends ImageView {
         this.setFitWidth(SIZE);
         this.setFitHeight(SIZE);
         selected.set(false);
+        selected.addListener((observable, oldValue, newValue) -> {
+
+        });
        //formatView(imageName, STYLE, SIZE, SIZE);
     }
 
@@ -28,7 +34,7 @@ public class AgentView extends ImageView {
         this.setFitWidth(SIZE);
         this.setFitHeight(SIZE);
     }
-
+/*
     private void setImageOpacity(){
         // Translucent if selected
         var opacity = 0.3;
@@ -41,4 +47,6 @@ public class AgentView extends ImageView {
         selected.set(select);
         setImageOpacity();
     }
+    */
+
 }

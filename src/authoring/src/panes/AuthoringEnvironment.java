@@ -85,17 +85,17 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
-        initMapPane(1);
         initAttributesPane();
         initConsolePane();
+        initMapPane(1);
         initToolbarPane();
         initAgentPane();
     }
 
     private void initMapPane(int level) {
-        map = new MapPane(context);
+        map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
-        map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
+        map.getStateMapping().put(level, new MapState(null, new ArrayList<>(), map));
         map.setLevel(level);
     }
 
@@ -134,14 +134,14 @@ public class AuthoringEnvironment extends Application {
         // TODO: implement loading an old game
         toolbarPane.addAction("File", MENU_ITEM_OPEN, null);
 
-        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) oldValue), (int)((double) newValue)));
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) newValue)));
     }
 
-    private void changeLevel(int oldValue, int newValue) {
+    private void changeLevel(int newValue) {
         map.setLevel(newValue);
         if (!map.getStateMapping().containsKey(newValue)) {
             map.getMapPane().getChildren().clear();
-            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
+            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>(), map));
         } else {
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);

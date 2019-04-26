@@ -150,9 +150,10 @@ class GameTest {
             condParams.put("value", 0);
             Map<String, Object> actionParams = new HashMap<>();
             List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
-
+            List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
+            conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualToCondition", condParams));
             actionDecisions.add(factory.createActionDecision(
-                    factory.createAction("PropertyLessThanOrEqualToCondition", actionParams), factory.createCondition("PropertyLessThanOrEqualToCondition", )));
+                    factory.createAction("", actionParams), conditionDefinitions));
             List<IPropertyDefinition> properties = new ArrayList<>();
             var prop = factory.createProperty("health", 50);
             properties.add(prop);

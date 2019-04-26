@@ -25,8 +25,8 @@ class GameTest {
     public static final String GAME_FILE_NAME = "GameTest.xml";
     public static final int AGENT_NUM = 10;
 
-    Game gameEngine;
-    State state;
+    IGameDefinition gameEngine;
+    IStateDefinition state;
 
     /**
      * Creates ten Agents all moving in the +x direction with the same speed.
@@ -34,23 +34,24 @@ class GameTest {
     void setUpOne() {
         try {
             GameFactory factory = new GameFactory();
-            gameEngine = new Game();
-            state = new State();
+            gameEngine = factory.createGame();
+            state = factory.createState();
             ILevelDefinition level = factory.createLevel();
             List<IAgentDefinition> currentAgents = new ArrayList<>();
             Map<String, Object> actionParams = new HashMap<>();
             actionParams.put("angle", 0.0);
-            actionParams.put("speed", 20.0);
 
-            for(int k = 0; k < AGENT_NUM; k++){
                 List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
                 actionDecisions.add(factory.createActionDecision(
                         factory.createAction("MoveAtRelativeAngle", actionParams), new ArrayList<IConditionDefinition>()));
                 List<IPropertyDefinition> properties = new ArrayList<>();
-                IAgentDefinition agent = factory.createAgent(10 + 20*k, 10, 10, 10,
-                         0,"zombieee", "zombie.gif", actionDecisions, properties);
+ actionParams.put("speed", 20.0);
+            IAgentDefinition agent = factory.createAgent(10, 10, 10, 10,
+                    0,"zombieee", "zombie.gif", actionDecisions, properties);
+            state.addDefinedAgent(agent);
 
-                level.addAgent(agent);
+            for(int k = 0; k < AGENT_NUM; k++){
+                level.addAgent("zombieee", 10 + 20 * k, 10, 0);
             }
             state.addLevel(level);
             gameEngine.setState(state);
@@ -66,8 +67,8 @@ class GameTest {
     void setupTwo() {
         try {
             GameFactory factory = new GameFactory();
-            gameEngine = new Game();
-            state = new State();
+            gameEngine = factory.createGame();
+            state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
             // MAKING PROJECTILE
@@ -108,7 +109,9 @@ class GameTest {
             IAgentDefinition tower = factory.createAgent(200, 200, 10, 10,
                     0,"tower", "zombie.gif", AD2, properties);
 
-            level.addAgent(tower);
+            state.addDefinedAgent(tower);
+
+            level.addAgent("tower", 200, 200, 0);
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -128,8 +131,8 @@ class GameTest {
             String team2 = "team2";
 
             GameFactory factory = new GameFactory();
-            gameEngine = new Game();
-            state = new State();
+            gameEngine = factory.createGame();
+            state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
             // MAKING PROJECTILE
@@ -176,16 +179,18 @@ class GameTest {
             IAgentDefinition tower = factory.createAgent(50, 50, 30, 30,
                     0,"tower", "peashooter.gif", AD2, properties);
             IAgentDefinition tower2 = ((Agent)tower).clone();
-            ((Agent) tower).setLocation(50, 100);
+            ((Agent) tower2).setLocation(50, 100);
 
             IAgentDefinition tower3 = ((Agent)tower).clone();
-            ((Agent) tower).setLocation(50, 150);
+            ((Agent) tower3).setLocation(50, 150);
 
             IAgentDefinition tower4 = ((Agent)tower).clone();
-            ((Agent) tower).setLocation(50, 200);
+            ((Agent) tower4).setLocation(50, 200);
 
             IAgentDefinition tower5 = ((Agent)tower).clone();
-            ((Agent) tower).setLocation(50, 250);
+            ((Agent) tower5).setLocation(50, 250);
+
+
 
 
             List<IActionDecisionDefinition> AD3 = new ArrayList<>();
@@ -210,16 +215,18 @@ class GameTest {
             IAgentDefinition zombie5 = ((Agent)zombie).clone();
             ((Agent) tower).setLocation(350, 250);
 
-            level.addAgent(tower);
-            level.addAgent(tower2);
-            level.addAgent(tower3);
-            level.addAgent(tower4);
-            level.addAgent(tower5);
-            level.addAgent(zombie);
-            level.addAgent(zombie2);
-            level.addAgent(zombie3);
-            level.addAgent(zombie4);
-            level.addAgent(zombie5);
+            state.addDefinedAgent(tower);
+            state.addDefinedAgent(zombie);
+            state.addDefinedAgent(projectile);
+
+            for (int i = 0; i < 5; i++) {
+                level.addAgent("tower", 50, 50 + 30 * i, 0);
+            }
+
+            for (int i = 0; i < 5; i++) {
+                level.addAgent("zombie", 350, 50 + 30 * i, 0);
+            }
+
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -236,8 +243,8 @@ class GameTest {
     void setupFour() {
         try {
             GameFactory factory = new GameFactory();
-            gameEngine = new Game();
-            state = new State();
+            gameEngine = factory.createGame();
+            state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
             // MAKING PROJECTILE
@@ -283,8 +290,11 @@ class GameTest {
             IAgentDefinition zombie = factory.createAgent(250, 50, 30, 30,
                     180, "zombie", "zombie.gif", AD3, properties);
 
-            level.addAgent(tower);
-            level.addAgent(zombie);
+            state.addDefinedAgent(tower);
+            state.addDefinedAgent(zombie);
+
+            level.addAgent("tower", 50, 50, 0);
+            level.addAgent("zombie", 250, 50, 0);
 
             state.addLevel(level);
             gameEngine.setState(state);

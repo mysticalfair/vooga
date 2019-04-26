@@ -72,6 +72,7 @@ public class Game implements IGameDefinition, IPlayerGame {
     public void loadState(String gameFileLocation){
         try {
             state = (State) serializer.load(new File(gameFileLocation));
+            state.initializeLevelAgents();
         } catch (SerializationException | IOException e) {
             // TODO: Deal with Exceptions by letting player know invalid file was chosen.
             e.printStackTrace();

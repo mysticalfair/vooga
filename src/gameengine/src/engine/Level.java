@@ -27,12 +27,15 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     private List<AgentReference> authoringAgentsPlaced;
     private List<String> authoringPlaceableAgents;
 
-    public Level() {
+    private List<Agent> masterDefinedAgents;
+
+    public Level(List<Agent> masterDefinedAgents) {
         this.levelState = new LevelState();
         this.agentsToAdd = new ArrayList<>();
         this.agentsToRemove = new ArrayList<>();
         this.authoringAgentsPlaced = new ArrayList<>();
         this.authoringPlaceableAgents = new ArrayList<>();
+        this.masterDefinedAgents = masterDefinedAgents;
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -45,7 +48,23 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     @Override
     public List<? extends IAgentDefinition> getCurrentAgents() {
-        //return levelState.getCurrentAgents();
+        List<Agent> agents = new ArrayList<>();
+        for (AgentReference agentReference: authoringAgentsPlaced) {
+            for (Agent a: masterDefinedAgents) {
+                if (a.getName().equals(agentReference.getName())) {
+                    try {
+                        Agent clone = a.clone();
+                        clone.setLocation(agentReference.getX(), agentReference.getY());
+                        clone.setDirection(agentReference.getDirection());
+                        agents.add(clone);
+                    } catch (CloneNotSupportedException e) {
+                        // Do nothing, that agent does not support cloning
+                    }
+                    break;
+                }
+            }
+        }
+        return agents;
     }
 
     @Override

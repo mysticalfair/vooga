@@ -23,10 +23,10 @@ public class State implements IStateDefinition, Serializable {
 
     private List<Agent> definedAgents;
 
-    public State(){
+    public State(List<Agent> masterDefinedAgents){
         this.currentLevel = START_LEVEL;
         levels = new ArrayList<>();
-        this.definedAgents = new ArrayList<>();
+        this.definedAgents = masterDefinedAgents;
     }
 
     /**

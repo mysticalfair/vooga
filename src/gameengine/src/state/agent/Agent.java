@@ -66,16 +66,26 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * Returns the X location of the Agent.
      * @return int - X location of the agent
      */
-    public double getX() {
-        return playerAgent.getX();
+    public int getX() {
+        return (int) playerAgent.getX();
+    }
+
+    @Override
+    public void setX(int x) {
+        playerAgent.setX(x);
     }
 
     /**
      * Returns the Y location of the Agent.
      * @return int - Y location of the agent
      */
-    public double getY() {
-        return playerAgent.getY();
+    public int getY() {
+        return (int) playerAgent.getY();
+    }
+
+    @Override
+    public void setY(int y) {
+        playerAgent.setY(y);
     }
 
     public String getName() {

@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Line;
 import panes.MapPane;
 import panes.Path;
+import util.AuthoringContext;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public abstract class PathTool extends MapTool{
      * @param otherScene
      * @param fileName
      */
-    public PathTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
-        super(otherMap, otherScene, fileName);
+    public PathTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+        super(context, otherMap, otherScene, fileName);
         pathOptions = paths;
     }
 

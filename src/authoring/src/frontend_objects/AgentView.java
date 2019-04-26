@@ -2,6 +2,7 @@ package frontend_objects;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
+import util.AuthoringContext;
 
 public class AgentView extends ImageView {
 
@@ -14,18 +15,25 @@ public class AgentView extends ImageView {
     public static final double TRANSLUCENT = 0.3;
 
     private SimpleBooleanProperty selected = new SimpleBooleanProperty();
+    private AuthoringContext context;
 
-    public AgentView(){
+    public AgentView(AuthoringContext authoringContext){
         super();
         this.setFitWidth(SIZE);
         this.setFitHeight(SIZE);
         selected.set(false);
+        context = authoringContext;
     }
 
-    public AgentView(String url) {
+    public AgentView(AuthoringContext authoringContext, String url) {
         super(url);
         this.setFitWidth(SIZE);
         this.setFitHeight(SIZE);
+        context = authoringContext;
+    }
+
+    protected AuthoringContext getContext(){
+        return context;
     }
 
     private void setImageOpacity(){

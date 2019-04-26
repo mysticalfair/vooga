@@ -79,7 +79,7 @@ public class AgentPane extends AuthoringPane {
         int colIterator = 0;
         agentList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView(getContext().getString("MonkeyImageFile"));
+            CloneableAgentView newAgent = new CloneableAgentView(getContext(), getContext().getString("MonkeyImageFile"));
             inventory.add(newAgent, colIterator, rowIterator);
             agentList.add(newAgent);
             colIterator++;

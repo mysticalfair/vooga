@@ -74,10 +74,10 @@ public class ToolbarPane extends AuthoringPane {
         var toolbar = new ToolBar();
         toolbar.setPrefSize(getContext().getDouble("DefaultWidth"), getContext().getDouble("ToolbarHeight"));
 
-        var lasso = new LassoTool(map, scene, getContext().getString("LassoFile"));
-        var pen = new PathPenTool(map, scene, getContext().getString("PenFile"), pathOptions);
-        var dragger = new PathDragTool(map, scene, getContext().getString("GrabFile"), pathOptions);
-        var remover = new PathDeleteTool(map, scene, getContext().getString("DeleteFile"), pathOptions);
+        var lasso = new LassoTool(getContext(), map, scene, getContext().getString("LassoFile"));
+        var pen = new PathPenTool(getContext(), map, scene, getContext().getString("PenFile"), pathOptions);
+        var dragger = new PathDragTool(getContext(), map, scene, getContext().getString("GrabFile"), pathOptions);
+        var remover = new PathDeleteTool(getContext(), map, scene, getContext().getString("DeleteFile"), pathOptions);
 
         toolImageMap.put(getContext().getString("LassoFile"), lasso);
         toolImageMap.put(getContext().getString("PenFile"), pen);

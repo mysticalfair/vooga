@@ -7,20 +7,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import panes.MapPane;
 import panes.Path;
+import util.AuthoringContext;
 
 import java.util.List;
 
 public class PathPenTool extends PathTool{
 
-    public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
-    public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
-    public static final double X_ADJUSTMENT = -10;
-    public static final double Y_ADJUSTMENT = -10;
-
     private Path currentPath;
 
-    public PathPenTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
-        super(otherMap, otherScene, fileName, paths);
+    public PathPenTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
+        super(context, otherMap, otherScene, fileName, paths);
     }
 
     public void setMouseActions(){
@@ -29,14 +25,16 @@ public class PathPenTool extends PathTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var circle = currentPath.addPoint(event.getX() + X_ADJUSTMENT, event.getY() + Y_ADJUSTMENT);
+        var circle = currentPath.addPoint(event.getX() + getContext().getInt("CursorXAdjustment"), event.getY() + getContext().getInt("CursorYAdjustment"));
         map.spawnShape(circle);
         updatePathLines(currentPath);
     }
 
     @Override
     protected void enableTool() {
-        scene.setCursor(PEN_CURSOR);
+        var pen = new Image(getContext().getString("PenFile"));
+        ImageCursor penCursor = new ImageCursor(pen, pen.getWidth() / 2, pen.getWidth()/2);
+        scene.setCursor(penCursor);
         currentPath = new Path();
         addPath(currentPath);
         setMouseActions();

@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import panes.AgentPane;
 import panes.ConsolePane;
 import panes.MapPane;
+import util.AuthoringContext;
 
 public class DraggableAgentView extends AgentView {
 
@@ -27,15 +28,11 @@ public class DraggableAgentView extends AgentView {
      * @author Mary Stuart Elder and Eric Lin
      */
 
-    private static final double LIGHTING_CONSTANT = 45;
-    private static final String AGENT_REMOVED = "Agent discarded from map. Agent count on map: ";
-    private static final String AGENT_OUT_OF_BOUNDS = "Agent out of bounds: returning to original location";
-
     private double myStartSceneX, myStartSceneY;
     private double myStartXOffset, myStartYOffset;
 
-    public DraggableAgentView(CloneableAgentView agent) {
-        super(agent.getUrl());
+    public DraggableAgentView(AuthoringContext authoringContext, CloneableAgentView agent) {
+        super(authoringContext, agent.getUrl());
     }
 
     public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
@@ -74,7 +71,7 @@ public class DraggableAgentView extends AgentView {
         lighting.setSpecularConstant(0.0);
         lighting.setSpecularExponent(0.0);
         lighting.setSurfaceScale(0.0);
-        lighting.setLight(new Light.Distant(LIGHTING_CONSTANT, LIGHTING_CONSTANT, color));
+        lighting.setLight(new Light.Distant(getContext().getDouble("LightingConstant"), getContext().getDouble("LightingConstant"), color));
         return lighting;
     }
 
@@ -82,19 +79,19 @@ public class DraggableAgentView extends AgentView {
         if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
-            console.displayMessage(AGENT_REMOVED + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            console.displayMessage(getContext().getString("AgentRemoved") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
         } else if (outOfBounds()) {
             setEffect(null);
             setTranslateX(myStartXOffset);
             setTranslateY(myStartYOffset);
-            console.displayMessage(AGENT_OUT_OF_BOUNDS, ConsolePane.Level.NEUTRAL);
+            console.displayMessage(getContext().getString("AgentOutOfBounds"), ConsolePane.Level.NEUTRAL);
         }
     }
 
     private boolean outOfBoundsHorizontal() {
         double xPos = getTranslateX();
         double xPosRight = getTranslateX() + getFitWidth();
-        boolean rightOutOfBounds = xPosRight > MapPane.MAP_WIDTH;
+        boolean rightOutOfBounds = xPosRight > getContext().getDouble("InsetMapWidth");
         boolean leftOutOfBounds = xPos < 0;
         return leftOutOfBounds || rightOutOfBounds;
     }
@@ -103,7 +100,7 @@ public class DraggableAgentView extends AgentView {
         double yPos = getTranslateY();
         double yPosBot = getTranslateY() + getFitHeight();
         boolean topOutOfBounds = yPos < 0;
-        boolean botOutOfBounds = yPosBot > MapPane.MAP_HEIGHT;
+        boolean botOutOfBounds = yPosBot > getContext().getDouble("InsetMapHeight");
         return topOutOfBounds || botOutOfBounds;
     }
 
@@ -115,7 +112,7 @@ public class DraggableAgentView extends AgentView {
         double yPos = getTranslateY();
         double xPosRight = getTranslateX() + getFitWidth();
         boolean topOutOfBounds = yPos < 0;
-        boolean rightOutOfBounds =  xPosRight > MapPane.MAP_WIDTH  + (map.getPaneWidth() - MapPane.MAP_WIDTH)/2;
+        boolean rightOutOfBounds =  xPosRight > getContext().getDouble("InsetMapWidth") + (map.getPaneWidth() - getContext().getDouble("InsetMapWidth"))/2;
         return topOutOfBounds && rightOutOfBounds;
     }
 

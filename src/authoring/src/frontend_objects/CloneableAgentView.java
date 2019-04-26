@@ -3,25 +3,26 @@ package frontend_objects;
 import javafx.scene.input.MouseEvent;
 import panes.ConsolePane;
 import panes.MapPane;
+import util.AuthoringContext;
 
 public class CloneableAgentView extends AgentView {
 
-    private static final String AGENT_ADDED = "Agent added to map. Agent count on map: ";
-    private static final int CLONE_CLICK_COUNT = 2;
+    //private static final String AGENT_ADDED = "Agent added to map. Agent count on map: ";
+    //private static final int CLONE_CLICK_COUNT = 2;
 
     private DraggableAgentView draggableCopy;
     private String url;
 
-    public CloneableAgentView(String url) {
-        super(url);
+    public CloneableAgentView(AuthoringContext authoringContext, String url) {
+        super(authoringContext, url);
         this.url = url;
     }
 
     public void mousePressedOnClone(MouseEvent e, MapPane map, ConsolePane console) {
-        if (e.getClickCount() == CLONE_CLICK_COUNT) {
-            DraggableAgentView copy = new DraggableAgentView(this);
+        if (e.getClickCount() == getContext().getInt("CloneClickCount")) {
+            DraggableAgentView copy = new DraggableAgentView(getContext(), this);
             map.addAgent(map.getLevel(), copy);
-            console.displayMessage(AGENT_ADDED + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            console.displayMessage(getContext().getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
             copy.setMouseActionsForDrag(map, console);
         } else {
             // code to open up attributes pane.

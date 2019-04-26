@@ -6,6 +6,7 @@ import javafx.scene.shape.Circle;
 import panes.MapPane;
 import panes.Path;
 import panes.PathPoint;
+import util.AuthoringContext;
 
 import java.util.List;
 
@@ -22,8 +23,8 @@ public abstract class PathModifyTool extends PathTool {
      * @param fileName
      * @param paths
      */
-    public PathModifyTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
-        super(otherMap, otherScene, fileName, paths);
+    public PathModifyTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+        super(context, otherMap, otherScene, fileName, paths);
     }
 
     protected boolean checkPointSelected(double checkX, double checkY){

@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import panes.MapPane;
 import panes.Path;
+import util.AuthoringContext;
 
 import java.util.List;
 
@@ -17,11 +18,8 @@ public class PathDragTool extends PathModifyTool{
      * Establishes triggers for Paths/points so they drag and update
      */
 
-    public static final Image GRAB = new Image(ToolbarPane.GRAB_IMAGE);
-    public static final ImageCursor GRAB_CURSOR = new ImageCursor(GRAB, GRAB.getWidth() / 2, GRAB.getWidth()/2);
-
-    public PathDragTool(MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
-        super(otherMap, otherScene, fileName, paths);
+    public PathDragTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
+        super(context, otherMap, otherScene, fileName, paths);
     }
 
     @Override
@@ -48,7 +46,9 @@ public class PathDragTool extends PathModifyTool{
 
     @Override
     protected void enableTool() {
-        scene.setCursor(GRAB_CURSOR);
+        var grab = new Image(getContext().getString("GrabFile"));
+        ImageCursor grabCursor = new ImageCursor(grab, grab.getWidth() / 2, grab.getWidth()/2);
+        scene.setCursor(grabCursor);
         setMouseActions();
     }
 

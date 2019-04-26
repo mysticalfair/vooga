@@ -3,6 +3,7 @@ package panes;
 import authoring.GameFactory;
 import frontend_objects.CloneableAgentView;
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -95,8 +96,13 @@ public class AuthoringEnvironment extends Application {
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
-        map.getStateMapping().put(level, new MapState(null, new ArrayList<>(), map));
+        map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
         map.setLevel(level);
+        map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
+    }
+
+    private void establishSelectCountListener(SimpleIntegerProperty selectCount) {
+        selectCount.addListener((observable, oldValue, newValue) -> map.handleSelectionChange((int)newValue));
     }
 
     private void initAgentPane() {
@@ -141,7 +147,7 @@ public class AuthoringEnvironment extends Application {
         map.setLevel(newValue);
         if (!map.getStateMapping().containsKey(newValue)) {
             map.getMapPane().getChildren().clear();
-            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>(), map));
+            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
         } else {
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);

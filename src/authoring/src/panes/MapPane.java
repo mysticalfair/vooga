@@ -7,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
@@ -38,7 +37,7 @@ public class MapPane extends AuthoringPane {
         super(context);
         this.console = console;
         selection.set(false);
-        selection.addListener((observable, oldValue, newValue) -> handleSelection(newValue));
+        //selection.addListener((observable, oldValue, newValue) -> handleSelection(newValue));
         levelToState = new HashMap<>();
         initPanes();
         getContentChildren().add(overallPane);
@@ -52,9 +51,9 @@ public class MapPane extends AuthoringPane {
         return levelToState;
     }
 
-    private void handleSelection(boolean newValue) {
+    public void handleSelectionChange(int newValue) {
         MapState currentLevel = levelToState.get(level);
-        if (newValue) {
+        if (newValue > 0) {
             for (DraggableAgentView agent : currentLevel.getAgents()) {
                 if (agent.getSelect()) {
                     agent.setOnMousePressed(event -> clickMultiple(event));
@@ -71,50 +70,42 @@ public class MapPane extends AuthoringPane {
         }
     }
 
-    public void setSelection(boolean newValue) {
-        selection.set(newValue);
-    }
-
     private void clickMultiple(MouseEvent event) {
         MapState currentLevel = levelToState.get(level);
-        if (currentLevel.getSelection()) {
-            for (DraggableAgentView agent : currentLevel.getAgents()) {
-                if (agent.getSelect()) {
-                    agent.mousePressed(event);
-                }
+        for (DraggableAgentView agent : currentLevel.getAgents()) {
+            if (agent.getSelect()) {
+                agent.mousePressed(event);
             }
         }
     }
 
     private void dragMultiple(MouseEvent event) {
         MapState currentLevel = levelToState.get(level);
-        if (currentLevel.getSelection()) {
-            for (DraggableAgentView agent : currentLevel.getAgents()) {
-                if (agent.getSelect()) {
-                    agent.mouseDragged(event, this);
-                }
+        for (DraggableAgentView agent : currentLevel.getAgents()) {
+            if (agent.getSelect()) {
+                agent.mouseDragged(event, this);
             }
         }
     }
 
     private void releaseMultiple() {
         MapState currentLevel = levelToState.get(level);
-        if (currentLevel.getSelection()) {
-            for (DraggableAgentView agent: currentLevel.getAgents()) {
-                if (agent.getSelect()) {
-                    agent.mouseReleased(this, console);
-                }
+        for (DraggableAgentView agent: currentLevel.getAgents()) {
+            if (agent.getSelect()) {
+                agent.mouseReleased(this, console);
             }
         }
     }
 
-    private void initPanes(){
-        overallPane = initOverallPane();
+    public MapState getCurrentState() {
+        return levelToState.get(level);
+    }
 
+    private void initPanes() {
+        overallPane = initOverallPane();
         mapPane = new Pane();
         mapPane.setMaxSize(MAP_WIDTH, MAP_HEIGHT);
         mapPane.setMinSize(MAP_WIDTH, MAP_HEIGHT);
-
         overallPane.getChildren().add(mapPane);
     }
 
@@ -166,28 +157,6 @@ public class MapPane extends AuthoringPane {
     public int getAgentCount() {
         MapState currentLevel = levelToState.get(level);
         return currentLevel.getAgentCount();
-    }
-
-    /**
-     *
-     * @param lassoEllipse
-     */
-    public void selectAgents(Ellipse lassoEllipse){
-        MapState currentLevel = levelToState.get(level);
-        for(DraggableAgentView agent: currentLevel.getAgents()){
-            agent.setSelect(lassoSelects(lassoEllipse, agent));
-        }
-        for (DraggableAgentView agent: currentLevel.getAgents()) {
-            if(agent.getSelect()) {
-                currentLevel.updateSelectionOccurred(true);
-                return;
-            }
-        }
-        currentLevel.updateSelectionOccurred(false);
-    }
-
-    private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
-        return lassoEllipse.intersects(agent.getBoundsInParent());
     }
 
     /**

@@ -10,8 +10,8 @@ public class AgentView extends ImageView {
      * @author Mary Stuart Elder and Eric Lin
      */
 
-    //public static final String STYLE = "img";
     public static final int SIZE = 60;
+    public static final double TRANSLUCENT = 0.3;
 
     private SimpleBooleanProperty selected = new SimpleBooleanProperty();
 
@@ -20,7 +20,6 @@ public class AgentView extends ImageView {
         this.setFitWidth(SIZE);
         this.setFitHeight(SIZE);
         selected.set(false);
-       //formatView(imageName, STYLE, SIZE, SIZE);
     }
 
     public AgentView(String url) {
@@ -31,9 +30,9 @@ public class AgentView extends ImageView {
 
     private void setImageOpacity(){
         // Translucent if selected
-        var opacity = 0.3;
+        var opacity = TRANSLUCENT;
         int selectAddition = selected.get() ? 0 : 1;
-        var select = 0.7*selectAddition + opacity;
+        var select = (1-TRANSLUCENT)*selectAddition + opacity;
         this.setStyle("-fx-opacity: " + select + ";");
     }
 

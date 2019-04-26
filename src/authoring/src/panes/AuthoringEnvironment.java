@@ -19,12 +19,18 @@ import java.util.List;
 public class AuthoringEnvironment extends Application {
 
     public static final String TITLE = "Electric Voogaloo!";
-    public static final double DEFAULT_WIDTH = 1200;
-    public static final double DEFAULT_HEIGHT = 650;
     public static final String MENU_ITEM_UPLOAD = "Upload Image To Background";
     public static final String MENU_ITEM_SAVE = "Save Game";
     public static final String MENU_ITEM_OPEN = "Open Game";
     public static final String GAME_SAVE_NAME = "AuthorTestGameXML";
+    public static final String AGENT_BUTTON_FILE = "add-button.png";
+    public static final String BUTTON_STYLE = "img";
+    public static final String STYLE = "Midpoint.css";
+
+    public static final double DEFAULT_WIDTH = 1200;
+    public static final double DEFAULT_HEIGHT = 650;
+    public static final double AGENT_BUTTON_SIZE = 25;
+    public static final double AGENT_BUTTON_IMAGE_SIZE = 10;
     public static final double TOOLBAR_HEIGHT = 70;
     public static final double CONSOLE_HEIGHT = DEFAULT_HEIGHT/5;
     public static final double MIDDLE_ROW_HEIGHT = DEFAULT_HEIGHT - TOOLBAR_HEIGHT - CONSOLE_HEIGHT;
@@ -102,9 +108,9 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton("add-button.png", 25, 10, e -> attributesPane.createNewAgentForm());
+        agentPane.addButton(AGENT_BUTTON_FILE, AGENT_BUTTON_SIZE, AGENT_BUTTON_IMAGE_SIZE, e -> attributesPane.createNewAgentForm());
         for (CloneableAgentView o : agentPane.getAgentList()) {
-            o.setId("img");
+            o.setId(BUTTON_STYLE);
             o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
         }
     }
@@ -124,10 +130,10 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane(context, map, scene, paths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
-        toolbarPane.addButton(toolbarPane.LASSO_IMAGE, e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
-        toolbarPane.addButton(toolbarPane.PEN_IMAGE, e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
-        toolbarPane.addButton(toolbarPane.GRAB_IMAGE, e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
-        toolbarPane.addButton(toolbarPane.DELETE_IMAGE, e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
+        toolbarPane.addButton(context.getString("DeleteFile"), e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", MENU_ITEM_UPLOAD, e -> map.formatBackground());
         toolbarPane.addAction("File", MENU_ITEM_SAVE, e -> context.getGame().saveState(GAME_SAVE_NAME));
@@ -165,7 +171,7 @@ public class AuthoringEnvironment extends Application {
         stage.setMinHeight(DEFAULT_HEIGHT);
         scene.widthProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions((double) newvalue, scene.getHeight()));
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
-        stage.getScene().getStylesheets().add("Midpoint.css");
+        stage.getScene().getStylesheets().add(STYLE);
         stage.show();
     }
 }

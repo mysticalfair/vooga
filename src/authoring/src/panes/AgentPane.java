@@ -31,9 +31,6 @@ public class AgentPane extends AuthoringPane {
     private List<CloneableAgentView> agentList;
     private ImageView trash;
 
-    public static final double WIDTH = AuthoringEnvironment.AGENT_WIDTH;
-    public static final double HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
-
     public AgentPane(AuthoringContext context) {
         super(context);
         initElements();
@@ -51,13 +48,13 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        inventoryContainer.setPrefSize(WIDTH, HEIGHT);
-        inventoryContainer.getStylesheets().add("agent-pane.css");
+        inventoryContainer.setPrefSize(getContext().getDouble("AgentWidth"), getContext().getDouble("MiddleRowHeight"));
+        inventoryContainer.getStylesheets().add(getContext().getString("AgentPaneStyle"));
     }
 
     private void initButtonPane() {
         buttonPane = new HBox();
-        trash = new ImageView(new Image("trash.png"));
+        trash = new ImageView(new Image(getContext().getString("TrashImageFile")));
         trash.setPreserveRatio(true);
         trash.setFitWidth(35);
         trash.setFitHeight(35);
@@ -68,9 +65,9 @@ public class AgentPane extends AuthoringPane {
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setPrefViewportWidth(WIDTH);
-        scrollInventory.setPrefViewportHeight(HEIGHT);
-        scrollInventory.getStyleClass().add("scroll-pane");
+        scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentWidth"));
+        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight"));
+        scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }
 
@@ -82,7 +79,7 @@ public class AgentPane extends AuthoringPane {
         int colIterator = 0;
         agentList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView("monkey.png");
+            CloneableAgentView newAgent = new CloneableAgentView(getContext().getString("MonkeyImageFile"));
             inventory.add(newAgent, colIterator, rowIterator);
             agentList.add(newAgent);
             colIterator++;

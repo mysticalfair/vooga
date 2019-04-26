@@ -1,5 +1,6 @@
 package panes;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -11,9 +12,7 @@ public class Path {
 
     public static final int FIRST_POINT = 0;
     public static final int MINIMUM_SIZE = 1;
-
     public static final List<Double> DASH_ARRAY = List.of(2d, 4d);
-
     public static final Color LINE_COLOR = Color.BLUE;
 
     /**
@@ -23,17 +22,27 @@ public class Path {
      *  Set circle's onMouseClick and onMouseDrag to be like a draggable image
      */
 
-    // TODO: add tool/way for removing path points
-
     private List<PathPoint> points;
     private List<Line> lines;
-    private boolean draggable, removable;
 
     public Path(){
         points = new ArrayList<>();
         lines = new ArrayList<>();
-        draggable = false;
-        removable = false;
+    }
+
+    /**
+     * Use to pass information to game engine
+     * Possibly replace with a simple call to getPoints and translation of this into Point2Ds
+     * TODO: decide method of passing point information to game engine
+     * @return
+     */
+    public List<Point2D> getPathLocations(){
+        var list = new ArrayList<Point2D>();
+        for(PathPoint p: points){
+            var circle = (Circle) p.getPoint();
+            list.add(new Point2D(circle.getCenterX(), circle.getCenterY()));
+        }
+        return list;
     }
 
     public List<Circle> getPoints(){
@@ -44,22 +53,18 @@ public class Path {
         return list;
     }
 
+    public PathPoint getPoint(Circle visual){
+        for(PathPoint point: points){
+            var pointVisual = (Circle) point.getPoint();
+            if(pointVisual == visual){
+                return point;
+            }
+        }
+        return null;
+    }
+
     public List<Line> getLines(){
         return lines;
-    }
-
-    public void toggleDraggable(){
-        draggable = !draggable;
-        for(PathPoint point: points){
-            point.toggleDragMode();
-        }
-    }
-
-    public void toggleRemovable(){
-        removable = !removable;
-        for(PathPoint point: points){
-            point.toggleRemoveMode();
-        }
     }
 
     public Circle addPoint(double x, double y){
@@ -73,16 +78,6 @@ public class Path {
         if(point != null){
             points.remove(point);
         }
-    }
-
-    public PathPoint getPoint(Circle visual){
-        for(PathPoint point: points){
-            var pointVisual = (Circle) point.getPoint();
-            if(pointVisual == visual){
-                return point;
-            }
-        }
-        return null;
     }
 
     public List<Line> updateLines(){

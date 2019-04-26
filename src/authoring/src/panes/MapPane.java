@@ -17,15 +17,6 @@ import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
 
-    public static final double DEFAULT_WIDTH = AuthoringEnvironment.MAP_WIDTH;
-    public static final double DEFAULT_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
-    public static final double MAP_WIDTH = AuthoringEnvironment.MAP_WIDTH - 100;
-    public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
-
-    public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
-    public static final String STYLE = "map-pane.css";
-    public static final String STYLE_ID = "general";
-
     private List<AgentView> agentList;
     private Pane mapPane;
     private StackPane overallPane;
@@ -52,17 +43,17 @@ public class MapPane extends AuthoringPane {
         overallPane = initOverallPane();
 
         mapPane = new Pane();
-        mapPane.setMaxSize(MAP_WIDTH, MAP_HEIGHT);
-        mapPane.setMinSize(MAP_WIDTH, MAP_HEIGHT);
+        mapPane.setMaxSize(getContext().getDouble("InsetMapWidth"), getContext().getDouble("InsetMapHeight"));
+        mapPane.setMinSize(getContext().getDouble("InsetMapWidth"), getContext().getDouble("InsetMapHeight"));
 
         overallPane.getChildren().add(mapPane);
     }
 
     private StackPane initOverallPane(){
         var stack = new StackPane();
-        stack.setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        stack.getStylesheets().add(STYLE);
-        stack.setId(STYLE_ID);
+        stack.setPrefSize(getContext().getDouble("MapWidth"), getContext().getDouble("MiddleRowHeight"));
+        stack.getStylesheets().add(getContext().getString("MapStyle"));
+        stack.setId(getContext().getString("MapStyleId"));
         stack.setAlignment(Pos.CENTER);
         return stack;
     }
@@ -95,7 +86,7 @@ public class MapPane extends AuthoringPane {
      */
     public void removeAgent(AgentView view) {
         agentList.remove(view);
-        System.out.println("Removed: new size is " + agentList.size());
+        //System.out.println("Removed: new size is " + agentList.size());
     }
 
     /**
@@ -144,7 +135,7 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                getContext().getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
+                getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),
                 () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );

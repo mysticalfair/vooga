@@ -24,8 +24,12 @@ public class DraggableAgentView extends AgentView {
      *         ((ImageView)(event.getSource())).setTranslateY(getStartY());
      *     }
      * Resource consulted for draggable images: http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * @author Mary Stuart Elder
+     * @author Mary Stuart Elder and Eric Lin
      */
+
+    private static final double LIGHTING_CONSTANT = 45;
+    private static final String AGENT_REMOVED = "Agent discarded from map. Agent count on map: ";
+    private static final String AGENT_OUT_OF_BOUNDS = "Agent out of bounds: returning to original location";
 
     private double myStartSceneX, myStartSceneY;
     private double myStartXOffset, myStartYOffset;
@@ -70,7 +74,7 @@ public class DraggableAgentView extends AgentView {
         lighting.setSpecularConstant(0.0);
         lighting.setSpecularExponent(0.0);
         lighting.setSurfaceScale(0.0);
-        lighting.setLight(new Light.Distant(45, 45, color));
+        lighting.setLight(new Light.Distant(LIGHTING_CONSTANT, LIGHTING_CONSTANT, color));
         return lighting;
     }
 
@@ -78,12 +82,12 @@ public class DraggableAgentView extends AgentView {
         if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
-            console.displayMessage("Agent discarded from map. Agent count on map: " + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            console.displayMessage(AGENT_REMOVED + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
         } else if (outOfBounds()) {
             setEffect(null);
             setTranslateX(myStartXOffset);
             setTranslateY(myStartYOffset);
-            console.displayMessage("Agent out of bounds: returning to original location", ConsolePane.Level.NEUTRAL);
+            console.displayMessage(AGENT_OUT_OF_BOUNDS, ConsolePane.Level.NEUTRAL);
         }
     }
 

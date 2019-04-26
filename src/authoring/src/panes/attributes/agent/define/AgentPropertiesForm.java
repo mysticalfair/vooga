@@ -13,8 +13,6 @@ import java.util.List;
 
 public class AgentPropertiesForm extends AttributesForm {
 
-    private static final String ADD_BUTTON_IMAGE_FILE = "add-button.png";
-
     private VBox propertiesVBox;
     private List<AgentPropertyLine> propertyLines;
 
@@ -24,7 +22,7 @@ public class AgentPropertiesForm extends AttributesForm {
         GridPane gridPane = new GridPane();
         gridPane.add(new Label(context.getString("Properties")), 0, 0, 3, 1);
         gridPane.add(AuthoringUtil.createSquareImageButton(
-                ADD_BUTTON_IMAGE_FILE, 25, 10,
+                getContext().getString("AddButtonImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"),
                 e -> {
                     AgentPropertyLine p = new AgentPropertyLine(context, null);
                     propertyLines.add(p);

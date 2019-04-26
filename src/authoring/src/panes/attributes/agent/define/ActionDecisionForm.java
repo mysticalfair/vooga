@@ -18,9 +18,6 @@ import java.util.List;
 
 public class ActionDecisionForm extends AttributesForm {
 
-    private static final String ADD_BUTTON_IMAGE_FILE = "add-button.png";
-    private static final String DELETE_BUTTON_IMAGE_FILE = "trash.png";
-
     private Accordion accordion;
 
     public ActionDecisionForm(AuthoringContext context) {
@@ -29,7 +26,7 @@ public class ActionDecisionForm extends AttributesForm {
         GridPane gridPane = new GridPane();
         gridPane.add(new Label(context.getString("ActionDecisions")), 0, 0, 3, 1);
         gridPane.add(AuthoringUtil.createSquareImageButton(
-                ADD_BUTTON_IMAGE_FILE, 25, 10, e -> addActionDecision()),
+                getContext().getString("AddButtonImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> addActionDecision()),
                 4, 0);
         accordion = new Accordion();
         gridPane.add(accordion, 0, 1, 4, 1);
@@ -51,7 +48,7 @@ public class ActionDecisionForm extends AttributesForm {
         Label titleLabel = new Label();
         titleLabel.textProperty().bind(actionDecisionTitledPane.textProperty());
         var deleteButton = AuthoringUtil.createSquareImageButton(
-                DELETE_BUTTON_IMAGE_FILE, 25, 10,
+                getContext().getString("TrashImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"),
                 e -> accordion.getPanes().remove(actionDecisionTitledPane));
         titleHBox.getChildren().addAll(titleLabel, deleteButton);
         actionDecisionTitledPane.setGraphic(titleHBox);

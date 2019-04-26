@@ -11,11 +11,12 @@ import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AgentPropertyLine extends AttributesForm {
 
-    private static final String DELETE_BUTTON_IMAGE_FILE = "trash.png";
+    // TODO: if possible, find alternative to this list
     private static final List<String> DEFAULT_TYPES = List.of("Integer", "Double", "String");
 
     private TextField nameField;
@@ -42,7 +43,7 @@ public class AgentPropertyLine extends AttributesForm {
         if (type == null) {
             return null;
         }
-        if (type.equals("Integer")) {
+        if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("IntIndex")))) {
             try {
                 int value = Integer.parseInt(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -52,7 +53,7 @@ public class AgentPropertyLine extends AttributesForm {
                 return null;
             }
         }
-        else if (type.equals("Double")) {
+        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("DoubleIndex")))) {
             try {
                 double value = Double.parseDouble(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -62,7 +63,7 @@ public class AgentPropertyLine extends AttributesForm {
                 return null;
             }
         }
-        else if (type.equals("String")) {
+        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("StringIndex")))) {
             return getContext().getGameFactory().createProperty(name, valueField.getText());
         }
         return null;
@@ -84,7 +85,7 @@ public class AgentPropertyLine extends AttributesForm {
         propertyHBox.getChildren().add(valueField);
 
         deleteButton = AuthoringUtil.createSquareImageButton(
-                DELETE_BUTTON_IMAGE_FILE, 25, 10, onDelete);
+                getContext().getString("TrashImageFile"), getContext().getInt("ButtonSize"), getContext().getInt("ButtonImageSize"), onDelete);
         propertyHBox.getChildren().add(deleteButton);
 
         getPane().getChildren().add(propertyHBox);

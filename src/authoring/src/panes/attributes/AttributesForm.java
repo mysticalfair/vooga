@@ -14,7 +14,7 @@ public abstract class AttributesForm implements AccessibleContainer {
     public AttributesForm(AuthoringContext context) {
         this.context = context;
         pane = new Pane();
-        pane.getStylesheets().add("attributes-pane.css");
+        pane.getStylesheets().add(getContext().getString("AttributesStyle"));
     }
 
     @Override

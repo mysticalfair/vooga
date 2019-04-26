@@ -11,9 +11,6 @@ import java.util.function.Consumer;
 
 public abstract class AuthoringPane implements IAuthoringPane, AccessibleContainer {
 
-    static final double HANDLE_THICKNESS = 20;
-    static final double HANDLE_ROUNDING_DIAMETER = 20;
-
     private AuthoringContext context;
 
     private Pane container;

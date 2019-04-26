@@ -11,6 +11,7 @@ import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,6 @@ public class MapPane extends AuthoringPane {
         super(context);
         this.console = console;
         selection.set(false);
-        //selection.addListener((observable, oldValue, newValue) -> handleSelection(newValue));
         levelToState = new HashMap<>();
         initPanes();
         getContentChildren().add(overallPane);
@@ -83,7 +83,8 @@ public class MapPane extends AuthoringPane {
 
     private void releaseMultiple() {
         MapState currentLevel = levelToState.get(level);
-        for (DraggableAgentView agent: currentLevel.getAgents()) {
+        List<DraggableAgentView> agentsCopy = new ArrayList<>(currentLevel.getAgents());
+        for (DraggableAgentView agent : agentsCopy) {
             if (agent.getSelect()) {
                 agent.mouseReleased(this, console);
             }
@@ -104,7 +105,7 @@ public class MapPane extends AuthoringPane {
 
     private StackPane initOverallPane(){
         var stack = new StackPane();
-        stack.setPrefSize(getContext().getDouble("MapWidth"), getContext().getDouble("MiddleRowHeight"));
+        stack.setPrefSize(getContext().getDouble("MapWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         stack.getStylesheets().add(getContext().getString("MapStyle"));
         stack.setId(getContext().getString("MapStyleId"));
         stack.setAlignment(Pos.CENTER);

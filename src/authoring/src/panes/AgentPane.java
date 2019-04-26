@@ -48,7 +48,7 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        inventoryContainer.setPrefSize(getContext().getDouble("AgentWidth"), getContext().getDouble("MiddleRowHeight"));
+        inventoryContainer.setPrefSize(getContext().getDouble("AgentWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         inventoryContainer.getStylesheets().add(getContext().getString("AgentPaneStyle"));
     }
 
@@ -66,7 +66,7 @@ public class AgentPane extends AuthoringPane {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentWidth"));
-        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight"));
+        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }

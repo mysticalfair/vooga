@@ -125,7 +125,6 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> context.getGame().saveState(context.getString("GameSaveName")));
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
-
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) newValue)));
     }
 
@@ -134,6 +133,7 @@ public class AuthoringEnvironment extends Application {
         if (!map.getStateMapping().containsKey(newValue)) {
             map.getMapPane().getChildren().clear();
             map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
+            map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
         } else {
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);
@@ -142,9 +142,9 @@ public class AuthoringEnvironment extends Application {
 
     private void updateDimensions(double width, double height){
         var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentWidth");
-        var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarHeight");
+        var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarPaneHeight") - context.getDouble("MiddleRowPadding");
         consolePane.updateSize(width, context.getDouble("ConsoleHeight"));
-        toolbarPane.updateSize(width, context.getDouble("ToolbarHeight"));
+        toolbarPane.updateSize(width, context.getDouble("ToolbarPaneHeight"));
         map.updateSize(middleWidth, middleHeight);
         attributesPane.updateSize(context.getDouble("AttributesWidth"), middleHeight);
         agentPane.updateSize(context.getDouble("AgentWidth"), middleHeight);

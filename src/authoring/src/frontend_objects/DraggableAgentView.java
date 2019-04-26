@@ -1,6 +1,5 @@
 package frontend_objects;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;

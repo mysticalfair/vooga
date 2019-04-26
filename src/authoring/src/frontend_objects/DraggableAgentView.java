@@ -1,13 +1,10 @@
 package frontend_objects;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import panes.AgentPane;
 import panes.ConsolePane;
 import panes.MapPane;
 import util.AuthoringContext;
@@ -30,32 +27,33 @@ public class DraggableAgentView extends AgentView {
 
     private double myStartSceneX, myStartSceneY;
     private double myStartXOffset, myStartYOffset;
+    private boolean selected;
 
     public DraggableAgentView(AuthoringContext authoringContext, CloneableAgentView agent) {
         super(authoringContext, agent.getUrl());
+        selected = false;
     }
 
-    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
+    void setMouseActionsForDrag(MapPane map, ConsolePane console) {
         this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
         this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
         this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));
     }
 
-    private void mousePressed(MouseEvent event) {
+    public void mousePressed(MouseEvent event) {
         myStartSceneX = event.getSceneX();
         myStartSceneY = event.getSceneY();
-        myStartXOffset = ((DraggableAgentView)(event.getSource())).getTranslateX();
-        myStartYOffset = ((DraggableAgentView)(event.getSource())).getTranslateY();
-
+        myStartXOffset = getTranslateX();
+        myStartYOffset = getTranslateY();
     }
 
-    private void mouseDragged(MouseEvent event, MapPane map) {
+    public void mouseDragged(MouseEvent event, MapPane map) {
         double offsetX = event.getSceneX() - myStartSceneX;
         double offsetY = event.getSceneY() - myStartSceneY;
         double newTranslateX = myStartXOffset + offsetX;
         double newTranslateY = myStartYOffset + offsetY;
-        ((DraggableAgentView)(event.getSource())).setTranslateX(newTranslateX);
-        ((DraggableAgentView)(event.getSource())).setTranslateY(newTranslateY);
+        setTranslateX(newTranslateX);
+        setTranslateY(newTranslateY);
         if (trashIntersect(map)) {
             setEffect(setLighting(Color.RED));
         } else if (outOfBounds()) {
@@ -75,7 +73,7 @@ public class DraggableAgentView extends AgentView {
         return lighting;
     }
 
-    private void mouseReleased(MapPane map, ConsolePane console) {
+    public void mouseReleased(MapPane map, ConsolePane console) {
         if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
@@ -114,6 +112,23 @@ public class DraggableAgentView extends AgentView {
         boolean topOutOfBounds = yPos < 0;
         boolean rightOutOfBounds =  xPosRight > getContext().getDouble("InsetMapWidth") + (map.getPaneWidth() - getContext().getDouble("InsetMapWidth"))/2;
         return topOutOfBounds && rightOutOfBounds;
+    }
+
+    private void setImageOpacity(){
+        // Translucent if selected
+        var opacity = 0.3;
+        int selectAddition = selected ? 0 : 1;
+        var select = 0.7*selectAddition + opacity;
+        this.setStyle("-fx-opacity: " + select + ";");
+    }
+
+    public void setSelect(boolean select){
+        selected = select;
+        setImageOpacity();
+    }
+
+    public boolean getSelect() {
+        return selected;
     }
 
 }

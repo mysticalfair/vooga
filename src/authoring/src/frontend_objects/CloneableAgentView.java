@@ -7,9 +7,6 @@ import util.AuthoringContext;
 
 public class CloneableAgentView extends AgentView {
 
-    //private static final String AGENT_ADDED = "Agent added to map. Agent count on map: ";
-    //private static final int CLONE_CLICK_COUNT = 2;
-
     private DraggableAgentView draggableCopy;
     private String url;
 

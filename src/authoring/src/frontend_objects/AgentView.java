@@ -4,6 +4,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
 import util.AuthoringContext;
 
+import java.util.AbstractMap;
+import java.util.SimpleTimeZone;
+
 public class AgentView extends ImageView {
 
     /**
@@ -11,31 +14,30 @@ public class AgentView extends ImageView {
      * @author Mary Stuart Elder and Eric Lin
      */
 
-    public static final int SIZE = 60;
-    public static final double TRANSLUCENT = 0.3;
-
     private SimpleBooleanProperty selected = new SimpleBooleanProperty();
     private AuthoringContext context;
 
     public AgentView(AuthoringContext authoringContext){
         super();
-        this.setFitWidth(SIZE);
-        this.setFitHeight(SIZE);
+        this.setFitWidth(getContext().getDouble("AgentSize"));
+        this.setFitHeight(getContext().getDouble("AgentSize"));
         selected.set(false);
-        context = authoringContext;
+        this.context = authoringContext;
+        selected.addListener((observable, oldValue, newValue) -> {
+        });
     }
 
     public AgentView(AuthoringContext authoringContext, String url) {
         super(url);
-        this.setFitWidth(SIZE);
-        this.setFitHeight(SIZE);
-        context = authoringContext;
+        this.context = authoringContext;
+        this.setFitWidth(getContext().getDouble("AgentSize"));
+        this.setFitHeight(getContext().getDouble("AgentSize"));
     }
 
-    protected AuthoringContext getContext(){
+    protected AuthoringContext getContext() {
         return context;
     }
-
+/*
     private void setImageOpacity(){
         // Translucent if selected
         var opacity = TRANSLUCENT;
@@ -48,4 +50,6 @@ public class AgentView extends ImageView {
         selected.set(select);
         setImageOpacity();
     }
+    */
+
 }

@@ -12,7 +12,7 @@ import state.attribute.Attribute;
 import java.util.List;
 
 /**
- * @author: Mary Gooneratne, Joanna Li
+ * @author: Joanna Li
  * Game scene pane displaying player Attributes (e.g. money, health)
  */
 
@@ -26,6 +26,7 @@ public class AttributePane extends VBox {
    //Starts with 0 now but will update when Listeners are added
    private LongProperty score = new SimpleLongProperty(0);
    private LongProperty money = new SimpleLongProperty(0);
+   private HBox box = new HBox();
 
    private int health;
 
@@ -34,9 +35,12 @@ public class AttributePane extends VBox {
       this.healthBar = new HealthBar();
       this.getStyleClass().add(ATTRIBUTE_STYLE);
       this.setHealth(INIT_ATTRIBUTE);
+      box.setSpacing(50);
+      box.setLayoutX(50);
+      box.setLayoutY(this.getLayoutY());
       //scoreText.textProperty().bind(Bindings.createStringBinding(() -> ("Current: " + score.get())));
       //moneyText.textProperty().bind(Bindings.createStringBinding(() -> ("Money: " + money.get())));
-      this.getChildren().addAll(this.healthBar);
+      this.getChildren().addAll(this.healthBar, box);
    }
 
 
@@ -46,7 +50,9 @@ public class AttributePane extends VBox {
 
    public void addAttribute(AttributeView attribute){
 
-      this.getChildren().add(attribute);
+     box.getChildren().add(attribute);
+
+
    }
 
    public void addAttributes(List<AttributeView> attributes){

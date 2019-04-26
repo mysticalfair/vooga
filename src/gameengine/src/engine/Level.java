@@ -67,6 +67,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     @Override
     public void addAgent(IAgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);
+        System.out.println("***************TRIED TO ADD AN AGENT ************");
     }
 
     public void step(double deltaTime) {

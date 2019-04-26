@@ -1,6 +1,10 @@
 package Controllers;
 
 import Panes.AttributePane;
+/**
+ * Attribute controller
+ * @author Joanna Li
+ */
 import javafx.beans.property.LongProperty;
 import javafx.scene.layout.Pane;
 import state.attribute.Attribute;

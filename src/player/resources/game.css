@@ -19,7 +19,9 @@
     -fx-background-color: transparent;
 }
 
-.attribute-pane {}
+.attribute-pane {
+
+}
 
 .store-button {
     -fx-graphic: url('themes/forest/buttons/store-button.png')

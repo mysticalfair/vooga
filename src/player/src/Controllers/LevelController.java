@@ -25,6 +25,7 @@ public class LevelController implements PropertyChangeListener {
       this.mapController = new MapController(state.getImmutableAgents());
       this.attributeController = new AttributeController(state.getImmutableAttributes());
       this.storeController = new StoreController(state.getImmutableOptions());
+      state.addPropertyChangeListener(this);
    }
 
    public MapPane getMapPane(){

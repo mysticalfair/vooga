@@ -25,7 +25,7 @@ public class PathPenTool extends PathTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var circle = currentPath.addPoint(event.getX() + getContext().getInt("CursorXAdjustment"), event.getY() + getContext().getInt("CursorYAdjustment"));
+        var circle = currentPath.addPoint(event.getX(), event.getY());
         map.spawnShape(circle);
         updatePathLines(currentPath);
     }
@@ -33,7 +33,7 @@ public class PathPenTool extends PathTool{
     @Override
     protected void enableTool() {
         var pen = new Image(getContext().getString("PenFile"));
-        ImageCursor penCursor = new ImageCursor(pen, pen.getWidth() / 2, pen.getWidth()/2);
+        ImageCursor penCursor = new ImageCursor(pen, 0, 0);
         scene.setCursor(penCursor);
         currentPath = new Path();
         addPath(currentPath);

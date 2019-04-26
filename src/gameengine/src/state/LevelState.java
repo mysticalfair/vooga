@@ -8,6 +8,7 @@ import state.objective.IPlayerObjective;
 import state.objective.Objective;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +18,20 @@ import java.util.List;
  * @author David Miron
  * @Author:Luke_Truitt
  */
-public class LevelState implements Serializable {
+public class LevelState implements Serializable, IPlayerLevelState {
 
     private List<Agent> placeableAgents;
     private List<Agent> agentsCurrent;
     private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private PropertyChangeSupport pcs;
     public LevelState() {
         this.placeableAgents = new ArrayList<>();
         this.agentsCurrent = new ArrayList<>();
         this.objectivesCurrent = new ArrayList<>();
         this.attributesCurrent = new ArrayList<>();
+        this.pcs =  new PropertyChangeSupport(this);
     }
 
     /**
@@ -57,7 +60,9 @@ public class LevelState implements Serializable {
     }
 
     public void addCurrentAgent(Agent agent) {
+        var oldAgents = this.agentsCurrent;
         agentsCurrent.add(agent);
+        this.pcs.firePropertyChange("AddAgent", oldAgents, agentsCurrent);
     }
 
     public List<Objective> getObjectives() {
@@ -84,7 +89,9 @@ public class LevelState implements Serializable {
      * For Author
      */
     public void placeAgent(Agent agent) {
+        var agentsOld = this.agentsCurrent;
         this.agentsCurrent.add(agent);
+        this.pcs.firePropertyChange("CurrentAgent", agentsOld, this.agentsCurrent);
     }
     public void defineObjective(Objective objective) {
         this.objectivesCurrent.add(objective);
@@ -96,18 +103,23 @@ public class LevelState implements Serializable {
     /*
      * For Player - Iterate through and update your copy based on the corresponding ID.
      */
-    public Iterable<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.placeableAgents); }
+    public List<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.placeableAgents); }
 
-    public Iterable<IPlayerAgent> getImmutableAgents() {
+    public List<IPlayerAgent> getImmutableAgents() {
         return List.copyOf(this.agentsCurrent);
     }
 
-    public Iterable<IPlayerObjective> getImmutableObjectives() {
+    public List<IPlayerObjective> getImmutableObjectives() {
         return List.copyOf(this.objectivesCurrent);
     }
 
-    public Iterable<IPlayerAttribute> getImmutableAttributes() {
+    public List<IPlayerAttribute> getImmutableAttributes() {
         return List.copyOf(this.attributesCurrent);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
     }
 
     public void removeAgent(Agent agent) {

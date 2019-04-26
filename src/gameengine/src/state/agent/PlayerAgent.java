@@ -124,6 +124,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
+        System.out.println("it's a listener");
     }
 
     @Override

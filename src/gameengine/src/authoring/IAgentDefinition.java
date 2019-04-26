@@ -8,10 +8,10 @@ import java.util.List;
  */
 public interface IAgentDefinition {
 
-    int getX();
+    double getX();
     void setX(int x);
 
-    int getY();
+    double getY();
     void setY(int y);
 
     int getWidth();

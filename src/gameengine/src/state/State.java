@@ -5,6 +5,7 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.agent.Agent;
+import state.attribute.Attribute;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class State implements IStateDefinition, Serializable {
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
+    private List<Agent> agentsCurrent;
+    private List<Agent> agentsOptions;
+    private List<Attribute> attributes;
 
     private List<Agent> definedAgents;
 
@@ -83,9 +87,18 @@ public class State implements IStateDefinition, Serializable {
         }
     }
 
-    public void step(double deltaTime){
+    public void step(double deltaTime) {
         // TODO: check "general" objectives (e.g. level change, game over, victory)
         levels.get(currentLevel).step(deltaTime);
     }
 
+    public IPlayerLevelState getLevelState(){
+        return this.levels.get(currentLevel).getLevelState();
+    }
+
+    public void initializeLevelAgents() {
+        for (Level level: levels) {
+            level.initializeAgents();
+        }
+    }
 }

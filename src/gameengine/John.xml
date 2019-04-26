@@ -57,7 +57,7 @@
                                 </entry>
                                 <entry>
                                   <string>speed</string>
-                                  <int>10</int>
+                                  <int>100</int>
                                 </entry>
                               </params>
                               <name>MoveAtRelativeAngle</name>
@@ -163,7 +163,7 @@
                   <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
                   <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
                   <name>MoveAtRelativeAngle</name>
-                  <speed>10</speed>
+                  <speed>100</speed>
                   <baseAgent reference="../../../.."/>
                   <angle>0.0</angle>
                 </action>

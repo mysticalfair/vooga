@@ -26,13 +26,13 @@ public class MapController{
       AgentView agentView = new AgentView(playerAgent);
       this.agentViews.add(agentView);
       this.mapPane.addAgent(agentView);
+      System.out.println("Adding agent in map controller, length: " + this.agentViews.size());
    }
 
    public void addAgents(List<IPlayerAgent> playerAgents){
       for(IPlayerAgent playerAgent: playerAgents){
          this.addAgent(playerAgent);
       }
-      System.out.println("********************CHANGING LENGTH " + this.agentViews.size() + "***************************");
    }
 
    public void clearAgents(){

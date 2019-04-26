@@ -1,3 +1,4 @@
+import Attribute.AttributeView;
 import Controllers.LevelController;
 import Panes.AttributePane;
 import Panes.MapPane;
@@ -9,6 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import state.IPlayerLevelState;
+import state.attribute.IPlayerAttribute;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level extends Scene {
    private static int WIDTH = 600;
@@ -29,6 +34,8 @@ public class Level extends Scene {
 
    private LevelController levelController;
 
+   private List<AttributeView> attributes;
+
    public Level(IPlayerLevelState levelState){
       super(new BorderPane(), HEIGHT, WIDTH);
       this.setRoot();
@@ -39,6 +46,11 @@ public class Level extends Scene {
       this.initializeButtons();
       this.initializePanes();
       this.setStyles();
+
+      this.attributes = new ArrayList<>();
+      for(IPlayerAttribute attribute : levelState.getImmutableAttributes()) {
+         this.attributes.add(new AttributeView(attribute));
+      }
    }
 
    private void setRoot(){

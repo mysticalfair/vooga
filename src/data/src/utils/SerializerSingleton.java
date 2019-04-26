@@ -9,17 +9,21 @@ import utils.serializers.XStreamSerializer;
  */
 public class SerializerSingleton {
 
-    private static XStreamSerializer xStreamSerializer;
+    private static Serializer serializer;
 
-    public static Serializer getXMLInstance() {
-        if (xStreamSerializer == null) {
+    /**
+     * Get the singleton Serializer instance that exists, or create one if there is none.
+     * @return
+     */
+    public static Serializer getInstance() {
+        if (serializer == null) {
             buildXMLInstance();
         }
-        return xStreamSerializer;
+        return serializer;
     }
 
     private static void buildXMLInstance() {
-        xStreamSerializer = new XStreamSerializer();
+        serializer = new XStreamSerializer();
     }
 
 }

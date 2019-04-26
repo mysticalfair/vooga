@@ -2,182 +2,8 @@
   <levels>
     <engine.Level>
       <levelState>
-        <agentsOptions/>
-        <agentsCurrent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.movement.MoveAtRelativeAngle">
-                  <eventMaster>
-                    <removeAgentListeners>
-                      <java.util.function.Consumer resolves-to="serialized-lambda">
-                        <capturingClass>engine.Level</capturingClass>
-                        <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
-                        <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
-                        <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
-                        <implClass>engine/Level</implClass>
-                        <implMethodName>lambda$injectGameEventMaster$5384b112$1</implMethodName>
-                        <implMethodSignature>(Lengine/event/events/RemoveAgentEvent;)V</implMethodSignature>
-                        <implMethodKind>7</implMethodKind>
-                        <instantiatedMethodType>(Lengine/event/events/RemoveAgentEvent;)V</instantiatedMethodType>
-                        <capturedArgs>
-                          <engine.Level reference="../../../../../../../../../../.."/>
-                        </capturedArgs>
-                      </java.util.function.Consumer>
-                    </removeAgentListeners>
-                    <addAgentListeners>
-                      <java.util.function.Consumer resolves-to="serialized-lambda">
-                        <capturingClass>engine.Level</capturingClass>
-                        <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
-                        <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
-                        <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
-                        <implClass>engine/Level</implClass>
-                        <implMethodName>lambda$injectGameEventMaster$5384b112$2</implMethodName>
-                        <implMethodSignature>(Lengine/event/events/AddAgentEvent;)V</implMethodSignature>
-                        <implMethodKind>7</implMethodKind>
-                        <instantiatedMethodType>(Lengine/event/events/AddAgentEvent;)V</instantiatedMethodType>
-                        <capturedArgs>
-                          <engine.Level reference="../../../../../../../../../../.."/>
-                        </capturedArgs>
-                      </java.util.function.Consumer>
-                    </addAgentListeners>
-                  </eventMaster>
-                  <params>
-                    <entry>
-                      <string>angle</string>
-                      <double>0.0</double>
-                    </entry>
-                    <entry>
-                      <string>speed</string>
-                      <int>20</int>
-                    </entry>
-                  </params>
-                  <name>MoveAtRelativeAngle</name>
-                  <speed>20</speed>
-                  <baseAgent reference="../../../.."/>
-                  <angle>0.0</angle>
-                </action>
-                <conditions>
-                  <state.condition.DoOnceCondition>
-                    <name>DoOnce</name>
-                    <params/>
-                  </state.condition.DoOnceCondition>
-                </conditions>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>0</id>
-              <x>200.0</x>
-              <y>200.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>projectile</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.Agent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </state.agent.Agent>
-          <state.agent.Agent>
-            <actionDecisions>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.Spin">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params>
-                    <entry>
-                      <string>angularSpeed</string>
-                      <double>90.0</double>
-                    </entry>
-                  </params>
-                  <name>Spin</name>
-                  <baseAgent reference="../../../.."/>
-                  <angularSpeed>90.0</angularSpeed>
-                </action>
-                <conditions>
-                  <state.condition.DoOnceCondition>
-                    <name>DoOnce</name>
-                    <params/>
-                  </state.condition.DoOnceCondition>
-                </conditions>
-              </state.actiondecision.ActionDecision>
-              <state.actiondecision.ActionDecision>
-                <action class="state.action.spawn.SpawnAgentInitialDirection">
-                  <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
-                  <params>
-                    <entry>
-                      <string>agent</string>
-                      <state.agent.Agent reference="../../../../../../../state.agent.Agent"/>
-                    </entry>
-                  </params>
-                  <name>SpawnAgentInitialDirection</name>
-                  <spawnAgent reference="../../../../../state.agent.Agent"/>
-                  <baseAgent reference="../../../.."/>
-                </action>
-                <conditions>
-                  <state.condition.IntervalCondition>
-                    <name>Interval</name>
-                    <params>
-                      <entry>
-                        <string>interval</string>
-                        <double>1.0</double>
-                      </entry>
-                    </params>
-                    <intervalMillis>1000.0</intervalMillis>
-                    <lastOccurrence>0</lastOccurrence>
-                  </state.condition.IntervalCondition>
-                  <state.condition.DoOnceCondition>
-                    <name>DoOnce</name>
-                    <params reference="../../state.condition.IntervalCondition/params"/>
-                  </state.condition.DoOnceCondition>
-                </conditions>
-              </state.actiondecision.ActionDecision>
-            </actionDecisions>
-            <playerAgent>
-              <id>1</id>
-              <x>200.0</x>
-              <y>200.0</y>
-              <imageURL>zombie.gif</imageURL>
-              <name>tower</name>
-              <direction>0.0</direction>
-              <width>10</width>
-              <height>10</height>
-              <pcs serialization="custom">
-                <java.beans.PropertyChangeSupport>
-                  <default>
-                    <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                    <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                  </default>
-                  <null/>
-                </java.beans.PropertyChangeSupport>
-              </pcs>
-            </playerAgent>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.Agent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </state.agent.Agent>
-        </agentsCurrent>
+        <placeableAgents/>
+        <agentsCurrent/>
         <objectivesCurrent/>
         <attributesCurrent/>
         <pcs serialization="custom">
@@ -190,10 +16,228 @@
           </java.beans.PropertyChangeSupport>
         </pcs>
       </levelState>
-      <eventMaster reference="../levelState/agentsCurrent/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+      <eventMaster>
+        <removeAgentListeners>
+          <java.util.function.Consumer resolves-to="serialized-lambda">
+            <capturingClass>engine.Level</capturingClass>
+            <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
+            <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
+            <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
+            <implClass>engine/Level</implClass>
+            <implMethodName>lambda$injectGameEventMaster$5384b112$1</implMethodName>
+            <implMethodSignature>(Lengine/event/events/RemoveAgentEvent;)V</implMethodSignature>
+            <implMethodKind>7</implMethodKind>
+            <instantiatedMethodType>(Lengine/event/events/RemoveAgentEvent;)V</instantiatedMethodType>
+            <capturedArgs>
+              <engine.Level reference="../../../../.."/>
+            </capturedArgs>
+          </java.util.function.Consumer>
+        </removeAgentListeners>
+        <addAgentListeners>
+          <java.util.function.Consumer resolves-to="serialized-lambda">
+            <capturingClass>engine.Level</capturingClass>
+            <functionalInterfaceClass>java/util/function/Consumer</functionalInterfaceClass>
+            <functionalInterfaceMethodName>accept</functionalInterfaceMethodName>
+            <functionalInterfaceMethodSignature>(Ljava/lang/Object;)V</functionalInterfaceMethodSignature>
+            <implClass>engine/Level</implClass>
+            <implMethodName>lambda$injectGameEventMaster$5384b112$2</implMethodName>
+            <implMethodSignature>(Lengine/event/events/AddAgentEvent;)V</implMethodSignature>
+            <implMethodKind>7</implMethodKind>
+            <instantiatedMethodType>(Lengine/event/events/AddAgentEvent;)V</instantiatedMethodType>
+            <capturedArgs>
+              <engine.Level reference="../../../../.."/>
+            </capturedArgs>
+          </java.util.function.Consumer>
+        </addAgentListeners>
+      </eventMaster>
       <agentsToAdd/>
       <agentsToRemove/>
+      <authoringAgentsPlaced>
+        <state.AgentReference>
+          <name>tower</name>
+          <x>50.0</x>
+          <y>50.0</y>
+          <direction>0.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>250.0</x>
+          <y>50.0</y>
+          <direction>0.0</direction>
+        </state.AgentReference>
+      </authoringAgentsPlaced>
+      <authoringPlaceableAgents/>
+      <masterDefinedAgents>
+        <state.agent.Agent>
+          <actionDecisions>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.spawn.SpawnAgentInitialDirection">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params>
+                  <entry>
+                    <string>agent</string>
+                    <state.agent.Agent>
+                      <actionDecisions>
+                        <state.actiondecision.ActionDecision>
+                          <action class="state.action.movement.MoveAtRelativeAngle">
+                            <eventMaster reference="../../../../../../../../../../../../eventMaster"/>
+                            <params>
+                              <entry>
+                                <string>angle</string>
+                                <double>0.0</double>
+                              </entry>
+                              <entry>
+                                <string>speed</string>
+                                <int>100</int>
+                              </entry>
+                            </params>
+                            <name>MoveAtRelativeAngle</name>
+                            <speed>20</speed>
+                            <baseAgent reference="../../../.."/>
+                            <angle>0.0</angle>
+                          </action>
+                          <conditions>
+                            <state.condition.DoOnceCondition>
+                              <name>DoOnce</name>
+                              <params/>
+                            </state.condition.DoOnceCondition>
+                          </conditions>
+                        </state.actiondecision.ActionDecision>
+                      </actionDecisions>
+                      <playerAgent>
+                        <id>0</id>
+                        <x>500.0</x>
+                        <y>500.0</y>
+                        <imageURL>pea.gif</imageURL>
+                        <name>projectile</name>
+                        <direction>0.0</direction>
+                        <width>10</width>
+                        <height>10</height>
+                        <pcs serialization="custom">
+                          <java.beans.PropertyChangeSupport>
+                            <default>
+                              <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                            </default>
+                            <null/>
+                          </java.beans.PropertyChangeSupport>
+                        </pcs>
+                      </playerAgent>
+                      <pcs serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="state.agent.Agent" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </pcs>
+                    </state.agent.Agent>
+                  </entry>
+                </params>
+                <name>SpawnAgentInitialDirection</name>
+                <spawnAgent reference="../params/entry/state.agent.Agent"/>
+                <baseAgent reference="../../../.."/>
+              </action>
+              <conditions>
+                <state.condition.DoOnceCondition>
+                  <name>DoOnce</name>
+                  <params>
+                    <entry>
+                      <string>interval</string>
+                      <double>5.0</double>
+                    </entry>
+                  </params>
+                </state.condition.DoOnceCondition>
+                <state.condition.IntervalCondition>
+                  <name>Interval</name>
+                  <params reference="../../state.condition.DoOnceCondition/params"/>
+                  <intervalMillis>5000.0</intervalMillis>
+                  <lastOccurrence>0</lastOccurrence>
+                </state.condition.IntervalCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+          </actionDecisions>
+          <playerAgent>
+            <id>1</id>
+            <x>50.0</x>
+            <y>50.0</y>
+            <imageURL>peashooter.gif</imageURL>
+            <name>tower</name>
+            <direction>0.0</direction>
+            <width>30</width>
+            <height>30</height>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
+          </playerAgent>
+          <pcs serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="state.agent.Agent" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </pcs>
+        </state.agent.Agent>
+        <state.agent.Agent>
+          <actionDecisions>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.movement.MoveAtRelativeAngle">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                <name>MoveAtRelativeAngle</name>
+                <speed>100</speed>
+                <baseAgent reference="../../../.."/>
+                <angle>0.0</angle>
+              </action>
+              <conditions>
+                <state.condition.DoOnceCondition>
+                  <name>DoOnce</name>
+                  <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                </state.condition.DoOnceCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+          </actionDecisions>
+          <playerAgent>
+            <id>2</id>
+            <x>250.0</x>
+            <y>50.0</y>
+            <imageURL>zombie.gif</imageURL>
+            <name>zombie</name>
+            <direction>180.0</direction>
+            <width>30</width>
+            <height>30</height>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
+          </playerAgent>
+          <pcs serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="state.agent.Agent" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </pcs>
+        </state.agent.Agent>
+      </masterDefinedAgents>
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>
+  <definedAgents reference="../levels/engine.Level/masterDefinedAgents"/>
 </state.State>

@@ -25,7 +25,7 @@ import java.util.List;
  * @author David Miron
  * @author Jamie Palka
  */
-public class Game implements IGameDefinition {
+public class Game implements IGameDefinition, IPlayerGame {
 
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
@@ -40,12 +40,11 @@ public class Game implements IGameDefinition {
 
     /**
      * Once called, begins continually running the game until stop() is called on it.
-     * @param gameFile String containing file path of the stored game
      */
-    public void run(String gameFile) {
+    @Deprecated
+    public void run() {
         runFlag = true;
-
-//        startup(gameFile);
+        // TODO: throw exception if state not initialized?
         double nextTime = System.nanoTime() / nanoTrans;
 
         while(runFlag) {
@@ -58,43 +57,22 @@ public class Game implements IGameDefinition {
                 nextTime += DELTA_TIME;
                 state.step(DELTA_TIME);
             }
-
-//            else{
-//                 // TODO: may change according to how game engine interacts with player
-//                 // must convert from seconds to milliseconds
-//                int sleepTime = 1000 * (int)(nextTime - currentTime);
-//                // game loop should stop until it is time to update again
-//                try {
-//                    Thread.sleep(sleepTime);
-//                } catch (InterruptedException e) {
-//                     // TODO: handle this exception
-//                }
-//            }
         }
     }
 
-//    public IPlayerLevelState getInitial(){
-//        LevelState test = new LevelState();
-//        List<ActionDecision> def = new ArrayList<>();
-//        List<Property> props = new ArrayList<>();
-//        Agent agentOrange = new Agent(0, 100,0,10,10,10,"Jamal", "This Image", def, props);
-//        test.placeAgent(agentOrange);
-//        Level level = new Level(test);
-//        this.state.addLevel(level);
-//        return test;
-//    }
-
+    @Override
     public IPlayerLevelState getLevelState(){
         return this.state.getLevelState();
     }
-    public void startup(String gameFileLocation) {
-        loadState(gameFileLocation);
-        // TODO: What else must be initialized at startup? If nothing, then delete startup
-    }
 
-    private void loadState(String gameFileLocation){
+    /**
+     * @param gameFileLocation String containing file path of the stored game
+     */
+    @Override
+    public void loadState(String gameFileLocation){
         try {
             state = (State) serializer.load(new File(gameFileLocation));
+            state.initializeLevelAgents();
         } catch (SerializationException | IOException e) {
             // TODO: Deal with Exceptions by letting player know invalid file was chosen.
             e.printStackTrace();
@@ -106,13 +84,12 @@ public class Game implements IGameDefinition {
         this.state = (State)state;
     }
 
+    @Override
     public void step() {
         this.state.step(DELTA_TIME);
     }
-    /**
-     *
-     * @param saveName
-     */
+
+    @Override
     public void saveState(String saveName){
         try {
             serializer.save(state, new File(saveName));
@@ -122,10 +99,7 @@ public class Game implements IGameDefinition {
         }
     }
 
-    public void registerPlayer(/* Should probably accept a player somehow*/){
-
-    }
-
+    @Override
     public void stop(){
         runFlag = false;
     }

@@ -8,7 +8,6 @@ import state.agent.IPlayerAgent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class LevelController implements PropertyChangeListener {
    MapController mapController;
@@ -25,6 +24,7 @@ public class LevelController implements PropertyChangeListener {
       this.mapController = new MapController(state.getImmutableAgents());
       this.attributeController = new AttributeController(state.getImmutableAttributes());
       this.storeController = new StoreController(state.getImmutableOptions());
+      state.addPropertyChangeListener(this);
    }
 
    public MapPane getMapPane(){
@@ -40,10 +40,10 @@ public class LevelController implements PropertyChangeListener {
    }
 
    public void propertyChange(PropertyChangeEvent e){
-      if(e.getPropertyName().equals("CurrentAgent")){
-         System.out.println("adding new agents BABYYYY");
-         this.mapController.clearAgents();
-         this.mapController.addAgents((List<IPlayerAgent>)(e.getNewValue()));
+      System.out.println("property change triggered");
+      if(e.getPropertyName().equals("Add Agent")){
+         System.out.println("Adding front end agent");
+         this.mapController.addAgent((IPlayerAgent)(e.getNewValue()));
       }
    }
 }

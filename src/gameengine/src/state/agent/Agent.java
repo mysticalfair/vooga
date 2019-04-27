@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
+public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable{
 
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
@@ -31,7 +31,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param id agent ID
      * @param x,y initial location
      */
-
     public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
@@ -39,6 +38,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         setProperties((List<Property>)properties);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
         pcs = new PropertyChangeSupport(this);
+    }
+
+    public PlayerAgent getPlayerAgent(){
+        return this.playerAgent;
     }
 
     private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
@@ -142,6 +145,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         clonedAgent.playerAgent = playerAgent.clone();
         // clone conditions and actions within ActionDecisions (without cloning the event handler)
         List<ActionDecision> newActionDecisions = new ArrayList<>();
+        clonedAgent.pcs = new PropertyChangeSupport(clonedAgent);
         for(ActionDecision ad : actionDecisions){
             newActionDecisions.add(ad.clone(clonedAgent));
         }

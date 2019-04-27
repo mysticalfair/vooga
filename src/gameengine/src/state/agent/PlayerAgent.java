@@ -31,6 +31,11 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         this.imageURL = imageURL;
         this.name = name;
         pcs = new PropertyChangeSupport(this);
+        System.out.println(" A NEW PLAYER AGENT IS CREATED");
+    }
+
+    public PropertyChangeSupport getPcs() {
+        return pcs;
     }
 
     public double getX() {
@@ -73,6 +78,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     public void setX(double x){
         var oldX = this.x;
         this.x = x;
+        System.out.println(this + " CHANGED IN PROPERTIES AND IT'S GOING TO " + pcs.getPropertyChangeListeners());
         pcs.firePropertyChange("x", oldX, x);
     }
 
@@ -100,9 +106,9 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         pcs.firePropertyChange("direction", oldDir, direction);
     }
 
-    @Deprecated
+   @Deprecated
     public void setProperty(String name, Object value) {
-
+       System.out.println("DEPRECATED CALLED");
         for(Property property : this.properties) {
             if(property.getName().equals(name)) {
                 var oldVal = property.getValue();
@@ -113,6 +119,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     }
 
     public void setProperty(Property newProperty){
+        System.out.println("UNDEPRECATED CALLED");
         for(Property p : this.properties) {
             if(p.getName().equals(newProperty.getName())) {
                 var oldVal = p.getValue();
@@ -124,12 +131,12 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
-        System.out.println("it's a listener");
     }
 
     @Override
     public PlayerAgent clone() throws CloneNotSupportedException {
         PlayerAgent clone = (PlayerAgent) super.clone();
+        clone.pcs = new PropertyChangeSupport(clone);
         return clone;
     }
 }

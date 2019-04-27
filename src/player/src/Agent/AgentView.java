@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 
 /**
  * @author: Mary Gooneratne
+ * @author:Luke_Truitt
  * Frontend object for Agents
  */
 public class AgentView extends ImageView implements PropertyChangeListener {
@@ -16,13 +17,16 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    private static String AGENT_STYLE = "demo-agent";
    private double health;
    private double direction;
+   private String url;
+   private String listen;
 
    public AgentView(IPlayerAgent playerAgent){
       super();
       this.init(playerAgent);
       this.getStyleClass().add(AGENT_STYLE);
       playerAgent.addPropertyChangeListener(this);
-      System.out.println("AGENT VIEW: " + this.getX());
+      this.listen = playerAgent.toString();
+      System.out.println("CREATING A NEW AGENT VIEW THAT IS LISTENING TO THIS OBJECT: " + playerAgent);
    }
 
    public void init(IPlayerAgent playerAgent){
@@ -33,6 +37,7 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       this.setFitWidth(playerAgent.getWidth());
       this.setDirection(playerAgent.getDirection());
       this.setImage(new Image(this.getClass().getClassLoader().getResourceAsStream(playerAgent.getImageURL())));
+      this.url = playerAgent.getImageURL();
    }
 
    private void setDirection(double direction) {
@@ -40,9 +45,9 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    }
 
    public void propertyChange(PropertyChangeEvent e) {
-      if(e.getPropertyName().equals("x")) {
-         this.setX((Double) e.getNewValue());
-         System.out.println("Changed X: " + e.getNewValue() + ", view X: " + this.getX());
+      if (e.getPropertyName().equals("x")) {
+         System.out.println("PC for object listening to " + this.listen + ". The image is " + this.url + ", the X currently is " + this.getLayoutX() + " and it's changing to" +  e.getNewValue());
+         this.setLayoutX((Double) e.getNewValue());
       } else if(e.getPropertyName().equals("y")) {
          this.setY((Double) e.getNewValue());
          System.out.println("Changed Y: "+ e.getNewValue());
@@ -60,5 +65,13 @@ public class AgentView extends ImageView implements PropertyChangeListener {
          System.out.println("Changed Direction");
       }
 
+   }
+
+   public String getUrl(){
+      return this.url;
+   }
+
+   public String getListen(){
+      return this.listen;
    }
 }

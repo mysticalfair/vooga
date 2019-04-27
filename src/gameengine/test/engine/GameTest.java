@@ -150,9 +150,11 @@ class GameTest {
             condParams.put("value", 0);
             Map<String, Object> actionParams = new HashMap<>();
             List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
-
-            actionDecisions.add(factory.createActionDecision(
-                    factory.createAction("PropertyLessThanOrEqualToCondition", actionParams), factory.createCondition("PropertyLessThanOrEqualToCondition", )));
+            Map<String, Object> healthCond = new HashMap<>();
+            healthCond.put("value", 0);
+            healthCond.put("property", "health");
+//            actionDecisions.add(factory.createActionDecision(
+//                    factory.createAction("PropertyLessThanOrEqualToCondition", actionParams), factory.createCondition("PropertyLessThanOrEqualToCondition", healthCond)));
             List<IPropertyDefinition> properties = new ArrayList<>();
             var prop = factory.createProperty("health", 50);
             properties.add(prop);
@@ -252,6 +254,7 @@ class GameTest {
 
     private IAgentDefinition createPea() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         String team = "goodGuys";
+        String otherTeam = "badGuys";
 
         // making move action
         Map<String, Object> moveParams = new HashMap<>();
@@ -259,10 +262,25 @@ class GameTest {
         moveParams.put("speed", 20);
 
         List<IActionDecisionDefinition> AD1 = new ArrayList<>();
-        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+        List<IConditionDefinition> cond1 = new ArrayList<>();
         cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD1.add(factory.createActionDecision(
                 factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
+
+
+        Map<String, Object> damageParams = new HashMap<>();
+        moveParams.put("value", -50.0);
+        moveParams.put("property", "health");
+        List<IConditionDefinition> cond2 = new ArrayList<>();
+        cond2.add(factory.createCondition("OnCollision", new HashMap<>()));
+
+        Map<String, Object> propertyEqualParams = new HashMap<>();
+        propertyEqualParams.put("team", otherTeam);
+        cond2.add(factory.createCondition("PropertyEqualTo", propertyEqualParams));
+
+        AD1.add(factory.createActionDecision(
+                factory.createAction("AddToProperty", damageParams), cond2));
+
         List<IPropertyDefinition> properties = new ArrayList<>();
         properties.add(factory.createProperty("team", team));
 

@@ -145,6 +145,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         clonedAgent.playerAgent = playerAgent.clone();
         // clone conditions and actions within ActionDecisions (without cloning the event handler)
         List<ActionDecision> newActionDecisions = new ArrayList<>();
+        clonedAgent.pcs = new PropertyChangeSupport(clonedAgent);
         for(ActionDecision ad : actionDecisions){
             newActionDecisions.add(ad.clone(clonedAgent));
         }

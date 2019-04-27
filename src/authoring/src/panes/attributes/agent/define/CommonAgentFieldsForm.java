@@ -10,14 +10,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import panes.ConsolePane;
 import panes.attributes.FormElement;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
 public class CommonAgentFieldsForm extends FormElement {
-
-    static final String DEFAULT_IMAGE_FILENAME = "default_image.jpg";
-    static final double IMAGE_FIELD_SIZE = 100;
 
     private ChoiceBox<String> agentTypeField;
     private TextField nameField, widthField, heightField;
@@ -61,7 +59,7 @@ public class CommonAgentFieldsForm extends FormElement {
             Alert alert = new Alert(Alert.AlertType.ERROR, getContext().getString(errorMessageKey));
             alert.showAndWait();
         }
-        return -1;
+        return getContext().getInt("ErrorInt");
     }
 
     /**
@@ -81,7 +79,7 @@ public class CommonAgentFieldsForm extends FormElement {
 
         // Name
         Label nameLabel = new Label(getContext().getString("Name"));
-        nameLabel.setId("paddedLabel");
+        nameLabel.setId(getContext().getString("LabelStyleId"));
         nameField = new TextField();
         nameField.setPromptText(getContext().getString("NamePrompt"));
         gridPane.add(nameLabel, 0, 1);
@@ -90,9 +88,9 @@ public class CommonAgentFieldsForm extends FormElement {
 
         // Image
         StackPane imageStackPane = new StackPane();
-        imageField = new ImageView(DEFAULT_IMAGE_FILENAME);
-        imageField.setFitWidth(IMAGE_FIELD_SIZE);
-        imageField.setFitHeight(IMAGE_FIELD_SIZE);
+        imageField = new ImageView(getContext().getString("DefaultImageName"));
+        imageField.setFitWidth(getContext().getDouble("ImageFieldSize"));
+        imageField.setFitHeight(getContext().getDouble("ImageFieldSize"));
         imageField.setPreserveRatio(true);
         imageField.setSmooth(true);
         imageField.setCache(true);
@@ -109,11 +107,11 @@ public class CommonAgentFieldsForm extends FormElement {
 
         // Width and height
         Label widthLabel = new Label(getContext().getString("Width"));
-        widthLabel.setId("paddedLabel");
+        widthLabel.setId(getContext().getString("LabelStyleId"));
         widthField = new TextField();
         widthField.setPromptText(getContext().getString("WidthHeightPrompt"));
         Label heightLabel = new Label(getContext().getString("Height"));
-        heightLabel.setId("paddedLabel");
+        heightLabel.setId(getContext().getString("LabelStyleId"));
         heightField = new TextField();
         heightField.setPromptText(getContext().getString("WidthHeightPrompt"));
         gridPane.add(widthLabel, 2, 2);
@@ -131,7 +129,7 @@ public class CommonAgentFieldsForm extends FormElement {
                     imageUrl = file.toURI().toString();
                     imageField.setImage(new Image(imageUrl));
                 },
-                () -> System.err.println("Failed to load image for agent.")
+                () -> getContext().displayConsoleMessage(getContext().getString("AgentImageError"), ConsolePane.Level.ERROR)
         );
     }
 }

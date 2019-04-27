@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 import panes.MapPane;
+import util.AuthoringContext;
 
 /**
  * Resources used:
@@ -18,8 +19,8 @@ public class LassoTool extends MapTool{
     private Ellipse ellipse;
     private double startingPosX, startingPosY;
 
-    public LassoTool(MapPane otherMap, Scene otherScene, String fileName){
-        super(otherMap, otherScene, fileName);
+    public LassoTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName){
+        super(context, otherMap, otherScene, fileName);
         initEllipse();
     }
 
@@ -44,7 +45,7 @@ public class LassoTool extends MapTool{
     }
 
     private void mouseReleased(MouseEvent event){
-        map.selectAgents(ellipse);
+        map.getCurrentState().selectAgents(ellipse);
         map.removeShape((Shape) ellipse);
         startingPosX = 0;
         startingPosY = 0;

@@ -21,7 +21,10 @@ public abstract class FormElement extends AuthoringPane {
     public FormElement(AuthoringContext context) {
         super(context);
         deleteButton = AuthoringUtil.createSquareImageButton(
-                DELETE_BUTTON_IMAGE_FILE, 25, 10, null);
+                getContext().getString("TrashImageFile"),
+                getContext().getInt("ButtonSize"),
+                getContext().getInt("ButtonImageSize"),
+                null);
     }
 
     /**

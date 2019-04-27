@@ -1,10 +1,12 @@
 package panes;
 
 import frontend_objects.AgentView;
+import frontend_objects.DraggableAgentView;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
@@ -17,24 +19,18 @@ import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
 
-    public static final double DEFAULT_WIDTH = AuthoringEnvironment.MAP_WIDTH;
-    public static final double DEFAULT_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT;
-    public static final double MAP_WIDTH = AuthoringEnvironment.MAP_WIDTH - 100;
-    public static final double MAP_HEIGHT = AuthoringEnvironment.MIDDLE_ROW_HEIGHT - 100;
-
-    public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp"};
-    public static final String STYLE = "map-pane.css";
-    public static final String STYLE_ID = "general";
-
     private List<AgentView> agentList;
     private Pane mapPane;
     private StackPane overallPane;
     private int level;
+    private ConsolePane console;
     private Map<Integer, MapState> levelToState;
+    private SimpleBooleanProperty selection = new SimpleBooleanProperty();
 
-    public MapPane(AuthoringContext context) {
+    public MapPane(AuthoringContext context, ConsolePane console) {
         super(context);
-        agentList = new ArrayList<>();
+        this.console = console;
+        selection.set(false);
         levelToState = new HashMap<>();
         initPanes();
         getContentChildren().add(overallPane);
@@ -48,21 +44,70 @@ public class MapPane extends AuthoringPane {
         return levelToState;
     }
 
-    private void initPanes(){
+    public void handleSelectionChange(int newValue) {
+        MapState currentLevel = levelToState.get(level);
+        if (newValue > 0) {
+            for (DraggableAgentView agent : currentLevel.getAgents()) {
+                if (agent.getSelect()) {
+                    agent.setOnMousePressed(event -> clickMultiple(event));
+                    agent.setOnMouseDragged(event -> dragMultiple(event));
+                    agent.setOnMouseReleased(event -> releaseMultiple());
+                }
+            }
+        } else {
+            for (DraggableAgentView agent: currentLevel.getAgents()) {
+                agent.setOnMousePressed(event -> agent.mousePressed(event));
+                agent.setOnMouseDragged(event -> agent.mouseDragged(event, this));
+                agent.setOnMouseReleased(event -> agent.mouseReleased(this, console));
+            }
+        }
+    }
+
+    private void clickMultiple(MouseEvent event) {
+        MapState currentLevel = levelToState.get(level);
+        for (DraggableAgentView agent : currentLevel.getAgents()) {
+            if (agent.getSelect()) {
+                agent.mousePressed(event);
+            }
+        }
+    }
+
+    private void dragMultiple(MouseEvent event) {
+        MapState currentLevel = levelToState.get(level);
+        for (DraggableAgentView agent : currentLevel.getAgents()) {
+            if (agent.getSelect()) {
+                agent.mouseDragged(event, this);
+            }
+        }
+    }
+
+    private void releaseMultiple() {
+        MapState currentLevel = levelToState.get(level);
+        List<DraggableAgentView> agentsCopy = new ArrayList<>(currentLevel.getAgents());
+        for (DraggableAgentView agent : agentsCopy) {
+            if (agent.getSelect()) {
+                agent.mouseReleased(this, console);
+            }
+        }
+    }
+
+    public MapState getCurrentState() {
+        return levelToState.get(level);
+    }
+
+    private void initPanes() {
         overallPane = initOverallPane();
-
         mapPane = new Pane();
-        mapPane.setMaxSize(MAP_WIDTH, MAP_HEIGHT);
-        mapPane.setMinSize(MAP_WIDTH, MAP_HEIGHT);
-
+        mapPane.setMaxSize(getContext().getDouble("InsetMapWidth"), getContext().getDouble("InsetMapHeight"));
+        mapPane.setMinSize(getContext().getDouble("InsetMapWidth"), getContext().getDouble("InsetMapHeight"));
         overallPane.getChildren().add(mapPane);
     }
 
     private StackPane initOverallPane(){
         var stack = new StackPane();
-        stack.setPrefSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        stack.getStylesheets().add(STYLE);
-        stack.setId(STYLE_ID);
+        stack.setPrefSize(getContext().getDouble("MapWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        stack.getStylesheets().add(getContext().getString("MapStyle"));
+        stack.setId(getContext().getString("MapStyleId"));
         stack.setAlignment(Pos.CENTER);
         return stack;
     }
@@ -83,9 +128,9 @@ public class MapPane extends AuthoringPane {
      *
      * @param agent
      */
-    public void addAgent(int level, AgentView agent){
-        levelToState.get(level).addToAgents(agent);
-        //levelToState.put(level, levelToState.get(level));
+    public void addAgent(int level, DraggableAgentView agent){
+        MapState currentLevel = levelToState.get(level);
+        currentLevel.addToAgents(agent);
         mapPane.getChildren().add(agent);
     }
 
@@ -95,7 +140,9 @@ public class MapPane extends AuthoringPane {
      */
     public void removeAgent(AgentView view) {
         agentList.remove(view);
-        System.out.println("Removed: new size is " + agentList.size());
+        MapState currentLevel = levelToState.get(level);
+        currentLevel.removeAgent(view);
+        //System.out.println("Removed: new size is " + levelToState.get(level).getAgentCount());
     }
 
     /**
@@ -103,21 +150,8 @@ public class MapPane extends AuthoringPane {
      * @return
      */
     public int getAgentCount() {
-        return agentList.size();
-    }
-
-    /**
-     *
-     * @param lassoEllipse
-     */
-    public void selectAgents(Ellipse lassoEllipse){
-        for(AgentView agent: agentList){
-            agent.setSelect(lassoSelects(lassoEllipse, agent));
-        }
-    }
-
-    private boolean lassoSelects(Ellipse lassoEllipse, AgentView agent){
-        return lassoEllipse.intersects(agent.getBoundsInParent());
+        MapState currentLevel = levelToState.get(level);
+        return currentLevel.getAgentCount();
     }
 
     /**
@@ -144,7 +178,7 @@ public class MapPane extends AuthoringPane {
     public void formatBackground(){
         // TODO: replace System.err.println with Console display
         AuthoringUtil.openFileChooser(
-                getContext().getString("ImageFile"), IMAGE_EXTENSIONS, false, null,
+                getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),
                 () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );

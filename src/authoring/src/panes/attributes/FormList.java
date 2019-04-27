@@ -12,8 +12,6 @@ import java.util.function.Consumer;
 
 public abstract class FormList extends FormElement {
 
-    private static final String ADD_BUTTON_IMAGE_FILE = "add-button.png";
-
     private Button addButton;
     private VBox vBox;
     private List<FormElement> elements;
@@ -26,7 +24,10 @@ public abstract class FormList extends FormElement {
     public FormList(AuthoringContext context) {
         super(context);
         addButton = AuthoringUtil.createSquareImageButton(
-                ADD_BUTTON_IMAGE_FILE, 25, 10, null);
+                getContext().getString("AddButtonImageFile"),
+                getContext().getDouble("ButtonSize"),
+                getContext().getDouble("ButtonImageSize"),
+                null);
         vBox = new VBox();
         getContentChildren().add(vBox);
         elements = new ArrayList<>();

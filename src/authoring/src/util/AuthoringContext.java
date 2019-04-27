@@ -51,6 +51,24 @@ public class AuthoringContext {
     }
 
     /**
+     * Get a string from the resource bundle in the current language
+     * @param key the key for the string
+     * @return the string
+     */
+    public double getDouble(String key) {
+        return Double.parseDouble(resourceBundle.getString(key));
+    }
+
+    /**
+     * Get a string from the resource bundle in the current language
+     * @param key the key for the string
+     * @return the string
+     */
+    public int getInt(String key) {
+        return Integer.parseInt(resourceBundle.getString(key));
+    }
+
+    /**
      * Set the lambda that allows for displaying messages in the console.
      * This method only exists because an AuthoringContext must be passed into the constructor for all
      * AuthoringPanes, including ConsolePane, but ConsolePane must be instantiated to set this lambda.

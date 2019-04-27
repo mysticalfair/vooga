@@ -9,10 +9,12 @@ import javafx.scene.layout.HBox;
 import panes.attributes.FormElement;
 import util.AuthoringContext;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AgentPropertyFormElement extends FormElement {
 
+    // TODO: if possible, find alternative to this list
     private static final List<String> DEFAULT_TYPES = List.of("Integer", "Double", "String");
 
     private TextField nameField;
@@ -40,7 +42,7 @@ public class AgentPropertyFormElement extends FormElement {
         if (type == null) {
             return null;
         }
-        if (type.equals("Integer")) {
+        if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("IntIndex")))) {
             try {
                 int value = Integer.parseInt(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -50,7 +52,7 @@ public class AgentPropertyFormElement extends FormElement {
                 return null;
             }
         }
-        else if (type.equals("Double")) {
+        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("DoubleIndex")))) {
             try {
                 double value = Double.parseDouble(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -60,7 +62,7 @@ public class AgentPropertyFormElement extends FormElement {
                 return null;
             }
         }
-        else if (type.equals("String")) {
+        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("StringIndex")))) {
             return getContext().getGameFactory().createProperty(name, valueField.getText());
         }
         return null;

@@ -2,6 +2,10 @@ package frontend_objects;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
+import util.AuthoringContext;
+
+import java.util.AbstractMap;
+import java.util.SimpleTimeZone;
 
 public class AgentView extends ImageView {
 
@@ -10,30 +14,35 @@ public class AgentView extends ImageView {
      * @author Mary Stuart Elder and Eric Lin
      */
 
-    //public static final String STYLE = "img";
-    public static final int SIZE = 60;
-
     private SimpleBooleanProperty selected = new SimpleBooleanProperty();
+    private AuthoringContext context;
 
-    public AgentView(){
+    public AgentView(AuthoringContext authoringContext){
         super();
-        this.setFitWidth(SIZE);
-        this.setFitHeight(SIZE);
+        this.setFitWidth(getContext().getDouble("AgentSize"));
+        this.setFitHeight(getContext().getDouble("AgentSize"));
         selected.set(false);
-       //formatView(imageName, STYLE, SIZE, SIZE);
+        this.context = authoringContext;
+        selected.addListener((observable, oldValue, newValue) -> {
+        });
     }
 
-    public AgentView(String url) {
+    public AgentView(AuthoringContext authoringContext, String url) {
         super(url);
-        this.setFitWidth(SIZE);
-        this.setFitHeight(SIZE);
+        this.context = authoringContext;
+        this.setFitWidth(getContext().getDouble("AgentSize"));
+        this.setFitHeight(getContext().getDouble("AgentSize"));
     }
 
+    protected AuthoringContext getContext() {
+        return context;
+    }
+/*
     private void setImageOpacity(){
         // Translucent if selected
-        var opacity = 0.3;
+        var opacity = TRANSLUCENT;
         int selectAddition = selected.get() ? 0 : 1;
-        var select = 0.7*selectAddition + opacity;
+        var select = (1-TRANSLUCENT)*selectAddition + opacity;
         this.setStyle("-fx-opacity: " + select + ";");
     }
 
@@ -41,4 +50,6 @@ public class AgentView extends ImageView {
         selected.set(select);
         setImageOpacity();
     }
+    */
+
 }

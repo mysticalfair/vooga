@@ -5,56 +5,38 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 import panes.MapPane;
+import panes.Path;
+import util.AuthoringContext;
 
-public class PathPenTool extends MapTool{
+import java.util.List;
 
-    public static final Image PEN = new Image(ToolbarPane.PEN_IMAGE);
-    public static final ImageCursor PEN_CURSOR = new ImageCursor(PEN, PEN.getWidth() / 2, PEN.getWidth()/2);
-    public static final double X_ADJUSTMENT = -10;
-    public static final double Y_ADJUSTMENT = 10;
+public class PathPenTool extends PathTool{
 
-    private Circle previousCircle = null;
-    private Circle currentCircle = null;
-    // TODO: replace with list of linkedlists
+    private Path currentPath;
 
-    public PathPenTool(MapPane otherMap, Scene otherScene, String fileName){
-        super(otherMap, otherScene, fileName);
+    public PathPenTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
+        super(context, otherMap, otherScene, fileName, paths);
     }
 
     public void setMouseActions(){
-        map.accessMap(node -> node.setOnMouseClicked(e -> onMapClick(e)));
-    }
-
-    private void removeMouseActions(){
-        map.accessMap(node -> node.setOnMouseClicked(null));
-        map.accessMap(node -> node.setOnMouseDragged(null));
-        map.accessMap(node -> node.setOnMouseReleased(null));
+        map.accessMap(node -> node.setOnMousePressed(e -> onMapClick(e)));
     }
 
     @Override
     public void onMapClick(MouseEvent event) {
-        if(!toolEnabled){
-            return;
-        }
-        currentCircle = new Circle(event.getX() + X_ADJUSTMENT, event.getY() + Y_ADJUSTMENT, 3, Color.BLUE);
-        map.spawnShape((Shape) currentCircle);
-        if(previousCircle != null) {
-            Line l = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
-            l.getStrokeDashArray().addAll(2d, 4d);
-            l.setStroke(Color.BLUE);
-            map.spawnShape((Shape) l);
-        }
-        previousCircle = currentCircle;
+        var circle = currentPath.addPoint(event.getX() + getContext().getInt("CursorXAdjustment"), event.getY() + getContext().getInt("CursorYAdjustment"));
+        map.spawnShape(circle);
+        updatePathLines(currentPath);
     }
 
     @Override
     protected void enableTool() {
-        scene.setCursor(PEN_CURSOR);
+        var pen = new Image(getContext().getString("PenFile"));
+        ImageCursor penCursor = new ImageCursor(pen, pen.getWidth() / 2, pen.getWidth()/2);
+        scene.setCursor(penCursor);
+        currentPath = new Path();
+        addPath(currentPath);
         setMouseActions();
     }
 

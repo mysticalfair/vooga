@@ -20,16 +20,6 @@ import java.util.ResourceBundle;
  */
 public class ConsolePane extends AuthoringPane {
 
-    public static final String OVERALL_STYLE = "terminal_overall";
-    public static final String TITLE_STYLE = "terminal_heading";
-    public static final String MESSAGE = "message";
-    public static final String ERROR_MESSAGE = "error_message";
-    public static final String SUCCESS_MESSAGE = "success_message";
-    public static final String TITLE_TEXT = "Environment Console";
-    public static final String STYLE = "console-pane.css";
-    public static final double WIDTH = AuthoringEnvironment.DEFAULT_WIDTH;
-    public static final double HEIGHT = AuthoringEnvironment.CONSOLE_HEIGHT;
-
     /**
      * Console message level.
      * @author Samuel Rabinowitz
@@ -51,17 +41,17 @@ public class ConsolePane extends AuthoringPane {
 
     private Region initializeContent(){
         fullBox = new VBox();
-        fullBox.getStylesheets().add(STYLE);
-        fullBox.setId(OVERALL_STYLE);
-        fullBox.setPrefSize(WIDTH, HEIGHT);
+        fullBox.getStylesheets().add(getContext().getString("ConsoleStyle"));
+        fullBox.setId(getContext().getString("ConsoleGeneralStyle"));
+        fullBox.setPrefSize(getContext().getDouble("DefaultWidth"), getContext().getDouble("ConsoleHeight"));
         myVBox = new VBox();
         scrollPane = new ScrollPane();
         formatScrollPane(scrollPane);
         scrollPane.setContent(myVBox);
         myVBox.setFillWidth(true);
 
-        var title = new Text(TITLE_TEXT);
-        title.setId(TITLE_STYLE);
+        var title = new Text(getContext().getString("ConsoleTitle"));
+        title.setId(getContext().getString("ConsoleTitleStyle"));
         fullBox.getChildren().addAll(title, scrollPane);
         return fullBox;
     }
@@ -69,7 +59,7 @@ public class ConsolePane extends AuthoringPane {
     private void formatScrollPane(ScrollPane consolePane){
         //scrollPane.setPrefViewportWidth(WIDTH);
         //scrollPane.setPrefViewportHeight(TITLE_HEIGHT + HEIGHT);
-        consolePane.setId(MESSAGE);
+        consolePane.setId(getContext().getString("Message"));
         consolePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         consolePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
@@ -94,13 +84,13 @@ public class ConsolePane extends AuthoringPane {
         var text = new Text(message);
 
         if (level == Level.NEUTRAL) {
-            text.setId(MESSAGE);
+            text.setId(getContext().getString("Message"));
         }
         else if (level == Level.ERROR) {
-            text.setId(ERROR_MESSAGE);
+            text.setId(getContext().getString("ErrorMessage"));
         }
         else if (level == Level.SUCCESS) {
-            text.setId(SUCCESS_MESSAGE);
+            text.setId(getContext().getString("SuccessMessage"));
         }
 
         myVBox.getChildren().add(text);

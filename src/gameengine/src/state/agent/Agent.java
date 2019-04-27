@@ -31,7 +31,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param id agent ID
      * @param x,y initial location
      */
-
     public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
@@ -69,7 +68,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - X location of the agent
      */
     public double getX() {
-        return playerAgent.getX();
+        return (int) playerAgent.getX();
+    }
+
+    @Override
+    public void setX(int x) {
+        playerAgent.setX(x);
     }
 
     /**
@@ -77,7 +81,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - Y location of the agent
      */
     public double getY() {
-        return playerAgent.getY();
+        return (int) playerAgent.getY();
+    }
+
+    @Override
+    public void setY(int y) {
+        playerAgent.setY(y);
     }
 
     public String getName() {

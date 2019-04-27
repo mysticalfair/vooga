@@ -54,121 +54,60 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>peashooter</name>
+          <name>Luke</name>
           <x>50.0</x>
           <y>50.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>100.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>150.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>200.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>250.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>50.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>100.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>150.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>200.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>250.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
       </authoringAgentsPlaced>
       <authoringPlaceableAgents/>
       <masterDefinedAgents>
         <state.agent.Agent>
-          <actionDecisions/>
-          <playerAgent>
-            <id>1</id>
-            <x>0.0</x>
-            <y>0.0</y>
-            <imageURL>peashooter.gif</imageURL>
-            <name>peashooter</name>
-            <direction>180.0</direction>
-            <width>30</width>
-            <height>30</height>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </playerAgent>
-          <pcs serialization="custom">
-            <java.beans.PropertyChangeSupport>
-              <default>
-                <source class="state.agent.Agent" reference="../../../.."/>
-                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-              </default>
-              <null/>
-            </java.beans.PropertyChangeSupport>
-          </pcs>
-        </state.agent.Agent>
-        <state.agent.Agent>
           <actionDecisions>
             <state.actiondecision.ActionDecision>
-              <action class="state.action.movement.MoveAtRelativeAngle">
+              <action class="state.action.destroy.DestroyAgent">
                 <eventMaster>
                   <removeAgentListeners/>
                   <addAgentListeners/>
                 </eventMaster>
+                <params/>
+                <name>DestroyAgent</name>
+                <baseAgent reference="../../../.."/>
+              </action>
+              <conditions>
+                <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
+                  <name>PropertyLessThanOrEqualTo</name>
+                  <params>
+                    <entry>
+                      <string>property</string>
+                      <string>health</string>
+                    </entry>
+                    <entry>
+                      <string>value</string>
+                      <int>0</int>
+                    </entry>
+                  </params>
+                  <value class="int">0</value>
+                  <propertyName>health</propertyName>
+                </state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.property.DecrementProperty">
+                <eventMaster reference="../../../state.actiondecision.ActionDecision/action/eventMaster"/>
                 <params>
                   <entry>
-                    <string>angle</string>
-                    <double>0.0</double>
+                    <string>amount</string>
+                    <double>5.0</double>
                   </entry>
                   <entry>
-                    <string>speed</string>
-                    <int>100</int>
+                    <string>propertyName</string>
+                    <string>health</string>
                   </entry>
                 </params>
-                <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
-                <baseAgent reference="../../../.."/>
-                <angle>0.0</angle>
+                <name>DecrementProperty</name>
+                <propertyName>health</propertyName>
+                <amount>5.0</amount>
               </action>
               <conditions>
                 <state.condition.DoOnceCondition>
@@ -179,14 +118,20 @@
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
-            <id>2</id>
-            <x>0.0</x>
-            <y>0.0</y>
-            <imageURL>zombie.gif</imageURL>
-            <name>zombie</name>
-            <direction>180.0</direction>
-            <width>30</width>
-            <height>30</height>
+            <id>0</id>
+            <x>50.0</x>
+            <y>50.0</y>
+            <imageURL>ArcherQueen.png</imageURL>
+            <name>Luke</name>
+            <direction>1.0</direction>
+            <width>10</width>
+            <height>10</height>
+            <properties>
+              <state.Property>
+                <name>health</name>
+                <value class="int">50</value>
+              </state.Property>
+            </properties>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>

@@ -107,7 +107,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
+                System.out.println("Agent: " + agent.getName() + " has health of " + agent.getProperty("health") + "| ");
 
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
 //                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");

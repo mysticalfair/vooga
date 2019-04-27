@@ -139,32 +139,22 @@ class GameTest {
      * Creates ten Agents all moving in the +x direction with the same speed.
      */
     @Test
-    void setUpSix() {
+    void setUpSeven() {
         try {
             GameFactory factory = new GameFactory();
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
-            Map<String, Object> condParams = new HashMap<>();
-            condParams.put("property", "health");
-            condParams.put("value", 0);
-            Map<String, Object> actionParams = new HashMap<>();
-            List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
-            List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
-            conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualToCondition", condParams));
-            actionDecisions.add(factory.createActionDecision(
-                    factory.createAction("", actionParams), conditionDefinitions));
-            List<IPropertyDefinition> properties = new ArrayList<>();
-            var prop = factory.createProperty("health", 50);
-            properties.add(prop);
-            IAgentDefinition healthyAgent = factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
-            state.addDefinedAgent(healthyAgent);
+            state.addDefinedAgent(createHealthAgent());
+            level.addAgent("Luke", 50, 50, 0);
             state.addLevel(level);
             gameEngine.setState(state);
+            gameEngine.saveState("John.xml");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Test
     void run() {
         try {
@@ -271,5 +261,25 @@ class GameTest {
                 0,"projectile", "pea.gif", AD1, properties);
     }
 
-
+    private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
+        Map<String, Object> condParams = new HashMap<>();
+        condParams.put("property", "health");
+        condParams.put("value", 0);
+        Map<String, Object> actionParams = new HashMap<>();
+        Map<String, Object> action2Params = new HashMap<>();
+        action2Params.put("propertyName", "health");
+        action2Params.put("amount", 5.0);
+        List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
+        List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
+        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+        cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+        conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
+        actionDecisions.add(factory.createActionDecision(
+                factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
+        actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
+        List<IPropertyDefinition> properties = new ArrayList<>();
+        var prop = factory.createProperty("health", 50);
+        properties.add(prop);
+        return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
+    }
 }

@@ -6,6 +6,7 @@ import utils.Serializer;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
@@ -30,6 +31,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         this.direction = direction;
         this.imageURL = imageURL;
         this.name = name;
+        this.properties = new ArrayList<>();
         pcs = new PropertyChangeSupport(this);
     }
 
@@ -120,6 +122,10 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
                 pcs.firePropertyChange(name, oldVal, newProperty.getValue());
             }
         }
+    }
+
+    public void addProperty(Property newProperty) {
+        this.properties.add(newProperty);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

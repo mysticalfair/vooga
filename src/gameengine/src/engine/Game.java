@@ -32,6 +32,7 @@ public class Game implements IGameDefinition, IPlayerGame {
     public static final double DELTA_TIME = 0.0167;
     private Serializer serializer;
 
+
     private State state;
 
     public Game() {
@@ -59,6 +60,7 @@ public class Game implements IGameDefinition, IPlayerGame {
             }
         }
     }
+
 
     @Override
     public IPlayerLevelState getLevelState(){

@@ -50,4 +50,17 @@
         </fields>
     </actionDefinition>
 
+    <actionDefinition>
+        <name>DestroyAgent</name>
+        <fields>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>DecrementProperty</name>
+        <fields>
+            <string>propertyName</string>
+            <double>amount</double>
+        </fields>
+    </actionDefinition>
 </actions>

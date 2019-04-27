@@ -34,4 +34,16 @@
         <fields></fields>
     </conditionDefinition>
 
+    <conditionDefinition>
+        <name>Collision</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>PropertyEqualTo</name>
+        <fields>
+            <map>params</map>
+        </fields>
+    </conditionDefinition>
+
 </conditionDefinitions>

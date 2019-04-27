@@ -168,7 +168,6 @@ class GameTest {
             state.addDefinedAgent(createPeashooter("peashooter", pea));
             state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
 
-
             level.addAgent("peashooter", 50, 50, 0.0);
             level.addAgent("zombieshooter", 50, 150, 0.0);
 

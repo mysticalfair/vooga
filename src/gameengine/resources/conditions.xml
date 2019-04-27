@@ -54,10 +54,13 @@
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>PropertyLessThan</name>
-        <fields>
-            <map>params</map>
-        </fields>
+        <name>PropertyLessThanOrEqualTo</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Collision</name>
+        <fields></fields>
     </conditionDefinition>
 
     <conditionDefinition>

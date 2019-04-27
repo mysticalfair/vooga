@@ -54,122 +54,21 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>Luke</name>
+          <name>peashooter</name>
           <x>50.0</x>
           <y>50.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
-<<<<<<< HEAD
-=======
         <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>100.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
+          <name>zombieshooter</name>
           <x>50.0</x>
           <y>150.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>200.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>250.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-<<<<<<< HEAD
->>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
-=======
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>50.0</y>
-          <direction>180.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>100.0</y>
-          <direction>180.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>150.0</y>
-          <direction>180.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>200.0</y>
-          <direction>180.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>250.0</y>
-          <direction>180.0</direction>
-        </state.AgentReference>
->>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
       </authoringAgentsPlaced>
       <authoringPlaceableAgents/>
       <masterDefinedAgents>
         <state.agent.Agent>
-<<<<<<< HEAD
-          <actionDecisions>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.destroy.DestroyAgent">
-                <eventMaster>
-                  <removeAgentListeners/>
-                  <addAgentListeners/>
-                </eventMaster>
-                <params/>
-                <name>DestroyAgent</name>
-                <baseAgent reference="../../../.."/>
-              </action>
-              <conditions>
-                <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
-                  <name>PropertyLessThanOrEqualTo</name>
-                  <params>
-                    <entry>
-                      <string>property</string>
-                      <string>health</string>
-                    </entry>
-                    <entry>
-                      <string>value</string>
-                      <int>0</int>
-                    </entry>
-                  </params>
-                  <value class="int">0</value>
-                  <propertyName>health</propertyName>
-                </state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
-              </conditions>
-            </state.actiondecision.ActionDecision>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.property.DecrementProperty">
-                <eventMaster reference="../../../state.actiondecision.ActionDecision/action/eventMaster"/>
-                <params>
-                  <entry>
-                    <string>amount</string>
-                    <double>5.0</double>
-                  </entry>
-                  <entry>
-                    <string>propertyName</string>
-                    <string>health</string>
-                  </entry>
-                </params>
-                <name>DecrementProperty</name>
-                <propertyName>health</propertyName>
-                <amount>5.0</amount>
-=======
           <actionDecisions>
             <state.actiondecision.ActionDecision>
               <action class="state.action.spawn.SpawnAgentInitialDirection">
@@ -214,6 +113,7 @@
                         <direction>0.0</direction>
                         <width>10</width>
                         <height>10</height>
+                        <properties/>
                         <pcs serialization="custom">
                           <java.beans.PropertyChangeSupport>
                             <default>
@@ -260,7 +160,7 @@
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
-            <id>1</id>
+            <id>2</id>
             <x>50.0</x>
             <y>50.0</y>
             <imageURL>peashooter.gif</imageURL>
@@ -268,6 +168,7 @@
             <direction>0.0</direction>
             <width>20</width>
             <height>20</height>
+            <properties/>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>
@@ -291,61 +192,104 @@
         <state.agent.Agent>
           <actionDecisions>
             <state.actiondecision.ActionDecision>
-              <action class="state.action.movement.MoveAtRelativeAngle">
+              <action class="state.action.spawn.SpawnAgentInitialDirection">
                 <eventMaster reference="../../../../../../eventMaster"/>
                 <params>
                   <entry>
-                    <string>angle</string>
-                    <double>0.0</double>
-                  </entry>
-                  <entry>
-                    <string>speed</string>
-                    <int>100</int>
+                    <string>agent</string>
+                    <state.agent.Agent>
+                      <actionDecisions>
+                        <state.actiondecision.ActionDecision>
+                          <action class="state.action.movement.MoveAtRelativeAngle">
+                            <eventMaster reference="../../../../../../../../../../../../eventMaster"/>
+                            <params>
+                              <entry>
+                                <string>angle</string>
+                                <double>0.0</double>
+                              </entry>
+                              <entry>
+                                <string>speed</string>
+                                <int>100</int>
+                              </entry>
+                            </params>
+                            <name>MoveAtRelativeAngle</name>
+                            <speed>100</speed>
+                            <baseAgent reference="../../../.."/>
+                            <angle>0.0</angle>
+                          </action>
+                          <conditions>
+                            <state.condition.DoOnceCondition>
+                              <name>DoOnce</name>
+                              <params/>
+                            </state.condition.DoOnceCondition>
+                          </conditions>
+                        </state.actiondecision.ActionDecision>
+                      </actionDecisions>
+                      <playerAgent>
+                        <id>1</id>
+                        <x>0.0</x>
+                        <y>0.0</y>
+                        <imageURL>zombie.gif</imageURL>
+                        <name>zombie</name>
+                        <direction>180.0</direction>
+                        <width>30</width>
+                        <height>30</height>
+                        <properties/>
+                        <pcs serialization="custom">
+                          <java.beans.PropertyChangeSupport>
+                            <default>
+                              <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                            </default>
+                            <null/>
+                          </java.beans.PropertyChangeSupport>
+                        </pcs>
+                      </playerAgent>
+                      <pcs serialization="custom">
+                        <java.beans.PropertyChangeSupport>
+                          <default>
+                            <source class="state.agent.Agent" reference="../../../.."/>
+                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                          </default>
+                          <null/>
+                        </java.beans.PropertyChangeSupport>
+                      </pcs>
+                    </state.agent.Agent>
                   </entry>
                 </params>
-                <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
+                <name>SpawnAgentInitialDirection</name>
+                <spawnAgent reference="../params/entry/state.agent.Agent"/>
                 <baseAgent reference="../../../.."/>
-<<<<<<< HEAD
->>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
-=======
-                <angle>0.0</angle>
->>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
               </action>
               <conditions>
                 <state.condition.DoOnceCondition>
                   <name>DoOnce</name>
-                  <params/>
+                  <params>
+                    <entry>
+                      <string>interval</string>
+                      <double>5.0</double>
+                    </entry>
+                  </params>
                 </state.condition.DoOnceCondition>
+                <state.condition.IntervalCondition>
+                  <name>Interval</name>
+                  <params reference="../../state.condition.DoOnceCondition/params"/>
+                  <intervalMillis>5000.0</intervalMillis>
+                  <lastOccurrence>0</lastOccurrence>
+                </state.condition.IntervalCondition>
               </conditions>
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
-<<<<<<< HEAD
-            <id>0</id>
+            <id>3</id>
             <x>50.0</x>
             <y>50.0</y>
-            <imageURL>ArcherQueen.png</imageURL>
-            <name>Luke</name>
-            <direction>1.0</direction>
-            <width>10</width>
-            <height>10</height>
-            <properties>
-              <state.Property>
-                <name>health</name>
-                <value class="int">50</value>
-              </state.Property>
-            </properties>
-=======
-            <id>2</id>
-            <x>0.0</x>
-            <y>0.0</y>
-            <imageURL>zombie.gif</imageURL>
-            <name>zombie</name>
-            <direction>180.0</direction>
-            <width>30</width>
-            <height>30</height>
->>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
+            <imageURL>peashooter.gif</imageURL>
+            <name>zombieshooter</name>
+            <direction>0.0</direction>
+            <width>20</width>
+            <height>20</height>
+            <properties/>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>

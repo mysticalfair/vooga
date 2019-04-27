@@ -54,11 +54,13 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>peashooter</name>
+          <name>Luke</name>
           <x>50.0</x>
           <y>50.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
+<<<<<<< HEAD
+=======
         <state.AgentReference>
           <name>peashooter</name>
           <x>50.0</x>
@@ -83,6 +85,9 @@
           <y>250.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
+<<<<<<< HEAD
+>>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
+=======
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
@@ -113,10 +118,58 @@
           <y>250.0</y>
           <direction>180.0</direction>
         </state.AgentReference>
+>>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
       </authoringAgentsPlaced>
       <authoringPlaceableAgents/>
       <masterDefinedAgents>
         <state.agent.Agent>
+<<<<<<< HEAD
+          <actionDecisions>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.destroy.DestroyAgent">
+                <eventMaster>
+                  <removeAgentListeners/>
+                  <addAgentListeners/>
+                </eventMaster>
+                <params/>
+                <name>DestroyAgent</name>
+                <baseAgent reference="../../../.."/>
+              </action>
+              <conditions>
+                <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
+                  <name>PropertyLessThanOrEqualTo</name>
+                  <params>
+                    <entry>
+                      <string>property</string>
+                      <string>health</string>
+                    </entry>
+                    <entry>
+                      <string>value</string>
+                      <int>0</int>
+                    </entry>
+                  </params>
+                  <value class="int">0</value>
+                  <propertyName>health</propertyName>
+                </state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.property.DecrementProperty">
+                <eventMaster reference="../../../state.actiondecision.ActionDecision/action/eventMaster"/>
+                <params>
+                  <entry>
+                    <string>amount</string>
+                    <double>5.0</double>
+                  </entry>
+                  <entry>
+                    <string>propertyName</string>
+                    <string>health</string>
+                  </entry>
+                </params>
+                <name>DecrementProperty</name>
+                <propertyName>health</propertyName>
+                <amount>5.0</amount>
+=======
           <actionDecisions>
             <state.actiondecision.ActionDecision>
               <action class="state.action.spawn.SpawnAgentInitialDirection">
@@ -253,7 +306,11 @@
                 <name>MoveAtRelativeAngle</name>
                 <speed>100</speed>
                 <baseAgent reference="../../../.."/>
+<<<<<<< HEAD
+>>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
+=======
                 <angle>0.0</angle>
+>>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
               </action>
               <conditions>
                 <state.condition.DoOnceCondition>
@@ -264,6 +321,22 @@
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
+<<<<<<< HEAD
+            <id>0</id>
+            <x>50.0</x>
+            <y>50.0</y>
+            <imageURL>ArcherQueen.png</imageURL>
+            <name>Luke</name>
+            <direction>1.0</direction>
+            <width>10</width>
+            <height>10</height>
+            <properties>
+              <state.Property>
+                <name>health</name>
+                <value class="int">50</value>
+              </state.Property>
+            </properties>
+=======
             <id>2</id>
             <x>0.0</x>
             <y>0.0</y>
@@ -272,6 +345,7 @@
             <direction>180.0</direction>
             <width>30</width>
             <height>30</height>
+>>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>

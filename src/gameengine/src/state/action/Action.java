@@ -15,6 +15,7 @@ import java.util.Map;
  * @author Jamie Palka
  * @author David Miron
  */
+
 public abstract class Action implements IActionDefinition, IRequiresGameEventMaster, Serializable, Cloneable {
 
     protected GameEventMaster eventMaster;

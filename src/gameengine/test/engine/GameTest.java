@@ -134,6 +134,23 @@ class GameTest {
         }
     }
 
+    @Test
+    void setUpSeven() {
+        try {
+            GameFactory factory = new GameFactory();
+            gameEngine = factory.createGame();
+            state = factory.createState();
+            ILevelDefinition level = factory.createLevel();
+            state.addDefinedAgent(createHealthAgent());
+            level.addAgent("Luke", 50, 50, 0);
+            state.addLevel(level);
+            gameEngine.setState(state);
+            gameEngine.saveState("John.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * One peashooter and one zombieshooter
      */
@@ -144,12 +161,19 @@ class GameTest {
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
+<<<<<<< HEAD
+            state.addDefinedAgent(createPeashooter("pea", createPea("pea")));
+            state.addDefinedAgent(createPeashooter("zombie", createZombie("zombie")));
+            state.addDefinedAgent(createPeashooter("peashooter", createPea("pea")));
+            state.addDefinedAgent(createPeashooter("zombieshooter", createZombie("zombie")));
+=======
 
             IAgentDefinition pea = createPea("pea");
             IAgentDefinition zombie = createZombie("zombie");
 
             state.addDefinedAgent(createPeashooter("peashooter", pea));
             state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
+>>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
 
 
             level.addAgent("peashooter", 50, 50, 0.0);
@@ -178,7 +202,6 @@ class GameTest {
             state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
             level.addAgent("peashooter", 50, 50, 0);
             level.addAgent("zombieshooter", 50, 250, 0);
-
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -290,5 +313,25 @@ class GameTest {
                 0,name, "pea.gif", AD1, properties);
     }
 
-
+    private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
+        Map<String, Object> condParams = new HashMap<>();
+        condParams.put("property", "health");
+        condParams.put("value", 0);
+        Map<String, Object> actionParams = new HashMap<>();
+        Map<String, Object> action2Params = new HashMap<>();
+        action2Params.put("propertyName", "health");
+        action2Params.put("amount", 5.0);
+        List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
+        List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
+        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+        cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+        conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
+        actionDecisions.add(factory.createActionDecision(
+                factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
+        actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
+        List<IPropertyDefinition> properties = new ArrayList<>();
+        var prop = factory.createProperty("health", 50);
+        properties.add(prop);
+        return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
+    }
 }

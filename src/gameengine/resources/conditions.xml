@@ -35,6 +35,12 @@
     </conditionDefinition>
 
     <conditionDefinition>
+<<<<<<< HEAD
+        <name>PropertyLessThanOrEqualTo</name>
+        <fields></fields>
+    </conditionDefinition>
+
+=======
         <name>Collision</name>
         <fields></fields>
     </conditionDefinition>
@@ -46,4 +52,5 @@
         </fields>
     </conditionDefinition>
 
+>>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
 </conditionDefinitions>

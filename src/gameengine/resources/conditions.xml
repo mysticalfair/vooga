@@ -1,6 +1,21 @@
 <conditionDefinitions>
 
     <conditionDefinition>
+        <name>Closest</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Collision</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>DoOnce</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
         <name>Interval</name>
         <fields>
             <double>interval</double>
@@ -14,23 +29,32 @@
         </fields>
     </conditionDefinition>
 
+
+    <!--PROPERTY CONDITIONS-->
+    <!--Are these fields correct?-->
     <conditionDefinition>
-        <name>Enemy</name>
-        <fields></fields>
+        <name>PropertyEqualTo</name>
+        <fields>
+            <map>params</map>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>SameTeam</name>
-        <fields></fields>
+        <name>PropertyGreaterThan</name>
+        <fields>
+            <map>params</map>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>Closest</name>
-        <fields></fields>
+        <name>PropertyGreaterThanOrEqualTo</name>
+        <fields>
+            <map>params</map>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>DoOnce</name>
+        <name>PropertyLessThanOrEqualTo</name>
         <fields></fields>
     </conditionDefinition>
 
@@ -40,7 +64,7 @@
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>PropertyEqualTo</name>
+        <name>PropertyLessThanOrEqualTo</name>
         <fields>
             <map>params</map>
         </fields>

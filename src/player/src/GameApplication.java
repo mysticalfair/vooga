@@ -53,7 +53,4 @@ public class GameApplication extends Application {
          animation.getKeyFrames().add(frame);
          animation.play();
    }
-
-
-
 }

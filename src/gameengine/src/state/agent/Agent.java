@@ -20,7 +20,7 @@ import java.util.List;
  * @author Jamie Palka
  * Agent used by backend and authoring
  */
-public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable {
+public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Serializable{
 
     protected List<ActionDecision> actionDecisions;
     private PlayerAgent playerAgent;
@@ -38,6 +38,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
         addProperties((List<Property>)properties);
         pcs = new PropertyChangeSupport(this);
+    }
+
+    public PlayerAgent getPlayerAgent(){
+        return this.playerAgent;
     }
 
     private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
@@ -141,6 +145,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         clonedAgent.playerAgent = playerAgent.clone();
         // clone conditions and actions within ActionDecisions (without cloning the event handler)
         List<ActionDecision> newActionDecisions = new ArrayList<>();
+        clonedAgent.pcs = new PropertyChangeSupport(clonedAgent);
         for(ActionDecision ad : actionDecisions){
             newActionDecisions.add(ad.clone(clonedAgent));
         }

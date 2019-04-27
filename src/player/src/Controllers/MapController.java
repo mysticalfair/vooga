@@ -26,6 +26,13 @@ public class MapController{
       AgentView agentView = new AgentView(playerAgent);
       this.agentViews.add(agentView);
       this.mapPane.addAgent(agentView);
+      System.out.println("Adding agent in map controller, length: " + this.agentViews.size());
+
+      System.out.println("****THIS IS THE CURRENT LIST OF AGENTS AT THIS POINT IN THE GAME***");
+     for(AgentView agent: this.agentViews){
+        System.out.println("Agent: " + agent.getUrl() +", X: " + agent.getLayoutX() + ", Y: " +  agent.getLayoutY());
+     }
+     System.out.println("*********************************************************");
    }
 
    public void addAgents(List<IPlayerAgent> playerAgents){
@@ -33,12 +40,6 @@ public class MapController{
          this.addAgent(playerAgent);
       }
    }
-
-   public void clearAgents(){
-      this.agentViews = new ArrayList<>();
-      this.mapPane.clearAgents();
-   }
-
    public MapPane getPane(){
       return this.mapPane;
    }

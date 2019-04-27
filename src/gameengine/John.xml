@@ -60,57 +60,9 @@
           <direction>0.0</direction>
         </state.AgentReference>
         <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>100.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
+          <name>zombieshooter</name>
           <x>50.0</x>
           <y>150.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>200.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>peashooter</name>
-          <x>50.0</x>
-          <y>250.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>50.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>100.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>150.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>200.0</y>
-          <direction>0.0</direction>
-        </state.AgentReference>
-        <state.AgentReference>
-          <name>zombie</name>
-          <x>350.0</x>
-          <y>250.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
       </authoringAgentsPlaced>
@@ -148,41 +100,74 @@
           </pcs>
         </state.agent.Agent>
         <state.agent.Agent>
-          <actionDecisions>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.movement.MoveAtRelativeAngle">
-                <eventMaster>
-                  <removeAgentListeners/>
-                  <addAgentListeners/>
-                </eventMaster>
-                <params>
-                  <entry>
-                    <string>angle</string>
-                    <double>0.0</double>
-                  </entry>
-                  <entry>
-                    <string>speed</string>
-                    <int>100</int>
-                  </entry>
-                </params>
-                <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
-                <baseAgent reference="../../../.."/>
-                <angle>0.0</angle>
-              </action>
-              <conditions>
-                <state.condition.DoOnceCondition>
-                  <name>DoOnce</name>
-                  <params/>
-                </state.condition.DoOnceCondition>
-              </conditions>
-            </state.actiondecision.ActionDecision>
-          </actionDecisions>
+          <actionDecisions/>
           <playerAgent>
-            <id>2</id>
+            <id>3</id>
             <x>0.0</x>
             <y>0.0</y>
-            <imageURL>zombie.gif</imageURL>
+            <imageURL>peashooter.gif</imageURL>
+            <name>zombieshooter</name>
+            <direction>180.0</direction>
+            <width>30</width>
+            <height>30</height>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
+          </playerAgent>
+          <pcs serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="state.agent.Agent" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </pcs>
+        </state.agent.Agent>
+        <state.agent.Agent>
+          <actionDecisions/>
+          <playerAgent>
+            <id>5</id>
+            <x>0.0</x>
+            <y>0.0</y>
+            <imageURL>peashooter.gif</imageURL>
+            <name>pea</name>
+            <direction>180.0</direction>
+            <width>30</width>
+            <height>30</height>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
+          </playerAgent>
+          <pcs serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="state.agent.Agent" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </pcs>
+        </state.agent.Agent>
+        <state.agent.Agent>
+          <actionDecisions/>
+          <playerAgent>
+            <id>7</id>
+            <x>0.0</x>
+            <y>0.0</y>
+            <imageURL>peashooter.gif</imageURL>
             <name>zombie</name>
             <direction>180.0</direction>
             <width>30</width>

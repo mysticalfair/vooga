@@ -51,11 +51,12 @@ public abstract class Condition implements IConditionDefinition, Serializable, C
      */
     public abstract List<Agent> getValid(List<Agent> agents);
 
-    public Condition clone(Agent clonedBaseAgent) throws CloneNotSupportedException{
+    @Override
+    public Condition clone() throws CloneNotSupportedException{
         Condition clonedCondition = (Condition)super.clone();
-        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
-            ((IRequiresBaseAgent)clonedCondition).injectBaseAgent(clonedBaseAgent);
-        }
+//        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
+//            ((IRequiresBaseAgent)clonedCondition).injectBaseAgent(clonedBaseAgent);
+//        }
         return clonedCondition;
     }
 

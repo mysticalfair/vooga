@@ -161,20 +161,12 @@ class GameTest {
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
-<<<<<<< HEAD
-            state.addDefinedAgent(createPeashooter("pea", createPea("pea")));
-            state.addDefinedAgent(createPeashooter("zombie", createZombie("zombie")));
-            state.addDefinedAgent(createPeashooter("peashooter", createPea("pea")));
-            state.addDefinedAgent(createPeashooter("zombieshooter", createZombie("zombie")));
-=======
 
             IAgentDefinition pea = createPea("pea");
             IAgentDefinition zombie = createZombie("zombie");
 
             state.addDefinedAgent(createPeashooter("peashooter", pea));
             state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
->>>>>>> 480cfcd406456194baa28c4b5430b38881edc6fb
-
 
             level.addAgent("peashooter", 50, 50, 0.0);
             level.addAgent("zombieshooter", 50, 150, 0.0);

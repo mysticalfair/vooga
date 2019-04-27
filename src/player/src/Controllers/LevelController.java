@@ -8,7 +8,6 @@ import state.agent.IPlayerAgent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 public class LevelController implements PropertyChangeListener {
    MapController mapController;

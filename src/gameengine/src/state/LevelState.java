@@ -83,6 +83,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
         List<Agent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
         agentsWithoutSelf.removeIf(a -> a == agent);
+        System.out.println("MY LENGTH WITHOUT ME IS " + agentsWithoutSelf.size());
         return agentsWithoutSelf;
     }
 

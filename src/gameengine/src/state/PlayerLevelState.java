@@ -20,11 +20,6 @@ public class PlayerLevelState implements IPlayerLevelState {
     }
 
     @Override
-    public List<IObjective> getImmutableObjectives() {
-        return null;
-    }
-
-    @Override
     public List<IPlayerAttribute> getImmutableAttributes() {
         return null;
     }

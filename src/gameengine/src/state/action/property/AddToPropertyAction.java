@@ -22,7 +22,7 @@ public class AddToPropertyAction extends Action {
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         try{
-            double current_value = (double) agent.getProperty(propertyName);
+            double current_value = (double) agent.getPropertyValue(propertyName);
             current_value += amount;
             agent.setProperty(propertyName, current_value);
         }

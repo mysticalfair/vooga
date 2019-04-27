@@ -12,7 +12,6 @@ import state.LevelState;
 import state.agent.Agent;
 import state.objective.Objective;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,32 +44,39 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         this.eventMaster.addRemoveAgentListener((Consumer<RemoveAgentEvent> & Serializable) (removeAgentEvent) ->
                     setAgentToRemove(removeAgentEvent.getAgent()));
         this.eventMaster.addAddAgentListener((Consumer<AddAgentEvent> & Serializable) addAgentEvent ->
-                    setAgentToAdd(addAgentEvent.getAgent()));
+                    setAgentToAdd(createAgentFromReference(addAgentEvent.getAgentReference())));
     }
 
     @Override
     public List<? extends IAgentDefinition> getCurrentAgents() {
-        return createAgentsFromDefinitions();
+        return createAgentsFromReferences();
     }
 
-    private List<Agent> createAgentsFromDefinitions() {
+    private List<Agent> createAgentsFromReferences() {
         List<Agent> agents = new ArrayList<>();
         for (AgentReference agentReference: authoringAgentsPlaced) {
-            for (Agent a: masterDefinedAgents) {
-                if (a.getName().equals(agentReference.getName())) {
-                    try {
-                        Agent clone = a.clone();
-                        clone.setLocation(agentReference.getX(), agentReference.getY());
-                        clone.setDirection(agentReference.getDirection());
-                        agents.add(clone);
-                    } catch (CloneNotSupportedException e) {
-                        // Do nothing, that agent does not support cloning
-                    }
-                    break;
+            Agent a = createAgentFromReference(agentReference);
+            if (a != null)
+                agents.add(a);
+        }
+        return agents;
+    }
+
+    private Agent createAgentFromReference(AgentReference agentReference) {
+        for (Agent a : masterDefinedAgents) {
+            if (a.getName().equals(agentReference.getName())) {
+                try {
+                    Agent clone = a.clone();
+                    clone.setLocation(agentReference.getX(), agentReference.getY());
+                    clone.setDirection(agentReference.getDirection());
+                    return clone;
+                } catch (CloneNotSupportedException e) {
+                    // Do nothing, that agent does not support cloning
                 }
             }
         }
-        return agents;
+        // Agent does not exist, return null. TODO: Use exception handling
+        return null;
     }
 
     @Override
@@ -150,7 +156,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     public IPlayerLevelState getLevelState(){return this.levelState;}
 
     public void initializeAgents() {
-        for (Agent agent : createAgentsFromDefinitions()) {
+        for (Agent agent : createAgentsFromReferences()) {
             levelState.addCurrentAgent(agent);
         }
     }

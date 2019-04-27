@@ -65,11 +65,12 @@ public abstract class Action implements IActionDefinition, IRequiresGameEventMas
     public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException;
     // TODO assumption in comment correct?
 
-    public Action clone(Agent clonedBaseAgent) throws CloneNotSupportedException{
+    @Override
+    public Action clone() throws CloneNotSupportedException{
         Action clonedAction = (Action)super.clone();
-        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
-            ((IRequiresBaseAgent)clonedAction).injectBaseAgent(clonedBaseAgent);
-        }
+//        if (IRequiresBaseAgent.class.isAssignableFrom(this.getClass())){
+//            ((IRequiresBaseAgent)clonedAction).injectBaseAgent(clonedBaseAgent);
+//        }
         return clonedAction;
     }
 

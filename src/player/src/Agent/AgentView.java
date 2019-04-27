@@ -17,6 +17,8 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    private double health;
    private double direction;
    private String url;
+   private static int count = 0;
+   private int selfCount = 0;
 
    public AgentView(IPlayerAgent playerAgent){
       super();
@@ -24,6 +26,8 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       this.getStyleClass().add(AGENT_STYLE);
       playerAgent.addPropertyChangeListener(this);
       System.out.println("AGENT VIEW: " + this.getX());
+      selfCount = count;
+      count++;
    }
 
    public void init(IPlayerAgent playerAgent){
@@ -45,10 +49,10 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       System.out.println("property changed");
       if(e.getPropertyName().equals("x")) {
          this.setLayoutX((Double) e.getNewValue());
-         System.out.println("*****" + this.url + ": "+ "X- "+ this.getX() + "********");
+         System.out.println("*****" + this.url + " " + selfCount + ": "+ "X- "+ this.getLayoutX() + "********");
       } else if(e.getPropertyName().equals("y")) {
          this.setY((Double) e.getNewValue());
-         System.out.println("Changed Y: "+ e.getNewValue());
+         System.out.println("*****" + this.url + " " + selfCount + ": "+ "Y- "+ this.getY() + "********");
       } else if(e.getPropertyName().equals("imageUrl")) {
          this.setImage(new Image((String) e.getNewValue()));
          System.out.println("Changed Image");

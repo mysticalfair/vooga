@@ -306,16 +306,54 @@ class GameTest {
             // making move action
             Map<String, Object> moveParams = new HashMap<>();
             moveParams.put("angle", 0.0);
+
+            Map condParams = new HashMap();
+            List<IPropertyDefinition> properties = new ArrayList<>();
+            List<IActionDecisionDefinition> AD3 = new ArrayList<>();
+            moveParams.put("speed", 100);
+            IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
+            List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
+            zombieMoveConditions.add(factory.createCondition("DoOnce", condParams));
+            AD3.add(factory.createActionDecision(move, zombieMoveConditions));
+
+            IAgentDefinition zombie = factory.createAgent(250, 50, 30, 30,
+                    180, "zombie", "zombie.gif", AD3, properties);
+
+           IAgentDefinition zombie2 = factory.createAgent(300, 50, 30, 30,
+                    200, "zombie2", "zombie.gif", AD3, properties);
+
+            level.addAgent(zombie);
+            //level.addAgent(zombie2);
+
+            state.addLevel(level);
+            gameEngine.setState(state);
+            gameEngine.saveState("John.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void setUpSeven(){
+        try {GameFactory factory = new GameFactory();
+            gameEngine = new Game();
+            state = new State();
+            ILevelDefinition level = factory.createLevel();
+
+            // MAKING PROJECTILE
+            // making move action
+            Map<String, Object> moveParams = new HashMap<>();
+            moveParams.put("angle", 0.0);
             moveParams.put("speed", 20);
 
             List<IActionDecisionDefinition> AD1 = new ArrayList<>();
             List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
             cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
             AD1.add(factory.createActionDecision(
-               factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
+                    factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
             List<IPropertyDefinition> properties = new ArrayList<>();
             IAgentDefinition projectile = factory.createAgent(500, 500, 10, 10,
-               0,"projectile", "pea.gif", AD1, properties);
+                    0,"projectile", "pea.gif", AD1, properties);
 
             // MAKING TOWER
             List<IActionDecisionDefinition> AD2 = new ArrayList<>();
@@ -330,20 +368,10 @@ class GameTest {
             conditions.add(factory.createCondition("DoOnce", condParams));
             conditions.add(factory.createCondition("Interval", condParams));
             IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
-            AD2.add(spawnAD);
+            //AD2.add(spawnAD);
             IAgentDefinition tower = factory.createAgent(50, 50, 30, 30,
-               0,"tower", "peashooter.gif", AD2, properties);
+                    0,"tower", "peashooter.gif", AD2, properties);
 
-
-            List<IActionDecisionDefinition> AD3 = new ArrayList<>();
-            moveParams.put("speed", 100);
-            IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
-            List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
-            zombieMoveConditions.add(factory.createCondition("DoOnce", condParams));
-            AD3.add(factory.createActionDecision(move, zombieMoveConditions));
-
-
-            level.addAgent(tower);
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -377,6 +405,7 @@ class GameTest {
         gameEngine.saveState(GAME_FILE_NAME);
         assertTrue(new File(GAME_FILE_NAME).exists());
     }
+
 
     @Test
     void stop() {

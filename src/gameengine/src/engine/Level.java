@@ -71,11 +71,11 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     public void step(double deltaTime) {
-
+        System.out.println("LENGTH IN BE: " + levelState.getCurrentAgents().size());
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.println("LENGTH IN BE: " + levelState.getCurrentAgents().size());
-                System.out.print(agent.getImageURL() + "------Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
+
+                //System.out.print(agent.getImageURL() + "------Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
 
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
 //                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");

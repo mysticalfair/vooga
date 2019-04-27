@@ -56,7 +56,7 @@ public class GameFactory {
     public GameFactory() throws ParserConfigurationException, SAXException, IOException {
         currentAgentID = 0;
         this.eventMaster = new GameEventMaster();
-        XMLToAvailbableObjectsParser parser = new XMLToAvailbableObjectsParser();
+        XMLToAvailableObjectsParser parser = new XMLToAvailableObjectsParser();
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
         availableActions = parser.getNameFieldsList(ACTION_DEFINITIONS_FILE);
 
@@ -195,11 +195,11 @@ public class GameFactory {
         return false;
     }
 
-    private class XMLToAvailbableObjectsParser {
+    private class XMLToAvailableObjectsParser {
 
         private DocumentBuilder documentBuilder;
 
-        public XMLToAvailbableObjectsParser() throws ParserConfigurationException {
+        public XMLToAvailableObjectsParser() throws ParserConfigurationException {
             this.documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         }
 

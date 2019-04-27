@@ -107,9 +107,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         int index = 0;
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.println("STEPPING AGENT : " + index);
-                System.out.print(agent.getImageURL() + "------Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-                System.out.println("LISTENERS:"+ agent.getPlayerAgent().getPcs().getPropertyChangeListeners());
+                System.out.println("Agent: " + agent.getName() + " has health of " + agent.getProperty("health") + "| ");
+
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
                 index++;
 

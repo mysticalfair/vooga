@@ -66,13 +66,13 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable, 
     }
 
     public ActionDecision clone (Agent clonedBaseAgent) throws CloneNotSupportedException {
-        ActionDecision clone = (ActionDecision)super.clone();
+        ActionDecision clonedActionDecision = (ActionDecision)super.clone();
         action = action.clone(clonedBaseAgent);
         List<Condition> newConditions = new ArrayList<>();
         for(Condition c : conditions){
             newConditions.add(c.clone(clonedBaseAgent));
         }
-        clone.conditions = newConditions;
-        return clone;
+        clonedActionDecision.conditions = newConditions;
+        return clonedActionDecision;
     }
 }

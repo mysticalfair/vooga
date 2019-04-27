@@ -35,8 +35,8 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
         injectBaseAgentWhereNecessary(this.actionDecisions);
-        setProperties((List<Property>)properties);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
+        addProperties((List<Property>)properties);
         pcs = new PropertyChangeSupport(this);
     }
 
@@ -272,6 +272,11 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         }
     }
 
+    public void addProperties(List<Property> properties) {
+        for(Property p : properties) {
+            this.playerAgent.addProperty(p);
+        }
+    }
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.playerAgent.addPropertyChangeListener(listener);

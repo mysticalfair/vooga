@@ -1,6 +1,21 @@
 <conditionDefinitions>
 
     <conditionDefinition>
+        <name>Closest</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Collision</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>DoOnce</name>
+        <fields></fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
         <name>Interval</name>
         <fields>
             <double>interval</double>
@@ -14,37 +29,9 @@
         </fields>
     </conditionDefinition>
 
-    <conditionDefinition>
-        <name>Enemy</name>
-        <fields></fields>
-    </conditionDefinition>
 
-    <conditionDefinition>
-        <name>SameTeam</name>
-        <fields></fields>
-    </conditionDefinition>
-
-    <conditionDefinition>
-        <name>Closest</name>
-        <fields></fields>
-    </conditionDefinition>
-
-    <conditionDefinition>
-        <name>DoOnce</name>
-        <fields></fields>
-    </conditionDefinition>
-
-    <conditionDefinition>
-<<<<<<< HEAD
-        <name>PropertyLessThanOrEqualTo</name>
-        <fields></fields>
-    </conditionDefinition>
-
-=======
-        <name>Collision</name>
-        <fields></fields>
-    </conditionDefinition>
-
+    <!--PROPERTY CONDITIONS-->
+    <!--Are these fields correct?-->
     <conditionDefinition>
         <name>PropertyEqualTo</name>
         <fields>
@@ -52,5 +39,32 @@
         </fields>
     </conditionDefinition>
 
->>>>>>> 2c25f304dfeecd2530a4e2766dd8617570660cbd
+    <conditionDefinition>
+        <name>PropertyGreaterThan</name>
+        <fields>
+            <map>params</map>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>PropertyGreaterThanOrEqualTo</name>
+        <fields>
+            <map>params</map>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>PropertyLessThan</name>
+        <fields>
+            <map>params</map>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>PropertyLessThanOrEqualTo</name>
+        <fields>
+            <map>params</map>
+        </fields>
+    </conditionDefinition>
+
 </conditionDefinitions>

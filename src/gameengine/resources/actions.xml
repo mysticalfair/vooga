@@ -57,10 +57,10 @@
     </actionDefinition>
 
     <actionDefinition>
-        <name>DecrementProperty</name>
+        <name>IncrementProperty</name>
         <fields>
             <string>propertyName</string>
-            <double>amount</double>
+            <double>value</double>
         </fields>
     </actionDefinition>
 </actions>

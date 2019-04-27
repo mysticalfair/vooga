@@ -5,26 +5,27 @@ import state.attribute.IPlayerAttribute;
 import state.objective.IPlayerObjective;
 
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class PlayerLevelState implements IPlayerLevelState {
 
     @Override
-    public Iterable<IPlayerAgent> getImmutableOptions() {
+    public List<IPlayerAgent> getImmutableOptions() {
         return null;
     }
 
     @Override
-    public Iterable<IPlayerAgent> getImmutableAgents() {
+    public List<IPlayerAgent> getImmutableAgents() {
         return null;
     }
 
     @Override
-    public Iterable<IPlayerObjective> getImmutableObjectives() {
+    public List<IPlayerObjective> getImmutableObjectives() {
         return null;
     }
 
     @Override
-    public Iterable<IPlayerAttribute> getImmutableAttributes() {
+    public List<IPlayerAttribute> getImmutableAttributes() {
         return null;
     }
 

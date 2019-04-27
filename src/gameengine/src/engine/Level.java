@@ -5,11 +5,14 @@ import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
+import state.AgentReference;
+import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
 import state.objective.Objective;
 
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +26,18 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     private List<Agent> agentsToAdd;
     private List<Agent> agentsToRemove;
 
-    public Level() {
+    private List<AgentReference> authoringAgentsPlaced;
+    private List<String> authoringPlaceableAgents;
+
+    private List<Agent> masterDefinedAgents;
+
+    public Level(List<Agent> masterDefinedAgents) {
         this.levelState = new LevelState();
         this.agentsToAdd = new ArrayList<>();
         this.agentsToRemove = new ArrayList<>();
+        this.authoringAgentsPlaced = new ArrayList<>();
+        this.authoringPlaceableAgents = new ArrayList<>();
+        this.masterDefinedAgents = masterDefinedAgents;
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -38,48 +49,76 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public List<? extends IAgentDefinition> getDefinedAgents() {
-        return levelState.getDefinedAgents();
-    }
-
-    @Override
-    public void removeDefinedAgent(int index) {
-        levelState.removeDefinedAgent(index);
-    }
-
-    @Override
-    public void addIAgentDefinition(IAgentDefinition agent) {
-        levelState.addDefinedAgent((Agent)agent);
-    }
-
-    @Override
     public List<? extends IAgentDefinition> getCurrentAgents() {
-        return levelState.getCurrentAgents();
+        return createAgentsFromDefinitions();
+    }
+
+    private List<Agent> createAgentsFromDefinitions() {
+        List<Agent> agents = new ArrayList<>();
+        for (AgentReference agentReference: authoringAgentsPlaced) {
+            for (Agent a: masterDefinedAgents) {
+                if (a.getName().equals(agentReference.getName())) {
+                    try {
+                        Agent clone = a.clone();
+                        clone.setLocation(agentReference.getX(), agentReference.getY());
+                        clone.setDirection(agentReference.getDirection());
+                        agents.add(clone);
+                    } catch (CloneNotSupportedException e) {
+                        // Do nothing, that agent does not support cloning
+                    }
+                    break;
+                }
+            }
+        }
+        return agents;
     }
 
     @Override
     public void removeAgent(int index) {
-        levelState.removeCurrentAgent(index);
+        authoringAgentsPlaced.remove(index);
     }
 
     @Override
-    public void addAgent(IAgentDefinition agent) {
-        levelState.addCurrentAgent((Agent)agent);
+    public void addAgent(String agentName, int x, int y, double direction) {
+        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction));
+    }
+
+    @Override
+    public List<? extends IAgentDefinition> getPlaceableAgents() {
+        return null;
+    }
+
+    @Override
+    public void removePlaceableAgent(int index) {
+        authoringPlaceableAgents.remove(index);
+    }
+
+    @Override
+    public void removePlaceableAgent(String agentName) {
+        authoringPlaceableAgents.remove(agentName);
+    }
+
+    @Override
+    public void addPlaceableAgent(String agentName) {
+        authoringPlaceableAgents.add(agentName);
     }
 
     public void step(double deltaTime) {
 
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
                 System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-                System.out.print("Angle: " + (int)agent.getDirection() + "| ");
+
+                agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+//                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
+//                System.out.print("Angle: " + (int)agent.getDirection() + "| ");
+
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
             }
         }
-        System.out.println("______________________________________________________");
+//        System.out.println("______________________________________________________");
 
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);
@@ -106,4 +145,15 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         agentsToRemove.add(agent);
     }
 
+    private void setLevelState(LevelState state) {
+        this.levelState = state;
+    }
+
+    public IPlayerLevelState getLevelState(){return this.levelState;}
+
+    public void initializeAgents() {
+        for (Agent agent : createAgentsFromDefinitions()) {
+            levelState.addCurrentAgent(agent);
+        }
+    }
 }

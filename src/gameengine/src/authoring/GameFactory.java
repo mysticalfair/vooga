@@ -11,6 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import state.LevelState;
 import state.Property;
 import state.State;
 import state.action.Action;
@@ -48,6 +49,8 @@ public class GameFactory {
     private Properties conditionClasses;
     private Properties actionClasses;
 
+    private List<Agent> masterDefinedAgents;
+
     private int currentAgentID;
 
     public GameFactory() throws ParserConfigurationException, SAXException, IOException {
@@ -61,6 +64,8 @@ public class GameFactory {
         this.actionClasses = new Properties();
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
+
+        masterDefinedAgents = new ArrayList<>();
     }
 
     public List<AvailableCondition> getAvailableConditions() {
@@ -84,7 +89,7 @@ public class GameFactory {
      * @return A default state
      */
     public IStateDefinition createState() {
-        return new State();
+        return new State(masterDefinedAgents);
     }
 
     /**
@@ -92,7 +97,7 @@ public class GameFactory {
      * @return A default level
      */
     public ILevelDefinition createLevel() {
-        Level level = new Level();
+        Level level = new Level(masterDefinedAgents);
         level.injectGameEventMaster(eventMaster);
         return level;
     }

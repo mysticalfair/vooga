@@ -1,8 +1,11 @@
 package state;
 
+import authoring.IAgentDefinition;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
+import state.agent.Agent;
+import state.attribute.Attribute;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,13 +17,20 @@ import java.util.List;
  * @author David Miron
  */
 public class State implements IStateDefinition, Serializable {
+
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
+    private List<Agent> agentsCurrent;
+    private List<Agent> agentsOptions;
+    private List<Attribute> attributes;
 
-    public State(){
+    private List<Agent> definedAgents;
+
+    public State(List<Agent> masterDefinedAgents){
         this.currentLevel = START_LEVEL;
         levels = new ArrayList<>();
+        this.definedAgents = masterDefinedAgents;
     }
 
     /**
@@ -52,6 +62,21 @@ public class State implements IStateDefinition, Serializable {
         levels.add((Level)level);
     }
 
+    @Override
+    public List<? extends IAgentDefinition> getDefinedAgents() {
+        return definedAgents;
+    }
+
+    @Override
+    public void removeDefinedAgent(int index) {
+        definedAgents.remove(index);
+    }
+
+    @Override
+    public void addDefinedAgent(IAgentDefinition agent) {
+        definedAgents.add((Agent)agent);
+    }
+
     /**
      * Switches the current level being played to the next level. Currently the order in which the levels of a game are
      * played are simply determined by their order within the levels list.
@@ -62,9 +87,18 @@ public class State implements IStateDefinition, Serializable {
         }
     }
 
-    public void step(double deltaTime){
+    public void step(double deltaTime) {
         // TODO: check "general" objectives (e.g. level change, game over, victory)
         levels.get(currentLevel).step(deltaTime);
     }
 
+    public IPlayerLevelState getLevelState(){
+        return this.levels.get(currentLevel).getLevelState();
+    }
+
+    public void initializeLevelAgents() {
+        for (Level level: levels) {
+            level.initializeAgents();
+        }
+    }
 }

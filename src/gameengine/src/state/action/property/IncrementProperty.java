@@ -5,12 +5,15 @@ import state.agent.Agent;
 
 import java.util.Map;
 
-public class AddToPropertyAction extends Action {
+/**
+ * @author Jorge Raad
+ */
+public class IncrementProperty extends Action {
 
     private String propertyName;
     private double amount;
 
-    public AddToPropertyAction(Map<String, Object> params) {
+    public IncrementProperty(Map<String, Object> params) {
         super(params);
     }
 

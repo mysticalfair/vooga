@@ -17,8 +17,8 @@ public class DecrementProperty extends Action {
     }
 
     public void setParams(Map<String, Object> params) {
-        this.propertyName = (String)params.get("propertyName");
-        this.amount = (Double)params.get("amount");
+        this.propertyName = (String)params.get("property");
+        this.amount = (Double)params.get("value");
     }
 
     @Override

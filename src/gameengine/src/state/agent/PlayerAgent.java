@@ -31,6 +31,11 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         this.imageURL = imageURL;
         this.name = name;
         pcs = new PropertyChangeSupport(this);
+        System.out.println(" A NEW PLAYER AGENT IS CREATED");
+    }
+
+    public PropertyChangeSupport getPcs() {
+        return pcs;
     }
 
     public double getX() {
@@ -73,7 +78,7 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     public void setX(double x){
         var oldX = this.x;
         this.x = x;
-        System.out.println("X CHANGED IN PROPERTIES");
+        System.out.println(this + " CHANGED IN PROPERTIES AND IT'S GOING TO " + pcs.getPropertyChangeListeners());
         pcs.firePropertyChange("x", oldX, x);
     }
 

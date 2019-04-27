@@ -67,26 +67,23 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     @Override
     public void addAgent(IAgentDefinition agent) {
         levelState.addCurrentAgent((Agent)agent);
-        System.out.println("***************TRIED TO ADD AN AGENT ************");
     }
 
     public void step(double deltaTime) {
-
+        int index = 0;
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.println("LENGTH IN BE: " + levelState.getCurrentAgents().size());
+                System.out.println("STEPPING AGENT : " + index);
                 System.out.print(agent.getImageURL() + "------Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-
+                System.out.println("LISTENERS:"+ agent.getPlayerAgent().getPcs().getPropertyChangeListeners());
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
-//                System.out.print("Position: " + (int)agent.getX() + ", " + (int)agent.getY() + "| ");
-//                System.out.print("Angle: " + (int)agent.getDirection() + "| ");
+                index++;
 
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
             }
         }
-//        System.out.println("______________________________________________________");
 
         for (Objective objective: levelState.getObjectives())
             objective.execute(levelState);

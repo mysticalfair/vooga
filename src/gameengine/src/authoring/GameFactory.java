@@ -181,6 +181,7 @@ public class GameFactory {
             return (T)constructor.newInstance(params);
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ReflectionException();
         }
 

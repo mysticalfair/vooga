@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public abstract class MovementAction extends Action implements IRequiresBaseAgent {
 
-   protected int speed;
+   protected double speed;
    protected Agent baseAgent;
 
    public MovementAction(Map<String, Object> params) {

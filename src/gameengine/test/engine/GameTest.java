@@ -6,6 +6,8 @@ import authoring.exception.ConditionDoesNotExistException;
 import authoring.exception.ReflectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import state.Property;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +48,7 @@ class GameTest {
             state.addDefinedAgent(createZombie("zombie"));
 
             for(int k = 0; k < AGENT_NUM; k++){
-                level.addAgent("zombie", 10 + 20 * k, 10, 0);
+                level.addAgent("zombie", 10 + 20 * k, 10, 0, new ArrayList<Property>());
             }
             state.addLevel(level);
             gameEngine.setState(state);
@@ -69,7 +71,7 @@ class GameTest {
             state.addDefinedAgent(createPea("pea"));
             state.addDefinedAgent(createPeashooter("peashooter", "pea"));
 
-            level.addAgent("peashooter", 200, 200, 0);
+            level.addAgent("peashooter", 200, 200, 0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -95,11 +97,11 @@ class GameTest {
             state.addDefinedAgent(createZombie("zombie"));
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("peashooter", 50, 50 + 100 * i, 0);
+                level.addAgent("peashooter", 50, 50 + 100 * i, 0, new ArrayList<Property>());
             }
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("zombie", 350, 50 + 100 * i, 180);
+                level.addAgent("zombie", 350, 50 + 100 * i, 180, new ArrayList<Property>());
             }
 
 
@@ -125,8 +127,8 @@ class GameTest {
             state.addDefinedAgent(createPea("pea"));
             state.addDefinedAgent(createZombie("zombie"));
 
-            level.addAgent("pea", 50, 50, 0);
-            level.addAgent("zombie", 50, 50, 0);
+            level.addAgent("pea", 50, 50, 0, new ArrayList<Property>());
+            level.addAgent("zombie", 50, 50, 0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -144,7 +146,7 @@ class GameTest {
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
             state.addDefinedAgent(createHealthAgent());
-            level.addAgent("Luke", 50, 50, 0);
+            level.addAgent("Luke", 50, 50, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -169,8 +171,8 @@ class GameTest {
             state.addDefinedAgent(createPeashooter("peashooter", "pea"));
             state.addDefinedAgent(createPeashooter("zombieshooter", "zombie"));
 
-            level.addAgent("peashooter", 50, 50, 0.0);
-            level.addAgent("zombieshooter", 50, 150, 0.0);
+            level.addAgent("peashooter", 50, 50, 0.0, new ArrayList<Property>());
+            level.addAgent("zombieshooter", 50, 150, 0.0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -195,8 +197,8 @@ class GameTest {
             state.addDefinedAgent(createZombie("zombie"));
             state.addDefinedAgent(createPeashooter("peashooter", "pea"));
             state.addDefinedAgent(createPeashooter("zombieshooter", "zombie"));
-            level.addAgent("peashooter", 50, 50, 0);
-            level.addAgent("zombieshooter", 50, 250, 0);
+            level.addAgent("peashooter", 50, 50, 0, new ArrayList<Property>());
+            level.addAgent("zombieshooter", 50, 250, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");

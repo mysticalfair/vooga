@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
+import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
 import util.AuthoringContext;
 
@@ -35,6 +36,7 @@ public class AuthoringEnvironment extends Application {
     private Scene scene;
     private List<MapState> levels;
     private ObservableList<Path> paths;
+    private PathPenTool pen;
 
     public static void main(String[] args){
         launch(args);
@@ -78,8 +80,8 @@ public class AuthoringEnvironment extends Application {
     private void initAllPanes() {
         initAttributesPane();
         initMapPane(1);
-        initBottomPanes();
         initToolbarPane();
+        initBottomPanes();
         initAgentPane();
     }
 
@@ -112,7 +114,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initBottomPanes() {
         consolePane = new ConsolePane(context);
-        pathPane = new PathPane(context, map, scene, paths);
+        pathPane = new PathPane(context, map, scene, paths, pen);
         var bottomBox = new HBox();
         consolePane.accessContainer(node -> bottomBox.getChildren().add(node));
         pathPane.accessContainer(node -> bottomBox.getChildren().add(node));
@@ -136,6 +138,8 @@ public class AuthoringEnvironment extends Application {
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeToExistingLevel((int)((double) newValue)));
+
+        pen = toolbarPane.getPen();
     }
 
     private void clearLevel() {

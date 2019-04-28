@@ -115,6 +115,9 @@ public class ToolbarPane extends AuthoringPane {
     }
 
     public int getExistingLevelValue() {
+        if (existingLevelCreator.getValue() == null) {
+            return -1;
+        }
         return existingLevelCreator.getValue();
     }
 

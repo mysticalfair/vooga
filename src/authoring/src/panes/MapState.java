@@ -5,6 +5,7 @@ import frontend_objects.DraggableAgentView;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Ellipse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -22,7 +23,7 @@ public class MapState {
 
     public MapState(MapState other) {
         this.backgroundURL = other.backgroundURL;
-        this.agents = other.agents;
+        this.agents = new ArrayList<>(other.agents);
         selectCount.set(0);
     }
 

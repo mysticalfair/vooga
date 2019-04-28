@@ -14,9 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GameTest {
+public class ClashOfClansTest {
+
     public static final String GAME_FILE_NAME = "GameTest.xml";
     public static final int AGENT_NUM = 10;
 
@@ -173,31 +174,6 @@ class GameTest {
             level.addAgent("peashooter", 50, 50, 0.0, new ArrayList<Property>());
             level.addAgent("zombieshooter", 50, 150, 0.0, new ArrayList<Property>());
 
-            state.addLevel(level);
-            gameEngine.setState(state);
-            gameEngine.saveState("John.xml");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Creates a peashooter and a zombieshooter
-     */
-    @Test
-    void setUpSix(){
-        try {
-            factory = new GameFactory();
-            gameEngine = new Game();
-            state = factory.createState();
-            ILevelDefinition level = factory.createLevel();
-
-            state.addDefinedAgent(createPea("pea"));
-            state.addDefinedAgent(createZombie("zombie"));
-            state.addDefinedAgent(createPeashooter("peashooter", "pea"));
-            state.addDefinedAgent(createPeashooter("zombieshooter", "zombie"));
-            level.addAgent("peashooter", 50, 50, 0, new ArrayList<Property>());
-            level.addAgent("zombieshooter", 50, 250, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");

@@ -108,6 +108,7 @@ public class AuthoringEnvironment extends Application {
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
+        // TODO: add reference to GameState.addLevel
         map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.setLevel(level);
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
@@ -179,6 +180,7 @@ public class AuthoringEnvironment extends Application {
 
     private void clearLevel() {
         map.clearMap();
+        // TODO: add reference to GameState.addLevel
         map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
@@ -200,6 +202,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.setMaxLevel(newLevel);
         toolbarPane.addToExistingLevelCreator(newLevel);
         consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
+        //TODO: add reference to GameState.addLevel
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));

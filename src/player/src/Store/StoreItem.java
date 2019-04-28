@@ -5,9 +5,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+//import frontend_objects;
 
 /**
  * @author: Mary Gooneratne
+ * @Author: Joanna Li
  * Main item storage for Store
  */
 public class StoreItem extends GridPane {
@@ -28,6 +30,7 @@ public class StoreItem extends GridPane {
    //private StoreAgent agent;
    private Rectangle itemPriceContainerBackground;
    private Rectangle itemContainerBackground;
+
 
    public StoreItem(){
       super();

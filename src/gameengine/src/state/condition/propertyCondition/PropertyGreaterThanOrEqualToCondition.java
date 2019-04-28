@@ -1,7 +1,6 @@
 package state.condition.propertyCondition;
 
 import state.agent.Agent;
-import state.condition.Condition;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +24,5 @@ public class PropertyGreaterThanOrEqualToCondition extends PropertyCondition {
     public List<Agent> getValid(List<Agent> agents) {
         return agents.stream().filter(agent -> (this.value.compareTo(agent.getProperty(this.propertyName)) >= 0)).collect(Collectors.toList());
     }
+
 }

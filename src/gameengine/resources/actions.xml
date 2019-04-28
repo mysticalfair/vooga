@@ -51,6 +51,22 @@
     <actionDefinition>
         <name>IncrementProperty</name>
         <fields>
+            <string>property</string>
+            <double>value</double>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>DecrementProperty</name>
+        <fields>
+            <string>property</string>
+            <double>value</double>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>DecrementProperty</name>
+        <fields>
             <string>propertyName</string>
             <double>value</double>
         </fields>

@@ -3,6 +3,7 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import state.IRequiresBaseAgent;
 import state.Property;
 import state.actiondecision.ActionDecision;
@@ -60,7 +61,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */
-    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
+    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException, PropertyDoesNotExistException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents, delta_time);
@@ -172,16 +173,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param agent check if this agent is intersecting with this agent.
      */
     public boolean isColliding(Agent agent) {
-        Rectangle a = createBoundingRect(this);
-        Rectangle b = createBoundingRect(agent);
-        boolean result = a.intersects(b);
-        System.out.println();
-        return result;
+        return createBoundingRect(this).intersects(createBoundingRect(agent));
     }
 
     private Rectangle createBoundingRect(Agent agent) {
         int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
-        int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
+        int yTopLeft = (int)(agent.getY() - (agent.getHeight() / 2));
         return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
@@ -213,9 +210,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         playerAgent.setDirection(direction);
     }
 
-    public List<IActionDecisionDefinition> getActionDecisions() {
+    public List<? extends IActionDecisionDefinition> getActionDecisions() {
         // TODO:
-        return null;
+        return this.actionDecisions;
     }
 
     public void removeActionDecision(int i) {
@@ -230,7 +227,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public List<? extends IPropertyDefinition> getProperties() {
-        return null;
+        return this.playerAgent.getProperties();
     }
 
     @Override
@@ -243,8 +240,8 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public <T> void setProperty(String name, T value) {
-        this.playerAgent.setProperty(name, value);
+    public <T> void setProperty(String name, T value) throws PropertyDoesNotExistException {
+        this.playerAgent.updateProperty(name, value);
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {
@@ -260,10 +257,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return null;
     }
 
-    @Deprecated
-    public void setProperties(String[] properties, Object[] values) {
+    public void updateProperties(String[] properties, Object[] values) throws PropertyDoesNotExistException {
         for(int i = 0; i < properties.length; i++) {
-            this.playerAgent.setProperty(properties[i], values[i]);
+            this.playerAgent.updateProperty(properties[i], values[i]);
         }
     }
 

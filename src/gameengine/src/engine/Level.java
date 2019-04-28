@@ -78,6 +78,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                     clone.setLocation(agentReference.getX(), agentReference.getY());
                     clone.setDirection(agentReference.getDirection());
                     clone.addProperties(agentReference.getInstanceProperties());
+                    clone.injectPathsWhereNecessary(paths);
                     return clone;
                 } catch (CloneNotSupportedException e) {
                     // Do nothing, that agent does not support cloning
@@ -94,7 +95,9 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
             for (Agent agent : masterDefinedAgents) {
                 if (agent.getName().equals(agentName)) {
                     try {
-                        agents.add(agent.clone());
+                        Agent clone = agent.clone();
+                        clone.injectPathsWhereNecessary(paths);
+                        agents.add(clone);
                     } catch (CloneNotSupportedException e) {
                         // Do nothing, the agent does not support cloning
                     }

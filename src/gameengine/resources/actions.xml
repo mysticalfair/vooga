@@ -23,7 +23,6 @@
     <actionDefinition>
         <name>MoveOnPointPath</name>
         <fields>
-            <point2Dlist>points</point2Dlist>
             <double>speed</double>
         </fields>
     </actionDefinition>

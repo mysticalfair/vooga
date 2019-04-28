@@ -86,6 +86,23 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         return null;
     }
 
+    private List<Agent> getAgentsFromNames(List<String> agentNames) {
+        List<Agent> agents = new ArrayList<>();
+        for (String agentName: agentNames) {
+            for (Agent agent : masterDefinedAgents) {
+                if (agent.getName().equals(agentName)) {
+                    try {
+                        agents.add(agent.clone());
+                    } catch (CloneNotSupportedException e) {
+                        // Do nothing, the agent does not support cloning
+                    }
+                    break;
+                }
+            }
+        }
+        return agents;
+    }
+
     @Override
     public void removeAgent(int index) {
         authoringAgentsPlaced.remove(index);
@@ -178,8 +195,13 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     public IPlayerLevelState getLevelState(){return this.levelState;}
 
     public void initializeAgents() {
-        for (Agent agent : createAgentsFromReferences()) {
+        for (Agent agent: createAgentsFromReferences()) {
             levelState.addCurrentAgent(agent);
         }
+
+        for (Agent agent: getAgentsFromNames(authoringPlaceableAgents)) {
+            levelState.addPlaceableAgent(agent);
+        }
     }
+
 }

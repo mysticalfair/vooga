@@ -1,5 +1,6 @@
 
-import engine.Game;
+import Level.Level;
+import SplashScreen.SplashScene;
 import engine.IPlayerGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,11 +34,11 @@ public class GameApplication extends Application {
       this.primaryStage = primaryStage;
       primaryStage.show();
       setAnimation();
-      game = new Game();
-      game.loadState("src/gameengine/ClashTest1.xml");
-      var levelState = this.game.getLevelState();
-      Level level = new Level(levelState);
-      this.primaryStage.setScene(level);
+
+      SplashScene ss = new SplashScene(primaryStage);
+      primaryStage.setScene(ss.pickGame());
+
+      this.primaryStage.setScene(ss.selectGame());
       this.primaryStage.show();
      // this.game.run("gameengine/John.xml");
    }

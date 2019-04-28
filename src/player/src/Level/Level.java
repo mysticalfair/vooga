@@ -1,3 +1,5 @@
+package Level;
+
 import Attribute.AttributeView;
 import Controllers.LevelController;
 import Panes.AttributePane;

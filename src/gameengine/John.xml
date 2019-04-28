@@ -58,60 +58,70 @@
           <x>50.0</x>
           <y>50.0</y>
           <direction>0.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>peashooter</name>
           <x>50.0</x>
           <y>150.0</y>
           <direction>0.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>peashooter</name>
           <x>50.0</x>
           <y>250.0</y>
           <direction>0.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>peashooter</name>
           <x>50.0</x>
           <y>350.0</y>
           <direction>0.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>peashooter</name>
           <x>50.0</x>
           <y>450.0</y>
           <direction>0.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
           <y>50.0</y>
           <direction>180.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
           <y>150.0</y>
           <direction>180.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
           <y>250.0</y>
           <direction>180.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
           <y>350.0</y>
           <direction>180.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>zombie</name>
           <x>350.0</x>
           <y>450.0</y>
           <direction>180.0</direction>
+          <instanceProperties/>
         </state.AgentReference>
       </authoringAgentsPlaced>
       <authoringPlaceableAgents/>
@@ -373,6 +383,7 @@
           </pcs>
         </state.agent.Agent>
       </masterDefinedAgents>
+      <paths/>
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>

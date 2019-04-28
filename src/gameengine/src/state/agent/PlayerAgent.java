@@ -119,18 +119,22 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         throw new PropertyDoesNotExistException();
     }
 
-    public void setProperty(Property newProperty){
+    public boolean setProperty(Property newProperty){
         for(Property p : this.properties) {
             if(p.getName().equals(newProperty.getName())) {
                 var oldVal = p.getValue();
                 p.setValue(newProperty.getValue());
                 pcs.firePropertyChange(name, oldVal, newProperty.getValue());
+                return true;
             }
         }
+        return false;
     }
 
     public void addProperty(Property newProperty) {
-        this.properties.add(newProperty);
+        if(!setProperty(newProperty)) {
+            this.properties.add(newProperty);
+        }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

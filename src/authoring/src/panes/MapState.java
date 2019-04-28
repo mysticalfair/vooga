@@ -3,7 +3,6 @@ package panes;
 import frontend_objects.AgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.shape.Ellipse;
 import util.AuthoringContext;
 
@@ -51,6 +50,7 @@ public class MapState {
 
     public void addToPaths(Path path){
         paths.add(path);
+
     }
 
     public void removePath(Path path){

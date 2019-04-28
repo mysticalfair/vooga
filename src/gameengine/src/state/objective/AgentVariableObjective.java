@@ -28,13 +28,10 @@ abstract public class AgentVariableObjective extends Objective {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.id = (int) params.get("id");
-        this.title = (String) params.get("title");
         this.variableName = (String) params.get("variableName");
         this.targetValue = (double) params.get("targetValue");
-        this.outcome = (IObjectiveOutcome) params.get("outcome");
         this.agent = (Agent) params.get("agent");
-        this.level = (int) params.get("level");
+        super.setParams(params);
 
         if(variableName.equals("x")) {
             variableValue = agent.getX();

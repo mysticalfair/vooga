@@ -24,12 +24,9 @@ abstract public class AttributeObjective extends Objective {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.id = (int) params.get("id");
-        this.title = (String) params.get("title");
-        this.outcome = (IObjectiveOutcome) params.get("outcome");
-        this.level = (int) params.get("level");
         this.attribute = (Attribute) params.get("attribute");
         this.targetValue = (int) params.get("targetValue");
+        super.setParams(params);
     }
 
     /**

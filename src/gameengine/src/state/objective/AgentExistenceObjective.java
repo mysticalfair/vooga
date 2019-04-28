@@ -25,13 +25,11 @@ public class AgentExistenceObjective<T> extends Objective {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.id = (int) params.get("id");
-        this.title = (String) params.get("title");
-        this.outcome = (IObjectiveOutcome) params.get("outcome");
-        this.level = (int) params.get("level");
         this.targetNumber = (int) params.get("targetNumber");
         this.propertyName = (String) params.get("propertyName");
         this.targetValue = (T) params.get("targetValue");
+        super.setParams(params);
+
     }
 
     /**

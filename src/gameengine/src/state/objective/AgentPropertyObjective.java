@@ -27,13 +27,10 @@ abstract public class AgentPropertyObjective<T> extends Objective {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.id = (int) params.get("id");
-        this.title = (String) params.get("title");
         this.propertyName = (String) params.get("propertyName");
         this.agent = (Agent) params.get("agent");
         this.targetValue = (T) params.get("targetValue");
-        this.outcome = (IObjectiveOutcome) params.get("outcome");
-        this.level = (int) params.get("level");
+        super.setParams(params);
     }
 
     /**

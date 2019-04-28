@@ -26,7 +26,10 @@ public abstract class Objective {
     }
 
     public void setParams(Map<String, Object> params) {
-        // Does nothing -> this method should be overridden by subclasses that need parameters
+        this.id = (int) params.get("id");
+        this.title = (String) params.get("title");
+        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.level = (int) params.get("level");
     }
 
     public String getTitle() {

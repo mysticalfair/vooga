@@ -172,7 +172,11 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @param agent check if this agent is intersecting with this agent.
      */
     public boolean isColliding(Agent agent) {
-        return createBoundingRect(this).intersects(createBoundingRect(agent));
+        Rectangle a = createBoundingRect(this);
+        Rectangle b = createBoundingRect(agent);
+        boolean result = a.intersects(b);
+        System.out.println();
+        return result;
     }
 
     private Rectangle createBoundingRect(Agent agent) {

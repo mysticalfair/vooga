@@ -54,11 +54,6 @@ public class LevelState implements Serializable, IPlayerLevelState {
         return this.agentsCurrent;
     }
 
-    public void removeCurrentAgent(int index) {
-        if (agentsCurrent.size() > index)
-            agentsCurrent.remove(index);
-    }
-
     public void addCurrentAgent(Agent agent) {
         var oldAgents = this.agentsCurrent;
         agentsCurrent.add(agent);
@@ -125,7 +120,9 @@ public class LevelState implements Serializable, IPlayerLevelState {
 
     public void removeAgent(Agent agent) {
         if (this.agentsCurrent.contains(agent)){
-            this.agentsCurrent.remove(agent);
+            agentsCurrent.remove(agent);
+            this.pcs.firePropertyChange("Remove Agent", agent, agent);
+            System.out.println("removing agent in backend, length: " + this.agentsCurrent.size());
         }
     }
 

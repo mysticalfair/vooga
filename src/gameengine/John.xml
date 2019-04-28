@@ -97,15 +97,21 @@
                 <eventMaster reference="../../../state.actiondecision.ActionDecision/action/eventMaster"/>
                 <params>
                   <entry>
-                    <string>amount</string>
-                    <double>5.0</double>
-                  </entry>
-                  <entry>
                     <string>propertyName</string>
                     <string>health</string>
                   </entry>
+                  <entry>
+                    <string>onBaseAgent</string>
+                    <boolean>true</boolean>
+                  </entry>
+                  <entry>
+                    <string>value</string>
+                    <double>5.0</double>
+                  </entry>
                 </params>
                 <name>DecrementProperty</name>
+                <baseAgent reference="../../../.."/>
+                <onBaseAgent>true</onBaseAgent>
                 <propertyName>health</propertyName>
                 <amount>5.0</amount>
               </action>

@@ -6,4 +6,5 @@ module authoring {
 
     exports frontend_objects;
     exports panes;
+
 }

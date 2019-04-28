@@ -216,7 +216,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public List<? extends IActionDecisionDefinition> getActionDecisions() {
-        // TODO:
         return this.actionDecisions;
     }
 

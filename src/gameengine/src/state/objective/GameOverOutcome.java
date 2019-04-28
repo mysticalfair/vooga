@@ -17,6 +17,11 @@ public class GameOverOutcome extends ObjectiveOutcome {
         super(params);
     }
 
+    @Override
+    public void setParams(Map<String, Object> params) {
+        super.setParams(params);
+    }
+
     public String execute(State state) {
         state.makeGameOver();
         return GAME_OVER_MESSAGE;

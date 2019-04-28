@@ -13,9 +13,6 @@ public interface IObjectiveConditionDefinition {
     String getTitle();
     void setTitle(String title);
 
-    int getId();
-    void setId(int id);
-
     int getLevel();
     void setLevel(int level);
 

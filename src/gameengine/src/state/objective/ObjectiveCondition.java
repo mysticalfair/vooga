@@ -17,7 +17,6 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
     public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
 
     protected Map<String, Object> params;
-    protected int id;
     protected String title;
     protected int level;
 
@@ -31,7 +30,6 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
     }
 
     public void setParams(Map<String, Object> params) {
-        this.id = (int) params.get("id");
         this.title = (String) params.get("title");
         this.level = (int) params.get("level");
     }
@@ -42,9 +40,6 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public int getId() { return this.id; }
-    public void setId(int id) { this.id = id; }
 
     public int getLevel() { return this.level; }
     public void setLevel(int level) { this.level = level; }

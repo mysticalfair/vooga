@@ -17,10 +17,19 @@ abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition {
     public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
 
     protected Map<String, Object> params;
+    protected String title;
 
     public ObjectiveOutcome(Map<String, Object> params) {
         this.params = params;
         setParams(params);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Map<String, Object> getParams() {
@@ -28,6 +37,7 @@ abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition {
     }
 
     public void setParams(Map<String, Object> params) {
+        this.title = (String) params.get("title");
         // ObjectiveOutcome classes that need parameters will implement this
     }
 

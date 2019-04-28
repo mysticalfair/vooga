@@ -1,6 +1,8 @@
 package state.objective;
 
+import authoring.IObjectiveConditionDefinition;
 import authoring.IObjectiveDefinition;
+import authoring.IObjectiveOutcomeDefinition;
 import state.State;
 
 public class Objective implements IObjectiveDefinition {
@@ -19,5 +21,11 @@ public class Objective implements IObjectiveDefinition {
             outcome.execute(state);
         }
     }
+
+    public IObjectiveOutcomeDefinition getOutcome() { return outcome; }
+    public void setOutcome(IObjectiveOutcomeDefinition outcome) { this.outcome = (ObjectiveOutcome) outcome; }
+
+    public IObjectiveConditionDefinition getCondition() { return condition; }
+    public void setCondition(IObjectiveConditionDefinition condition) { this.condition = (ObjectiveCondition) condition; }
 }
 

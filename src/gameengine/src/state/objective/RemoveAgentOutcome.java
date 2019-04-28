@@ -18,7 +18,7 @@ public class RemoveAgentOutcome extends ObjectiveOutcome {
 
     @Override
     public void setParams(Map<String, Object> params) {
-
+        super.setParams(params);
         this.objectiveIdentificationPropertyValue = (String) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
     }
 

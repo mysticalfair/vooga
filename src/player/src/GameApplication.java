@@ -36,6 +36,7 @@ public class GameApplication extends Application {
       setAnimation();
       game = new Game();
       game.loadState("src/gameengine/" + GAME_FILE_NAME);
+//      game.loadState("src/gameengine/ClashTest1.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);

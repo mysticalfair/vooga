@@ -15,6 +15,7 @@ import java.util.List;
  * Interface to represent the game as the authoring environment should see it
  * @author Jorge Raad
  * @author David Miron
+ * @author Luke Truitt
  */
 public class State implements IStateDefinition, Serializable {
 

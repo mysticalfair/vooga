@@ -2,6 +2,7 @@ package state;
 
 import state.agent.Agent;
 import state.agent.IPlayerAgent;
+import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
 import state.objective.IPlayerObjective;
@@ -25,6 +26,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private String backgroundImageURL;
     private PropertyChangeSupport pcs;
     public LevelState() {
         this.placeableAgents = new ArrayList<>();
@@ -46,6 +48,26 @@ public class LevelState implements Serializable, IPlayerLevelState {
             placeableAgents.remove(index);
     }
 
+    public boolean addAgentFromStore(int index, double x, double y) {
+        try {
+            if(index < 0 || this.placeableAgents.size() - 1 > index ) {
+                return false;
+            }
+
+            Agent agent = this.placeableAgents.get(index).clone();
+
+            agent.setX(x);
+            agent.setY(y);
+
+            addPlaceableAgent(agent);
+
+            return true;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public void addPlaceableAgent(Agent agent) {
         placeableAgents.add(agent);
     }
@@ -65,6 +87,19 @@ public class LevelState implements Serializable, IPlayerLevelState {
             agentsCurrent.remove(agent);
             //TODO: change back to agent
             this.pcs.firePropertyChange("Remove Agent", agent, null);
+        }
+    }
+
+    public void addAttribute(Attribute attribute) {
+        attributesCurrent.add(attribute);
+        this.pcs.firePropertyChange("Add Attribute", null, attribute);
+    }
+
+    public void removeAttribute(Attribute attribute) {
+        if (this.attributesCurrent.contains(attribute)){
+            attributesCurrent.remove(attribute);
+            //TODO: change back to agent
+            this.pcs.firePropertyChange("Remove Attribute", attribute, null);
         }
     }
 
@@ -122,6 +157,16 @@ public class LevelState implements Serializable, IPlayerLevelState {
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public String getBackgroundImageURL() {
+        return backgroundImageURL;
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        backgroundImageURL = imageURL;
     }
 
 }

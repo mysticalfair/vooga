@@ -41,8 +41,8 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    }
 
    public void init(IPlayerAgent playerAgent){
-      this.setX(playerAgent.getX() - (playerAgent.getWidth()/2));
-      this.setY(playerAgent.getY() - (playerAgent.getHeight()/2));
+      this.setX(playerAgent.getX() +  (playerAgent.getWidth()/2));
+      this.setY(playerAgent.getY() + (playerAgent.getHeight()/2));
       // TODO: Make sure coordinate systems align
       this.setFitHeight(playerAgent.getHeight());
       this.setFitWidth(playerAgent.getWidth());

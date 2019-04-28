@@ -6,15 +6,8 @@ import authoring.exception.ConditionDoesNotExistException;
 import authoring.exception.ReflectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import state.Property;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClashOfClansTest {
 
@@ -45,7 +38,7 @@ public class ClashOfClansTest {
 
             state.addDefinedAgent(createTownHall("home"));
 
-            level.addAgent("home", 0, 0, 0, new ArrayList<>());
+            level.addAgent("home", 300, 300, 0, new ArrayList<>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -60,7 +53,7 @@ public class ClashOfClansTest {
         List<IPropertyDefinition> properties = new ArrayList<>();
         var prop = factory.createProperty("health", 100.0);
         properties.add(prop);
-        return factory.createAgent(0, 0, 20, 20 ,1, "home", "clash/TH10.png", actionDecisions, properties);
+        return factory.createAgent(0, 0, 50, 50 ,1, "home", "clash/TH10.png", actionDecisions, properties);
     }
 
 }

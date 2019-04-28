@@ -55,8 +55,8 @@
       <authoringAgentsPlaced>
         <state.AgentReference>
           <name>home</name>
-          <x>0.0</x>
-          <y>0.0</y>
+          <x>300.0</x>
+          <y>300.0</y>
           <direction>0.0</direction>
           <instanceProperties/>
         </state.AgentReference>
@@ -72,8 +72,8 @@
             <imageURL>clash/TH10.png</imageURL>
             <name>home</name>
             <direction>1.0</direction>
-            <width>20</width>
-            <height>20</height>
+            <width>50</width>
+            <height>50</height>
             <properties>
               <state.Property>
                 <name>health</name>

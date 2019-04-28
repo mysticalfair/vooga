@@ -6,5 +6,4 @@ module player {
     requires java.desktop;
     requires gameengine;
     requires authoring;
-
 }

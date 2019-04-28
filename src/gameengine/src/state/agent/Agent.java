@@ -210,9 +210,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         playerAgent.setDirection(direction);
     }
 
-    public List<IActionDecisionDefinition> getActionDecisions() {
+    public List<? extends IActionDecisionDefinition> getActionDecisions() {
         // TODO:
-        return null;
+        return this.actionDecisions;
     }
 
     public void removeActionDecision(int i) {
@@ -227,7 +227,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public List<? extends IPropertyDefinition> getProperties() {
-        return null;
+        return this.playerAgent.getProperties();
     }
 
     @Override

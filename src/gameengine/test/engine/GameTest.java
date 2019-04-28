@@ -337,12 +337,13 @@ class GameTest {
         cond2Params.put("interval", 5.0);
         cond1.add(factory.createCondition("DoOnce", new HashMap()));
         cond1.add(factory.createCondition("Interval", cond2Params));
+        conditionDefinitions.add(factory.createCondition("DoOnce", new HashMap<>()));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
         actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
         List<IPropertyDefinition> properties = new ArrayList<>();
-        var prop = factory.createProperty("health", 50.0);
+        var prop = factory.createProperty("health", 10.0);
         properties.add(prop);
         return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
     }

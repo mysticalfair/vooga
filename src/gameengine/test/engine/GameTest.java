@@ -331,7 +331,6 @@ class GameTest {
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");
         action2Params.put("value", 5.0);
-        action2Params.put("onBaseAgent", true);
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<>();

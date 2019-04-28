@@ -43,7 +43,8 @@ public abstract class Objective {
     public void setOutcome(IObjectiveOutcome outcome) { this.outcome = outcome; }
 
     /**
-     * Executes the outcome if the given agent has the correct condition for the targetValue.
+     * Checks necessary conditions and if applicable, executes the outcome on the given state.
+     * @param state current state of game
      */
     abstract public void execute(State state);
 }

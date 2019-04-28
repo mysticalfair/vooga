@@ -12,15 +12,18 @@ import java.util.Map;
 public class RemoveAgentOutcome extends ObjectiveOutcome {
 
     private Agent agent;
+    protected String objectiveIdentificationPropertyValue;
 
     public RemoveAgentOutcome(Map<String, Object> params) { super(params); }
 
     @Override
     public void setParams(Map<String, Object> params) {
-        this.agent = (Agent) params.get("agent");
+
+        this.objectiveIdentificationPropertyValue = (String) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
     }
 
     public String execute(State state) {
+        agent = ObjectiveUtils.getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
         state.getCurrentLevel().removeAgent(agent);
         return null;
     }

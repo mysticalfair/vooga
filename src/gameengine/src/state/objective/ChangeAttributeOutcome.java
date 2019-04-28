@@ -3,6 +3,7 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 import state.attribute.Attribute;
+import state.attribute.IAttribute;
 
 import java.util.Map;
 
@@ -14,8 +15,7 @@ public class ChangeAttributeOutcome extends ObjectiveOutcome {
 
     private String attributeName;
     private int change;
-    protected String objectiveIdentificationPropertyValue;
-    private Attribute attribute;
+    private IAttribute attribute;
 
     public ChangeAttributeOutcome(Map<String, Object> params) { super(params); }
 
@@ -26,7 +26,13 @@ public class ChangeAttributeOutcome extends ObjectiveOutcome {
     }
 
     public String execute(State state) {
-        attribute = state.get
+
+        for(IAttribute attribute : state.getCurrentAttributes()) {
+            if (attribute.getName().equals(attributeName)) {
+                this.attribute = attribute;
+            }
+        }
+
         attribute.setValue(attribute.getValue() + change);
         return null;
     }

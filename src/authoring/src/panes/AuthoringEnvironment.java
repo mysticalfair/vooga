@@ -1,6 +1,7 @@
 package panes;
 
 import authoring.GameFactory;
+import authoring.ILevelDefinition;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -14,10 +15,12 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
+import state.AgentReference;
 import util.AuthoringContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
@@ -111,7 +114,10 @@ public class AuthoringEnvironment extends Application {
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
-        // TODO: add reference to GameState.addLevel
+
+        ILevelDefinition gameLevel = context.getGameFactory().createLevel();
+        context.getState().addLevel(gameLevel);
+
         map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.setLevel(level);
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
@@ -176,9 +182,24 @@ public class AuthoringEnvironment extends Application {
 
     private void clearLevel() {
         map.clearMap();
-        // TODO: add reference to GameState.addLevel
-        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
+        int levelIndex = (int)(double) toolbarPane.getLevelChanger().getValue();
+        ILevelDefinition gameLevel = context.getState().getLevels().get(levelIndex);
+        clearGameLevelContents(gameLevel);
+        map.getStateMapping().put(levelIndex, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
+    }
+
+    private void clearGameLevelContents(ILevelDefinition gameLevel){
+        for(String pathName: gameLevel.getPaths().keySet()){
+            gameLevel.removePath(pathName);
+        }
+        for(String agent: gameLevel.getPlaceableAgents()){
+            gameLevel.removePlaceableAgent(agent);
+        }
+        // TODO: is this needed?
+        for(int i=0; i<gameLevel.getCurrentAgents().size(); i++){
+            gameLevel.removeAgent(i);
+        }
     }
 
     private void makeFromExistingWrapper() {
@@ -198,9 +219,14 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.setMaxLevel(newLevel);
         toolbarPane.addToExistingLevelCreator(newLevel);
         consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
-        //TODO: add reference to GameState.addLevel
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
+
+            ILevelDefinition level = context.getGameFactory().createLevel();
+            context.getState().addLevel(level);
+            // TODO: add code to add Level contents
+
+
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
             MapState revertToState = map.getStateMapping().get(newLevel);
             revertToState.updateMap(map);

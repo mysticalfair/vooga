@@ -1,5 +1,6 @@
 package state.action.spawn;
 
+import state.AgentReference;
 import state.IRequiresBaseAgent;
 import state.agent.Agent;
 import state.agent.AgentUtils;
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresBaseAgent {
 
-    private Agent spawnAgent;
+    private String spawnAgentName;
     private Agent baseAgent;
 
     /**
@@ -27,7 +28,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
 
     @Override
     public void setParams(Map<String, Object> params) {
-        this.spawnAgent = (Agent)params.get("agent");
+        this.spawnAgentName = (String) params.get("agent");
     }
 
     @Override
@@ -42,15 +43,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
      */
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-        Agent newAgent = spawnAgent.clone();
-        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
-        // This commented-out line is to set the projectile direction towards the given agent
-//        newAgent.setDirection(AgentUtils.getAngleBetween(baseAgent, agent));
-        // This line sets the projectile direction in the direction the "tower" is facing
-        newAgent.setDirection(baseAgent.getDirection());
-        newAgent.setLocation(baseAgent.getX(), baseAgent.getY());
-        spawnAgent(newAgent);
-//        System.out.println("FIRE! Heading: " + baseAgent.getDirection());
+        spawnAgent(new AgentReference(spawnAgentName, baseAgent.getX(), baseAgent.getY(), baseAgent.getDirection()));
     }
 
 }

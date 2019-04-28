@@ -23,6 +23,7 @@ public class PropertyLessThanOrEqualToCondition extends PropertyCondition {
      */
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-        return agents.stream().filter(agent -> (this.value.compareTo(agent.getProperty(this.propertyName)) <= 0)).collect(Collectors.toList());
+        List<Agent> ans = agents.stream().filter(agent -> (this.value.compareTo(agent.getProperty(this.propertyName)) <= 0)).collect(Collectors.toList());
+        return ans;
     }
 }

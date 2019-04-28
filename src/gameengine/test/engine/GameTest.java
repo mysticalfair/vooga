@@ -236,6 +236,12 @@ class GameTest {
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
+//        Map<String, Object> healthCheckParams = new HashMap<>();
+//        healthCheckParams.put("property", "health");
+//        healthCheckParams.put("value", 0.0);
+//        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+
+
         // create attack
 
         // create properties
@@ -251,7 +257,6 @@ class GameTest {
     private IAgentDefinition createPeashooter(String name, IAgentDefinition projectile) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
         // MAKING peashooter
         List<IActionDecisionDefinition> AD2 = new ArrayList<>();
-        List<IPropertyDefinition> properties = new ArrayList<>();
 
         //making spawn action
         Map<String, Object> spawnParams = new HashMap<>();
@@ -264,6 +269,10 @@ class GameTest {
         conditions.add(factory.createCondition("Interval", condParams));
         IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
         AD2.add(spawnAD);
+
+        // add properties
+        List<IPropertyDefinition> properties = new ArrayList<>();
+
         return factory.createAgent(50, 50, 20, 20,
                 0,name, "peashooter.gif", AD2, properties);
     }
@@ -284,20 +293,32 @@ class GameTest {
         AD1.add(factory.createActionDecision(
                 factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
 
+        // DISAPPEAR ON COLLISION
+        List<IConditionDefinition> cond3 = new ArrayList<>();
+        cond3.add(factory.createCondition("Collision", new HashMap<>()));
+        Map<String, Object> teamCheckParams = new HashMap<>();
+        teamCheckParams.put("property", "team");
+        teamCheckParams.put("value", otherTeam);
+        cond3.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
+        AD1.add(factory.createActionDecision(
+                factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
-//        Map<String, Object> damageParams = new HashMap<>();
-//        moveParams.put("value", -50.0);
-//        moveParams.put("property", "health");
+
 //        List<IConditionDefinition> cond2 = new ArrayList<>();
+//        // collision
 //        cond2.add(factory.createCondition("Collision", new HashMap<>()));
-//
+//        // only hurt other team
 //        Map<String, Object> propertyEqualParams = new HashMap<>();
 //        propertyEqualParams.put("team", otherTeam);
 //        cond2.add(factory.createCondition("PropertyEqualTo", propertyEqualParams));
-//
+//        // take health given these conditions
+//        Map<String, Object> damageParams = new HashMap<>();
+//        moveParams.put("value", 50.0);
+//        moveParams.put("property", "health");
 //        AD1.add(factory.createActionDecision(
-//                factory.createAction("AddToProperty", damageParams), cond2));
+//                factory.createAction("DecrementProperty", damageParams), cond2));
 
+        // add properties
         List<IPropertyDefinition> properties = new ArrayList<>();
         properties.add(factory.createProperty("team", team));
 
@@ -312,7 +333,7 @@ class GameTest {
         Map<String, Object> actionParams = new HashMap<>();
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");
-        action2Params.put("amount", 5.0);
+        action2Params.put("value", 5.0);
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();

@@ -35,7 +35,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
-        injectBaseAgentWhereNecessary(this.actionDecisions);
+        injectBaseAgentWhereNecessary(this.actionDecisions, this);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
         addProperties((List<Property>)properties);
         pcs = new PropertyChangeSupport(this);
@@ -45,14 +45,14 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return this.playerAgent;
     }
 
-    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
+    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions, Agent baseAgent) {
         for (ActionDecision ad: actionDecisions) {
             if (IRequiresBaseAgent.class.isAssignableFrom(ad.getAction().getClass()))
-                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(this);
+                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(baseAgent);
 
             for (Condition condition: ad.getConditions()) {
                 if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
-                    ((IRequiresBaseAgent)condition).injectBaseAgent(this);
+                    ((IRequiresBaseAgent)condition).injectBaseAgent(baseAgent);
             }
         }
     }
@@ -148,9 +148,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         List<ActionDecision> newActionDecisions = new ArrayList<>();
         clonedAgent.pcs = new PropertyChangeSupport(clonedAgent);
         for(ActionDecision ad : actionDecisions){
-            newActionDecisions.add(ad.clone(clonedAgent));
+            newActionDecisions.add(ad.clone());
         }
-        actionDecisions = newActionDecisions;
+        injectBaseAgentWhereNecessary(newActionDecisions, clonedAgent);
+        clonedAgent.actionDecisions = newActionDecisions;
         return clonedAgent;
 
     }

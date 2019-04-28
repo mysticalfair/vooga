@@ -340,16 +340,17 @@ class GameTest {
         action2Params.put("onBaseAgent", true);
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
-        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
+        List<IConditionDefinition> cond1 = new ArrayList<>();
         Map cond2Params = new HashMap();
         cond2Params.put("interval", 5.0);
-        cond1.add(factory.createCondition("DoOnce", cond2Params));
+        cond1.add(factory.createCondition("DoOnce", new HashMap()));
+        cond1.add(factory.createCondition("Interval", cond2Params));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
         actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
         List<IPropertyDefinition> properties = new ArrayList<>();
-        var prop = factory.createProperty("health", 50);
+        var prop = factory.createProperty("health", 50.0);
         properties.add(prop);
         return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
     }

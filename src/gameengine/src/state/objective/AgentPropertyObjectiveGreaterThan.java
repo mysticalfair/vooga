@@ -3,6 +3,8 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 
+import java.util.Map;
+
 /**
  * @author Jamie Palka
  * Class to define the objectives within the game which are triggered by the value of an agent property
@@ -10,9 +12,8 @@ import state.agent.Agent;
  */
 public class AgentPropertyObjectiveGreaterThan<T> extends AgentPropertyObjective {
 
-    public AgentPropertyObjectiveGreaterThan(int id, String title, String propertyName, Agent agent,
-                                         T targetValue, IObjectiveOutcome outcome, int level) {
-        super(id, title, propertyName, agent, targetValue, outcome, level);
+    public AgentPropertyObjectiveGreaterThan(Map<String, Object> params) {
+        super(params);
     }
 
     /**

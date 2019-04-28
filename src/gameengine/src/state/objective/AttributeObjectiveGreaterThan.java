@@ -3,6 +3,8 @@ package state.objective;
 import state.State;
 import state.attribute.Attribute;
 
+import java.util.Map;
+
 /**
  * @author Jamie Palka
  * Class to define the objectives within the game which are triggered by the value of an attribute of a user
@@ -10,9 +12,8 @@ import state.attribute.Attribute;
  */
 public class AttributeObjectiveGreaterThan extends AttributeObjective {
 
-    public AttributeObjectiveGreaterThan(int id, String title, Attribute attribute, int targetValue,
-                                         IObjectiveOutcome outcome, int level) {
-        super(id, title, attribute, targetValue, outcome, level);
+    public AttributeObjectiveGreaterThan(Map<String, Object> params) {
+        super(params);
     }
 
     /**

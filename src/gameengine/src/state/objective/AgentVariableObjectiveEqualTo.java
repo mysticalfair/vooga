@@ -3,6 +3,8 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 
+import java.util.Map;
+
 /**
  * @author Jamie Palka
  * Class to define the objectives within the game which are triggered by the value of a variable of an agent
@@ -10,9 +12,8 @@ import state.agent.Agent;
  */
 public class AgentVariableObjectiveEqualTo extends AgentVariableObjective {
 
-    public AgentVariableObjectiveEqualTo(int id, String title, String variableName, Agent agent,
-                                         double targetValue, IObjectiveOutcome outcome, int level) {
-        super(id, title, variableName, agent, targetValue, outcome, level);
+    public AgentVariableObjectiveEqualTo(Map<String, Object> params) {
+        super(params);
     }
 
     /**

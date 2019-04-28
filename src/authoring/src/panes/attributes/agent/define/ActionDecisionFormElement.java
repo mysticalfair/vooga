@@ -13,6 +13,9 @@ import util.AuthoringContext;
 
 public class ActionDecisionFormElement extends FormElement {
 
+    private ActionFormElement action;
+    private ConditionsForm conditionsForm;
+
     public ActionDecisionFormElement(AuthoringContext context) {
         super(context);
         init();
@@ -31,7 +34,7 @@ public class ActionDecisionFormElement extends FormElement {
         // and http://javawiki.sowas.com/doku.php?id=javafx:titledpane-with-checkbox
         HBox titleHBox = new HBox();
         Label titleLabel = new Label();
-        titleLabel.textProperty().bind(actionDecisionTitledPane.textProperty());
+        //titleLabel.textProperty().bind(actionDecisionTitledPane.textProperty());
         titleHBox.getChildren().add(titleLabel);
         accessDeleteButton(titleHBox.getChildren()::add);
         actionDecisionTitledPane.setGraphic(titleHBox);
@@ -40,20 +43,16 @@ public class ActionDecisionFormElement extends FormElement {
         actionDecisionTitledPane.setContent(actionDecisionVBox);
 
         // Action
-        HBox actionHBox = new HBox();
-        Label actionLabel = new Label(getContext().getString("Action"));
-        ChoiceBox<String> actionChoiceBox = new ChoiceBox<>();
-        //actionChoiceBox.getItems().addAll("MoveForward", "AttackWithInterval", "MoveTowards", "FollowPath");//"Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
-        actionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                actionDecisionTitledPane.setText(String.format(getContext().getString("ActionDecisionFormTitle"),
-                        actionLabel.getText(), actionChoiceBox.getItems().get((Integer) number2)));
-            }
-        });
-        actionChoiceBox.getSelectionModel().selectFirst();
-        actionHBox.getChildren().addAll(actionLabel, actionChoiceBox);
-        actionDecisionVBox.getChildren().add(actionHBox);
+        //"Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
+        action = new ActionFormElement(getContext());
+        action.addSelectedNameListener(((observableValue, oldString, newString) ->
+                titleLabel.setText(String.format(getContext().getString("ActionDecisionFormTitle"),
+                        getContext().getString("ActionDecision"), newString))));
+        action.accessContainer(actionDecisionVBox.getChildren()::add);
+
+        // Conditions
+        conditionsForm = new ConditionsForm(getContext());
+        conditionsForm.accessContainer(actionDecisionVBox.getChildren()::add);
 
         getContentChildren().add(actionDecisionTitledPane);
     }

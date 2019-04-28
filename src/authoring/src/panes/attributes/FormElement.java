@@ -10,8 +10,6 @@ import java.util.function.Consumer;
 
 public abstract class FormElement extends AuthoringPane {
 
-    private static final String DELETE_BUTTON_IMAGE_FILE = "trash.png";
-
     private Button deleteButton;
 
     /**

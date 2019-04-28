@@ -65,14 +65,6 @@
     </actionDefinition>
 
     <actionDefinition>
-        <name>DecrementProperty</name>
-        <fields>
-            <string>propertyName</string>
-            <double>value</double>
-        </fields>
-    </actionDefinition>
-
-    <actionDefinition>
         <name>SpawnAgentInitialDirection</name>
         <fields>
             <string>agent</string>

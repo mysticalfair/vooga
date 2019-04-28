@@ -96,7 +96,6 @@ public class Level extends Scene {
    }
 
    private void toggleSettingsPane(){
-      System.out.println("TOGGLING");
       if(this.centerPane.getChildren().contains(this.settingsPane)){
          this.centerPane.getChildren().remove(this.settingsPane);
          this.centerPane.getChildren().add(this.levelController.getMapPane());

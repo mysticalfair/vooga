@@ -18,7 +18,7 @@ public class MoveToAgentPRM extends MovementAction {
 
     @Override
     public void setParams(Map<String, Object> params) {
-        // TODO this
+        speed = (Double) params.get("speed");
     }
 
     /**

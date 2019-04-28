@@ -49,12 +49,14 @@ public class GameFactory {
     private Properties conditionClasses;
     private Properties actionClasses;
 
+    private List<Agent> masterDefinedAgents;
+
     private int currentAgentID;
 
     public GameFactory() throws ParserConfigurationException, SAXException, IOException {
         currentAgentID = 0;
         this.eventMaster = new GameEventMaster();
-        XMLToAvailbableObjectsParser parser = new XMLToAvailbableObjectsParser();
+        XMLToAvailableObjectsParser parser = new XMLToAvailableObjectsParser();
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
         availableActions = parser.getNameFieldsList(ACTION_DEFINITIONS_FILE);
 
@@ -62,6 +64,8 @@ public class GameFactory {
         this.actionClasses = new Properties();
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
+
+        masterDefinedAgents = new ArrayList<>();
     }
 
     public List<AvailableCondition> getAvailableConditions() {
@@ -85,7 +89,7 @@ public class GameFactory {
      * @return A default state
      */
     public IStateDefinition createState() {
-        return new State();
+        return new State(masterDefinedAgents);
     }
 
     /**
@@ -93,7 +97,7 @@ public class GameFactory {
      * @return A default level
      */
     public ILevelDefinition createLevel() {
-        Level level = new Level();
+        Level level = new Level(masterDefinedAgents);
         level.injectGameEventMaster(eventMaster);
         return level;
     }
@@ -177,7 +181,7 @@ public class GameFactory {
             return (T)constructor.newInstance(params);
 
         } catch (Exception e) {
-            throw new ReflectionException();
+            throw new ReflectionException(e);
         }
 
     }
@@ -191,11 +195,11 @@ public class GameFactory {
         return false;
     }
 
-    private class XMLToAvailbableObjectsParser {
+    private class XMLToAvailableObjectsParser {
 
         private DocumentBuilder documentBuilder;
 
-        public XMLToAvailbableObjectsParser() throws ParserConfigurationException {
+        public XMLToAvailableObjectsParser() throws ParserConfigurationException {
             this.documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         }
 

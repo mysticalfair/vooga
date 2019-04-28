@@ -5,11 +5,13 @@ import Panes.MapPane;
 import state.agent.IPlayerAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapController{
    private List<AgentView> agentViews;
    private MapPane mapPane;
+   private HashMap<IPlayerAgent, AgentView> agentMap = new HashMap<>();
 
    public MapController() {
       this.agentViews =new ArrayList<>();
@@ -26,6 +28,9 @@ public class MapController{
       AgentView agentView = new AgentView(playerAgent);
       this.agentViews.add(agentView);
       this.mapPane.addAgent(agentView);
+      this.agentMap.put(playerAgent, agentView);
+     for(AgentView agent: this.agentViews){
+     }
    }
 
    public void addAgents(List<IPlayerAgent> playerAgents){
@@ -34,11 +39,14 @@ public class MapController{
       }
    }
 
-   public void clearAgents(){
-      this.agentViews = new ArrayList<>();
-      this.mapPane.clearAgents();
-   }
+   public void removeAgent(IPlayerAgent playerAgent)
+   {
+      AgentView agentToRemove = this.agentMap.get(playerAgent);
+      this.agentViews.remove(agentToRemove);
+      this.mapPane.removeAgent(agentToRemove);
+      this.agentMap.remove(playerAgent);
 
+   }
    public MapPane getPane(){
       return this.mapPane;
    }

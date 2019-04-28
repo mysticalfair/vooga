@@ -1,5 +1,6 @@
 package state.action.property;
 
+import authoring.exception.PropertyDoesNotExistException;
 import state.action.Action;
 import state.agent.Agent;
 
@@ -26,7 +27,7 @@ public class AddToPropertyAction extends Action {
             current_value += amount;
             agent.setProperty(propertyName, current_value);
         }
-        catch(NullPointerException e) {
+        catch(PropertyDoesNotExistException e) {
             // No such property, so do nothing
             // TODO: probably throw an exception here
         }

@@ -1,23 +1,34 @@
 package Attribute;
+/**
+ * Attribute front-end class
+ * @author Joanna Li
+ */
 
-import javafx.scene.image.Image;
-import state.agent.IPlayerAgent;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.scene.text.Text;
 import state.attribute.IPlayerAttribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class AttributeView implements PropertyChangeListener {
+public class AttributeView extends Text implements PropertyChangeListener {
     private String name;
     private int value;
+    //private LongProperty property = new SimpleLongProperty(0);
 
     public AttributeView(IPlayerAttribute attribute){
         super();
         this.init(attribute);
         attribute.addPropertyChangeListener(this);
+        this.textProperty().bind(Bindings.createStringBinding(() -> (name+ ": " + this.value)));
     }
 
     public void init(IPlayerAttribute attribute){
+        this.name = attribute.getName();
+        this.value = attribute.getValue();
+        attribute.addPropertyChangeListener(this);
 
     }
 
@@ -32,10 +43,11 @@ public class AttributeView implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent e) {
         if(e.getPropertyName().equals("name")) {
             this.setName((String) e.getNewValue());
-            System.out.println("Changed X: " + e.getNewValue());
         } else if(e.getPropertyName().equals("value")) {
             this.setValue((Integer) e.getNewValue());
-            System.out.println("Changed Y: "+ e.getNewValue());
         }
     }
+
+
+
 }

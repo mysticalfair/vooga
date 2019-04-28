@@ -8,6 +8,8 @@ import state.agent.Agent;
 import state.attribute.IAttribute;
 import state.objective.Objective;
 import state.objective.ObjectiveCondition;
+import state.attribute.Attribute;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,9 +19,14 @@ import java.util.List;
  * Interface to represent the game as the authoring environment should see it
  * @author Jorge Raad
  * @author David Miron
+<<<<<<< HEAD
  * @auhor Jamie Palka
+=======
+ * @author Luke Truitt
+>>>>>>> 31482d5383475d8d6dc993689a79c8f78dcb52b7
  */
 public class State implements IStateDefinition, Serializable {
+
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
@@ -28,12 +35,16 @@ public class State implements IStateDefinition, Serializable {
 
     private List<Agent> agentsCurrent;
     private List<Agent> agentsOptions;
+    private List<Attribute> attributes;
 
-    public State(){
+    private List<Agent> definedAgents;
+
+    public State(List<Agent> masterDefinedAgents){
         this.currentLevel = START_LEVEL;
         this.levels = new ArrayList<>();
         this.currentObjectives = new ArrayList<>();
         this.gameOver = false;
+        this.definedAgents = masterDefinedAgents;
     }
 
     /**
@@ -63,6 +74,21 @@ public class State implements IStateDefinition, Serializable {
     @Override
     public void addLevel(ILevelDefinition level) {
         levels.add((Level)level);
+    }
+
+    @Override
+    public List<? extends IAgentDefinition> getDefinedAgents() {
+        return definedAgents;
+    }
+
+    @Override
+    public void removeDefinedAgent(int index) {
+        definedAgents.remove(index);
+    }
+
+    @Override
+    public void addDefinedAgent(IAgentDefinition agent) {
+        definedAgents.add((Agent)agent);
     }
 
     /**
@@ -141,11 +167,16 @@ public class State implements IStateDefinition, Serializable {
      * Returns the list of agents that exist in the current level.
      */
     public List<Agent> getCurrentAgents() {
-        return levels.get(currentLevel).getCurrentAgents();
+        return levels.get(currentLevel).getLevelAgents();
     }
 
     public IPlayerLevelState getLevelState(){
         return this.levels.get(currentLevel).getLevelState();
     }
 
+    public void initializeLevelAgents() {
+        for (Level level: levels) {
+            level.initializeAgents();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package authoring;
 
+import authoring.exception.PropertyDoesNotExistException;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,12 @@ import java.util.List;
  * @author David Miron
  */
 public interface IAgentDefinition {
+
+    double getX();
+    void setX(double x);
+
+    double getY();
+    void setY(double y);
 
     int getWidth();
     void setWidth(int width);
@@ -27,6 +35,6 @@ public interface IAgentDefinition {
     List<? extends IPropertyDefinition> getProperties();
     void removeProperty(String name);
     void addProperty(IPropertyDefinition property);
-    <T> void setProperty(String name, T value);
+    <T> void setProperty(String name, T value)  throws PropertyDoesNotExistException;
     Object getPropertyValue(String name);
 }

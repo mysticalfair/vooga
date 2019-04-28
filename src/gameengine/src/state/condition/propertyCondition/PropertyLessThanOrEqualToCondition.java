@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PropertyLessThanOrEqualToCondition extends PropertyCondition {
-
     /**
      * Create an IntervalCondition
      */
@@ -23,6 +22,7 @@ public class PropertyLessThanOrEqualToCondition extends PropertyCondition {
      */
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-        return agents.stream().filter(agent -> (this.value.compareTo(agent.getPropertyValue(this.propertyName)) <= 0)).collect(Collectors.toList());
+        List<Agent> ans = agents.stream().filter(agent -> (agent.getProperty(this.propertyName) != null && this.value.compareTo(agent.getProperty(this.propertyName)) >= 0)).collect(Collectors.toList());
+        return ans;
     }
 }

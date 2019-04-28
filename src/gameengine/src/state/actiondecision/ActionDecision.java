@@ -3,6 +3,7 @@ package state.actiondecision;
 import authoring.IActionDecisionDefinition;
 import authoring.IActionDefinition;
 import authoring.IConditionDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;
@@ -30,7 +31,7 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable, 
      * Execute the action on agents passed, after filtering based on conditions
      * @param agents The list of active agents
      */
-    public void execute(List<Agent> agents, double deltaTime) throws CloneNotSupportedException {
+    public void execute(List<Agent> agents, double deltaTime) throws CloneNotSupportedException, PropertyDoesNotExistException {
         List<Agent> agentsFiltered = new ArrayList<>(agents);
 
         for (Condition condition: conditions)
@@ -65,14 +66,15 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable, 
         conditions.add((Condition)conditionDefinition);
     }
 
-    public ActionDecision clone (Agent clonedBaseAgent) throws CloneNotSupportedException {
-        ActionDecision clone = (ActionDecision)super.clone();
-        action = action.clone(clonedBaseAgent);
+    @Override
+    public ActionDecision clone() throws CloneNotSupportedException {
+        ActionDecision clonedActionDecision = (ActionDecision)super.clone();
+        action = action.clone();
         List<Condition> newConditions = new ArrayList<>();
         for(Condition c : conditions){
-            newConditions.add(c.clone(clonedBaseAgent));
+            newConditions.add(c.clone());
         }
-        clone.conditions = newConditions;
-        return clone;
+        clonedActionDecision.conditions = newConditions;
+        return clonedActionDecision;
     }
 }

@@ -2,7 +2,17 @@
     -fx-font-size: 14pt;
     -fx-font-family: "Georgia";
     -fx-base: rgb(193, 240, 240);
-    -fx-background: rgb(33, 33, 33);
+    -fx-background: blue;
+}
+
+#map{
+    -fx-font-size: 10pt;
+    -fx-font-family: "Georgia";
+    -fx-base: rgb(193, 240, 240);
+    -fx-background: rgb(234, 250, 250);
+    -fx-border-style: solid;
+    -fx-border-width: 5px;
+    -fx-border-color: grey;
 }
 
 #subtitle {

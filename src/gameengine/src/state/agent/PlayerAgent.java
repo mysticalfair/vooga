@@ -1,11 +1,13 @@
 package state.agent;
 
+import authoring.exception.PropertyDoesNotExistException;
 import state.Property;
 import utils.Serializer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
@@ -30,7 +32,12 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         this.direction = direction;
         this.imageURL = imageURL;
         this.name = name;
+        this.properties = new ArrayList<>();
         pcs = new PropertyChangeSupport(this);
+    }
+
+    public PropertyChangeSupport getPcs() {
+        return pcs;
     }
 
     public double getX() {
@@ -56,7 +63,16 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         return direction;
     }
 
-    public List<Property> getProperties() { return this.properties; }
+    public Object getProperty(String name) {
+        for(Property property : this.properties) {
+            if(property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
+    }
+
+    public List<Property> getProperties() {return this.properties; }
 
     public void setImageURL(String url) {
         var oldUrl = this.imageURL;
@@ -100,36 +116,46 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         pcs.firePropertyChange("direction", oldDir, direction);
     }
 
-    @Deprecated
-    public void setProperty(String name, Object value) {
-
+    public void updateProperty(String name, Object value) throws PropertyDoesNotExistException {
         for(Property property : this.properties) {
             if(property.getName().equals(name)) {
                 var oldVal = property.getValue();
                 property.setValue(value);
                 pcs.firePropertyChange(name, oldVal, value);
+                return;
             }
         }
+        throw new PropertyDoesNotExistException();
     }
 
-    public void setProperty(Property newProperty){
+    public boolean setProperty(Property newProperty){
         for(Property p : this.properties) {
             if(p.getName().equals(newProperty.getName())) {
                 var oldVal = p.getValue();
                 p.setValue(newProperty.getValue());
                 pcs.firePropertyChange(name, oldVal, newProperty.getValue());
+                return true;
             }
+        }
+        return false;
+    }
+
+    public void addProperty(Property newProperty) {
+        if(!setProperty(newProperty)) {
+            this.properties.add(newProperty);
         }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
-        System.out.println("it's a listener");
     }
 
     @Override
     public PlayerAgent clone() throws CloneNotSupportedException {
-        PlayerAgent clone = (PlayerAgent) super.clone();
-        return clone;
+        return (PlayerAgent)AgentUtils.deepClone(this);
+//        PlayerAgent clone = (PlayerAgent) super.clone();
+//        clone.pcs = new PropertyChangeSupport(clone);
+//        clone.properties = (List<Property>)AgentUtils.deepClone(properties);
+//        return clone;
     }
 }

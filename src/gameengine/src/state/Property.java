@@ -2,7 +2,9 @@ package state;
 
 import authoring.IPropertyDefinition;
 
-public class Property<T> implements IPropertyDefinition<T> {
+import java.io.Serializable;
+
+public class Property<T> implements IPropertyDefinition<T>, Serializable {
 
     private String name;
     private T value;

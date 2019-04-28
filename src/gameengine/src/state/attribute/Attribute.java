@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Luke Truitt
  * Entire Attribute, used by Engine and Author
  */
-public class Attribute implements IPlayerAttribute, Serializable {
+public class Attribute implements IAttribute, Serializable {
     private int id;
     private String name;
     private int value;

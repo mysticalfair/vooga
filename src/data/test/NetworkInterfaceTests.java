@@ -130,7 +130,6 @@ public class NetworkInterfaceTests {
             runnable.run();
         }
         long timeafter = System.nanoTime();
-        System.out.println("Time to " + description + ": " + (timeafter-curtime)/(1000000.0*TEST_RUN_ITERATIONS) + "ms");
     }
 
     private void runAndWaitForNetwork(Runnable runnable) throws InterruptedException {

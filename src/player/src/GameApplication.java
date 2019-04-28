@@ -34,7 +34,7 @@ public class GameApplication extends Application {
       primaryStage.show();
       setAnimation();
       game = new Game();
-      game.loadState("src/gameengine/John.xml");
+      game.loadState("src/gameengine/ClashTest1.xml");
       var levelState = this.game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);
@@ -53,7 +53,4 @@ public class GameApplication extends Application {
          animation.getKeyFrames().add(frame);
          animation.play();
    }
-
-
-
 }

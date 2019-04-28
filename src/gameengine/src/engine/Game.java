@@ -32,6 +32,7 @@ public class Game implements IGameDefinition, IPlayerGame {
     public static final double DELTA_TIME = 0.0167;
     private Serializer serializer;
 
+
     private State state;
 
     public Game() {
@@ -63,6 +64,7 @@ public class Game implements IGameDefinition, IPlayerGame {
         }
     }
 
+
     @Override
     public IPlayerLevelState getLevelState(){
         return this.state.getLevelState();
@@ -75,6 +77,7 @@ public class Game implements IGameDefinition, IPlayerGame {
     public void loadState(String gameFileLocation){
         try {
             state = (State) serializer.load(new File(gameFileLocation));
+            state.initializeLevelAgents();
         } catch (SerializationException | IOException e) {
             // TODO: Deal with Exceptions by letting player know invalid file was chosen.
             e.printStackTrace();

@@ -56,7 +56,7 @@ public class AgentPane extends AuthoringPane {
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentPaneWidth"));
+        //scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentPaneWidth"));
         scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
@@ -64,30 +64,8 @@ public class AgentPane extends AuthoringPane {
 
     private void initInventory() {
         inventory = new FlowPane();
-        inventory.setVgap(8);
-        inventory.setHgap(4);
-        inventory.setPrefWrapLength(getContext().getDouble("AgentPaneWidth")); // preferred width = 300
+        inventory.setPrefWrapLength(getContext().getDouble("AgentSize") * 2);
         scrollInventory.setContent(inventory);
-
-
-        /*inventory = new GridPane();
-        inventory.setVgap(4);
-        inventory.setHgap(4);
-        int rowIterator = 0;
-        int colIterator = 0;
-        agentList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView(getContext(), getContext().getString("MonkeyImageFile"));
-            inventory.add(newAgent, colIterator, rowIterator);
-            agentList.add(newAgent);
-            colIterator++;
-            if (colIterator > 1) {
-                colIterator = 0;
-            }
-            if ((i + 1) % 2 == 0) {
-                rowIterator++;
-            }
-        }*/
     }
 
     public void refreshAgentList(int level, MapPane map) {
@@ -100,19 +78,9 @@ public class AgentPane extends AuthoringPane {
         });
     }
 
-    public VBox getVBoxContainer() {
-        return inventoryContainer;
-    }
-
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         buttonPane.getChildren().addAll(button);
-    }
-
-
-    @Override
-    public void setStylesheet(String url) {
-
     }
 
     @Override

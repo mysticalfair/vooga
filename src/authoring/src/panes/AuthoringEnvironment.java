@@ -218,13 +218,13 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void updateDimensions(double width, double height){
-        var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentWidth");
+        var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentPaneWidth");
         var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarPaneHeight") - context.getDouble("MiddleRowPadding");
         consolePane.updateSize(width/2, context.getDouble("ConsoleHeight"));
         toolbarPane.updateSize(width, context.getDouble("ToolbarPaneHeight"));
         map.updateSize(middleWidth, middleHeight);
         attributesPane.updateSize(context.getDouble("AttributesWidth"), middleHeight);
-        agentPane.updateSize(context.getDouble("AgentWidth"), middleHeight);
+        agentPane.updateSize(context.getDouble("AgentPaneWidth"), middleHeight);
     }
 
     private void initStage(Stage stage) {

@@ -36,7 +36,7 @@ public class ToolbarPane extends AuthoringPane {
     private Spinner levelChanger;
     private Button addEmpty;
     private Button addExisting;
-    private Button deleteCurrent;
+    private Button clearCurrent;
     private int maxLevel;
     private Map<String, Menu> menuMap;
     private VBox box;
@@ -101,7 +101,7 @@ public class ToolbarPane extends AuthoringPane {
         initLevelButtons();
         final Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        toolBar.getItems().addAll(levelChanger, addEmpty, existingLevelCreator, addExisting, deleteCurrent, spacer);
+        toolBar.getItems().addAll(levelChanger, addEmpty, existingLevelCreator, addExisting, clearCurrent, spacer);
     }
 
     private void initLevelChanger() {
@@ -121,14 +121,14 @@ public class ToolbarPane extends AuthoringPane {
     private void initLevelButtons() {
         addEmpty = new Button (getContext().getString("NewEmptyLevel"));
         addExisting = new Button (getContext().getString("NewFromExisting"));
-        deleteCurrent = new Button (getContext().getString("Delete"));
+        clearCurrent = new Button (getContext().getString("Clear"));
     }
 
     public void accessAddEmpty(Consumer<Button> accessMethod) {accessMethod.accept(addEmpty);}
 
     public void accessAddExisting(Consumer<Button> accessMethod) {accessMethod.accept(addExisting);}
 
-    public void accessDelete(Consumer<Button> accessMethod) {accessMethod.accept(deleteCurrent);}
+    public void accessClear(Consumer<Button> accessMethod) {accessMethod.accept(clearCurrent);}
 
     public void addToExistingLevelCreator(int newLevel) {
         existingLevelCreator.getItems().add(newLevel);

@@ -118,7 +118,7 @@ public class AuthoringEnvironment extends Application {
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
         toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(null, new ArrayList<>()), false)));
         toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())), true)));
-        toolbarPane.accessDelete(button -> button.setOnAction(e -> deleteLevel()));
+        toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
@@ -131,7 +131,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeToExistingLevel((int)((double) newValue)));
     }
 
-    private void deleteLevel() {
+    private void clearLevel() {
         System.out.println("booling");
         map.clearMap();
         map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(null, new ArrayList<>()));

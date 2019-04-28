@@ -25,7 +25,15 @@ public abstract class PathTool extends MapTool{
     }
 
     protected void addPath(Path path){
-        pathOptions.add(path);
+        if(!pathOptions.contains(path)){
+            pathOptions.add(path);
+        }
+    }
+
+    protected void removePath(Path path){
+        if(pathOptions.contains(path)){
+            pathOptions.remove(path);
+        }
     }
 
     protected void updatePathLines(Path path){
@@ -41,10 +49,6 @@ public abstract class PathTool extends MapTool{
         map.accessMap(node -> node.setOnMousePressed(null));
         map.accessMap(node -> node.setOnMouseDragged(null));
         map.accessMap(node -> node.setOnMouseReleased(null));
-    }
-
-    protected void removePath(Path path){
-        pathOptions.remove(path);
     }
 
     protected Path getPath(int pathIndex){

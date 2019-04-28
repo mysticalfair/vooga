@@ -23,7 +23,6 @@ public class ActionFormElement extends NameFieldsFormElement {
             return getContext().getGameFactory().createAction(names.getValue(), makeParamsMap());
         } catch (Exception e) {
             getContext().displayConsoleMessage(getContext().getString("ErrorCreatingAction"), ConsolePane.Level.ERROR);
-            e.printStackTrace();
             return null;
         }
     }

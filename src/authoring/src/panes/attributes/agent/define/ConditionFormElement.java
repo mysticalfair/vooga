@@ -24,7 +24,6 @@ public class ConditionFormElement extends NameFieldsFormElement {
             return getContext().getGameFactory().createCondition(names.getValue(), makeParamsMap());
         } catch (Exception e) {
             getContext().displayConsoleMessage(getContext().getString("ErrorCreatingCondition"), ConsolePane.Level.ERROR);
-            e.printStackTrace();
             return null;
         }
     }

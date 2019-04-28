@@ -2,10 +2,10 @@ package panes.attributes.agent.define;
 
 import authoring.IPropertyDefinition;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import panes.ConsolePane;
 import panes.attributes.FormElement;
 import util.AuthoringContext;
 
@@ -37,6 +37,10 @@ public class AgentPropertyFormElement extends FormElement {
     @Override
     public IPropertyDefinition packageData() {
         String name = nameField.getText();
+        if (name.isBlank()) {
+            getContext().displayConsoleMessage(getContext().getString("PropertyNameCannotBeBlank"), ConsolePane.Level.ERROR);
+            return null;
+        }
         String type = typeBox.getSelectionModel().getSelectedItem();
         if (type == null) {
             return null;
@@ -46,8 +50,7 @@ public class AgentPropertyFormElement extends FormElement {
                 int value = Integer.parseInt(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(getContext().getString("PropertyMustBeOfType"), name, type));
-                alert.showAndWait();
+                getContext().displayConsoleMessage(String.format(getContext().getString("PropertyMustBeOfType"), name, type), ConsolePane.Level.ERROR);
                 return null;
             }
         }
@@ -56,8 +59,7 @@ public class AgentPropertyFormElement extends FormElement {
                 double value = Double.parseDouble(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
             } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, String.format(getContext().getString("PropertyMustBeOfType"), name, type));
-                alert.showAndWait();
+                getContext().displayConsoleMessage(String.format(getContext().getString("PropertyMustBeOfType"), name, type), ConsolePane.Level.ERROR);
                 return null;
             }
         }
@@ -76,6 +78,7 @@ public class AgentPropertyFormElement extends FormElement {
 
         typeBox = new ChoiceBox<>();
         typeBox.getItems().addAll(types);
+        typeBox.getSelectionModel().selectFirst();
         propertyHBox.getChildren().add(typeBox);
 
         valueField = new TextField(value);

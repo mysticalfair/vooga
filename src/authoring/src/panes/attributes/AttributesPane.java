@@ -39,6 +39,7 @@ public class AttributesPane extends AuthoringPane {
         defineAgentForm.setOnSave(e -> {
             IAgentDefinition a = defineAgentForm.getAgentDefinition();
             if (a == null) {
+                getContext().displayConsoleMessage(getContext().getString("AgentNotCreated"), ConsolePane.Level.ERROR);
                 return;
             }
             String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n" +

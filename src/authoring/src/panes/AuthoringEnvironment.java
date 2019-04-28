@@ -78,6 +78,7 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
+        initBottomPanes();
         initAttributesPane();
         initMapPane(1);
         initToolbarPane();
@@ -88,7 +89,7 @@ public class AuthoringEnvironment extends Application {
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
-        map.getStateMapping().put(level, new MapState(null, new ArrayList<>()));
+        map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>()));
         map.setLevel(level);
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
@@ -125,7 +126,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane(context, map, scene, paths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
-        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(null, new ArrayList<>()), false)));
+        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>()), false)));
         toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeFromExistingWrapper()));
         toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
@@ -144,12 +145,13 @@ public class AuthoringEnvironment extends Application {
 
     private void clearLevel() {
         map.clearMap();
-        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(null, new ArrayList<>()));
+        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>()));
+        map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
 
     private void makeFromExistingWrapper() {
         if (toolbarPane.getExistingLevelValue() != -1) {
-            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())), true);
+            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map, consolePane), true);
         }
     }
 

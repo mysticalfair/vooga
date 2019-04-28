@@ -173,7 +173,7 @@ public class GameFactory {
         return new Property(name, value);
     }
 
-    private <T> T instantiateClass(String className, Map<String, Object> params) throws ReflectionException {
+    private <T> T instantiateClass(String className, Map<String, Object> params) throws Exception {
 
         try {
             Class clazz = Class.forName(className);
@@ -181,7 +181,7 @@ public class GameFactory {
             return (T)constructor.newInstance(params);
 
         } catch (Exception e) {
-            throw new ReflectionException();
+            throw e;
         }
 
     }

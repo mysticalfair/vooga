@@ -2,6 +2,7 @@ package panes.tools;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -41,12 +42,12 @@ public class ToolbarPane extends AuthoringPane {
     private Map<String, Menu> menuMap;
     private VBox box;
     private Map<String, Tool> toolImageMap;
-    private List<Path> pathOptions;
+    private ObservableList<Path> pathOptions;
 
     private MapPane map;
     private Scene scene;
 
-    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, List<Path> paths){
+    public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, ObservableList<Path> paths){
         super(context);
         maxLevel = getContext().getInt("InitialLevel");
         map = authorMap;

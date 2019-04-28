@@ -23,6 +23,11 @@ public class Path {
      *  Set circle's onMouseClick and onMouseDrag to be like a draggable image
      */
 
+    // getPaths (map string to point2d
+    // removePath(index)
+    // removePath(string)
+    // addPath(string, list<point2d>)
+
     private List<PathPoint> points;
     private List<Line> lines;
     private int pathID;

@@ -5,6 +5,7 @@ import frontend_objects.CloneableAgentView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -35,7 +36,7 @@ public class AuthoringEnvironment extends Application {
     private MapPane map;
     private Scene scene;
     private List<MapState> levels;
-    private ObservableList<Path> paths;
+    private ObservableList<Path> currentPaths;
     private PathPenTool pen;
 
     public static void main(String[] args){
@@ -54,16 +55,35 @@ public class AuthoringEnvironment extends Application {
 
         stackPane = new StackPane();
         borderPane = new BorderPane();
-        paths = FXCollections.observableArrayList();
+        currentPaths = FXCollections.observableArrayList();
         stackPane.getChildren().add(borderPane);
         scene = new Scene(stackPane, context.getDouble("DefaultWidth"), context.getDouble("DefaultHeight"));
         initAllPanes();
+        initPathListeners();
         initStage(stage);
 
         // This is needed here because the context needs to be created to be passed to the consolePane, but it also
         // needs access to this method from the consolePane. It is a bit of circular referencing, but since it's
         // via a lambda it is not as bad.
         context.setDisplayConsoleMessage((message, level) -> consolePane.displayMessage(message, level));
+    }
+
+    private void initPathListeners(){
+        currentPaths.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
+    }
+
+    // Code adapted from https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
+    private void onPathListChange(ListChangeListener.Change<? extends Path> c){
+        while (c.next()) {
+            for (Path removed : c.getRemoved()) {
+                pathPane.removePathRow(removed);
+                map.getCurrentState().removePath(removed);
+            }
+            for (Path added : c.getAddedSubList()) {
+                pathPane.addPathRow(added);
+                map.getCurrentState().addToPaths(added);
+            }
+        }
     }
 
     private GameFactory initGameFactory() {
@@ -78,7 +98,6 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
-        initBottomPanes();
         initAttributesPane();
         initMapPane(1);
         initToolbarPane();
@@ -89,13 +108,28 @@ public class AuthoringEnvironment extends Application {
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
-        map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>()));
+        map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.setLevel(level);
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
 
     private void establishSelectCountListener(SimpleIntegerProperty selectCount) {
-        selectCount.addListener((observable, oldValue, newValue) -> map.handleSelectionChange((int)newValue));
+        selectCount.addListener((observable, oldValue, newValue) -> updateOnLevelSelection((int) newValue));
+    }
+
+    private void updateOnLevelSelection(int newValue){
+        map.handleSelectionChange(newValue);
+        currentPaths.removeListener((ListChangeListener<Path>) c -> onPathListChange(c));
+        for(Path path: currentPaths){
+            currentPaths.remove(path);
+            pathPane.removePathRow(path);
+        }
+        for(Path path: map.getCurrentState().getPaths()){
+            currentPaths.add(path);
+            pathPane.addPathRow(path);
+        }
+        initPathListeners();
+        //pathPane.setNewPathList(map.getCurrentState().getPaths());
     }
 
     private void initAgentPane() {
@@ -115,7 +149,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initBottomPanes() {
         consolePane = new ConsolePane(context);
-        pathPane = new PathPane(context, map, scene, paths, pen);
+        pathPane = new PathPane(context, map, scene, currentPaths, pen);
         var bottomBox = new HBox();
         consolePane.accessContainer(node -> bottomBox.getChildren().add(node));
         pathPane.accessContainer(node -> bottomBox.getChildren().add(node));
@@ -123,10 +157,10 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initToolbarPane() {
-        toolbarPane = new ToolbarPane(context, map, scene, paths);
+        toolbarPane = new ToolbarPane(context, map, scene, currentPaths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
-        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>()), false)));
+        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()), false)));
         toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeFromExistingWrapper()));
         toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
@@ -145,7 +179,7 @@ public class AuthoringEnvironment extends Application {
 
     private void clearLevel() {
         map.clearMap();
-        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>()));
+        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
 

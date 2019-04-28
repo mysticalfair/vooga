@@ -1,5 +1,6 @@
 package panes.tools;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -9,11 +10,10 @@ import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
 
-import java.util.List;
 
 public class PathDeleteTool extends PathModifyTool{
 
-    public PathDeleteTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
+    public PathDeleteTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths){
         super(context, otherMap, otherScene, fileName, paths);
     }
 

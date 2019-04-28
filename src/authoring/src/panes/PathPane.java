@@ -1,5 +1,6 @@
 package panes;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,22 +12,36 @@ import panes.tools.PathPenTool;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class PathPane extends AuthoringPane {
 
     private ScrollPane scrollPane;
-    private List<Path> pathOptions;
+    private ObservableList<Path> pathOptions;
     private PathPenTool pen;
     private VBox fullBox;
     private VBox pathsBox;
+    private HashMap<Path, HBox> pathDisplayMap;
 
     public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths) {
         super(context);
+        pathDisplayMap = new HashMap<>();
         pathOptions = paths;
-        //((ObservableList<Path>) pathOptions).addListener(e -> );
+        pathOptions.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
         pen = new PathPenTool(context, otherMap, otherScene, fileName, paths);
         initializePathDisplays();
+    }
+
+    // Code adapted from https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
+    private void onPathListChange(ListChangeListener.Change<? extends Path> c){
+        while (c.next()) {
+            for (Path removed : c.getRemoved()) {
+                removePathRow(removed);
+            }
+            for (Path added : c.getAddedSubList()) {
+                addPathRow(added);
+            }
+        }
     }
 
     private void initializePathDisplays(){
@@ -44,11 +59,16 @@ public class PathPane extends AuthoringPane {
 
     private void initPathsBox(){
         for(Path p: pathOptions){
-            pathsBox.getChildren().add(makeNewPathRow(p));
+            pathsBox.getChildren().add(addPathRow(p));
         }
     }
 
-    private HBox makeNewPathRow(Path path){
+    private void removePathRow(Path path){
+        var row = pathDisplayMap.get(path);
+        pathsBox.getChildren().remove(row);
+    }
+
+    private HBox addPathRow(Path path){
         var row = new HBox();
         var id = path.getID();
         var pathLabel = new Label(getContext().getString("PathLabel") + id);
@@ -57,6 +77,7 @@ public class PathPane extends AuthoringPane {
         var addButton = AuthoringUtil.createSquareImageButton(getContext().getString("PenFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> pen.enableToolWithPath(id));
         var deleteButton = AuthoringUtil.createSquareImageButton(getContext().getString("PathTrashFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> pen.removePathFromID(id));
         row.getChildren().addAll(pathLabel, addButton, deleteButton);
+        pathDisplayMap.put(path, row);
         return row;
     }
 

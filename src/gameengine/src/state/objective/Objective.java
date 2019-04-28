@@ -14,7 +14,7 @@ public abstract class Objective implements IObjectiveDefinition {
     protected Map<String, Object> params;
     protected int id;
     protected String title;
-    protected IObjectiveOutcome outcome;
+    protected ObjectiveOutcome outcome;
     protected int level;
 
     public Objective(Map<String, Object> params) {
@@ -29,7 +29,7 @@ public abstract class Objective implements IObjectiveDefinition {
     public void setParams(Map<String, Object> params) {
         this.id = (int) params.get("id");
         this.title = (String) params.get("title");
-        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.outcome = (ObjectiveOutcome) params.get("outcome");
         this.level = (int) params.get("level");
     }
 
@@ -43,8 +43,8 @@ public abstract class Objective implements IObjectiveDefinition {
     public int getId() { return this.id; }
     public void setId(int id) { this.id = id; }
 
-    public IObjectiveOutcome getOutcome() { return this.outcome; }
-    public void setOutcome(IObjectiveOutcome outcome) { this.outcome = outcome; }
+    public ObjectiveOutcome getOutcome() { return this.outcome; }
+    public void setOutcome(ObjectiveOutcome outcome) { this.outcome = outcome; }
 
     public int getLevel() { return this.level; }
     public void setLevel(int level) { this.level = level; }

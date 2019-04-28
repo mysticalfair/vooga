@@ -1,6 +1,6 @@
 package authoring;
 
-import state.objective.IObjectiveOutcome;
+import state.objective.ObjectiveOutcome;
 
 import java.util.Map;
 
@@ -16,8 +16,8 @@ public interface IObjectiveDefinition {
     int getId();
     void setId(int id);
 
-    IObjectiveOutcome getOutcome();
-    void setOutcome(IObjectiveOutcome outcome);
+    ObjectiveOutcome getOutcome();
+    void setOutcome(ObjectiveOutcome outcome);
 
     int getLevel();
     void setLevel(int level);

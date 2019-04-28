@@ -29,9 +29,9 @@ public class DraggableAgentView extends AgentView {
     private boolean selected;
     private String url;
 
-    public DraggableAgentView(AuthoringContext authoringContext, CloneableAgentView agent) {
-        super(authoringContext, agent.getUrl());
-        url = agent.getUrl();
+    public DraggableAgentView(AuthoringContext authoringContext, String url) {
+        super(authoringContext, url);
+        this.url = url;
         selected = false;
     }
 

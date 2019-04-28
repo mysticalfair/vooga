@@ -1,6 +1,5 @@
 package panes;
 
-import frontend_objects.CloneableAgentView;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -10,9 +9,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AgentPane extends AuthoringPane {
 
@@ -71,15 +67,15 @@ public class AgentPane extends AuthoringPane {
     public void refreshAgentList(int level, MapPane map) {
         inventory.getChildren().clear();
         getContext().getState().getDefinedAgents().forEach(agent -> {
-            CloneableAgentView newAgent = new CloneableAgentView(getContext(), agent.getName(), agent.getImageURL());
-            newAgent.setOnMousePressed(e -> newAgent.mousePressedOnClone(e, map));
-            inventory.getChildren().add(newAgent);
-            // TODO: add delete and edit buttons, checkbox to enable, and only set to enabled if in current level
+            AgentPaneElement newAgent = new AgentPaneElement(getContext(), agent);
+            //newAgent.setOnMousePressed(e -> newAgent.mousePressedOnClone(e, map));
+            newAgent.accessContainer(inventory.getChildren()::add);
+            // TODO: add delete and edit button actions, checkbox to enable, and only set to enabled if in current level
         });
     }
 
-    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
+    public void addButton(String buttonImageName, double buttonSize, EventHandler action){
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, action);
         buttonPane.getChildren().addAll(button);
     }
 

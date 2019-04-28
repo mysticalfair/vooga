@@ -145,7 +145,7 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"), context.getDouble("ButtonImageSize"),
+        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"),
                 e -> attributesPane.createNewAgentForm(agent -> agentPane.refreshAgentList(1, map)));
         agentPane.refreshAgentList(1, map);
     }

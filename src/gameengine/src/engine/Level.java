@@ -2,7 +2,6 @@ package engine;
 
 import authoring.exception.PropertyDoesNotExistException;
 import engine.event.GameEventMaster;
-import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
@@ -156,6 +155,16 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     @Override
     public void addPath(String name, List<Point2D> path) {
         paths.put(name, path);
+    }
+
+    @Override
+    public String getBackgroundImageURL() {
+        return levelState.getBackgroundImageURL();
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        levelState.setBackgroundImageURL(imageURL);
     }
 
     public void step(double deltaTime) {

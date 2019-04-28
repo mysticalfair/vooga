@@ -139,7 +139,6 @@ public class MapPane extends AuthoringPane {
      * @param view
      */
     public void removeAgent(AgentView view) {
-        agentList.remove(view);
         MapState currentLevel = levelToState.get(level);
         currentLevel.removeAgent(view);
         //System.out.println("Removed: new size is " + levelToState.get(level).getAgentCount());

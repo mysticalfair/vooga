@@ -27,13 +27,25 @@ public class DraggableAgentView extends AgentView {
     private double myStartSceneX, myStartSceneY;
     private double myStartXOffset, myStartYOffset;
     private boolean selected;
+    private String url;
 
     public DraggableAgentView(AuthoringContext authoringContext, CloneableAgentView agent) {
         super(authoringContext, agent.getUrl());
+        url = agent.getUrl();
         selected = false;
     }
 
-    void setMouseActionsForDrag(MapPane map, ConsolePane console) {
+    public DraggableAgentView(AuthoringContext authoringContext, DraggableAgentView other) {
+        super(authoringContext, other.url);
+        url = other.url;
+        selected = false;
+        myStartSceneX = other.myStartSceneX;
+        myStartSceneY = other.myStartSceneY;
+        myStartXOffset = other.myStartXOffset;
+        myStartYOffset = other.myStartYOffset;
+    }
+
+    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
         this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
         this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
         this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));

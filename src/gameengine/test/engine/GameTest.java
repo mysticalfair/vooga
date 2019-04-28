@@ -326,7 +326,7 @@ class GameTest {
     private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         Map<String, Object> condParams = new HashMap<>();
         condParams.put("property", "health");
-        condParams.put("value", 0);
+        condParams.put("value", 0.0);
         Map<String, Object> actionParams = new HashMap<>();
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");

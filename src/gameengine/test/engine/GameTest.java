@@ -239,7 +239,6 @@ class GameTest {
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
-
         List<IConditionDefinition> cond3 = new ArrayList<>();
         Map<String, Object> healthCheckParams = new HashMap<>();
         healthCheckParams.put("property", "health");

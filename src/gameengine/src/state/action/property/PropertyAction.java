@@ -8,7 +8,6 @@ import java.util.Map;
 
 public abstract class PropertyAction extends Action implements IRequiresBaseAgent {
     protected Agent baseAgent;
-    protected boolean onBaseAgent;
 
     public PropertyAction(Map<String, Object> params) {
         super(params);

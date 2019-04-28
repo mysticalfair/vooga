@@ -1,7 +1,7 @@
 package panes;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -21,9 +21,10 @@ public class PathPane extends AuthoringPane {
     private VBox fullBox;
     private VBox pathsBox;
 
-    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths) {
         super(context);
         pathOptions = paths;
+        //((ObservableList<Path>) pathOptions).addListener(e -> );
         pen = new PathPenTool(context, otherMap, otherScene, fileName, paths);
         initializePathDisplays();
     }

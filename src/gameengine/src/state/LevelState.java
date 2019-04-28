@@ -2,6 +2,7 @@ package state;
 
 import state.agent.Agent;
 import state.agent.IPlayerAgent;
+import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
 import state.objective.IPlayerObjective;
@@ -65,6 +66,19 @@ public class LevelState implements Serializable, IPlayerLevelState {
             agentsCurrent.remove(agent);
             //TODO: change back to agent
             this.pcs.firePropertyChange("Remove Agent", agent, null);
+        }
+    }
+
+    public void addAttribute(Attribute attribute) {
+        attributesCurrent.add(attribute);
+        this.pcs.firePropertyChange("Add Attribute", null, attribute);
+    }
+
+    public void removeAttribute(Attribute attribute) {
+        if (this.attributesCurrent.contains(attribute)){
+            attributesCurrent.remove(attribute);
+            //TODO: change back to agent
+            this.pcs.firePropertyChange("Remove Attribute", attribute, null);
         }
     }
 

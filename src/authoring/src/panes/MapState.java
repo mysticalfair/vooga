@@ -20,6 +20,12 @@ public class MapState {
         selectCount.set(0);
     }
 
+    public MapState(MapState other) {
+        this.backgroundURL = other.backgroundURL;
+        this.agents = other.agents;
+        selectCount.set(0);
+    }
+
     public void setBackgroundURL(String url) {
         backgroundURL = url;
     }

@@ -1,5 +1,6 @@
 package panes.tools;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -10,15 +11,24 @@ import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
 
-import java.util.List;
 
 public class PathPenTool extends PathTool{
 
     private Path currentPath;
 
-    public PathPenTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths){
+    public PathPenTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths){
         super(context, otherMap, otherScene, fileName, paths);
     }
+
+    /*public void setNewPathList(List<Path> newPathList){
+        for(Path path: pathOptions){
+            removePath(path);
+        }
+        pathOptions = newPathList;
+        for(Path path: pathOptions){
+            addPath(path);
+        }
+    }*/
 
     public void enableToolWithPath(int pathID){
         selectPath(pathID);
@@ -28,11 +38,15 @@ public class PathPenTool extends PathTool{
     public void removePathFromID(int id){
         var pathToRemove = pathOptions.get(id);
         if(pathToRemove != null){
-            removePath(pathToRemove);
+            removeVisualPath(pathToRemove);
+            pathOptions.remove(pathToRemove);
         }
     }
 
     private void selectPath(int index){
+        if(currentPath != null){
+            currentPath.setStyleSelected(false);
+        }
         String messageContent;
         ConsolePane.Level messageLevel;
         if(index == pathOptions.size()){
@@ -50,6 +64,7 @@ public class PathPenTool extends PathTool{
             messageContent = "PathSelectedMessage";
             messageLevel = ConsolePane.Level.NEUTRAL;
         }
+        currentPath.setStyleSelected(true);
         getContext().displayConsoleMessage(getContext().getString(messageContent) + index, messageLevel);
     }
 

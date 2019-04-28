@@ -1,5 +1,6 @@
 package panes.tools;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -7,11 +8,10 @@ import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
 
-import java.util.List;
 
 public abstract class PathTool extends MapTool{
 
-    protected List<Path> pathOptions;
+    protected ObservableList<Path> pathOptions;
 
     /**
      * These tools have an action in the MapPane on click
@@ -20,7 +20,7 @@ public abstract class PathTool extends MapTool{
      * @param otherScene
      * @param fileName
      */
-    public PathTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+    public PathTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths) {
         super(context, otherMap, otherScene, fileName);
         pathOptions = paths;
     }
@@ -31,15 +31,12 @@ public abstract class PathTool extends MapTool{
         }
     }
 
-    protected void removePath(Path path){
-        if(pathOptions.contains(path)){
-            pathOptions.remove(path);
-            for(Line l: path.getLines()){
-                map.removeShape(l);
-            }
-            for(Circle c: path.getPoints()){
-                map.removeShape(c);
-            }
+    protected void removeVisualPath(Path path){
+        for(Line l: path.getLines()){
+            map.removeShape(l);
+        }
+        for(Circle c: path.getPoints()){
+            map.removeShape(c);
         }
     }
 

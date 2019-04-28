@@ -1,5 +1,6 @@
 package panes;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import util.AuthoringContext;
 import util.AuthoringUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class PathPane extends AuthoringPane {
 
@@ -23,13 +25,11 @@ public class PathPane extends AuthoringPane {
     private VBox pathsBox;
     private HashMap<Path, HBox> pathDisplayMap;
 
-    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, ObservableList<Path> paths) {
+    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, ObservableList<Path> paths, PathPenTool toolbarPen) {
         super(context);
         pathDisplayMap = new HashMap<>();
-        pathOptions = paths;
-        pathOptions.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
-        var penToolFile = getContext().getString("PenFile");
-        pen = new PathPenTool(context, otherMap, otherScene, penToolFile, paths);
+        pen = toolbarPen;
+        setNewPathList(paths);
         initializePathDisplays();
     }
 
@@ -43,6 +43,18 @@ public class PathPane extends AuthoringPane {
                 addPathRow(added);
             }
         }
+    }
+
+    private void setNewPathList(List<Path> newPathList){
+        //pen.setNewPathList(newPathList);
+        if(pathOptions != null){
+            for(Path path: pathOptions){
+                removePathRow(path);
+            }
+        }
+        pathOptions = FXCollections.observableArrayList(newPathList);
+        pathOptions.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
+        initPathsBox();
     }
 
     private void initializePathDisplays(){
@@ -65,12 +77,12 @@ public class PathPane extends AuthoringPane {
         }
     }
 
-    private void removePathRow(Path path){
+    public void removePathRow(Path path){
         var row = pathDisplayMap.get(path);
         pathsBox.getChildren().remove(row);
     }
 
-    private void addPathRow(Path path){
+    public void addPathRow(Path path){
         var row = new HBox();
         var id = path.getID();
         var pathLabel = new Label(getContext().getString("PathLabel") + id);

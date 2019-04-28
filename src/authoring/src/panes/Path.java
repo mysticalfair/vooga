@@ -13,7 +13,8 @@ public class Path {
     public static final int FIRST_POINT = 0;
     public static final int MINIMUM_SIZE = 1;
     public static final List<Double> DASH_ARRAY = List.of(2d, 4d);
-    public static final Color LINE_COLOR = Color.BLUE;
+    public static final Color SELECTED_COLOR = Color.ORCHID;
+    public static final Color DEFAULT_COLOR = Color.BLUE;
 
     /**
      * This object tracks the order and number of points added to a given path.
@@ -22,14 +23,39 @@ public class Path {
      *  Set circle's onMouseClick and onMouseDrag to be like a draggable image
      */
 
+    // getPaths (map string to point2d
+    // removePath(index)
+    // removePath(string)
+    // addPath(string, list<point2d>)
+
     private List<PathPoint> points;
     private List<Line> lines;
     private int pathID;
+    private Color pathColor;
 
     public Path(int id){
         points = new ArrayList<>();
         lines = new ArrayList<>();
         pathID = id;
+        pathColor = DEFAULT_COLOR;
+
+    }
+
+    public void setStyleSelected(boolean selected){
+        if(selected){
+            pathColor = SELECTED_COLOR;
+        }
+        else{
+            pathColor = DEFAULT_COLOR;
+        }
+        for(Circle c: getPoints()){
+            c.setStroke(pathColor);
+            c.setFill(pathColor);
+        }
+        for(Line l: lines){
+            l.setStroke(pathColor);
+            l.setFill(pathColor);
+        }
     }
 
     public int getID(){
@@ -73,7 +99,7 @@ public class Path {
     }
 
     public Circle addPoint(double x, double y){
-        var point = new PathPoint(x, y);
+        var point = new PathPoint(x, y, pathColor);
         var visual = point.getPoint();
         points.add(point);
         return (Circle) visual;
@@ -105,7 +131,7 @@ public class Path {
             currentCircle = (Circle) points.get(i).getPoint();
             var line = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
             line.getStrokeDashArray().addAll(DASH_ARRAY);
-            line.setStroke(LINE_COLOR);
+            line.setStroke(pathColor);
             linesList.add(line);
         }
     }

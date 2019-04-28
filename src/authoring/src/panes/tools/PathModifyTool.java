@@ -1,5 +1,6 @@
 package panes.tools;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.shape.Circle;
@@ -23,7 +24,7 @@ public abstract class PathModifyTool extends PathTool {
      * @param fileName
      * @param paths
      */
-    public PathModifyTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, List<Path> paths) {
+    public PathModifyTool(AuthoringContext context, MapPane otherMap, Scene otherScene, String fileName, ObservableList<Path> paths) {
         super(context, otherMap, otherScene, fileName, paths);
     }
 

@@ -134,6 +134,16 @@ public class MapPane extends AuthoringPane {
         mapPane.getChildren().add(agent);
     }
 
+    public void addPath(Path path){
+        MapState currentLevel = levelToState.get(level);
+        currentLevel.addToPaths(path);
+    }
+
+    public void removePath(Path path){
+        MapState currentLevel = levelToState.get(level);
+        currentLevel.removePath(path);
+    }
+
     /**
      *
      * @param view

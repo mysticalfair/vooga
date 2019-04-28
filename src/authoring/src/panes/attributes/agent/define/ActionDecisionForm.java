@@ -1,78 +1,34 @@
 package panes.attributes.agent.define;
 
 import authoring.IActionDecisionDefinition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import panes.attributes.AttributesForm;
+import authoring.IPropertyDefinition;
+import panes.attributes.LabeledEditableFormList;
 import util.AuthoringContext;
-import util.AuthoringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ActionDecisionForm extends AttributesForm {
-
-    private Accordion accordion;
+public class ActionDecisionForm extends LabeledEditableFormList {
 
     public ActionDecisionForm(AuthoringContext context) {
-        super(context);
+        super(context, context.getString("ActionDecisions"));
 
-        GridPane gridPane = new GridPane();
-        gridPane.add(new Label(context.getString("ActionDecisions")), 0, 0, 3, 1);
-        gridPane.add(AuthoringUtil.createSquareImageButton(
-                getContext().getString("AddButtonImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> addActionDecision()),
-                4, 0);
-        accordion = new Accordion();
-        gridPane.add(accordion, 0, 1, 4, 1);
-
-        getPane().getChildren().add(gridPane);
-    }
-
-    public List<IActionDecisionDefinition> getActionDecisionDefinitions() {
-        return null;
-    }
-
-    private void addActionDecision() {
-        TitledPane actionDecisionTitledPane = new TitledPane();
-
-        // Add trash button to label of TitledPane
-        // Used https://stackoverflow.com/questions/49085827/javafx-titledpane-with-button
-        // and http://javawiki.sowas.com/doku.php?id=javafx:titledpane-with-checkbox
-        HBox titleHBox = new HBox();
-        Label titleLabel = new Label();
-        titleLabel.textProperty().bind(actionDecisionTitledPane.textProperty());
-        var deleteButton = AuthoringUtil.createSquareImageButton(
-                getContext().getString("TrashImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"),
-                e -> accordion.getPanes().remove(actionDecisionTitledPane));
-        titleHBox.getChildren().addAll(titleLabel, deleteButton);
-        actionDecisionTitledPane.setGraphic(titleHBox);
-
-        VBox actionDecisionVBox = new VBox();
-        actionDecisionTitledPane.setContent(actionDecisionVBox);
-
-        // Action
-        HBox actionHBox = new HBox();
-        Label actionLabel = new Label(getContext().getString("Action"));
-        ChoiceBox<String> actionChoiceBox = new ChoiceBox<>();
-        //actionChoiceBox.getItems().addAll("MoveForward", "AttackWithInterval", "MoveTowards", "FollowPath");//"Poop", "Defecate", "Utilize one's anus", "Dispense of fecal matter in a pleasurable way");
-        actionChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-                actionDecisionTitledPane.setText(String.format(getContext().getString("ActionDecisionFormTitle"),
-                        actionLabel.getText(), actionChoiceBox.getItems().get((Integer) number2)));
-            }
+        setOnAdd(e -> {
+            ActionDecisionFormElement element = new ActionDecisionFormElement(context);
+            add(element);
+            element.setOnDelete(e2 -> remove(element));
         });
-        actionChoiceBox.getSelectionModel().selectFirst();
-        actionHBox.getChildren().addAll(actionLabel, actionChoiceBox);
-        actionDecisionVBox.getChildren().add(actionHBox);
+    }
 
-        accordion.getPanes().add(actionDecisionTitledPane);
+    /**
+     * Packages the data from this form into a list of IActionDecisionDefinition.
+     * @return the List<IActionDecisionDefinition> containing the data from this form.
+     */
+    @Override
+    public List<IActionDecisionDefinition> packageData() {
+        List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
+        iterateElements(e -> actionDecisions.add(((ActionDecisionFormElement) e).packageData()));
+        return actionDecisions;
     }
 
 }

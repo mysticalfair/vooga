@@ -1,20 +1,21 @@
 package panes.attributes.agent.define;
 
-import authoring.GameFactory;
+import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
+import authoring.IPropertyDefinition;
 import javafx.event.EventHandler;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import panes.AuthoringEnvironment;
+import panes.AuthoringPane;
 import panes.ConsolePane;
-import panes.attributes.AttributesForm;
 import util.AuthoringContext;
 
-import java.util.ResourceBundle;
+import java.util.List;
 
 
-public class DefineAgentForm extends AttributesForm {
+public class DefineAgentForm extends AuthoringPane {
 
     private CommonAgentFieldsForm commonAgentFieldsForm;
     private AgentPropertiesForm agentPropertiesForm;
@@ -23,6 +24,7 @@ public class DefineAgentForm extends AttributesForm {
 
     public DefineAgentForm(AuthoringContext context) {
         super(context);
+
         init();
     }
 
@@ -51,7 +53,7 @@ public class DefineAgentForm extends AttributesForm {
         actionDecisionForm = new ActionDecisionForm(getContext());
         actionDecisionForm.accessContainer(vBox.getChildren()::add);
 
-        getPane().getChildren().add(vBox);
+        getContentChildren().add(vBox);
     }
 
     public void setOnSave(EventHandler onSave) {
@@ -63,12 +65,42 @@ public class DefineAgentForm extends AttributesForm {
     }
 
     public IAgentDefinition getAgentDefinition() {
-        String name = commonAgentFieldsForm.getName();
-        if (name.equals("")) {
+        if (commonAgentFieldsForm.getName().equals("")) {
             getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
+            printAgentNotCreated();
+            return null;
+        }
+        if (commonAgentFieldsForm.getWidth() == getContext().getInt("ErrorInt")) {
+            getContext().displayConsoleMessage(getContext().getString("WidthMustBeInt"), ConsolePane.Level.ERROR);
+            printAgentNotCreated();
+            return null;
+        }
+        if (commonAgentFieldsForm.getHeight() == getContext().getInt("ErrorInt")) {
+            getContext().displayConsoleMessage(getContext().getString("HeightMustBeInt"), ConsolePane.Level.ERROR);
+            printAgentNotCreated();
+            return null;
+        }
+        if (commonAgentFieldsForm.getImageUrl().isBlank()) {
+            getContext().displayConsoleMessage(getContext().getString("MalformedAgentImagePath"), ConsolePane.Level.ERROR);
+            printAgentNotCreated();
+            return null;
+        }
+        List<IPropertyDefinition> properties = agentPropertiesForm.packageData();
+        if (properties.contains(null)) {
+            printAgentNotCreated();
+            return null;
+        }
+        List<IActionDecisionDefinition> actionDecisions = actionDecisionForm.packageData();
+        if (actionDecisions.contains(null)) {
+            printAgentNotCreated();
+            return null;
         }
         return getContext().getGameFactory().createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
-                commonAgentFieldsForm.getImageUrl(), actionDecisionForm.getActionDecisionDefinitions(),
-                agentPropertiesForm.getPropertyDefinitions());
+                0, commonAgentFieldsForm.getName(), commonAgentFieldsForm.getImageUrl(),
+                actionDecisions, properties);
+    }
+
+    private void printAgentNotCreated() {
+        getContext().displayConsoleMessage(getContext().getString("AgentNotCreated"), ConsolePane.Level.ERROR);
     }
 }

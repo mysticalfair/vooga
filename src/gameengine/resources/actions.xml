@@ -43,13 +43,6 @@
     </actionDefinition>
 
     <actionDefinition>
-        <name>SpawnAgentInitialDirection</name>
-        <fields>
-            <double>agent</double>
-        </fields>
-    </actionDefinition>
-
-    <actionDefinition>
         <name>DestroyAgent</name>
         <fields>
         </fields>

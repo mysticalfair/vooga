@@ -72,10 +72,7 @@
           <actionDecisions>
             <state.actiondecision.ActionDecision>
               <action class="state.action.movement.MoveAtRelativeAngle">
-                <eventMaster>
-                  <removeAgentListeners/>
-                  <addAgentListeners/>
-                </eventMaster>
+                <eventMaster reference="../../../../../../eventMaster"/>
                 <params>
                   <entry>
                     <string>angle</string>
@@ -100,7 +97,7 @@
             </state.actiondecision.ActionDecision>
             <state.actiondecision.ActionDecision>
               <action class="state.action.destroy.DestroyAgent">
-                <eventMaster reference="../../../state.actiondecision.ActionDecision/action/eventMaster"/>
+                <eventMaster reference="../../../../../../eventMaster"/>
                 <params/>
                 <name>DestroyAgent</name>
                 <baseAgent reference="../../../.."/>
@@ -168,7 +165,7 @@
           <actionDecisions>
             <state.actiondecision.ActionDecision>
               <action class="state.action.movement.MoveAtRelativeAngle">
-                <eventMaster reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/eventMaster"/>
+                <eventMaster reference="../../../../../../eventMaster"/>
                 <params>
                   <entry>
                     <string>angle</string>

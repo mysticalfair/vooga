@@ -24,9 +24,11 @@ public class DecrementProperty extends Action {
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
         try{
-            double current_value = (double) agent.getProperty(propertyName);
+            Object value = agent.getProperty(propertyName);
+            double current_value = (double) value;
             current_value -= amount;
             agent.setProperty(propertyName, current_value);
+            System.out.println("DAMAGE! HP: " + current_value);
         }
         catch(NullPointerException e) {
             // No such property, so do nothing

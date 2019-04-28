@@ -77,8 +77,8 @@ public class AuthoringEnvironment extends Application {
 
     private void initAllPanes() {
         initAttributesPane();
-        initBottomPanes();
         initMapPane(1);
+        initBottomPanes();
         initToolbarPane();
         initAgentPane();
     }
@@ -117,8 +117,6 @@ public class AuthoringEnvironment extends Application {
         consolePane.accessContainer(node -> bottomBox.getChildren().add(node));
         pathPane.accessContainer(node -> bottomBox.getChildren().add(node));
         borderPane.setBottom(bottomBox);
-        //consolePane.accessContainer(borderPane::setBottom);
-        //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
     private void initToolbarPane() {

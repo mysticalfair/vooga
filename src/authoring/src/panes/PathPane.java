@@ -35,13 +35,11 @@ public class PathPane extends AuthoringPane {
 
     // Code adapted from https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
     private void onPathListChange(ListChangeListener.Change<? extends Path> c){
-        System.out.println("Path list has changed");
         while (c.next()) {
             for (Path removed : c.getRemoved()) {
                 removePathRow(removed);
             }
             for (Path added : c.getAddedSubList()) {
-                System.out.println("Path has been added");
                 addPathRow(added);
             }
         }

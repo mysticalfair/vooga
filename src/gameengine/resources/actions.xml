@@ -58,7 +58,15 @@
     <actionDefinition>
         <name>IncrementProperty</name>
         <fields>
-            <string>propertyName</string>
+            <string>property</string>
+            <double>value</double>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>DecrementProperty</name>
+        <fields>
+            <string>property</string>
             <double>value</double>
             <boolean>onBaseAgent</boolean>
         </fields>

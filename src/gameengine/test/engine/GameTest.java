@@ -117,7 +117,7 @@ class GameTest {
     @Test
     void setupFour() {
         try {
-            GameFactory factory = new GameFactory();
+            factory = new GameFactory();
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
@@ -139,7 +139,7 @@ class GameTest {
     @Test
     void setUpSeven() {
         try {
-            GameFactory factory = new GameFactory();
+            factory = new GameFactory();
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
@@ -297,27 +297,19 @@ class GameTest {
                 factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
 
         // DISAPPEAR ON COLLISION
-        List<IConditionDefinition> cond3 = new ArrayList<>();
-        cond3.add(factory.createCondition("Collision", new HashMap<>()));
+        List<IConditionDefinition> cond2 = new ArrayList<>();
+        cond2.add(factory.createCondition("Collision", new HashMap<>()));
         Map<String, Object> teamCheckParams = new HashMap<>();
         teamCheckParams.put("property", "team");
         teamCheckParams.put("value", otherTeam);
-        cond3.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
+        cond2.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
         AD1.add(factory.createActionDecision(
-                factory.createAction("DestroyAgent", new HashMap<>()), cond3));
+                factory.createAction("DestroyAgent", new HashMap<>()), cond2));
 
-
-//        List<IConditionDefinition> cond2 = new ArrayList<>();
-//        // collision
-//        cond2.add(factory.createCondition("Collision", new HashMap<>()));
-//        // only hurt other team
-//        Map<String, Object> propertyEqualParams = new HashMap<>();
-//        propertyEqualParams.put("team", otherTeam);
-//        cond2.add(factory.createCondition("PropertyEqualTo", propertyEqualParams));
-//        // take health given these conditions
+//        // use the same conditions as the previous action because disappearance and damage should always happen together
 //        Map<String, Object> damageParams = new HashMap<>();
-//        moveParams.put("value", 50.0);
-//        moveParams.put("property", "health");
+//        damageParams.put("value", 50.0);
+//        damageParams.put("property", "health");
 //        AD1.add(factory.createActionDecision(
 //                factory.createAction("DecrementProperty", damageParams), cond2));
 

@@ -54,7 +54,7 @@ public class LevelController implements PropertyChangeListener {
       else if (e.getPropertyName().equals("Remove Agent"))
       {
          System.out.println("Removing front end agent");
-         this.mapController.removeAgent((IPlayerAgent)(e.getNewValue()));
+         this.mapController.removeAgent((IPlayerAgent)(e.getOldValue()));
 
       }
    }

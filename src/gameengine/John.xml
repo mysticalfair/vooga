@@ -54,15 +54,15 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>peashooter</name>
+          <name>pea</name>
           <x>50.0</x>
           <y>50.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
         <state.AgentReference>
-          <name>zombieshooter</name>
+          <name>zombie</name>
           <x>50.0</x>
-          <y>250.0</y>
+          <y>50.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
       </authoringAgentsPlaced>
@@ -208,134 +208,6 @@
                 <value class="string">badGuys</value>
               </state.Property>
             </properties>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </playerAgent>
-          <pcs serialization="custom">
-            <java.beans.PropertyChangeSupport>
-              <default>
-                <source class="state.agent.Agent" reference="../../../.."/>
-                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-              </default>
-              <null/>
-            </java.beans.PropertyChangeSupport>
-          </pcs>
-        </state.agent.Agent>
-        <state.agent.Agent>
-          <actionDecisions>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.spawn.SpawnAgentInitialDirection">
-                <eventMaster reference="../../../../../../eventMaster"/>
-                <params>
-                  <entry>
-                    <string>agent</string>
-                    <string>pea</string>
-                  </entry>
-                </params>
-                <name>SpawnAgentInitialDirection</name>
-                <spawnAgentName>pea</spawnAgentName>
-                <baseAgent reference="../../../.."/>
-              </action>
-              <conditions>
-                <state.condition.DoOnceCondition>
-                  <name>DoOnce</name>
-                  <params>
-                    <entry>
-                      <string>interval</string>
-                      <double>5.0</double>
-                    </entry>
-                  </params>
-                </state.condition.DoOnceCondition>
-                <state.condition.IntervalCondition>
-                  <name>Interval</name>
-                  <params reference="../../state.condition.DoOnceCondition/params"/>
-                  <intervalMillis>5000.0</intervalMillis>
-                  <lastOccurrence>0</lastOccurrence>
-                </state.condition.IntervalCondition>
-              </conditions>
-            </state.actiondecision.ActionDecision>
-          </actionDecisions>
-          <playerAgent>
-            <id>2</id>
-            <x>50.0</x>
-            <y>50.0</y>
-            <imageURL>peashooter.gif</imageURL>
-            <name>peashooter</name>
-            <direction>0.0</direction>
-            <width>20</width>
-            <height>20</height>
-            <properties/>
-            <pcs serialization="custom">
-              <java.beans.PropertyChangeSupport>
-                <default>
-                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                </default>
-                <null/>
-              </java.beans.PropertyChangeSupport>
-            </pcs>
-          </playerAgent>
-          <pcs serialization="custom">
-            <java.beans.PropertyChangeSupport>
-              <default>
-                <source class="state.agent.Agent" reference="../../../.."/>
-                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-              </default>
-              <null/>
-            </java.beans.PropertyChangeSupport>
-          </pcs>
-        </state.agent.Agent>
-        <state.agent.Agent>
-          <actionDecisions>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.spawn.SpawnAgentInitialDirection">
-                <eventMaster reference="../../../../../../eventMaster"/>
-                <params>
-                  <entry>
-                    <string>agent</string>
-                    <string>zombie</string>
-                  </entry>
-                </params>
-                <name>SpawnAgentInitialDirection</name>
-                <spawnAgentName>zombie</spawnAgentName>
-                <baseAgent reference="../../../.."/>
-              </action>
-              <conditions>
-                <state.condition.DoOnceCondition>
-                  <name>DoOnce</name>
-                  <params>
-                    <entry>
-                      <string>interval</string>
-                      <double>5.0</double>
-                    </entry>
-                  </params>
-                </state.condition.DoOnceCondition>
-                <state.condition.IntervalCondition>
-                  <name>Interval</name>
-                  <params reference="../../state.condition.DoOnceCondition/params"/>
-                  <intervalMillis>5000.0</intervalMillis>
-                  <lastOccurrence>0</lastOccurrence>
-                </state.condition.IntervalCondition>
-              </conditions>
-            </state.actiondecision.ActionDecision>
-          </actionDecisions>
-          <playerAgent>
-            <id>3</id>
-            <x>50.0</x>
-            <y>50.0</y>
-            <imageURL>peashooter.gif</imageURL>
-            <name>zombieshooter</name>
-            <direction>0.0</direction>
-            <width>20</width>
-            <height>20</height>
-            <properties/>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>

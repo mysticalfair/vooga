@@ -1,0 +1,10 @@
+<fieldDefinitions>
+
+    <field>int</field>
+    <field>double</field>
+    <field>string</field>
+    <field>point2Dlist</field>
+    <field>boolean</field>
+    <field>comparable</field>
+
+</fieldDefinitions>

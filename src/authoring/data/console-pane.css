@@ -1,8 +1,24 @@
-#terminal {
+#message {
     -fx-font-size: 10pt;
     -fx-font-family: "monospace";
     -fx-background: rgb(42, 42, 45);
     -fx-fill: white;
+    -fx-stroke-width: 1;
+}
+
+#error_message {
+    -fx-font-size: 10pt;
+    -fx-font-family: "monospace";
+    -fx-background: rgb(42, 42, 45);
+    -fx-fill: red;
+    -fx-stroke-width: 1;
+}
+
+#success_message {
+    -fx-font-size: 10pt;
+    -fx-font-family: "monospace";
+    -fx-background: rgb(42, 42, 45);
+    -fx-fill: green;
     -fx-stroke-width: 1;
 }
 

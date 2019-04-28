@@ -11,10 +11,10 @@ import java.util.List;
 public interface IAgentDefinition {
 
     double getX();
-    void setX(int x);
+    void setX(double x);
 
     double getY();
-    void setY(int y);
+    void setY(double y);
 
     int getWidth();
     void setWidth(int width);

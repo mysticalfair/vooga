@@ -104,7 +104,6 @@ class GameTest {
                 level.addAgent("zombie", 350, 50 + 100 * i, 180, new ArrayList<Property>());
             }
 
-
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -277,7 +276,7 @@ class GameTest {
 
         //create zombie
         return factory.createAgent(0, 0, 30, 30,
-                180, name, "zombie.gif", AD, properties);
+                180, name, "pvz/zombie.gif", AD, properties);
     }
 
     private IAgentDefinition createPeashooter(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
@@ -305,7 +304,7 @@ class GameTest {
         properties.add(factory.createProperty("health", initHealth));
 
         return factory.createAgent(50, 50, 20, 20,
-                0,name, "peashooter.gif", AD2, properties);
+                0,name, "pvz/peashooter.gif", AD2, properties);
     }
 
     private IAgentDefinition createPea(String name) throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
@@ -347,7 +346,7 @@ class GameTest {
         properties.add(factory.createProperty("team", team));
 
         return factory.createAgent(500, 500, 10, 10,
-                0,name, "pea.gif", AD1, properties);
+                0,name, "pvz/pea.gif", AD1, properties);
     }
 
     private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
@@ -373,6 +372,6 @@ class GameTest {
         List<IPropertyDefinition> properties = new ArrayList<>();
         var prop = factory.createProperty("health", 10.0);
         properties.add(prop);
-        return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
+        return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "clash/ArcherQueen.png", actionDecisions, properties);
     }
 }

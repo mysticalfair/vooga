@@ -254,12 +254,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public Object getProperty(String name) {
-        for(Property property : this.playerAgent.getProperties()) {
-            if(property.getName().equals(name)) {
-                return property.getValue();
-            }
-        }
-        return null;
+        return this.playerAgent.getProperty(name);
     }
 
     public void injectPathsWhereNecessary(Map<String, List<Point2D>> paths) {

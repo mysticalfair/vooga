@@ -1,10 +1,12 @@
 package frontend_objects;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import panes.AgentPane;
+import javafx.scene.paint.Color;
+import panes.ConsolePane;
+import panes.MapPane;
+import util.AuthoringContext;
 
 public class DraggableAgentView extends AgentView {
 
@@ -19,51 +21,125 @@ public class DraggableAgentView extends AgentView {
      *         ((ImageView)(event.getSource())).setTranslateY(getStartY());
      *     }
      * Resource consulted for draggable images: http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * @author Mary Stuart Elder
+     * @author Mary Stuart Elder and Eric Lin
      */
 
     private double myStartSceneX, myStartSceneY;
     private double myStartXOffset, myStartYOffset;
+    private boolean selected;
+    private String url;
 
-    public DraggableAgentView(CloneableAgentView agent) {
-        super(agent.getUrl());
+    public DraggableAgentView(AuthoringContext authoringContext, CloneableAgentView agent) {
+        super(authoringContext, agent.getUrl());
+        url = agent.getUrl();
+        selected = false;
     }
 
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start x position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position X
-     */
-    public double getStartX(){
-        return myStartXOffset;
+    public DraggableAgentView(AuthoringContext authoringContext, DraggableAgentView other) {
+        super(authoringContext, other.url);
+        url = other.url;
+        selected = false;
+        myStartSceneX = other.myStartSceneX;
+        myStartSceneY = other.myStartSceneY;
+        myStartXOffset = other.myStartXOffset;
+        myStartYOffset = other.myStartYOffset;
     }
 
-    /**
-     * Used by subclasses of frontend_objects.DraggableView to get the view's start y position
-     * If a subclass has to return to the start position, this will allow it
-     * @return double Start position Y
-     */
-    public double getStartY(){
-        return myStartYOffset;
+    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
+        this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
+        this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
+        this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));
     }
 
-    public void setMyStartXOffset(double x) {
-        myStartXOffset = x;
+    public void mousePressed(MouseEvent event) {
+        myStartSceneX = event.getSceneX();
+        myStartSceneY = event.getSceneY();
+        myStartXOffset = getTranslateX();
+        myStartYOffset = getTranslateY();
     }
 
-    public void setMyStartYOffset(double y) {
-        myStartYOffset = y;
+    public void mouseDragged(MouseEvent event, MapPane map) {
+        double offsetX = event.getSceneX() - myStartSceneX;
+        double offsetY = event.getSceneY() - myStartSceneY;
+        double newTranslateX = myStartXOffset + offsetX;
+        double newTranslateY = myStartYOffset + offsetY;
+        setTranslateX(newTranslateX);
+        setTranslateY(newTranslateY);
+        if (trashIntersect(map)) {
+            setEffect(setLighting(Color.RED));
+        } else if (outOfBounds()) {
+            setEffect(setLighting(Color.WHITE));
+        } else {
+            setEffect(null);
+        }
     }
 
-    public double getMyStartSceneX() { return myStartSceneX; }
-
-    public double getMyStartSceneY() { return myStartSceneY; }
-
-    public void setMyStartSceneX(double x) {
-        myStartSceneX = x;
+    private Lighting setLighting(Color color) {
+        Lighting lighting = new Lighting();
+        lighting.setDiffuseConstant(1.0);
+        lighting.setSpecularConstant(0.0);
+        lighting.setSpecularExponent(0.0);
+        lighting.setSurfaceScale(0.0);
+        lighting.setLight(new Light.Distant(getContext().getDouble("LightingConstant"), getContext().getDouble("LightingConstant"), color));
+        return lighting;
     }
 
-    public void setMyStartSceneY(double y) {
-        myStartSceneY = y;
+    public void mouseReleased(MapPane map, ConsolePane console) {
+        if (trashIntersect(map)) {
+            setImage(null);
+            map.removeAgent(this);
+            console.displayMessage(getContext().getString("AgentRemoved") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+        } else if (outOfBounds()) {
+            setEffect(null);
+            setTranslateX(myStartXOffset);
+            setTranslateY(myStartYOffset);
+            console.displayMessage(getContext().getString("AgentOutOfBounds"), ConsolePane.Level.NEUTRAL);
+        }
     }
+
+    private boolean outOfBoundsHorizontal() {
+        double xPos = getTranslateX();
+        double xPosRight = getTranslateX() + getFitWidth();
+        boolean rightOutOfBounds = xPosRight > getContext().getDouble("InsetMapWidth");
+        boolean leftOutOfBounds = xPos < 0;
+        return leftOutOfBounds || rightOutOfBounds;
+    }
+
+    private boolean outOfBoundsVertical() {
+        double yPos = getTranslateY();
+        double yPosBot = getTranslateY() + getFitHeight();
+        boolean topOutOfBounds = yPos < 0;
+        boolean botOutOfBounds = yPosBot > getContext().getDouble("InsetMapHeight");
+        return topOutOfBounds || botOutOfBounds;
+    }
+
+    private boolean outOfBounds() {
+        return outOfBoundsHorizontal() || outOfBoundsVertical();
+    }
+
+    private boolean trashIntersect(MapPane map) {
+        double yPos = getTranslateY();
+        double xPosRight = getTranslateX() + getFitWidth();
+        boolean topOutOfBounds = yPos < 0;
+        boolean rightOutOfBounds =  xPosRight > getContext().getDouble("InsetMapWidth") + (map.getPaneWidth() - getContext().getDouble("InsetMapWidth"))/2;
+        return topOutOfBounds && rightOutOfBounds;
+    }
+
+    private void setImageOpacity(){
+        // Translucent if selected
+        var opacity = 0.3;
+        int selectAddition = selected ? 0 : 1;
+        var select = 0.7*selectAddition + opacity;
+        this.setStyle("-fx-opacity: " + select + ";");
+    }
+
+    public void setSelect(boolean select){
+        selected = select;
+        setImageOpacity();
+    }
+
+    public boolean getSelect() {
+        return selected;
+    }
+
 }

@@ -1,34 +1,45 @@
 package panes;
 
 import frontend_objects.CloneableAgentView;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AgentPane extends AuthoringPane {
 
     private VBox inventoryContainer;
-    private HBox handlePane;
+    private HBox buttonPane;
     private ScrollPane scrollInventory;
     private GridPane inventory;
     private List<CloneableAgentView> agentList;
+    private ImageView trash;
 
-    public static final double WIDTH = 40;
-    public static final double HEIGHT = AuthoringEnvironment.DEFAULT_HEIGHT - ToolbarPane.HEIGHT - ConsolePane.HEIGHT;
-
-    public AgentPane() {
-        super();
+    public AgentPane(AuthoringContext context) {
+        super(context);
         initElements();
         getContentChildren().add(inventoryContainer);
     }
 
     private void initElements() {
         initInventoryContainer();
-        initHandlePane();
+        initButtonPane();
         initScrollPane();
         initInventory();
     }
@@ -37,24 +48,26 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        inventoryContainer.getStylesheets().add("agent-pane.css");
+        inventoryContainer.setPrefSize(getContext().getDouble("AgentWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        inventoryContainer.getStylesheets().add(getContext().getString("AgentPaneStyle"));
     }
 
-    private void initHandlePane() {
-        handlePane = new HBox();
-        Text test = new Text("handle pane here");
-        test.setFill(Color.WHITE);
-        handlePane.getChildren().add(test);
-        inventoryContainer.getChildren().add(handlePane);
+    private void initButtonPane() {
+        buttonPane = new HBox();
+        trash = new ImageView(new Image(getContext().getString("TrashImageFile")));
+        trash.setPreserveRatio(true);
+        trash.setFitWidth(35);
+        trash.setFitHeight(35);
+        buttonPane.getChildren().add(trash);
+        inventoryContainer.getChildren().add(buttonPane);
     }
 
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setPrefViewportWidth(WIDTH);
-        scrollInventory.setPrefViewportHeight(HEIGHT);
-        //scrollInventory.setMaxHeight(AuthoringEnvironment.DEFAULT_HEIGHT - 25);
-        scrollInventory.getStyleClass().add("scroll-pane");
+        scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentWidth"));
+        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }
 
@@ -66,7 +79,7 @@ public class AgentPane extends AuthoringPane {
         int colIterator = 0;
         agentList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView("monkey.png");
+            CloneableAgentView newAgent = new CloneableAgentView(getContext(), getContext().getString("MonkeyImageFile"));
             inventory.add(newAgent, colIterator, rowIterator);
             agentList.add(newAgent);
             colIterator++;
@@ -84,16 +97,25 @@ public class AgentPane extends AuthoringPane {
         return agentList;
     }
 
-    public ScrollPane getScrollInventory() {
-        return scrollInventory;
-    }
-
     public VBox getVBoxContainer() {
         return inventoryContainer;
     }
 
+    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
+        buttonPane.getChildren().addAll(button);
+    }
+
+
     @Override
     public void setStylesheet(String url) {
 
+    }
+
+    @Override
+    public void updateSize(double width, double height) {
+        inventoryContainer.setPrefSize(width, height);
+        scrollInventory.setPrefViewportWidth(width);
+        scrollInventory.setPrefViewportHeight(height);
     }
 }

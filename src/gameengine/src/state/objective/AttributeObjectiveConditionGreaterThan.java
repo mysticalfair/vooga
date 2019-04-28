@@ -1,7 +1,6 @@
 package state.objective;
 
 import state.State;
-import state.attribute.Attribute;
 
 import java.util.Map;
 
@@ -10,19 +9,17 @@ import java.util.Map;
  * Class to define the objectives within the game which are triggered by the value of an attribute of a user
  * being greater than or equal to a target value.
  */
-public class AttributeObjectiveGreaterThan extends AttributeObjective {
+public class AttributeObjectiveConditionGreaterThan extends AttributeObjectiveCondition {
 
-    public AttributeObjectiveGreaterThan(Map<String, Object> params) {
+    public AttributeObjectiveConditionGreaterThan(Map<String, Object> params) {
         super(params);
     }
 
     /**
      * If given attribute has a value greater than or equal to the target value, execute the outcome.
      */
-    public void execute(State state) {
+    public boolean evaluate(State state) {
 
-        if((state.getCurrentLevelInt() == level || level == -1) && attribute.getValue() >= targetValue) {
-            outcome.execute(state);
-        }
+        return ((state.getCurrentLevelInt() == level || level == -1) && attribute.getValue() >= targetValue);
     }
 }

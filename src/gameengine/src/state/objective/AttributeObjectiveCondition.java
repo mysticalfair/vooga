@@ -1,23 +1,20 @@
 package state.objective;
 
-import org.w3c.dom.Attr;
 import state.State;
-import state.agent.Agent;
 import state.attribute.Attribute;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
  * @author Jamie Palka
  * Abstract class to define the objectives within the game which are triggered by the value of an attribute of a user.
  */
-abstract public class AttributeObjective extends Objective {
+abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
 
     protected Attribute attribute;
     protected int targetValue;
 
-    public AttributeObjective(Map<String, Object> params) {
+    public AttributeObjectiveCondition(Map<String, Object> params) {
         super(params);
     }
 
@@ -33,5 +30,5 @@ abstract public class AttributeObjective extends Objective {
      * Abstract method which will define the conditions necessary regarding the value of the attribute prior to
      * executing the ObjectiveOutcome
      */
-    abstract public void execute(State state);
+    abstract public boolean evaluate(State state);
 }

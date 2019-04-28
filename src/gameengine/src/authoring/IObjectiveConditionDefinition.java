@@ -8,16 +8,13 @@ import java.util.Map;
  * Interface for authoring environment to use to define an objective.
  * @author Jamie Palka
  */
-public interface IObjectiveDefinition {
+public interface IObjectiveConditionDefinition {
 
     String getTitle();
     void setTitle(String title);
 
     int getId();
     void setId(int id);
-
-    ObjectiveOutcome getOutcome();
-    void setOutcome(ObjectiveOutcome outcome);
 
     int getLevel();
     void setLevel(int level);

@@ -3,10 +3,6 @@ package state.objective;
 import state.State;
 import state.agent.Agent;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.reflect.*;
 import java.util.Map;
 
 /**
@@ -14,14 +10,14 @@ import java.util.Map;
  * Abstract class to define the objectives within the game which are triggered by the value of a variable of an agent
  * (x value, y value, or direction)
  */
-abstract public class AgentVariableObjective extends Objective {
+abstract public class AgentVariableObjectiveCondition extends ObjectiveCondition {
 
     protected String variableName;
     protected double targetValue;
     protected Agent agent;
     protected double variableValue;
 
-    public AgentVariableObjective(Map<String, Object> params) {
+    public AgentVariableObjectiveCondition(Map<String, Object> params) {
         super(params);
     }
 
@@ -49,6 +45,6 @@ abstract public class AgentVariableObjective extends Objective {
     /**
      * Executes the outcome the agent has the correct condition for the targetValue
      */
-    abstract public void execute(State state);
+    abstract public boolean evaluate(State state);
     //TODO use reflection & a lambda expression rather than if statements - makes more extendable
 }

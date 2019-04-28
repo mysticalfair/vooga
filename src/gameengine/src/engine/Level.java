@@ -9,9 +9,7 @@ import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
-import state.objective.AttributeObjective;
 
-import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

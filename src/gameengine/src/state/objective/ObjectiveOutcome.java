@@ -1,5 +1,6 @@
 package state.objective;
 
+import authoring.IObjectiveOutcomeDefinition;
 import state.State;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
  * @author Jamie Palka
  * Abstract class to define functions necessary for all ObjectiveOutcomes.
  */
-abstract public class ObjectiveOutcome {
+abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition {
 
     protected Map<String, Object> params;
 

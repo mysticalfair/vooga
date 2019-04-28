@@ -2,6 +2,7 @@ package engine.event.events;
 
 import engine.event.GameEvent;
 import engine.event.GameEventType;
+import state.AgentReference;
 import state.agent.Agent;
 
 /**
@@ -9,22 +10,18 @@ import state.agent.Agent;
  * @author David Miron
  */
 public class AddAgentEvent extends GameEvent {
-    private Agent agent;
+
+    private AgentReference agentReference;
 
     /**
      * Create a AddAgentEvent
      * @param agent The agent to add
      */
-    public AddAgentEvent(Agent agent) {
-        this.agent = agent;
-        this.type = GameEventType.REMOVE_AGENT;
+    public AddAgentEvent(AgentReference agentReference) {
+        this.agentReference = agentReference;
     }
 
-    /**
-     * Get the agent to add
-     * @return The agent to add
-     */
-    public Agent getAgent() {
-        return this.agent;
+    public AgentReference getAgentReference() {
+        return agentReference;
     }
 }

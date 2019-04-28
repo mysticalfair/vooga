@@ -12,8 +12,6 @@ import java.util.Map;
 public class MoveOnPointPath extends MovementAction {
 
     private List<Point2D> points;
-    private double speed;
-
     private int currPoint;
 
     private static final int TOLERANCE = 2;

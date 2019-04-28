@@ -23,7 +23,7 @@ public class AgentExistenceObjectiveCondition<T> extends ObjectiveCondition {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.targetNumber = (int) params.get("targetNumber");
+        this.targetNumber = (Integer) params.get("targetNumber");
         this.propertyName = (String) params.get("targetPropertyName");
         this.targetValue = (T) params.get("targetPropertyValue");
         super.setParams(params);

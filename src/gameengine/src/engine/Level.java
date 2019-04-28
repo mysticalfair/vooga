@@ -9,6 +9,7 @@ import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.agent.Agent;
+import state.attribute.IAttribute;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                     setAgentToRemove(removeAgentEvent.getAgent()));
         this.eventMaster.addAddAgentListener((Consumer<AddAgentEvent> & Serializable) addAgentEvent ->
                     setAgentToAdd(addAgentEvent.getAgent()));
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return levelState.getCurrentAttributes();
     }
 
     @Override

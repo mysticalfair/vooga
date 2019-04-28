@@ -12,9 +12,6 @@ import java.util.Map;
  */
 public abstract class ObjectiveCondition implements IObjectiveConditionDefinition {
 
-    //name of objective OBJECTIVE_IDENTIFICATION_PROPERTY in an Agent's properties list
-    public static final String OBJECTIVE_IDENTIFICATION_PROPERTY = "objectiveID";
-
     // name that corresponds to the value of the OBJECTIVE_IDENTIFICATION_PROPERTY in params (from authoring) that
     // the target agent has
     public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
@@ -58,14 +55,4 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
      * @param state - current state of the game
      */
     abstract public boolean evaluate(State state);
-
-    protected Agent getAgentFromObjectiveIdentificationPropertyValue(State state, int objectiveIdentificationPropertyValue) {
-        Agent significantAgent = null;
-        for(Agent agent : state.getCurrentAgents()) {
-            if(((Comparable) agent.getPropertyValue(OBJECTIVE_IDENTIFICATION_PROPERTY)).compareTo(objectiveIdentificationPropertyValue) == 0) {
-                significantAgent = agent;
-            }
-        }
-        return significantAgent;
-    }
 }

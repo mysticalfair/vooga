@@ -2,6 +2,7 @@ package state;
 
 import state.agent.Agent;
 import state.agent.IPlayerAgent;
+import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
 
@@ -69,6 +70,10 @@ public class LevelState implements Serializable, IPlayerLevelState {
 
     public void setAttributes(List<IAttribute> attributesCurrent) {
         this.attributesCurrent = attributesCurrent;
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return attributesCurrent;
     }
 
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {

@@ -16,7 +16,7 @@ abstract public class AgentVariableObjectiveCondition extends ObjectiveCondition
     protected double targetValue;
     protected Agent agent;
     protected double variableValue;
-    protected int objectiveIdentificationPropertyValue;
+    protected String objectiveIdentificationPropertyValue;
 
     public AgentVariableObjectiveCondition(Map<String, Object> params) {
         super(params);
@@ -26,8 +26,8 @@ abstract public class AgentVariableObjectiveCondition extends ObjectiveCondition
     public void setParams(Map<String, Object> params) {
 
         this.variableName = (String) params.get("variableName");
-        this.targetValue = (double) params.get("targetPropertyValue");
-        this.objectiveIdentificationPropertyValue = (Integer) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
+        this.targetValue = (Double) params.get("targetPropertyValue");
+        this.objectiveIdentificationPropertyValue = (String) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
         super.setParams(params);
     }
 

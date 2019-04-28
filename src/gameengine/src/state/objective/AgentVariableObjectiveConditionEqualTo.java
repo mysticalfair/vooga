@@ -20,7 +20,7 @@ public class AgentVariableObjectiveConditionEqualTo extends AgentVariableObjecti
      */
     public boolean evaluate(State state) {
 
-        agent = getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
+        agent = ObjectiveUtils.getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
         setVariableValue(agent);
 
         return ((state.getCurrentLevelInt() == level || level == -1) && variableValue == targetValue);

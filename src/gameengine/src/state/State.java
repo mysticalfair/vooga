@@ -5,6 +5,7 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.agent.Agent;
+import state.attribute.IAttribute;
 import state.objective.Objective;
 import state.objective.ObjectiveCondition;
 
@@ -87,6 +88,10 @@ public class State implements IStateDefinition, Serializable {
         if (levels.get(currentLevel) != levels.get(levels.size() - 1)){
             currentLevel++;
         }
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return levels.get(currentLevel).getCurrentAttributes();
     }
 
     /**

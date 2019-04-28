@@ -22,7 +22,7 @@ abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
     public void setParams(Map<String, Object> params) {
 
         this.attribute = (Attribute) params.get("attribute");
-        this.targetValue = (int) params.get("targetPropertyValue");
+        this.targetValue = (Integer) params.get("targetPropertyValue");
         super.setParams(params);
     }
 

@@ -2,6 +2,7 @@ package state.objective;
 
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
+import state.agent.Agent;
 
 import java.util.Map;
 
@@ -10,6 +11,10 @@ import java.util.Map;
  * Abstract class to define functions necessary for all ObjectiveOutcomes.
  */
 abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition {
+
+    // name that corresponds to the value of the OBJECTIVE_IDENTIFICATION_PROPERTY in params (from authoring) that
+    // the target agent has
+    public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
 
     protected Map<String, Object> params;
 

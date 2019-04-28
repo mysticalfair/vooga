@@ -21,7 +21,7 @@ public class AgentPropertyObjectiveConditionEqualTo<T> extends AgentPropertyObje
      */
     public boolean evaluate(State state) {
 
-        agent = getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
+        agent = ObjectiveUtils.getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
 
         return ((state.getCurrentLevelInt() == level || level == -1) &&
                 ((Comparable) agent.getPropertyValue(targetPropertyName)).compareTo(targetPropertyValue) == 0);

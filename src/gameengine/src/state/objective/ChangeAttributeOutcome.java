@@ -12,18 +12,21 @@ import java.util.Map;
  */
 public class ChangeAttributeOutcome extends ObjectiveOutcome {
 
-    private Attribute attribute;
+    private String attributeName;
     private int change;
+    protected String objectiveIdentificationPropertyValue;
+    private Attribute attribute;
 
     public ChangeAttributeOutcome(Map<String, Object> params) { super(params); }
 
     @Override
     public void setParams(Map<String, Object> params) {
-        this.attribute = (Attribute) params.get("attribute");
-        this.change = (int) params.get("change");
+        this.attributeName = (String) params.get("attributeName");
+        this.change = (Integer) params.get("change");
     }
 
     public String execute(State state) {
+        attribute = state.get
         attribute.setValue(attribute.getValue() + change);
         return null;
     }

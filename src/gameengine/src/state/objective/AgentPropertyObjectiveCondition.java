@@ -14,7 +14,7 @@ abstract public class AgentPropertyObjectiveCondition<T> extends ObjectiveCondit
 
     protected String targetPropertyName;
     protected T targetPropertyValue;
-    protected int objectiveIdentificationPropertyValue;
+    protected String objectiveIdentificationPropertyValue;
     protected Agent agent;
 
     public AgentPropertyObjectiveCondition(Map<String, Object> params) {
@@ -26,7 +26,7 @@ abstract public class AgentPropertyObjectiveCondition<T> extends ObjectiveCondit
 
         this.targetPropertyName = (String) params.get("targetPropertyName");
         this.targetPropertyValue = (T) params.get("targetPropertyValue");
-        this.objectiveIdentificationPropertyValue = (Integer) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
+        this.objectiveIdentificationPropertyValue = (String) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
         super.setParams(params);
     }
 

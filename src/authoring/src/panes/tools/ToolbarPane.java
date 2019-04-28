@@ -145,6 +145,10 @@ public class ToolbarPane extends AuthoringPane {
         maxLevel = newMax;
     }
 
+    public PathPenTool getPen(){
+        return (PathPenTool) toolImageMap.get(getContext().getString("PenFile"));
+    }
+
     private void checkMax(int newValue) {
         if (newValue > maxLevel) {
             levelChanger.decrement();

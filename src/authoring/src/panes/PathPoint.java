@@ -12,14 +12,14 @@ public class PathPoint {
      */
 
     public static final double SIZE = 10;
-    public static final Color COLOR = Color.BLUE;
+    //public static final Color COLOR = Color.BLUE;
 
     private Circle visualPoint;
     private double circleStartX, circleStartY;
     private double dragStartX, dragStartY;
 
-    public PathPoint(double x, double y){
-        visualPoint = new Circle(x, y, SIZE, COLOR);
+    public PathPoint(double x, double y, Color pointColor){
+        visualPoint = new Circle(x, y, SIZE, pointColor);
     }
 
     public Shape getPoint(){

@@ -23,13 +23,12 @@ public class PathPane extends AuthoringPane {
     private VBox pathsBox;
     private HashMap<Path, HBox> pathDisplayMap;
 
-    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, ObservableList<Path> paths) {
+    public PathPane(AuthoringContext context, MapPane otherMap, Scene otherScene, ObservableList<Path> paths, PathPenTool toolbarPen) {
         super(context);
         pathDisplayMap = new HashMap<>();
         pathOptions = paths;
         pathOptions.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
-        var penToolFile = getContext().getString("PenFile");
-        pen = new PathPenTool(context, otherMap, otherScene, penToolFile, paths);
+        pen = toolbarPen;
         initializePathDisplays();
     }
 

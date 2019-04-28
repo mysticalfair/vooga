@@ -80,11 +80,11 @@
                   </entry>
                   <entry>
                     <string>speed</string>
-                    <int>100</int>
+                    <double>100.0</double>
                   </entry>
                 </params>
                 <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
+                <speed>100.0</speed>
                 <baseAgent reference="../../../.."/>
                 <angle>0.0</angle>
               </action>
@@ -173,11 +173,11 @@
                   </entry>
                   <entry>
                     <string>speed</string>
-                    <int>100</int>
+                    <double>100.0</double>
                   </entry>
                 </params>
                 <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
+                <speed>100.0</speed>
                 <baseAgent reference="../../../.."/>
                 <angle>0.0</angle>
               </action>

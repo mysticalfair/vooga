@@ -233,7 +233,7 @@ class GameTest {
         // create Movement AD
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
         IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
         List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
@@ -288,7 +288,7 @@ class GameTest {
         // making move action
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
 
         List<IActionDecisionDefinition> AD1 = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<>();
@@ -329,16 +329,20 @@ class GameTest {
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");
         action2Params.put("value", 5.0);
+        action2Params.put("onBaseAgent", true);
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
-        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
-        cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+        List<IConditionDefinition> cond1 = new ArrayList<>();
+        Map cond2Params = new HashMap();
+        cond2Params.put("interval", 5.0);
+        cond1.add(factory.createCondition("DoOnce", new HashMap()));
+        cond1.add(factory.createCondition("Interval", cond2Params));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
         actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
         List<IPropertyDefinition> properties = new ArrayList<>();
-        var prop = factory.createProperty("health", 50);
+        var prop = factory.createProperty("health", 50.0);
         properties.add(prop);
         return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
     }

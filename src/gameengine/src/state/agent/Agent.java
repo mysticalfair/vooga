@@ -3,6 +3,7 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import state.IRequiresBaseAgent;
 import state.Property;
 import state.actiondecision.ActionDecision;
@@ -60,7 +61,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */
-    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
+    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException, PropertyDoesNotExistException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents, delta_time);
@@ -239,8 +240,8 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public <T> void setProperty(String name, T value) {
-        this.playerAgent.setProperty(name, value);
+    public <T> void setProperty(String name, T value) throws PropertyDoesNotExistException {
+        this.playerAgent.updateProperty(name, value);
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {
@@ -256,10 +257,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return null;
     }
 
-    @Deprecated
-    public void setProperties(String[] properties, Object[] values) {
+    public void updateProperties(String[] properties, Object[] values) throws PropertyDoesNotExistException {
         for(int i = 0; i < properties.length; i++) {
-            this.playerAgent.setProperty(properties[i], values[i]);
+            this.playerAgent.updateProperty(properties[i], values[i]);
         }
     }
 

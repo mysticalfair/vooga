@@ -13,11 +13,16 @@ public class MapState {
     private String backgroundURL;
     private List<DraggableAgentView> agents;
     private SimpleIntegerProperty selectCount = new SimpleIntegerProperty();
-    private List<Path> paths;
 
     public MapState(String backgroundURL, List<DraggableAgentView> agents) {
         this.backgroundURL = backgroundURL;
         this.agents = agents;
+        selectCount.set(0);
+    }
+
+    public MapState(MapState other) {
+        this.backgroundURL = other.backgroundURL;
+        this.agents = other.agents;
         selectCount.set(0);
     }
 

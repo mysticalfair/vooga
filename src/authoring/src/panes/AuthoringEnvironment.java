@@ -117,7 +117,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
         toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(null, new ArrayList<>()))));
-        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, map.getStateMapping().get(toolbarPane.getExistingLevelValue()))));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())))));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
@@ -132,23 +132,21 @@ public class AuthoringEnvironment extends Application {
 
     private void makeLevel(int newLevel, MapState state) {
         map.setLevel(newLevel);
+        map.clearMap();
         toolbarPane.setMaxLevel(newLevel);
         toolbarPane.addToExistingLevelCreator(newLevel);
-        //int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
-        //toolbarPane.updateSpinner(currentSpinnerValue, newLevel);
+        /*int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
+        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);*/
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-            /*
-            MapState revertToState = map.getStateMapping().get(newLevel);
+           /* MapState revertToState = map.getStateMapping().get(newLevel);
             revertToState.updateMap(map);*/
         }
     }
 
     private void changeToExistingLevel(int newValue) {
         if (map.getStateMapping().containsKey(newValue)) {
-            System.out.println("shit happened here");
-            map.getMapPane().getChildren().clear();
             map.setLevel(newValue);
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);

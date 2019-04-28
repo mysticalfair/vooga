@@ -92,6 +92,7 @@
                 <state.condition.DoOnceCondition>
                   <name>DoOnce</name>
                   <params/>
+                  <baseAgent reference="../../../../.."/>
                 </state.condition.DoOnceCondition>
               </conditions>
             </state.actiondecision.ActionDecision>
@@ -124,6 +125,25 @@
                   <propertyName>team</propertyName>
                 </state.condition.propertyCondition.PropertyEqualToCondition>
               </conditions>
+            </state.actiondecision.ActionDecision>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.property.DecrementProperty">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params>
+                  <entry>
+                    <string>property</string>
+                    <string>health</string>
+                  </entry>
+                  <entry>
+                    <string>value</string>
+                    <double>50.0</double>
+                  </entry>
+                </params>
+                <name>DecrementProperty</name>
+                <baseAgent reference="../../../.."/>
+                <amount>50.0</amount>
+              </action>
+              <conditions reference="../../state.actiondecision.ActionDecision[2]/conditions"/>
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
@@ -185,32 +205,8 @@
                 <state.condition.DoOnceCondition>
                   <name>DoOnce</name>
                   <params/>
+                  <baseAgent reference="../../../../.."/>
                 </state.condition.DoOnceCondition>
-              </conditions>
-            </state.actiondecision.ActionDecision>
-            <state.actiondecision.ActionDecision>
-              <action class="state.action.destroy.DestroyAgent">
-                <eventMaster reference="../../../../../../eventMaster"/>
-                <params/>
-                <name>DestroyAgent</name>
-                <baseAgent reference="../../../.."/>
-              </action>
-              <conditions>
-                <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
-                  <name>PropertyLessThanOrEqualTo</name>
-                  <params>
-                    <entry>
-                      <string>property</string>
-                      <string>health</string>
-                    </entry>
-                    <entry>
-                      <string>value</string>
-                      <double>0.0</double>
-                    </entry>
-                  </params>
-                  <value class="double">0.0</value>
-                  <propertyName>health</propertyName>
-                </state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
               </conditions>
             </state.actiondecision.ActionDecision>
           </actionDecisions>

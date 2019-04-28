@@ -8,9 +8,6 @@ import java.util.Map;
 public class Example {
 
     public static void main(String[] args) {
-
-        System.out.println("Hello");
-
         try {
             GameFactory g = new GameFactory();
 
@@ -36,9 +33,6 @@ public class Example {
             props.add(prop);
 
             IAgentDefinition agent = g.createAgent(0, 0, 0, 0, 0, "theName", "theURL", ads, props);
-
-
-            System.out.println("Here");
         } catch (Exception e) {
             System.out.println(e);
         }

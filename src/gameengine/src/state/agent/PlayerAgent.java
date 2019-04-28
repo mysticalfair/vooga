@@ -34,7 +34,6 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         this.name = name;
         this.properties = new ArrayList<>();
         pcs = new PropertyChangeSupport(this);
-        System.out.println(" A NEW PLAYER AGENT IS CREATED");
     }
 
     public PropertyChangeSupport getPcs() {
@@ -81,7 +80,6 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     public void setX(double x){
         var oldX = this.x;
         this.x = x;
-        System.out.println(this + " CHANGED IN PROPERTIES AND IT'S GOING TO " + pcs.getPropertyChangeListeners());
         pcs.firePropertyChange("x", oldX, x);
     }
 
@@ -122,7 +120,6 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
     }
 
     public void setProperty(Property newProperty){
-        System.out.println("UNDEPRECATED CALLED");
         for(Property p : this.properties) {
             if(p.getName().equals(newProperty.getName())) {
                 var oldVal = p.getValue();

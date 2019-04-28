@@ -1,4 +1,10 @@
 package Controllers;
+/**
+ * Controller class to affect the Level
+ * @author Joanna Li
+ * @author Mary G
+ * @author Luke Truitt
+ */
 
 import Panes.AttributePane;
 import Panes.MapPane;
@@ -40,10 +46,13 @@ public class LevelController implements PropertyChangeListener {
    }
 
    public void propertyChange(PropertyChangeEvent e){
-      System.out.println("property change triggered");
       if(e.getPropertyName().equals("Add Agent")){
-         System.out.println("Adding front end agent");
          this.mapController.addAgent((IPlayerAgent)(e.getNewValue()));
+      }
+      else if (e.getPropertyName().equals("Remove Agent"))
+      {
+         this.mapController.removeAgent((IPlayerAgent)(e.getOldValue()));
+
       }
    }
 }

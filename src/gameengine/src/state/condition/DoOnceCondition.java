@@ -1,13 +1,14 @@
 package state.condition;
 
+import state.IRequiresBaseAgent;
 import state.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DoOnceCondition extends Condition {
-
+public class DoOnceCondition extends Condition implements IRequiresBaseAgent {
+    private Agent baseAgent;
     public DoOnceCondition(Map<String, Object> params) {
         super(params);
     }
@@ -22,7 +23,12 @@ public class DoOnceCondition extends Condition {
         // pass a dummy agent always, that way the action will always occur once, even if the given list is empty.
         // This means that other conditions such as interval must be checked afterwards
         agents = new ArrayList<>();
-        agents.add(null);
+        agents.add(this.baseAgent);
         return agents;
+    }
+
+    @Override
+    public void injectBaseAgent(Agent agent) {
+        this.baseAgent = agent;
     }
 }

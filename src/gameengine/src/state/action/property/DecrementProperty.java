@@ -30,10 +30,8 @@ public class DecrementProperty extends PropertyAction {
             double current_value = (double) agent.getProperty(propertyName);
             current_value -= amount;
             agent.setProperty(propertyName, current_value);
-            System.out.println("DAMAGE! HP: " + current_value);
         }
         catch(PropertyDoesNotExistException e) {
-            System.out.println(e.getMessage());
         }
     }
 }

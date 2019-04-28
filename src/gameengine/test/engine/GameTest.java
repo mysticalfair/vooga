@@ -239,12 +239,12 @@ class GameTest {
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
-        List<IConditionDefinition> cond3 = new ArrayList<>();
-        Map<String, Object> healthCheckParams = new HashMap<>();
-        healthCheckParams.put("property", "health");
-        healthCheckParams.put("value", 0.0);
-        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
-        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
+//        List<IConditionDefinition> cond3 = new ArrayList<>();
+//        Map<String, Object> healthCheckParams = new HashMap<>();
+//        healthCheckParams.put("property", "health");
+//        healthCheckParams.put("value", 0.0);
+//        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+//        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
 
         // create attack
@@ -260,6 +260,9 @@ class GameTest {
     }
 
     private IAgentDefinition createPeashooter(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
+        String team = "goodGuys";
+        int initHealth = 100;
+
         // MAKING peashooter
         List<IActionDecisionDefinition> AD2 = new ArrayList<>();
 
@@ -277,6 +280,8 @@ class GameTest {
 
         // add properties
         List<IPropertyDefinition> properties = new ArrayList<>();
+        properties.add(factory.createProperty("team", team));
+        properties.add(factory.createProperty("health", initHealth));
 
         return factory.createAgent(50, 50, 20, 20,
                 0,name, "peashooter.gif", AD2, properties);
@@ -308,12 +313,12 @@ class GameTest {
         AD1.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", new HashMap<>()), cond2));
 
-//        // use the same conditions as the previous action because disappearance and damage should always happen together
-//        Map<String, Object> damageParams = new HashMap<>();
-//        damageParams.put("value", 50.0);
-//        damageParams.put("property", "health");
-//        AD1.add(factory.createActionDecision(
-//                factory.createAction("DecrementProperty", damageParams), cond2));
+        // use the same conditions as the previous action because disappearance and damage should always happen together
+        Map<String, Object> damageParams = new HashMap<>();
+        damageParams.put("value", 50.0);
+        damageParams.put("property", "health");
+        AD1.add(factory.createActionDecision(
+                factory.createAction("DecrementProperty", damageParams), cond2));
 
         // add properties
         List<IPropertyDefinition> properties = new ArrayList<>();
@@ -338,12 +343,13 @@ class GameTest {
         cond2Params.put("interval", 5.0);
         cond1.add(factory.createCondition("DoOnce", new HashMap()));
         cond1.add(factory.createCondition("Interval", cond2Params));
+        conditionDefinitions.add(factory.createCondition("DoOnce", new HashMap<>()));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
         actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
         List<IPropertyDefinition> properties = new ArrayList<>();
-        var prop = factory.createProperty("health", 50.0);
+        var prop = factory.createProperty("health", 10.0);
         properties.add(prop);
         return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
     }

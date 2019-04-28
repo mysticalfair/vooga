@@ -45,10 +45,10 @@ public class DraggableAgentView extends AgentView {
         myStartYOffset = other.myStartYOffset;
     }
 
-    public void setMouseActionsForDrag(MapPane map, ConsolePane console) {
+    public void setMouseActionsForDrag(MapPane map) {
         this.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent));
         this.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, map));
-        this.setOnMouseReleased(mouseEvent -> mouseReleased(map, console));
+        this.setOnMouseReleased(mouseEvent -> mouseReleased(map));
     }
 
     public void mousePressed(MouseEvent event) {
@@ -84,16 +84,16 @@ public class DraggableAgentView extends AgentView {
         return lighting;
     }
 
-    public void mouseReleased(MapPane map, ConsolePane console) {
+    public void mouseReleased(MapPane map) {
         if (trashIntersect(map)) {
             setImage(null);
             map.removeAgent(this);
-            console.displayMessage(getContext().getString("AgentRemoved") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            getContext().displayConsoleMessage(getContext().getString("AgentRemoved") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
         } else if (outOfBounds()) {
             setEffect(null);
             setTranslateX(myStartXOffset);
             setTranslateY(myStartYOffset);
-            console.displayMessage(getContext().getString("AgentOutOfBounds"), ConsolePane.Level.NEUTRAL);
+            getContext().displayConsoleMessage(getContext().getString("AgentOutOfBounds"), ConsolePane.Level.NEUTRAL);
         }
     }
 

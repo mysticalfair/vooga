@@ -10,11 +10,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import panes.attributes.AttributesForm;
+import panes.ConsolePane;
+import panes.attributes.FormElement;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
-public class CommonAgentFieldsForm extends AttributesForm {
+public class CommonAgentFieldsForm extends FormElement {
 
     private ChoiceBox<String> agentTypeField;
     private TextField nameField, widthField, heightField;
@@ -26,30 +27,37 @@ public class CommonAgentFieldsForm extends AttributesForm {
         initCommonFields();
     }
 
+    /**
+     * <b>Do <em>not</em> use this method for this form element.</b> Rather, use the field-specific methods to get the data.
+     * @return null
+     */
+    @Override
+    public Object packageData() {
+        return null;
+    }
+
     public String getName() {
         return nameField.getText();
     }
 
     public int getWidth() {
-        return getIntFromTextField(widthField, "WidthMustBeInt");
+        try {
+            return Integer.parseInt(widthField.getText());
+        } catch (NumberFormatException e) {
+            return getContext().getInt("ErrorInt");
+        }
     }
 
     public int getHeight() {
-        return getIntFromTextField(heightField, "HeightMustBeInt");
+        try {
+            return Integer.parseInt(heightField.getText());
+        } catch (NumberFormatException e) {
+            return getContext().getInt("ErrorInt");
+        }
     }
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    private int getIntFromTextField(TextField textField, String errorMessageKey) {
-        try {
-            return Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, getContext().getString(errorMessageKey));
-            alert.showAndWait();
-        }
-        return getContext().getInt("ErrorInt");
     }
 
     /**
@@ -63,6 +71,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         Label typeLabel = new Label(getContext().getString("Type"));
         agentTypeField = new ChoiceBox<>();
         agentTypeField.getItems().addAll(getContext().getString("Custom"));
+        agentTypeField.getSelectionModel().selectFirst();
         gridPane.add(typeLabel, 0, 0);
         gridPane.add(agentTypeField, 1, 0, 3, 1);
 
@@ -109,7 +118,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
         gridPane.add(heightLabel, 2, 3);
         gridPane.add(heightField, 3, 3);
 
-        getPane().getChildren().add(gridPane);
+        getContentChildren().add(gridPane);
     }
 
     private void chooseAgentImage() {
@@ -119,7 +128,7 @@ public class CommonAgentFieldsForm extends AttributesForm {
                     imageUrl = file.toURI().toString();
                     imageField.setImage(new Image(imageUrl));
                 },
-                () -> System.err.println(getContext().getString("AgentImageError"))
+                () -> getContext().displayConsoleMessage(getContext().getString("AgentImageError"), ConsolePane.Level.ERROR)
         );
     }
 }

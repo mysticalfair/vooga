@@ -1,50 +1,32 @@
 package panes.attributes.agent.define;
 
 import authoring.IPropertyDefinition;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import panes.attributes.AttributesForm;
+import panes.attributes.LabeledEditableFormList;
 import util.AuthoringContext;
-import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgentPropertiesForm extends AttributesForm {
-
-    private VBox propertiesVBox;
-    private List<AgentPropertyLine> propertyLines;
+public class AgentPropertiesForm extends LabeledEditableFormList {
 
     public AgentPropertiesForm(AuthoringContext context) {
-        super(context);
+        super(context, context.getString("Properties"));
 
-        GridPane gridPane = new GridPane();
-        gridPane.add(new Label(context.getString("Properties")), 0, 0, 3, 1);
-        gridPane.add(AuthoringUtil.createSquareImageButton(
-                getContext().getString("AddButtonImageFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"),
-                e -> {
-                    AgentPropertyLine p = new AgentPropertyLine(context, null);
-                    propertyLines.add(p);
-                    p.accessContainer(propertiesVBox.getChildren()::add);
-                    p.setOnDelete(e2 -> {
-                        propertyLines.remove(p);
-                        p.accessContainer(propertiesVBox.getChildren()::remove);
-                    });
-                }),
-                4, 0);
-        propertiesVBox = new VBox();
-        gridPane.add(propertiesVBox, 0, 1, 4, 1);
-        propertyLines = new ArrayList<>();
-
-        getPane().getChildren().add(gridPane);
+        setOnAdd(e -> {
+            AgentPropertyFormElement element = new AgentPropertyFormElement(context);
+            add(element);
+            element.setOnDelete(e2 -> remove(element));
+        });
     }
 
-    public List<IPropertyDefinition> getPropertyDefinitions() {
+    /**
+     * Packages the data from this form into a list of IPropertyDefinition.
+     * @return the List<IPropertyDefinition> containing the data from this form.
+     */
+    @Override
+    public List<IPropertyDefinition> packageData() {
         List<IPropertyDefinition> properties = new ArrayList<>();
-        for (AgentPropertyLine p : propertyLines) {
-            properties.add(p.makeProperty());
-        }
+        iterateElements(e -> properties.add(((AgentPropertyFormElement) e).packageData()));
         return properties;
     }
 

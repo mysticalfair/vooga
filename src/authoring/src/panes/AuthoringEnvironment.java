@@ -116,6 +116,9 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane(context, map, scene, paths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
+        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(null, new ArrayList<>()), false)));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())), true)));
+        toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
@@ -125,16 +128,40 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> context.getGame().saveState(context.getString("GameSaveName")));
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
-        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeLevel((int)((double) newValue)));
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeToExistingLevel((int)((double) newValue)));
     }
 
-    private void changeLevel(int newValue) {
-        map.setLevel(newValue);
-        if (!map.getStateMapping().containsKey(newValue)) {
-            map.getMapPane().getChildren().clear();
-            map.getStateMapping().put(newValue, new MapState(null, new ArrayList<>()));
-            map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
+    private void clearLevel() {
+        System.out.println("booling");
+        map.clearMap();
+        map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(null, new ArrayList<>()));
+    }
+
+    private void makeLevel(int newLevel, MapState state, boolean fromExisting) {
+        map.setLevel(newLevel);
+        map.clearMap();
+        toolbarPane.setMaxLevel(newLevel);
+        toolbarPane.addToExistingLevelCreator(newLevel);
+        String newLevelDisplay;
+        if (fromExisting) {
+            newLevelDisplay = "Level " + newLevel + " created from Level: " + toolbarPane.getExistingLevelValue();
         } else {
+            newLevelDisplay = "Level " + newLevel + " created";
+        }
+        consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
+        /*int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
+        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);*/
+        if (!map.getStateMapping().containsKey(newLevel)) {
+            map.getStateMapping().put(newLevel, state);
+            map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
+           /* MapState revertToState = map.getStateMapping().get(newLevel);
+            revertToState.updateMap(map);*/
+        }
+    }
+
+    private void changeToExistingLevel(int newValue) {
+        if (map.getStateMapping().containsKey(newValue)) {
+            map.setLevel(newValue);
             MapState revertToState = map.getStateMapping().get(newValue);
             revertToState.updateMap(map);
         }

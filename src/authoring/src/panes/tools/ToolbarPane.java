@@ -1,5 +1,7 @@
 package panes.tools;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class ToolbarPane extends AuthoringPane {
 
@@ -29,7 +32,12 @@ public class ToolbarPane extends AuthoringPane {
 
     private MenuBar menuBar;
     private ToolBar toolBar;
+    private ComboBox<Integer> existingLevelCreator;
     private Spinner levelChanger;
+    private Button addEmpty;
+    private Button addExisting;
+    private Button clearCurrent;
+    private int maxLevel;
     private Map<String, Menu> menuMap;
     private VBox box;
     private Map<String, Tool> toolImageMap;
@@ -40,13 +48,14 @@ public class ToolbarPane extends AuthoringPane {
 
     public ToolbarPane(AuthoringContext context, MapPane authorMap, Scene authorScene, List<Path> paths){
         super(context);
+        maxLevel = getContext().getInt("InitialLevel");
         map = authorMap;
         scene = authorScene;
         menuMap = new HashMap<>();
         toolImageMap = new HashMap<>();
         pathOptions = paths;
         initBars();
-        initLevelChanger();
+        initLevelTools();
     }
 
     private void initBars(){
@@ -86,13 +95,63 @@ public class ToolbarPane extends AuthoringPane {
         return toolbar;
     }
 
-    private void initLevelChanger() {
-        levelChanger = new Spinner(getContext().getDouble("InitialLevel"), getContext().getDouble("MaxLevel"), getContext().getDouble("InitialLevel"));
-
+    private void initLevelTools() {
+        initLevelChanger();
+        initExistingLevelCreator();
+        initLevelButtons();
         final Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
+        toolBar.getItems().addAll(levelChanger, addEmpty, existingLevelCreator, addExisting, clearCurrent, spacer);
+    }
 
-        toolBar.getItems().addAll(levelChanger, spacer);
+    private void initLevelChanger() {
+        levelChanger = new Spinner(getContext().getDouble("InitialLevel"), getContext().getDouble("MaxLevel"), getContext().getDouble("InitialLevel"));
+        levelChanger.valueProperty().addListener((obs, oldValue, newValue) -> checkMax((int) (double) newValue));
+    }
+
+    private void initExistingLevelCreator() {
+        existingLevelCreator = new ComboBox<>(FXCollections.observableArrayList(1));
+        existingLevelCreator.setPromptText(getContext().getString("ChooserPrompt"));
+    }
+
+    public int getExistingLevelValue() {
+        return existingLevelCreator.getValue();
+    }
+
+    private void initLevelButtons() {
+        addEmpty = new Button (getContext().getString("NewEmptyLevel"));
+        addExisting = new Button (getContext().getString("NewFromExisting"));
+        clearCurrent = new Button (getContext().getString("Clear"));
+    }
+
+    public void accessAddEmpty(Consumer<Button> accessMethod) {accessMethod.accept(addEmpty);}
+
+    public void accessAddExisting(Consumer<Button> accessMethod) {accessMethod.accept(addExisting);}
+
+    public void accessClear(Consumer<Button> accessMethod) {accessMethod.accept(clearCurrent);}
+
+    public void addToExistingLevelCreator(int newLevel) {
+        existingLevelCreator.getItems().add(newLevel);
+    }
+
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    public void setMaxLevel(int newMax) {
+        maxLevel = newMax;
+    }
+
+    private void checkMax(int newValue) {
+        if (newValue > maxLevel) {
+            levelChanger.decrement();
+        }
+    }
+
+    public void updateSpinner(int oldValue, int newValue) {
+        for (int i = oldValue; i < newValue; i++) {
+            levelChanger.increment();
+        }
     }
 
     public Spinner getLevelChanger() {

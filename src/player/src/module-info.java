@@ -5,5 +5,6 @@ module player {
     requires javafx.media;
     requires java.desktop;
     requires gameengine;
+    requires authoring;
 
 }

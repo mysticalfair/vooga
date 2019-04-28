@@ -31,6 +31,11 @@ public class MapPane extends Pane {
       }
    }
 
+   public void removeAgent(AgentView agentView)
+   {
+      this.getChildren().remove(agentView);
+   }
+
    public void clearAgents(){
       this.getChildren().removeAll();
    }

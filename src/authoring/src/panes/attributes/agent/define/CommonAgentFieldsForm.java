@@ -41,25 +41,23 @@ public class CommonAgentFieldsForm extends FormElement {
     }
 
     public int getWidth() {
-        return getIntFromTextField(widthField, "WidthMustBeInt");
+        try {
+            return Integer.parseInt(widthField.getText());
+        } catch (NumberFormatException e) {
+            return getContext().getInt("ErrorInt");
+        }
     }
 
     public int getHeight() {
-        return getIntFromTextField(heightField, "HeightMustBeInt");
+        try {
+            return Integer.parseInt(heightField.getText());
+        } catch (NumberFormatException e) {
+            return getContext().getInt("ErrorInt");
+        }
     }
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    private int getIntFromTextField(TextField textField, String errorMessageKey) {
-        try {
-            return Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, getContext().getString(errorMessageKey));
-            alert.showAndWait();
-        }
-        return getContext().getInt("ErrorInt");
     }
 
     /**

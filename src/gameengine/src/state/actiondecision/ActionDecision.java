@@ -3,6 +3,7 @@ package state.actiondecision;
 import authoring.IActionDecisionDefinition;
 import authoring.IActionDefinition;
 import authoring.IConditionDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import state.action.Action;
 import state.agent.Agent;
 import state.condition.Condition;
@@ -30,7 +31,7 @@ public class ActionDecision implements IActionDecisionDefinition, Serializable, 
      * Execute the action on agents passed, after filtering based on conditions
      * @param agents The list of active agents
      */
-    public void execute(List<Agent> agents, double deltaTime) throws CloneNotSupportedException {
+    public void execute(List<Agent> agents, double deltaTime) throws CloneNotSupportedException, PropertyDoesNotExistException {
         List<Agent> agentsFiltered = new ArrayList<>(agents);
 
         for (Condition condition: conditions)

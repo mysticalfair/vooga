@@ -1,5 +1,6 @@
 package engine;
 
+import authoring.exception.PropertyDoesNotExistException;
 import engine.event.GameEventMaster;
 import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
@@ -115,6 +116,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
             } catch (CloneNotSupportedException e) {
                 // TODO: Deal with exception
                 e.printStackTrace();
+            } catch (PropertyDoesNotExistException e) {
+                System.out.println(e.getMessage());
             }
         }
 

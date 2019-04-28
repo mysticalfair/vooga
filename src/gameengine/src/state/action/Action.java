@@ -1,6 +1,7 @@
 package state.action;
 
 import authoring.IActionDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import engine.event.GameEventMaster;
 import state.IRequiresBaseAgent;
 import state.IRequiresGameEventMaster;
@@ -62,7 +63,7 @@ public abstract class Action implements IActionDefinition, IRequiresGameEventMas
      * For example, an agent spawned will go in the direction of the agent parameter or
      * a meleee action will be executed on the agent parameter.
      */
-    public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException;
+    public abstract void execute(Agent agent, double deltaTime) throws CloneNotSupportedException, PropertyDoesNotExistException;
     // TODO assumption in comment correct?
 
     public Action clone(Agent clonedBaseAgent) throws CloneNotSupportedException{

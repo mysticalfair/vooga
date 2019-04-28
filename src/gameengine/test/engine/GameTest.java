@@ -316,7 +316,9 @@ class GameTest {
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
-        cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+        Map cond2Params = new HashMap();
+        cond2Params.put("interval", 5.0);
+        cond1.add(factory.createCondition("DoOnce", cond2Params));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));

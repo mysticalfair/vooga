@@ -1,6 +1,11 @@
 package authoring;
 
+import state.AgentReference;
+import state.Property;
+
+import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface to define all the parts of a level of the game
@@ -12,12 +17,17 @@ public interface ILevelDefinition {
      * Get the agents that actually exist in the game
      * @return The currently existing agents
      */
-    List<? extends IAgentDefinition> getCurrentAgents();
+    List<AgentReference> getCurrentAgents();
     void removeAgent(int index);
-    void addAgent(String agentName, int x, int y, double direction);
+    void addAgent(String agentName, int x, int y, double direction, List<Property> instanceProperties);
 
-    List<? extends IAgentDefinition> getPlaceableAgents();
+    List<String> getPlaceableAgents();
     void removePlaceableAgent(int index);
     void removePlaceableAgent(String agentName);
     void addPlaceableAgent(String agentName);
+
+    Map<String, List<Point2D>> getPaths();
+    void removePath(int index);
+    void removePath(String name);
+    void addPath(String name, List<Point2D> path);
 }

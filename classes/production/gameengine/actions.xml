@@ -23,7 +23,6 @@
     <actionDefinition>
         <name>MoveOnPointPath</name>
         <fields>
-            <point2Dlist>points</point2Dlist>
             <double>speed</double>
         </fields>
     </actionDefinition>
@@ -39,13 +38,6 @@
         <name>Spin</name>
         <fields>
             <double>angularSpeed</double>
-        </fields>
-    </actionDefinition>
-
-    <actionDefinition>
-        <name>SpawnAgentInitialDirection</name>
-        <fields>
-            <double>agent</double>
         </fields>
     </actionDefinition>
 
@@ -68,16 +60,6 @@
         <fields>
             <string>property</string>
             <double>value</double>
-            <boolean>onBaseAgent</boolean>
-        </fields>
-    </actionDefinition>
-
-    <actionDefinition>
-        <name>DecrementProperty</name>
-        <fields>
-            <string>propertyName</string>
-            <double>value</double>
-            <boolean>onBaseAgent</boolean>
         </fields>
     </actionDefinition>
 

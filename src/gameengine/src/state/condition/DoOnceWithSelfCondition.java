@@ -15,15 +15,15 @@ public class DoOnceCondition extends Condition implements IRequiresBaseAgent {
 
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-//        if (agents.size() > 0){
-//            Agent agent = agents.get(0);
-//            agents = new ArrayList<>();
-//            agents.add(agent);
-//        }
-        // pass a dummy agent always, that way the action will always occur once, even if the given list is empty.
-        // This means that other conditions such as interval must be checked afterwards
-        agents = new ArrayList<>();
-        agents.add(this.baseAgent);
+        // TODO : handle case of only one agent on screen
+        if (agents.size() > 0){
+            agents = new ArrayList<>();
+            agents.add(baseAgent);
+        }
+//        // pass a dummy agent always, that way the action will always occur once, even if the given list is empty.
+//        // This means that other conditions such as interval must be checked afterwards
+//        agents = new ArrayList<>();
+//        agents.add(this.baseAgent);
         return agents;
     }
 

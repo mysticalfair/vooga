@@ -1,40 +1,39 @@
 package state.objective;
 
 
+import engine.Level;
 import state.State;
 import state.agent.Agent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jamie Palka
  * Abstract class to define the objectives within the game which are triggered by the value of an agent property.
  */
-abstract public class AgentPropertyObjective<T> implements IObjective, Serializable {
+abstract public class AgentPropertyObjective<T> extends Objective {
 
-    protected int id;
-    protected String title;
     protected String propertyName;
     protected T targetValue;
-    protected IObjectiveOutcome outcome;
     protected Agent agent;
-    protected int level;
-    //TODO possible extension - make the agent variable a map of agents so can track different
-    // targetValues for different agents
 
+    public AgentPropertyObjective(Map<String, Object> params) {
+        super(params);
+    }
 
-    //TODO ok that takes in an agent or want an agent ID? Where check if agent exists?
-    public AgentPropertyObjective(int id, String title, String propertyName, Agent agent,
-                                  T targetValue, IObjectiveOutcome outcome, int level) {
-        this.id = id;
-        this.title = title;
-        this.propertyName = propertyName;
-        this.agent = agent;
-        this.targetValue = targetValue;
-        this.outcome = outcome;
-        this.level = level;
+    @Override
+    public void setParams(Map<String, Object> params) {
+
+        this.id = (int) params.get("id");
+        this.title = (String) params.get("title");
+        this.propertyName = (String) params.get("propertyName");
+        this.agent = (Agent) params.get("agent");
+        this.targetValue = (T) params.get("targetValue");
+        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.level = (int) params.get("level");
     }
 
     /**

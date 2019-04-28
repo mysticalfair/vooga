@@ -7,36 +7,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.reflect.*;
+import java.util.Map;
 
 /**
  * @author Jamie Palka
  * Abstract class to define the objectives within the game which are triggered by the value of a variable of an agent
  * (x value, y value, or direction)
  */
-abstract public class AgentVariableObjective implements IObjective, Serializable {
+abstract public class AgentVariableObjective extends Objective {
 
-    protected int id;
-    protected String title;
     protected String variableName;
     protected double targetValue;
-    protected IObjectiveOutcome outcome;
     protected Agent agent;
     protected double variableValue;
-    protected int level;
-    //TODO possible extension - make the agent variable a map of agents so can track different
-    // targetValues for different agents
 
+    public AgentVariableObjective(Map<String, Object> params) {
+        super(params);
+    }
 
-    //TODO ok that takes in an agent or want an agent ID? Where check if agent exists?
-    public AgentVariableObjective(int id, String title, String variableName, Agent agent,
-                                  double targetValue, IObjectiveOutcome outcome, int level) {
-        this.id = id;
-        this.title = title;
-        this.variableName = variableName;
-        this.targetValue = targetValue;
-        this.outcome = outcome;
-        this.agent = agent;
-        this.level = level;
+    @Override
+    public void setParams(Map<String, Object> params) {
+
+        this.id = (int) params.get("id");
+        this.title = (String) params.get("title");
+        this.variableName = (String) params.get("variableName");
+        this.targetValue = (double) params.get("targetValue");
+        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.agent = (Agent) params.get("agent");
+        this.level = (int) params.get("level");
 
         if(variableName.equals("x")) {
             variableValue = agent.getX();
@@ -56,5 +54,4 @@ abstract public class AgentVariableObjective implements IObjective, Serializable
      */
     abstract public void execute(State state);
     //TODO use reflection & a lambda expression rather than if statements - makes more extendable
-
 }

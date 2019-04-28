@@ -4,29 +4,34 @@ import authoring.IAgentDefinition;
 import state.Property;
 import state.State;
 import state.agent.Agent;
+import state.attribute.Attribute;
+
+import java.util.Map;
 
 /**
  * @author Jamie Palka
  * A class to define the objectives within the game which are triggered by the existence of agents with a given property value
  */
-public class AgentExistenceObjective<T> implements IObjective {
+public class AgentExistenceObjective<T> extends Objective {
 
-    protected int id;
-    protected String title;
     protected int targetNumber; // target number of agents with given property
-    protected IObjectiveOutcome outcome;
     protected String propertyName; // the property the user wishes to check agents by
     protected T targetValue; // the value for the property needed
-    protected int level;
 
-    public AgentExistenceObjective(int id, String title, String propertyName, int targetNumber,
-                                   IObjectiveOutcome outcome, int level) {
-        this.id = id;
-        this.title = title;
-        this.propertyName = propertyName;
-        this.targetNumber = targetNumber;
-        this.outcome = outcome;
-        this.level = level;
+    public AgentExistenceObjective(Map<String, Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, Object> params) {
+
+        this.id = (int) params.get("id");
+        this.title = (String) params.get("title");
+        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.level = (int) params.get("level");
+        this.targetNumber = (int) params.get("targetNumber");
+        this.propertyName = (String) params.get("propertyName");
+        this.targetValue = (T) params.get("targetValue");
     }
 
     /**

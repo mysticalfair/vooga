@@ -2,33 +2,34 @@ package state.objective;
 
 import org.w3c.dom.Attr;
 import state.State;
+import state.agent.Agent;
 import state.attribute.Attribute;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author Jamie Palka
  * Abstract class to define the objectives within the game which are triggered by the value of an attribute of a user.
  */
-abstract public class AttributeObjective implements IObjective, Serializable {
+abstract public class AttributeObjective extends Objective {
 
-    protected int id;
-    protected String title;
     protected Attribute attribute;
     protected int targetValue;
-    protected IObjectiveOutcome outcome;
-    protected int level;
-    //TODO add player for which want to check attribute
 
-    //TODO okay that need an Attribute object? Where check if Attribute even exists in list of current Attributes?
-    public AttributeObjective(int id, String title, Attribute attribute, int targetValue,
-                              IObjectiveOutcome outcome, int level) {
-        this.id = id;
-        this.title = title;
-        this.attribute = attribute;
-        this.targetValue = targetValue;
-        this.outcome = outcome;
-        this.level = level;
+    public AttributeObjective(Map<String, Object> params) {
+        super(params);
+    }
+
+    @Override
+    public void setParams(Map<String, Object> params) {
+
+        this.id = (int) params.get("id");
+        this.title = (String) params.get("title");
+        this.outcome = (IObjectiveOutcome) params.get("outcome");
+        this.level = (int) params.get("level");
+        this.attribute = (Attribute) params.get("attribute");
+        this.targetValue = (int) params.get("targetValue");
     }
 
     /**

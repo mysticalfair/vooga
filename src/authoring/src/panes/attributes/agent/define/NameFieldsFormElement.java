@@ -80,8 +80,10 @@ public abstract class NameFieldsFormElement extends FormElement {
 
     public void addSelectedNameListener(ChangeListener<? super String> changeListener) {
         names.getSelectionModel().selectedItemProperty().addListener(changeListener);
+        int index = names.getSelectionModel().getSelectedIndex();
         names.getSelectionModel().selectLast();
         names.getSelectionModel().selectFirst();
+        names.getSelectionModel().select(index);
     }
 
     protected Map<String, Object> makeParamsMap() {

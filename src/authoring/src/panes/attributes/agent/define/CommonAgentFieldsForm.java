@@ -1,6 +1,5 @@
 package panes.attributes.agent.define;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -9,7 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import panes.ConsolePane;
 import panes.attributes.FormElement;
 import util.AuthoringContext;
@@ -95,9 +95,12 @@ public class CommonAgentFieldsForm extends FormElement {
         imageField.setCache(true);
 
         AnchorPane imageLabelAnchorPane = new AnchorPane();
-        Text chooseImageText = new Text(getContext().getString("ChooseImage"));
-        AnchorPane.setBottomAnchor(chooseImageText, 0.0);
-        imageLabelAnchorPane.getChildren().add(chooseImageText);
+        Label chooseImageLabel = new Label(getContext().getString("ChooseImage"));
+        AnchorPane.setBottomAnchor(chooseImageLabel, 0.0);
+        Rectangle chooseImageLabelBackground = new Rectangle(imageField.getFitWidth(), imageField.getFitHeight() / 5,
+                new Color(0, 0, 0, 0.5));
+        AnchorPane.setBottomAnchor(chooseImageLabelBackground, 0.0);
+        imageLabelAnchorPane.getChildren().addAll(chooseImageLabelBackground, chooseImageLabel);
 
         imageStackPane.getChildren().addAll(imageField, imageLabelAnchorPane);
         imageStackPane.setOnMouseClicked(e -> chooseAgentImage());

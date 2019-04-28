@@ -2,11 +2,7 @@ package panes.attributes.agent.define;
 
 import authoring.IActionDefinition;
 import panes.ConsolePane;
-import panes.attributes.LabeledTextField;
 import util.AuthoringContext;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ActionFormElement extends NameFieldsFormElement {
 

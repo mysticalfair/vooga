@@ -1,7 +1,6 @@
 package panes.attributes.agent.define;
 
 import authoring.IActionDecisionDefinition;
-import authoring.IPropertyDefinition;
 import panes.attributes.LabeledEditableFormList;
 import util.AuthoringContext;
 

@@ -1,9 +1,6 @@
 package panes.attributes.agent.define;
 
 import authoring.IActionDecisionDefinition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;

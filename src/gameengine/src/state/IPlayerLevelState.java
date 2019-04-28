@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * @Author:Luke_Truitt
+ * @author David Miron
  * This is the version of LevelState used by Player
  */
 public interface IPlayerLevelState {
@@ -18,4 +19,7 @@ public interface IPlayerLevelState {
     List<IPlayerAttribute> getImmutableAttributes();
 
     void addPropertyChangeListener(PropertyChangeListener listener);
+
+    String getBackgroundImageURL();
+    void setBackgroundImageURL(String imageURL);
 }

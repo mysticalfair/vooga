@@ -25,6 +25,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private String backgroundImageURL;
     private PropertyChangeSupport pcs;
     public LevelState() {
         this.placeableAgents = new ArrayList<>();
@@ -122,6 +123,16 @@ public class LevelState implements Serializable, IPlayerLevelState {
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public String getBackgroundImageURL() {
+        return backgroundImageURL;
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        backgroundImageURL = imageURL;
     }
 
 }

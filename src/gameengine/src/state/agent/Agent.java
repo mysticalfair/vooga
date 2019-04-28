@@ -3,17 +3,23 @@ package state.agent;
 import authoring.IActionDecisionDefinition;
 import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
+import authoring.exception.PropertyDoesNotExistException;
 import state.IRequiresBaseAgent;
+import state.IRequiresPaths;
 import state.Property;
+import state.action.Action;
 import state.actiondecision.ActionDecision;
 import state.condition.Condition;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author David Miron
  * @author Luke_Truitt
@@ -34,7 +40,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     public Agent(int id, int x, int y, int width, int height, double direction, String name, String imageURL, List<? extends IActionDecisionDefinition> actionDecisions,
                 List<? extends IPropertyDefinition> properties) {
         this.actionDecisions = (List<ActionDecision>)actionDecisions;
-        injectBaseAgentWhereNecessary(this.actionDecisions);
+        injectBaseAgentWhereNecessary(this.actionDecisions, this);
         playerAgent = new PlayerAgent(id, x, y, width, height, name, direction, imageURL);
         addProperties((List<Property>)properties);
         pcs = new PropertyChangeSupport(this);
@@ -44,14 +50,14 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return this.playerAgent;
     }
 
-    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions) {
+    private void injectBaseAgentWhereNecessary(List<ActionDecision> actionDecisions, Agent baseAgent) {
         for (ActionDecision ad: actionDecisions) {
             if (IRequiresBaseAgent.class.isAssignableFrom(ad.getAction().getClass()))
-                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(this);
+                ((IRequiresBaseAgent)ad.getAction()).injectBaseAgent(baseAgent);
 
             for (Condition condition: ad.getConditions()) {
                 if (IRequiresBaseAgent.class.isAssignableFrom(condition.getClass()))
-                    ((IRequiresBaseAgent)condition).injectBaseAgent(this);
+                    ((IRequiresBaseAgent)condition).injectBaseAgent(baseAgent);
             }
         }
     }
@@ -60,7 +66,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * Update the agent's state, by moving and executing action decisions
      * @param agents All other agents in play
      */
-    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException {
+    public void update(List<Agent> agents, double delta_time) throws CloneNotSupportedException, PropertyDoesNotExistException {
 
         for (ActionDecision decision: actionDecisions)
             decision.execute(agents, delta_time);
@@ -147,9 +153,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         List<ActionDecision> newActionDecisions = new ArrayList<>();
         clonedAgent.pcs = new PropertyChangeSupport(clonedAgent);
         for(ActionDecision ad : actionDecisions){
-            newActionDecisions.add(ad.clone(clonedAgent));
+            newActionDecisions.add(ad.clone());
         }
-        actionDecisions = newActionDecisions;
+        injectBaseAgentWhereNecessary(newActionDecisions, clonedAgent);
+        clonedAgent.actionDecisions = newActionDecisions;
         return clonedAgent;
 
     }
@@ -176,7 +183,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     private Rectangle createBoundingRect(Agent agent) {
         int xTopLeft = (int)(agent.getX() - (agent.getWidth() / 2));
-        int yTopLeft = (int)(agent.getY() + (agent.getHeight() / 2));
+        int yTopLeft = (int)(agent.getY() - (agent.getHeight() / 2));
         return new Rectangle(xTopLeft, yTopLeft, agent.getWidth(), agent.getHeight());
     }
 
@@ -208,9 +215,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         playerAgent.setDirection(direction);
     }
 
-    public List<IActionDecisionDefinition> getActionDecisions() {
+    public List<? extends IActionDecisionDefinition> getActionDecisions() {
         // TODO:
-        return null;
+        return this.actionDecisions;
     }
 
     public void removeActionDecision(int i) {
@@ -225,7 +232,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public List<? extends IPropertyDefinition> getProperties() {
-        return null;
+        return this.playerAgent.getProperties();
     }
 
     @Override
@@ -238,8 +245,8 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public <T> void setProperty(String name, T value) {
-        this.playerAgent.setProperty(name, value);
+    public <T> void setProperty(String name, T value) throws PropertyDoesNotExistException {
+        this.playerAgent.updateProperty(name, value);
     }
 
     public void addActionDecisionRaw(ActionDecision decision) {
@@ -247,18 +254,20 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public Object getProperty(String name) {
-        for(Property property : this.playerAgent.getProperties()) {
-            if(property.getName().equals(name)) {
-                return property.getValue();
-            }
-        }
-        return null;
+        return this.playerAgent.getProperty(name);
     }
 
-    @Deprecated
-    public void setProperties(String[] properties, Object[] values) {
+    public void injectPathsWhereNecessary(Map<String, List<Point2D>> paths) {
+        for (ActionDecision ad: actionDecisions) {
+            if (IRequiresPaths.class.isAssignableFrom(ad.getAction().getClass())) {
+                ((IRequiresPaths)ad.getAction()).injectPaths(paths);
+            }
+        }
+    }
+
+    public void updateProperties(String[] properties, Object[] values) throws PropertyDoesNotExistException {
         for(int i = 0; i < properties.length; i++) {
-            this.playerAgent.setProperty(properties[i], values[i]);
+            this.playerAgent.updateProperty(properties[i], values[i]);
         }
     }
 

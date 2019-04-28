@@ -58,9 +58,9 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    public void propertyChange(PropertyChangeEvent e) {
       if (e.getPropertyName().equals("x")) {
          System.out.println("PC for object listening to " + this.listen + ". The image is " + this.url + ", the X currently is " + this.getLayoutX() + " and it's changing to" +  e.getNewValue());
-         this.setLayoutX((Double) e.getNewValue());
+         this.setX((Double) e.getNewValue());
 
-         System.out.println("*****" + this.url + " " + selfCount + ": "+ "X- "+ this.getLayoutX() + "********");
+         System.out.println("*****" + this.url + " " + selfCount + ": "+ "X- "+ this.getX() + "********");
 
       } else if(e.getPropertyName().equals("y")) {
          this.setY((Double) e.getNewValue());

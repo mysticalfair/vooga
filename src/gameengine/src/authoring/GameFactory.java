@@ -181,7 +181,7 @@ public class GameFactory {
             return (T)constructor.newInstance(params);
 
         } catch (Exception e) {
-            throw new ReflectionException();
+            throw new ReflectionException(e);
         }
 
     }

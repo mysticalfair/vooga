@@ -18,12 +18,8 @@ public class DestroyAgent extends Action implements IRequiresBaseAgent {
         super(params);
     }
 
-    protected void destroyAgent() {
-        eventMaster.triggerRemoveAgentEvent(new RemoveAgentEvent(this.baseAgent));
-    }
-
-    @Override
-    public void setParams(Map<String, Object> params) {
+    protected void destroyAgent(Agent agent) {
+        eventMaster.triggerRemoveAgentEvent(new RemoveAgentEvent(agent));
     }
 
     @Override
@@ -38,6 +34,6 @@ public class DestroyAgent extends Action implements IRequiresBaseAgent {
      */
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-        this.destroyAgent();
+        destroyAgent(baseAgent);
     }
 }

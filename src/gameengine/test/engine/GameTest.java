@@ -6,6 +6,8 @@ import authoring.exception.ConditionDoesNotExistException;
 import authoring.exception.ReflectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import state.Property;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +48,7 @@ class GameTest {
             state.addDefinedAgent(createZombie("zombie"));
 
             for(int k = 0; k < AGENT_NUM; k++){
-                level.addAgent("zombie", 10 + 20 * k, 10, 0);
+                level.addAgent("zombie", 10 + 20 * k, 10, 0, new ArrayList<Property>());
             }
             state.addLevel(level);
             gameEngine.setState(state);
@@ -66,9 +68,10 @@ class GameTest {
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
-            state.addDefinedAgent(createPeashooter("peashooter", createPea("pea")));
+            state.addDefinedAgent(createPea("pea"));
+            state.addDefinedAgent(createPeashooter("peashooter", "pea"));
 
-            level.addAgent("peashooter", 200, 200, 0);
+            level.addAgent("peashooter", 200, 200, 0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -89,15 +92,16 @@ class GameTest {
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
-            state.addDefinedAgent(createPeashooter("peashooter", createPea("pea")));
+            state.addDefinedAgent(createPea("pea"));
+            state.addDefinedAgent(createPeashooter("peashooter", "pea"));
             state.addDefinedAgent(createZombie("zombie"));
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("peashooter", 50, 50 + 50 * i, 0);
+                level.addAgent("peashooter", 50, 50 + 100 * i, 0, new ArrayList<Property>());
             }
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("zombie", 350, 50 + 50 * i, 180);
+                level.addAgent("zombie", 350, 50 + 100 * i, 180, new ArrayList<Property>());
             }
 
 
@@ -110,21 +114,21 @@ class GameTest {
     }
 
     /**
-     * Creates ONE peashooter that shoots at ONE zombie.
+     * Creates a pea on a zombie.
      */
     @Test
     void setupFour() {
         try {
-            GameFactory factory = new GameFactory();
+            factory = new GameFactory();
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
-            state.addDefinedAgent(createPeashooter("peashooter", createPea("pea")));
+            state.addDefinedAgent(createPea("pea"));
             state.addDefinedAgent(createZombie("zombie"));
 
-            level.addAgent("peashooter", 50, 50, 0);
-            level.addAgent("zombie", 250, 50, 0);
+            level.addAgent("pea", 50, 50, 0, new ArrayList<Property>());
+            level.addAgent("zombie", 50, 50, 0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -137,12 +141,12 @@ class GameTest {
     @Test
     void setUpSeven() {
         try {
-            GameFactory factory = new GameFactory();
+            factory = new GameFactory();
             gameEngine = factory.createGame();
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
             state.addDefinedAgent(createHealthAgent());
-            level.addAgent("Luke", 50, 50, 0);
+            level.addAgent("Luke", 50, 50, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -162,14 +166,13 @@ class GameTest {
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
-            IAgentDefinition pea = createPea("pea");
-            IAgentDefinition zombie = createZombie("zombie");
+            state.addDefinedAgent(createPea("pea"));
+            state.addDefinedAgent(createZombie("zombie"));
+            state.addDefinedAgent(createPeashooter("peashooter", "pea"));
+            state.addDefinedAgent(createPeashooter("zombieshooter", "zombie"));
 
-            state.addDefinedAgent(createPeashooter("peashooter", pea));
-            state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
-
-            level.addAgent("peashooter", 50, 50, 0.0);
-            level.addAgent("zombieshooter", 50, 150, 0.0);
+            level.addAgent("peashooter", 50, 50, 0.0, new ArrayList<Property>());
+            level.addAgent("zombieshooter", 50, 150, 0.0, new ArrayList<Property>());
 
             state.addLevel(level);
             gameEngine.setState(state);
@@ -179,6 +182,9 @@ class GameTest {
         }
     }
 
+    /**
+     * Creates a peashooter and a zombieshooter
+     */
     @Test
     void setUpSix(){
         try {
@@ -187,13 +193,12 @@ class GameTest {
             state = factory.createState();
             ILevelDefinition level = factory.createLevel();
 
-            IAgentDefinition zombie = createZombie("zombie");
-            IAgentDefinition pea = createPea("pea");
-
-            state.addDefinedAgent(createPeashooter("peashooter", pea));
-            state.addDefinedAgent(createPeashooter("zombieshooter", zombie));
-            level.addAgent("peashooter", 50, 50, 0);
-            level.addAgent("zombieshooter", 50, 250, 0);
+            state.addDefinedAgent(createPea("pea"));
+            state.addDefinedAgent(createZombie("zombie"));
+            state.addDefinedAgent(createPeashooter("peashooter", "pea"));
+            state.addDefinedAgent(createPeashooter("zombieshooter", "zombie"));
+            level.addAgent("peashooter", 50, 50, 0, new ArrayList<Property>());
+            level.addAgent("zombieshooter", 50, 250, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState("John.xml");
@@ -221,7 +226,8 @@ class GameTest {
     }
 
     private IAgentDefinition createZombie(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
-        int initHealth = 100;
+        double initHealth = 10.0; // 10 hits from a pea
+        double damage = 1.0;
         String team = "badGuys";
 
         // list of ADs
@@ -230,16 +236,18 @@ class GameTest {
         // create Movement AD
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
         IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
         List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
+//        List<IConditionDefinition> cond3 = new ArrayList<>();
 //        Map<String, Object> healthCheckParams = new HashMap<>();
 //        healthCheckParams.put("property", "health");
 //        healthCheckParams.put("value", 0.0);
 //        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+//        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
 
         // create attack
@@ -254,13 +262,16 @@ class GameTest {
                 180, name, "zombie.gif", AD, properties);
     }
 
-    private IAgentDefinition createPeashooter(String name, IAgentDefinition projectile) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
+    private IAgentDefinition createPeashooter(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
+        String team = "goodGuys";
+        double initHealth = 4.0; // 4 zombie bites
+
         // MAKING peashooter
         List<IActionDecisionDefinition> AD2 = new ArrayList<>();
 
         //making spawn action
         Map<String, Object> spawnParams = new HashMap<>();
-        spawnParams.put("agent", projectile);
+        spawnParams.put("agent", projectileName);
         IActionDefinition spawnAction = factory.createAction("SpawnAgentInitialDirection", spawnParams);
         List<IConditionDefinition> conditions = new ArrayList<>();
         Map condParams = new HashMap();
@@ -272,6 +283,8 @@ class GameTest {
 
         // add properties
         List<IPropertyDefinition> properties = new ArrayList<>();
+        properties.add(factory.createProperty("team", team));
+        properties.add(factory.createProperty("health", initHealth));
 
         return factory.createAgent(50, 50, 20, 20,
                 0,name, "peashooter.gif", AD2, properties);
@@ -280,12 +293,13 @@ class GameTest {
     private IAgentDefinition createPea(String name) throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         String team = "goodGuys";
         String otherTeam = "badGuys";
+        double damage = 1.0;
 
         // MAKING PROJECTILE
         // making move action
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
 
         List<IActionDecisionDefinition> AD1 = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<>();
@@ -294,29 +308,21 @@ class GameTest {
                 factory.createAction("MoveAtRelativeAngle", moveParams), cond1));
 
         // DISAPPEAR ON COLLISION
-        List<IConditionDefinition> cond3 = new ArrayList<>();
-        cond3.add(factory.createCondition("Collision", new HashMap<>()));
+        List<IConditionDefinition> cond2 = new ArrayList<>();
+        cond2.add(factory.createCondition("Collision", new HashMap<>()));
         Map<String, Object> teamCheckParams = new HashMap<>();
         teamCheckParams.put("property", "team");
         teamCheckParams.put("value", otherTeam);
-        cond3.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
+        cond2.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
         AD1.add(factory.createActionDecision(
-                factory.createAction("DestroyAgent", new HashMap<>()), cond3));
+                factory.createAction("DestroyAgent", new HashMap<>()), cond2));
 
-
-//        List<IConditionDefinition> cond2 = new ArrayList<>();
-//        // collision
-//        cond2.add(factory.createCondition("Collision", new HashMap<>()));
-//        // only hurt other team
-//        Map<String, Object> propertyEqualParams = new HashMap<>();
-//        propertyEqualParams.put("team", otherTeam);
-//        cond2.add(factory.createCondition("PropertyEqualTo", propertyEqualParams));
-//        // take health given these conditions
-//        Map<String, Object> damageParams = new HashMap<>();
-//        moveParams.put("value", 50.0);
-//        moveParams.put("property", "health");
-//        AD1.add(factory.createActionDecision(
-//                factory.createAction("DecrementProperty", damageParams), cond2));
+        // use the same conditions as the previous action because disappearance and damage should always happen together
+        Map<String, Object> damageParams = new HashMap<>();
+        damageParams.put("value", damage);
+        damageParams.put("property", "health");
+        AD1.add(factory.createActionDecision(
+                factory.createAction("DecrementProperty", damageParams), cond2));
 
         // add properties
         List<IPropertyDefinition> properties = new ArrayList<>();
@@ -329,21 +335,25 @@ class GameTest {
     private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         Map<String, Object> condParams = new HashMap<>();
         condParams.put("property", "health");
-        condParams.put("value", 0);
+        condParams.put("value", 0.0);
         Map<String, Object> actionParams = new HashMap<>();
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");
         action2Params.put("value", 5.0);
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         List<IConditionDefinition> conditionDefinitions = new ArrayList<>();
-        List<IConditionDefinition> cond1 = new ArrayList<IConditionDefinition>();
-        cond1.add(factory.createCondition("DoOnce", new HashMap<>()));
+        List<IConditionDefinition> cond1 = new ArrayList<>();
+        Map cond2Params = new HashMap();
+        cond2Params.put("interval", 5.0);
+        cond1.add(factory.createCondition("DoOnce", new HashMap()));
+        cond1.add(factory.createCondition("Interval", cond2Params));
+        conditionDefinitions.add(factory.createCondition("DoOnce", new HashMap<>()));
         conditionDefinitions.add(factory.createCondition("PropertyLessThanOrEqualTo", condParams));
         actionDecisions.add(factory.createActionDecision(
                 factory.createAction("DestroyAgent", actionParams), conditionDefinitions));
         actionDecisions.add(factory.createActionDecision(factory.createAction("DecrementProperty", action2Params), cond1));
         List<IPropertyDefinition> properties = new ArrayList<>();
-        var prop = factory.createProperty("health", 50);
+        var prop = factory.createProperty("health", 10.0);
         properties.add(prop);
         return factory.createAgent(50, 50, 10, 10 ,1, "Luke", "ArcherQueen.png", actionDecisions, properties);
     }

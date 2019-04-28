@@ -1,6 +1,7 @@
 package state.action.spawn;
 
 import engine.event.events.AddAgentEvent;
+import state.AgentReference;
 import state.action.Action;
 import state.agent.Agent;
 
@@ -16,7 +17,7 @@ public abstract class SpawnAgent extends Action {
         super(params);
     }
 
-    protected void spawnAgent(Agent agent) {
+    protected void spawnAgent(AgentReference agent) {
         eventMaster.triggerAddAgentEvent(new AddAgentEvent(agent));
     }
 

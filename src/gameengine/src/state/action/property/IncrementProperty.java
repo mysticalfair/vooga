@@ -1,5 +1,6 @@
 package state.action.property;
 
+import authoring.exception.PropertyDoesNotExistException;
 import state.action.Action;
 import state.agent.Agent;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * @author Jorge Raad
  */
-public class IncrementProperty extends Action {
+public class IncrementProperty extends PropertyAction {
 
     private String propertyName;
     private double amount;
@@ -23,15 +24,15 @@ public class IncrementProperty extends Action {
     }
 
     @Override
-    public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
+    public void execute(Agent agent, double deltaTime) throws PropertyDoesNotExistException {
         try{
             double current_value = (double) agent.getProperty(propertyName);
             current_value += amount;
             agent.setProperty(propertyName, current_value);
+
         }
-        catch(NullPointerException e) {
-            // No such property, so do nothing
-            // TODO: probably throw an exception here
+        catch(PropertyDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

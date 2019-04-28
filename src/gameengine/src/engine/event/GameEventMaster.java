@@ -13,8 +13,6 @@ import java.util.function.Consumer;
  */
 public class GameEventMaster {
 
-    // TODO: Refactor this class, and figure out abstraction? GameEvent superclass?
-
     private List<Consumer<RemoveAgentEvent>> removeAgentListeners;
     private List<Consumer<AddAgentEvent>> addAgentListeners;
 

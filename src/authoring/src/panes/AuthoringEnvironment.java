@@ -76,9 +76,9 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initAllPanes() {
+        initBottomPanes();
         initAttributesPane();
         initMapPane(1);
-        initBottomPanes();
         initToolbarPane();
         initAgentPane();
     }

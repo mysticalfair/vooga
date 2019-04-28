@@ -46,14 +46,11 @@ public class LevelController implements PropertyChangeListener {
    }
 
    public void propertyChange(PropertyChangeEvent e){
-      System.out.println("property change triggered");
       if(e.getPropertyName().equals("Add Agent")){
-         System.out.println("Adding front end agent");
          this.mapController.addAgent((IPlayerAgent)(e.getNewValue()));
       }
       else if (e.getPropertyName().equals("Remove Agent"))
       {
-         System.out.println("Removing front end agent");
          this.mapController.removeAgent((IPlayerAgent)(e.getOldValue()));
 
       }

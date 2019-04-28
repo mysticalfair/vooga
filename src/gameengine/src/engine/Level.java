@@ -10,12 +10,16 @@ import state.AgentReference;
 import state.IPlayerLevelState;
 import state.IRequiresGameEventMaster;
 import state.LevelState;
+import state.Property;
 import state.agent.Agent;
 import state.objective.Objective;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
@@ -31,6 +35,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     private List<Agent> masterDefinedAgents;
 
+    private Map<String, List<Point2D>> paths;
+
     public Level(List<Agent> masterDefinedAgents) {
         this.levelState = new LevelState();
         this.agentsToAdd = new ArrayList<>();
@@ -38,6 +44,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         this.authoringAgentsPlaced = new ArrayList<>();
         this.authoringPlaceableAgents = new ArrayList<>();
         this.masterDefinedAgents = masterDefinedAgents;
+        this.paths = new HashMap<>();
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -49,8 +56,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public List<? extends IAgentDefinition> getCurrentAgents() {
-        return createAgentsFromReferences();
+    public List<AgentReference> getCurrentAgents() {
+        return authoringAgentsPlaced;
     }
 
     private List<Agent> createAgentsFromReferences() {
@@ -70,6 +77,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                     Agent clone = a.clone();
                     clone.setLocation(agentReference.getX(), agentReference.getY());
                     clone.setDirection(agentReference.getDirection());
+                    clone.addProperties(agentReference.getInstanceProperties());
+                    clone.injectPathsWhereNecessary(paths);
                     return clone;
                 } catch (CloneNotSupportedException e) {
                     // Do nothing, that agent does not support cloning
@@ -80,19 +89,38 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         return null;
     }
 
+    private List<Agent> getAgentsFromNames(List<String> agentNames) {
+        List<Agent> agents = new ArrayList<>();
+        for (String agentName: agentNames) {
+            for (Agent agent : masterDefinedAgents) {
+                if (agent.getName().equals(agentName)) {
+                    try {
+                        Agent clone = agent.clone();
+                        clone.injectPathsWhereNecessary(paths);
+                        agents.add(clone);
+                    } catch (CloneNotSupportedException e) {
+                        // Do nothing, the agent does not support cloning
+                    }
+                    break;
+                }
+            }
+        }
+        return agents;
+    }
+
     @Override
     public void removeAgent(int index) {
         authoringAgentsPlaced.remove(index);
     }
 
     @Override
-    public void addAgent(String agentName, int x, int y, double direction) {
-        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction));
+    public void addAgent(String agentName, int x, int y, double direction, List<Property> instanceProperties) {
+        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction, instanceProperties));
     }
 
     @Override
-    public List<? extends IAgentDefinition> getPlaceableAgents() {
-        return null;
+    public List<String> getPlaceableAgents() {
+        return authoringPlaceableAgents;
     }
 
     @Override
@@ -110,12 +138,30 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         authoringPlaceableAgents.add(agentName);
     }
 
+    @Override
+    public Map<String, List<Point2D>> getPaths() {
+        return paths;
+    }
+
+    @Override
+    public void removePath(int index) {
+        paths.remove(index);
+    }
+
+    @Override
+    public void removePath(String name) {
+        paths.remove(name);
+    }
+
+    @Override
+    public void addPath(String name, List<Point2D> path) {
+        paths.put(name, path);
+    }
+
     public void step(double deltaTime) {
         int index = 0;
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
-                System.out.println("Agent: " + agent.getName() + " has health of " + agent.getProperty("health") + "| ");
-
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
                 index++;
 
@@ -159,8 +205,13 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     public IPlayerLevelState getLevelState(){return this.levelState;}
 
     public void initializeAgents() {
-        for (Agent agent : createAgentsFromReferences()) {
+        for (Agent agent: createAgentsFromReferences()) {
             levelState.addCurrentAgent(agent);
         }
+
+        for (Agent agent: getAgentsFromNames(authoringPlaceableAgents)) {
+            levelState.addPlaceableAgent(agent);
+        }
     }
+
 }

@@ -4,8 +4,11 @@ import authoring.GameFactory;
 import frontend_objects.CloneableAgentView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
@@ -24,13 +27,14 @@ public class AuthoringEnvironment extends Application {
     private StackPane stackPane;
     private BorderPane borderPane;
     private ConsolePane consolePane;
+    private PathPane pathPane;
     private AgentPane agentPane;
     private AttributesPane attributesPane;
     private ToolbarPane toolbarPane;
     private MapPane map;
     private Scene scene;
     private List<MapState> levels;
-    private List<Path> paths;
+    private ObservableList<Path> paths;
 
     public static void main(String[] args){
         launch(args);
@@ -48,7 +52,7 @@ public class AuthoringEnvironment extends Application {
 
         stackPane = new StackPane();
         borderPane = new BorderPane();
-        paths = new ArrayList<>();
+        paths = FXCollections.observableArrayList();
         stackPane.getChildren().add(borderPane);
         scene = new Scene(stackPane, context.getDouble("DefaultWidth"), context.getDouble("DefaultHeight"));
         initAllPanes();
@@ -73,7 +77,7 @@ public class AuthoringEnvironment extends Application {
 
     private void initAllPanes() {
         initAttributesPane();
-        initConsolePane();
+        initBottomPanes();
         initMapPane(1);
         initToolbarPane();
         initAgentPane();
@@ -106,9 +110,14 @@ public class AuthoringEnvironment extends Application {
         attributesPane.accessContainer(borderPane::setLeft);
     }
 
-    private void initConsolePane() {
+    private void initBottomPanes() {
         consolePane = new ConsolePane(context);
-        consolePane.accessContainer(borderPane::setBottom);
+        pathPane = new PathPane(context, map, scene, paths);
+        var bottomBox = new HBox();
+        consolePane.accessContainer(node -> bottomBox.getChildren().add(node));
+        pathPane.accessContainer(node -> bottomBox.getChildren().add(node));
+        borderPane.setBottom(bottomBox);
+        //consolePane.accessContainer(borderPane::setBottom);
         //consolePane.addButton("set background", e -> map.formatBackground());
     }
 
@@ -170,7 +179,7 @@ public class AuthoringEnvironment extends Application {
     private void updateDimensions(double width, double height){
         var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentWidth");
         var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarPaneHeight") - context.getDouble("MiddleRowPadding");
-        consolePane.updateSize(width, context.getDouble("ConsoleHeight"));
+        consolePane.updateSize(width/2, context.getDouble("ConsoleHeight"));
         toolbarPane.updateSize(width, context.getDouble("ToolbarPaneHeight"));
         map.updateSize(middleWidth, middleHeight);
         attributesPane.updateSize(context.getDouble("AttributesWidth"), middleHeight);

@@ -14,11 +14,6 @@ public class WinOutcome extends ObjectiveOutcome {
 
     public WinOutcome(Map<String, Object> params) { super(params); }
 
-    @Override
-    public void setParams(Map<String, Object> params) {
-        super.setParams(params);
-    }
-
     public String execute(State state) {
         state.makeGameOver();
         return WIN_MESSAGE;

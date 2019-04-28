@@ -47,6 +47,26 @@ public class LevelState implements Serializable, IPlayerLevelState {
             placeableAgents.remove(index);
     }
 
+    public boolean addAgentFromStore(int index, double x, double y) {
+        try {
+            if(index < 0 || this.placeableAgents.size() - 1 > index ) {
+                return false;
+            }
+
+            Agent agent = this.placeableAgents.get(index).clone();
+
+            agent.setX(x);
+            agent.setY(y);
+
+            addPlaceableAgent(agent);
+
+            return true;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     public void addPlaceableAgent(Agent agent) {
         placeableAgents.add(agent);
     }

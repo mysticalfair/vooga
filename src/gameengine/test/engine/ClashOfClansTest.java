@@ -56,4 +56,6 @@ public class ClashOfClansTest {
         return factory.createAgent(0, 0, 50, 50 ,1, "home", "clash/TH10.png", actionDecisions, properties);
     }
 
+
+
 }

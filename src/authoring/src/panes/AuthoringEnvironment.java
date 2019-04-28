@@ -124,7 +124,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
         toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(null, new ArrayList<>()), false)));
-        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())), true)));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeFromExistingWrapper()));
         toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
@@ -139,31 +139,35 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void clearLevel() {
-        System.out.println("booling");
         map.clearMap();
         map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(null, new ArrayList<>()));
     }
 
+    private void makeFromExistingWrapper() {
+        if (toolbarPane.getExistingLevelValue() != -1) {
+            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue())), true);
+        }
+    }
+
     private void makeLevel(int newLevel, MapState state, boolean fromExisting) {
-        map.setLevel(newLevel);
-        map.clearMap();
-        toolbarPane.setMaxLevel(newLevel);
-        toolbarPane.addToExistingLevelCreator(newLevel);
         String newLevelDisplay;
         if (fromExisting) {
             newLevelDisplay = "Level " + newLevel + " created from Level: " + toolbarPane.getExistingLevelValue();
         } else {
             newLevelDisplay = "Level " + newLevel + " created";
         }
+        map.setLevel(newLevel);
+        toolbarPane.setMaxLevel(newLevel);
+        toolbarPane.addToExistingLevelCreator(newLevel);
         consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
-        /*int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
-        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);*/
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-           /* MapState revertToState = map.getStateMapping().get(newLevel);
-            revertToState.updateMap(map);*/
+            MapState revertToState = map.getStateMapping().get(newLevel);
+            revertToState.updateMap(map);
         }
+        int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
+        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);
     }
 
     private void changeToExistingLevel(int newValue) {

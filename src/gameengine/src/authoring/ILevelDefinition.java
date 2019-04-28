@@ -5,6 +5,7 @@ import state.Property;
 
 import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface to define all the parts of a level of the game
@@ -25,7 +26,8 @@ public interface ILevelDefinition {
     void removePlaceableAgent(String agentName);
     void addPlaceableAgent(String agentName);
 
-    List<List<Point2D>> getPaths();
+    Map<String, List<Point2D>> getPaths();
     void removePath(int index);
-    void addPath(List<Point2D> path);
+    void removePath(String name);
+    void addPath(String name, List<Point2D> path);
 }

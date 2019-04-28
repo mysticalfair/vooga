@@ -17,7 +17,9 @@ import state.objective.Objective;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
@@ -33,7 +35,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     private List<Agent> masterDefinedAgents;
 
-    private List<List<Point2D>> paths;
+    private Map<String, List<Point2D>> paths;
 
     public Level(List<Agent> masterDefinedAgents) {
         this.levelState = new LevelState();
@@ -42,7 +44,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         this.authoringAgentsPlaced = new ArrayList<>();
         this.authoringPlaceableAgents = new ArrayList<>();
         this.masterDefinedAgents = masterDefinedAgents;
-        this.paths = new ArrayList<>();
+        this.paths = new HashMap<>();
     }
 
     public void injectGameEventMaster(GameEventMaster eventMaster) {
@@ -134,7 +136,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public List<List<Point2D>> getPaths() {
+    public Map<String, List<Point2D>> getPaths() {
         return paths;
     }
 
@@ -144,8 +146,13 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public void addPath(List<Point2D> path) {
-        paths.add(path);
+    public void removePath(String name) {
+        paths.remove(name);
+    }
+
+    @Override
+    public void addPath(String name, List<Point2D> path) {
+        paths.put(name, path);
     }
 
     public void step(double deltaTime) {

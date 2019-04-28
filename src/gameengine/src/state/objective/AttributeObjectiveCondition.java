@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * @author Jamie Palka
- * Abstract class to define the objectives within the game which are triggered by the value of an attribute of a user.
+ * Abstract class to define the ObjectiveConditions within the game which are triggered by the value of an attribute of a user.
  */
 abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
 
@@ -22,13 +22,12 @@ abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
     public void setParams(Map<String, Object> params) {
 
         this.attribute = (Attribute) params.get("attribute");
-        this.targetValue = (int) params.get("targetValue");
+        this.targetValue = (int) params.get("targetPropertyValue");
         super.setParams(params);
     }
 
     /**
-     * Abstract method which will define the conditions necessary regarding the value of the attribute prior to
-     * executing the ObjectiveOutcome
+     * Abstract method which will define the conditions necessary regarding the value of the attribute.
      */
     abstract public boolean evaluate(State state);
 }

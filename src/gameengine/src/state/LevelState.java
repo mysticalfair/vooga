@@ -4,7 +4,6 @@ import state.agent.Agent;
 import state.agent.IPlayerAgent;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.objective.IObjective;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

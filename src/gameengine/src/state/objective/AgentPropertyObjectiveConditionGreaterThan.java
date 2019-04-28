@@ -6,8 +6,8 @@ import java.util.Map;
 
 /**
  * @author Jamie Palka
- * Class to define the objectives within the game which are triggered by the value of an agent property
- * being greater than or equal to a targetValue.
+ * Class to define the ObjectiveConditions within the game which are triggered by the value of an agent property
+ * being greater than or equal to a targetPropertyValue.
  */
 public class AgentPropertyObjectiveConditionGreaterThan<T> extends AgentPropertyObjectiveCondition {
 
@@ -16,11 +16,13 @@ public class AgentPropertyObjectiveConditionGreaterThan<T> extends AgentProperty
     }
 
     /**
-     * Executes the outcome if the given agent's property is greater than or equal to the target value.
+     * Returns true if the given agent's property is greater than or equal to the target value.
      */
     public boolean evaluate(State state) {
 
+        agent = getAgentFromObjectiveIdentificationPropertyValue(state, objectiveIdentificationPropertyValue);
+
         return ((state.getCurrentLevelInt() == level || level == -1) &&
-                ((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) >= 0);
+                ((Comparable) agent.getPropertyValue(targetPropertyName)).compareTo(targetPropertyValue) >= 0);
     }
 }

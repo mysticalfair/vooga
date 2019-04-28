@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * @author Jamie Palka
- * Class to define the objectives within the game which are triggered by the value of an attribute of a user
+ * Class to define the ObjectiveConditions within the game which are triggered by the value of an attribute of a user
  * being greater than or equal to a target value.
  */
 public class AttributeObjectiveConditionGreaterThan extends AttributeObjectiveCondition {
@@ -16,7 +16,7 @@ public class AttributeObjectiveConditionGreaterThan extends AttributeObjectiveCo
     }
 
     /**
-     * If given attribute has a value greater than or equal to the target value, execute the outcome.
+     * Returns true if the given attribute has a value greater than or equal to the target value.
      */
     public boolean evaluate(State state) {
 

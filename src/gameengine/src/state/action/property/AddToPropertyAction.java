@@ -15,7 +15,7 @@ public class AddToPropertyAction extends Action {
     }
 
     public void setParams(Map<String, Object> params) {
-        this.propertyName = (String)params.get("propertyName");
+        this.propertyName = (String)params.get("targetPropertyName");
         this.amount = (Double)params.get("amount");
     }
 

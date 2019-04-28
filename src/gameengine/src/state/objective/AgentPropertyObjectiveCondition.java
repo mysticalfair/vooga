@@ -8,12 +8,13 @@ import java.util.Map;
 
 /**
  * @author Jamie Palka
- * Abstract class to define the objectives within the game which are triggered by the value of an agent property.
+ * Abstract class to define the ObjectiveConditions within the game which are triggered by the value of an agent property.
  */
 abstract public class AgentPropertyObjectiveCondition<T> extends ObjectiveCondition {
 
-    protected String propertyName;
-    protected T targetValue;
+    protected String targetPropertyName;
+    protected T targetPropertyValue;
+    protected int objectiveIdentificationPropertyValue;
     protected Agent agent;
 
     public AgentPropertyObjectiveCondition(Map<String, Object> params) {
@@ -23,14 +24,14 @@ abstract public class AgentPropertyObjectiveCondition<T> extends ObjectiveCondit
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.propertyName = (String) params.get("propertyName");
-        this.agent = (Agent) params.get("agent");
-        this.targetValue = (T) params.get("targetValue");
+        this.targetPropertyName = (String) params.get("targetPropertyName");
+        this.targetPropertyValue = (T) params.get("targetPropertyValue");
+        this.objectiveIdentificationPropertyValue = (Integer) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
         super.setParams(params);
     }
 
     /**
-     * Executes the outcome if the given agent has the correct condition for the targetValue.
+     * Returns true if the given agent has the correct condition for the targetPropertyValue.
      */
     abstract public boolean evaluate(State state);
 

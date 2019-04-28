@@ -53,7 +53,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public List<? extends IAgentDefinition> getCurrentAgents() {
+    public List<Agent> getCurrentAgents() {
         return levelState.getCurrentAgents();
     }
 

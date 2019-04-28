@@ -2,6 +2,7 @@ package state.objective;
 
 import authoring.IAgentDefinition;
 import state.State;
+import state.agent.Agent;
 
 import java.util.Map;
 
@@ -23,18 +24,18 @@ public class AgentExistenceObjectiveCondition<T> extends ObjectiveCondition {
     public void setParams(Map<String, Object> params) {
 
         this.targetNumber = (int) params.get("targetNumber");
-        this.propertyName = (String) params.get("propertyName");
-        this.targetValue = (T) params.get("targetValue");
+        this.propertyName = (String) params.get("targetPropertyName");
+        this.targetValue = (T) params.get("targetPropertyValue");
         super.setParams(params);
     }
 
     /**
-     * Executes the outcome if the correct number of agents with the given property value exist.
+     * Returns true if the correct number of agents with the given property value exist.
      */
     public boolean evaluate(State state) {
 
         int count = 0;
-        for(IAgentDefinition agent : state.getCurrentAgents()) {
+        for(Agent agent : state.getCurrentAgents()) {
             if(((Comparable) agent.getPropertyValue(propertyName)).compareTo(targetValue) == 0) {
                 count++;
             }

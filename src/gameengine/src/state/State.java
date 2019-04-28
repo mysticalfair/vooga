@@ -5,7 +5,8 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.agent.Agent;
-import state.objective.IObjective;
+import state.objective.Objective;
+import state.objective.ObjectiveCondition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class State implements IStateDefinition, Serializable {
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
-    private List<IObjective> currentObjectives;
+    private List<Objective> currentObjectives;
     private boolean gameOver;
 
     private List<Agent> agentsCurrent;
@@ -67,14 +68,14 @@ public class State implements IStateDefinition, Serializable {
      * Add an objective to the current list of objectives.
      * @param objective the objective to be added
      */
-    public void defineObjective(IObjective objective) {
+    public void defineObjective(Objective objective) {
         currentObjectives.add(objective);
     }
 
     /**
      * For Player - Iterate through and update your copy based on the corresponding ID.
      */
-    public Iterable<IObjective> getImmutableObjectives() {
+    public Iterable<Objective> getImmutableObjectives() {
         return List.copyOf(this.currentObjectives);
     }
 
@@ -94,7 +95,7 @@ public class State implements IStateDefinition, Serializable {
      */
     public void step(double deltaTime){
 
-        for(IObjective objective : currentObjectives) {
+        for(Objective objective : currentObjectives) {
             objective.execute(this);
         }
 
@@ -134,7 +135,7 @@ public class State implements IStateDefinition, Serializable {
     /**
      * Returns the list of agents that exist in the current level.
      */
-    public List<? extends IAgentDefinition> getCurrentAgents() {
+    public List<Agent> getCurrentAgents() {
         return levels.get(currentLevel).getCurrentAgents();
     }
 

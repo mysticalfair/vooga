@@ -43,10 +43,8 @@ public class AttributeView extends Text implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent e) {
         if(e.getPropertyName().equals("name")) {
             this.setName((String) e.getNewValue());
-            System.out.println("Changed name: " + e.getNewValue());
         } else if(e.getPropertyName().equals("value")) {
             this.setValue((Integer) e.getNewValue());
-            System.out.println("Changed value: "+ e.getNewValue());
         }
     }
 

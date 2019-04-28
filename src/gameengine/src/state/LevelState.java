@@ -58,7 +58,6 @@ public class LevelState implements Serializable, IPlayerLevelState {
         var oldAgents = this.agentsCurrent;
         agentsCurrent.add(agent);
         this.pcs.firePropertyChange("Add Agent", oldAgents, agent);
-        System.out.println("adding agent in backend, length: " + this.agentsCurrent.size());
     }
 
     public void removeAgent(Agent agent) {
@@ -66,7 +65,6 @@ public class LevelState implements Serializable, IPlayerLevelState {
             agentsCurrent.remove(agent);
             //TODO: change back to agent
             this.pcs.firePropertyChange("Remove Agent", agent, null);
-            System.out.println("removing agent in backend in levelstate, length: " + this.agentsCurrent.size());
         }
     }
 
@@ -87,7 +85,6 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
         List<Agent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
         agentsWithoutSelf.removeIf(a -> a == agent);
-        System.out.println("MY LENGTH WITHOUT ME IS " + agentsWithoutSelf.size());
         return agentsWithoutSelf;
     }
 

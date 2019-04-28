@@ -1,6 +1,16 @@
 <conditionDefinitions>
 
     <conditionDefinition>
+        <name>Closest</name>
+        <fields />
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>DoOnce</name>
+        <fields />
+    </conditionDefinition>
+
+    <conditionDefinition>
         <name>Interval</name>
         <fields>
             <double>interval</double>
@@ -10,28 +20,53 @@
     <conditionDefinition>
         <name>Range</name>
         <fields>
-            <int>range</int>
+            <double>range</double>
         </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>Enemy</name>
-        <fields></fields>
+        <name>PropertyEqualTo</name>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>SameTeam</name>
-        <fields></fields>
+        <name>PropertyGreaterThan</name>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>Closest</name>
-        <fields></fields>
+        <name>PropertyGreaterThanOrEqualTo</name>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>DoOnce</name>
-        <fields></fields>
+        <name>PropertyLessThanOrEqualTo</name>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>Collision</name>
+        <fields />
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>PropertyLessThanOrEqualTo</name>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
     </conditionDefinition>
 
 </conditionDefinitions>

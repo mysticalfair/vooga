@@ -54,20 +54,161 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>tower</name>
+          <name>peashooter</name>
           <x>50.0</x>
           <y>50.0</y>
           <direction>0.0</direction>
         </state.AgentReference>
         <state.AgentReference>
-          <name>zombie</name>
-          <x>250.0</x>
-          <y>50.0</y>
+          <name>peashooter</name>
+          <x>50.0</x>
+          <y>100.0</y>
           <direction>0.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>peashooter</name>
+          <x>50.0</x>
+          <y>150.0</y>
+          <direction>0.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>peashooter</name>
+          <x>50.0</x>
+          <y>200.0</y>
+          <direction>0.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>peashooter</name>
+          <x>50.0</x>
+          <y>250.0</y>
+          <direction>0.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>350.0</x>
+          <y>50.0</y>
+          <direction>180.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>350.0</x>
+          <y>100.0</y>
+          <direction>180.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>350.0</x>
+          <y>150.0</y>
+          <direction>180.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>350.0</x>
+          <y>200.0</y>
+          <direction>180.0</direction>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>zombie</name>
+          <x>350.0</x>
+          <y>250.0</y>
+          <direction>180.0</direction>
         </state.AgentReference>
       </authoringAgentsPlaced>
       <authoringPlaceableAgents/>
       <masterDefinedAgents>
+        <state.agent.Agent>
+          <actionDecisions>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.movement.MoveAtRelativeAngle">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params>
+                  <entry>
+                    <string>angle</string>
+                    <double>0.0</double>
+                  </entry>
+                  <entry>
+                    <string>speed</string>
+                    <double>100.0</double>
+                  </entry>
+                </params>
+                <name>MoveAtRelativeAngle</name>
+                <speed>100.0</speed>
+                <baseAgent reference="../../../.."/>
+                <angle>0.0</angle>
+              </action>
+              <conditions>
+                <state.condition.DoOnceCondition>
+                  <name>DoOnce</name>
+                  <params/>
+                </state.condition.DoOnceCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.destroy.DestroyAgent">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params/>
+                <name>DestroyAgent</name>
+                <baseAgent reference="../../../.."/>
+              </action>
+              <conditions>
+                <state.condition.CollisionCondition>
+                  <name>Collision</name>
+                  <params/>
+                  <baseAgent reference="../../../../.."/>
+                </state.condition.CollisionCondition>
+                <state.condition.propertyCondition.PropertyEqualToCondition>
+                  <name>PropertyEqualTo</name>
+                  <params>
+                    <entry>
+                      <string>property</string>
+                      <string>team</string>
+                    </entry>
+                    <entry>
+                      <string>value</string>
+                      <string>badGuys</string>
+                    </entry>
+                  </params>
+                  <value class="string">badGuys</value>
+                  <propertyName>team</propertyName>
+                </state.condition.propertyCondition.PropertyEqualToCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+          </actionDecisions>
+          <playerAgent>
+            <id>0</id>
+            <x>500.0</x>
+            <y>500.0</y>
+            <imageURL>pea.gif</imageURL>
+            <name>pea</name>
+            <direction>0.0</direction>
+            <width>10</width>
+            <height>10</height>
+            <properties>
+              <state.Property>
+                <name>team</name>
+                <value class="string">goodGuys</value>
+              </state.Property>
+            </properties>
+            <pcs serialization="custom">
+              <java.beans.PropertyChangeSupport>
+                <default>
+                  <source class="state.agent.PlayerAgent" reference="../../../.."/>
+                  <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+                </default>
+                <null/>
+              </java.beans.PropertyChangeSupport>
+            </pcs>
+          </playerAgent>
+          <pcs serialization="custom">
+            <java.beans.PropertyChangeSupport>
+              <default>
+                <source class="state.agent.Agent" reference="../../../.."/>
+                <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              </default>
+              <null/>
+            </java.beans.PropertyChangeSupport>
+          </pcs>
+        </state.agent.Agent>
         <state.agent.Agent>
           <actionDecisions>
             <state.actiondecision.ActionDecision>
@@ -76,67 +217,11 @@
                 <params>
                   <entry>
                     <string>agent</string>
-                    <state.agent.Agent>
-                      <actionDecisions>
-                        <state.actiondecision.ActionDecision>
-                          <action class="state.action.movement.MoveAtRelativeAngle">
-                            <eventMaster reference="../../../../../../../../../../../../eventMaster"/>
-                            <params>
-                              <entry>
-                                <string>angle</string>
-                                <double>0.0</double>
-                              </entry>
-                              <entry>
-                                <string>speed</string>
-                                <int>100</int>
-                              </entry>
-                            </params>
-                            <name>MoveAtRelativeAngle</name>
-                            <speed>20</speed>
-                            <baseAgent reference="../../../.."/>
-                            <angle>0.0</angle>
-                          </action>
-                          <conditions>
-                            <state.condition.DoOnceCondition>
-                              <name>DoOnce</name>
-                              <params/>
-                            </state.condition.DoOnceCondition>
-                          </conditions>
-                        </state.actiondecision.ActionDecision>
-                      </actionDecisions>
-                      <playerAgent>
-                        <id>0</id>
-                        <x>500.0</x>
-                        <y>500.0</y>
-                        <imageURL>pea.gif</imageURL>
-                        <name>projectile</name>
-                        <direction>0.0</direction>
-                        <width>10</width>
-                        <height>10</height>
-                        <pcs serialization="custom">
-                          <java.beans.PropertyChangeSupport>
-                            <default>
-                              <source class="state.agent.PlayerAgent" reference="../../../.."/>
-                              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                            </default>
-                            <null/>
-                          </java.beans.PropertyChangeSupport>
-                        </pcs>
-                      </playerAgent>
-                      <pcs serialization="custom">
-                        <java.beans.PropertyChangeSupport>
-                          <default>
-                            <source class="state.agent.Agent" reference="../../../.."/>
-                            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
-                          </default>
-                          <null/>
-                        </java.beans.PropertyChangeSupport>
-                      </pcs>
-                    </state.agent.Agent>
+                    <string>pea</string>
                   </entry>
                 </params>
                 <name>SpawnAgentInitialDirection</name>
-                <spawnAgent reference="../params/entry/state.agent.Agent"/>
+                <spawnAgentName>pea</spawnAgentName>
                 <baseAgent reference="../../../.."/>
               </action>
               <conditions>
@@ -163,10 +248,11 @@
             <x>50.0</x>
             <y>50.0</y>
             <imageURL>peashooter.gif</imageURL>
-            <name>tower</name>
+            <name>peashooter</name>
             <direction>0.0</direction>
-            <width>30</width>
-            <height>30</height>
+            <width>20</width>
+            <height>20</height>
+            <properties/>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>
@@ -192,29 +278,73 @@
             <state.actiondecision.ActionDecision>
               <action class="state.action.movement.MoveAtRelativeAngle">
                 <eventMaster reference="../../../../../../eventMaster"/>
-                <params reference="../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params/entry/state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/action/params"/>
+                <params>
+                  <entry>
+                    <string>angle</string>
+                    <double>0.0</double>
+                  </entry>
+                  <entry>
+                    <string>speed</string>
+                    <double>100.0</double>
+                  </entry>
+                </params>
                 <name>MoveAtRelativeAngle</name>
-                <speed>100</speed>
+                <speed>100.0</speed>
                 <baseAgent reference="../../../.."/>
                 <angle>0.0</angle>
               </action>
               <conditions>
                 <state.condition.DoOnceCondition>
                   <name>DoOnce</name>
-                  <params reference="../../../../../../state.agent.Agent/actionDecisions/state.actiondecision.ActionDecision/conditions/state.condition.DoOnceCondition/params"/>
+                  <params/>
                 </state.condition.DoOnceCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.destroy.DestroyAgent">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params/>
+                <name>DestroyAgent</name>
+                <baseAgent reference="../../../.."/>
+              </action>
+              <conditions>
+                <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
+                  <name>PropertyLessThanOrEqualTo</name>
+                  <params>
+                    <entry>
+                      <string>property</string>
+                      <string>health</string>
+                    </entry>
+                    <entry>
+                      <string>value</string>
+                      <double>0.0</double>
+                    </entry>
+                  </params>
+                  <value class="double">0.0</value>
+                  <propertyName>health</propertyName>
+                </state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
               </conditions>
             </state.actiondecision.ActionDecision>
           </actionDecisions>
           <playerAgent>
             <id>2</id>
-            <x>250.0</x>
-            <y>50.0</y>
+            <x>0.0</x>
+            <y>0.0</y>
             <imageURL>zombie.gif</imageURL>
             <name>zombie</name>
             <direction>180.0</direction>
             <width>30</width>
             <height>30</height>
+            <properties>
+              <state.Property>
+                <name>health</name>
+                <value class="int">100</value>
+              </state.Property>
+              <state.Property>
+                <name>team</name>
+                <value class="string">badGuys</value>
+              </state.Property>
+            </properties>
             <pcs serialization="custom">
               <java.beans.PropertyChangeSupport>
                 <default>

@@ -38,9 +38,10 @@ public class AttributesPane extends AuthoringPane {
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
         defineAgentForm.setOnSave(e -> {
             IAgentDefinition a = defineAgentForm.getAgentDefinition();
-            String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n"+
+            String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n" +
                     "number of properties: %d\nnumber of action decisions: %d",
-                    a.getX(), a.getY(), a.getWidth(), a.getHeight(),
+                    a.getName(),
+                    (int) a.getX(), (int) a.getY(), a.getWidth(), a.getHeight(),
                     a.getImageURL(),
                     a.getProperties().size(),
                     a.getActionDecisions().size()

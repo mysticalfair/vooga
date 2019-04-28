@@ -54,15 +54,11 @@ public class LevelState implements Serializable, IPlayerLevelState {
         return this.agentsCurrent;
     }
 
-    public void removeCurrentAgent(int index) {
-        if (agentsCurrent.size() > index)
-            agentsCurrent.remove(index);
-    }
-
     public void addCurrentAgent(Agent agent) {
         var oldAgents = this.agentsCurrent;
         agentsCurrent.add(agent);
-        this.pcs.firePropertyChange("AddAgent", oldAgents, agentsCurrent);
+        this.pcs.firePropertyChange("Add Agent", oldAgents, agent);
+        System.out.println("adding agent in backend, length: " + this.agentsCurrent.size());
     }
 
     public List<Objective> getObjectives() {
@@ -82,6 +78,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
         List<Agent> agentsWithoutSelf = new ArrayList<>(agentsCurrent);
         agentsWithoutSelf.removeIf(a -> a == agent);
+        System.out.println("MY LENGTH WITHOUT ME IS " + agentsWithoutSelf.size());
         return agentsWithoutSelf;
     }
 
@@ -91,7 +88,6 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public void placeAgent(Agent agent) {
         var agentsOld = this.agentsCurrent;
         this.agentsCurrent.add(agent);
-        this.pcs.firePropertyChange("CurrentAgent", agentsOld, this.agentsCurrent);
     }
     public void defineObjective(Objective objective) {
         this.objectivesCurrent.add(objective);
@@ -124,7 +120,9 @@ public class LevelState implements Serializable, IPlayerLevelState {
 
     public void removeAgent(Agent agent) {
         if (this.agentsCurrent.contains(agent)){
-            this.agentsCurrent.remove(agent);
+            agentsCurrent.remove(agent);
+            this.pcs.firePropertyChange("Remove Agent", agent, agent);
+            System.out.println("removing agent in backend, length: " + this.agentsCurrent.size());
         }
     }
 

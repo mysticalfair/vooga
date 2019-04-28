@@ -7,7 +7,6 @@ import util.AuthoringContext;
 
 public class CloneableAgentView extends AgentView {
 
-    private DraggableAgentView draggableCopy;
     private String url;
 
     public CloneableAgentView(AuthoringContext authoringContext, String url) {

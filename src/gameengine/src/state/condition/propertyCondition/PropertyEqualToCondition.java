@@ -25,7 +25,7 @@ public class PropertyEqualToCondition extends PropertyCondition {
      */
     @Override
     public List<Agent> getValid(List<Agent> agents) {
-        List<Agent> list = agents.stream().filter(agent -> (this.value.equals(agent.getProperty(this.propertyName)))).collect(Collectors.toList());
+        List<Agent> list = agents.stream().filter(agent -> (agent.getProperty(this.propertyName) != null && this.value.equals(agent.getProperty(this.propertyName)))).collect(Collectors.toList());
         System.out.println();
         return list;
     }

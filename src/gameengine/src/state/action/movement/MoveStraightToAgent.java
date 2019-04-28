@@ -19,7 +19,7 @@ public class MoveStraightToAgent extends MovementAction {
 
     @Override
     public void setParams(Map<String, Object> params) {
-        this.speed = (Integer) params.get("speed");
+        this.speed = (Double) params.get("speed");
     }
 
     /**

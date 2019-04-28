@@ -23,10 +23,6 @@ public class DestroyAgent extends Action implements IRequiresBaseAgent {
     }
 
     @Override
-    public void setParams(Map<String, Object> params) {
-    }
-
-    @Override
     public void injectBaseAgent(Agent agent) {
         this.baseAgent = agent;
     }

@@ -2,17 +2,12 @@
 
     <conditionDefinition>
         <name>Closest</name>
-        <fields></fields>
-    </conditionDefinition>
-
-    <conditionDefinition>
-        <name>Collision</name>
-        <fields></fields>
+        <fields />
     </conditionDefinition>
 
     <conditionDefinition>
         <name>DoOnce</name>
-        <fields></fields>
+        <fields />
     </conditionDefinition>
 
     <conditionDefinition>
@@ -25,48 +20,52 @@
     <conditionDefinition>
         <name>Range</name>
         <fields>
-            <int>range</int>
+            <double>range</double>
         </fields>
     </conditionDefinition>
 
-
-    <!--PROPERTY CONDITIONS-->
-    <!--Are these fields correct?-->
     <conditionDefinition>
         <name>PropertyEqualTo</name>
         <fields>
-            <map>params</map>
+            <string>property</string>
+            <comparable>value</comparable>
         </fields>
     </conditionDefinition>
 
     <conditionDefinition>
         <name>PropertyGreaterThan</name>
         <fields>
-            <map>params</map>
+            <string>property</string>
+            <comparable>value</comparable>
         </fields>
     </conditionDefinition>
 
     <conditionDefinition>
         <name>PropertyGreaterThanOrEqualTo</name>
         <fields>
-            <map>params</map>
+            <string>property</string>
+            <comparable>value</comparable>
         </fields>
     </conditionDefinition>
 
     <conditionDefinition>
         <name>PropertyLessThanOrEqualTo</name>
-        <fields></fields>
+        <fields>
+            <string>property</string>
+            <comparable>value</comparable>
+        </fields>
     </conditionDefinition>
 
     <conditionDefinition>
         <name>Collision</name>
-        <fields></fields>
+        <fields />
     </conditionDefinition>
 
     <conditionDefinition>
         <name>PropertyLessThanOrEqualTo</name>
         <fields>
-            <map>params</map>
+            <string>property</string>
+            <comparable>value</comparable>
         </fields>
     </conditionDefinition>
 

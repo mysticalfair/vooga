@@ -1,5 +1,6 @@
 package state.agent;
 
+import authoring.exception.PropertyDoesNotExistException;
 import state.Property;
 import utils.Serializer;
 
@@ -108,16 +109,16 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
         pcs.firePropertyChange("direction", oldDir, direction);
     }
 
-   @Deprecated
-    public void setProperty(String name, Object value) {
-       System.out.println("DEPRECATED CALLED");
+    public void updateProperty(String name, Object value) throws PropertyDoesNotExistException {
         for(Property property : this.properties) {
             if(property.getName().equals(name)) {
                 var oldVal = property.getValue();
                 property.setValue(value);
                 pcs.firePropertyChange(name, oldVal, value);
+                return;
             }
         }
+        throw new PropertyDoesNotExistException();
     }
 
     public void setProperty(Property newProperty){

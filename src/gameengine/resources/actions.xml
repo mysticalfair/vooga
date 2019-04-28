@@ -4,36 +4,35 @@
         <name>MoveAtRelativeAngle</name>
         <fields>
             <double>angle</double>
-            <int>speed</int>
+            <double>speed</double>
         </fields>
     </actionDefinition>
 
     <actionDefinition>
         <name>MoveStraightToAgent</name>
         <fields>
-            <int>speed</int>
+            <double>speed</double>
         </fields>
     </actionDefinition>
 
     <actionDefinition>
         <name>PointToAgent</name>
-        <fields></fields>
+        <fields />
     </actionDefinition>
-
-    <!--
-    MoveOnPointPath
-    MoveStraightToAgentPRM
-    NOT DONE SO MAKE SURE FIELDS EVENTUALLY VALID
-    -->
 
     <actionDefinition>
         <name>MoveOnPointPath</name>
-        <fields></fields>
+        <fields>
+            <point2Dlist>points</point2Dlist>
+            <double>speed</double>
+        </fields>
     </actionDefinition>
 
     <actionDefinition>
-        <name>MoveStraightToAgentPRM</name>
-        <fields></fields>
+        <name>MoveToAgentPRM</name>
+        <fields>
+            <double>speed</double>
+        </fields>
     </actionDefinition>
 
     <actionDefinition>
@@ -61,6 +60,23 @@
         <fields>
             <string>propertyName</string>
             <double>value</double>
+            <boolean>onBaseAgent</boolean>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>DecrementProperty</name>
+        <fields>
+            <string>propertyName</string>
+            <double>value</double>
+            <boolean>onBaseAgent</boolean>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>SpawnAgentInitialDirection</name>
+        <fields>
+            <string>agent</string>
         </fields>
     </actionDefinition>
 </actions>

@@ -3,9 +3,7 @@
     <field>int</field>
     <field>double</field>
     <field>string</field>
-    <field>intList</field>
-    <field>actionDecision</field>
-    <field>action</field>
-    <field>condition</field>
+    <field>point2Dlist</field>
+    <field>boolean</field>
 
 </fieldDefinitions>

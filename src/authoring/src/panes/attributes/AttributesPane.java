@@ -1,7 +1,9 @@
 package panes.attributes;
 
+import authoring.IAgentDefinition;
 import javafx.scene.control.ScrollPane;
 import panes.AuthoringPane;
+import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
 import util.AuthoringContext;
 
@@ -34,7 +36,17 @@ public class AttributesPane extends AuthoringPane {
         DefineAgentForm defineAgentForm = new DefineAgentForm(getContext());
         defineAgentForm.accessContainer(scrollPane::setContent);
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
-        defineAgentForm.setOnSave(e -> defineAgentForm.getAgentDefinition());
+        defineAgentForm.setOnSave(e -> {
+            IAgentDefinition a = defineAgentForm.getAgentDefinition();
+            String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n"+
+                    "number of properties: %d\nnumber of action decisions: %d",
+                    a.getX(), a.getY(), a.getWidth(), a.getHeight(),
+                    a.getImageURL(),
+                    a.getProperties().size(),
+                    a.getActionDecisions().size()
+                    );
+            getContext().displayConsoleMessage(testString, ConsolePane.Level.SUCCESS);
+        });
     }
 
 }

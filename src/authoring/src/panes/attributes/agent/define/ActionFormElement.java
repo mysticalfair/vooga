@@ -19,14 +19,11 @@ public class ActionFormElement extends NameFieldsFormElement {
 
     @Override
     public IActionDefinition packageData() {
-        Map<String, Object> paramsMap = new HashMap<>();
-        for (LabeledTextField p : parameters) {
-            paramsMap.put(p.getLabel(), p.getPromptText());
-        }
         try {
-            return getContext().getGameFactory().createAction(names.getValue(), paramsMap);
+            return getContext().getGameFactory().createAction(names.getValue(), makeParamsMap());
         } catch (Exception e) {
             getContext().displayConsoleMessage(getContext().getString("ErrorCreatingAction"), ConsolePane.Level.ERROR);
+            e.printStackTrace();
             return null;
         }
     }

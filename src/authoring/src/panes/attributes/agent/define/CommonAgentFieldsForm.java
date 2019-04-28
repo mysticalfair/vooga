@@ -28,7 +28,7 @@ public class CommonAgentFieldsForm extends FormElement {
     }
 
     /**
-     * <b>Do <em>not</em> use this method for this form element. Rather, use the specific-to-field methods to get the data.</b>
+     * <b>Do <em>not</em> use this method for this form element.</b> Rather, use the field-specific methods to get the data.
      * @return null
      */
     @Override
@@ -73,6 +73,7 @@ public class CommonAgentFieldsForm extends FormElement {
         Label typeLabel = new Label(getContext().getString("Type"));
         agentTypeField = new ChoiceBox<>();
         agentTypeField.getItems().addAll(getContext().getString("Custom"));
+        agentTypeField.getSelectionModel().selectFirst();
         gridPane.add(typeLabel, 0, 0);
         gridPane.add(agentTypeField, 1, 0, 3, 1);
 

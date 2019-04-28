@@ -41,7 +41,7 @@ public class AgentPropertyFormElement extends FormElement {
         if (type == null) {
             return null;
         }
-        if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("IntIndex")))) {
+        if (type.equals(DEFAULT_TYPES.get(getContext().getInt("IntIndex")))) {
             try {
                 int value = Integer.parseInt(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -51,7 +51,7 @@ public class AgentPropertyFormElement extends FormElement {
                 return null;
             }
         }
-        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("DoubleIndex")))) {
+        else if (type.equals(DEFAULT_TYPES.get(getContext().getInt("DoubleIndex")))) {
             try {
                 double value = Double.parseDouble(valueField.getText());
                 return getContext().getGameFactory().createProperty(name, value);
@@ -61,7 +61,7 @@ public class AgentPropertyFormElement extends FormElement {
                 return null;
             }
         }
-        else if (type.equals(DEFAULT_TYPES.get(Integer.parseInt("StringIndex")))) {
+        else if (type.equals(DEFAULT_TYPES.get(getContext().getInt("StringIndex")))) {
             return getContext().getGameFactory().createProperty(name, valueField.getText());
         }
         return null;

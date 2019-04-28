@@ -14,20 +14,17 @@ public class ConditionFormElement extends NameFieldsFormElement {
         super(context);
 
         title.setText(getContext().getString("Condition"));
-        populateNames(getContext().getGameFactory().getAvailableActions());
+        populateNames(getContext().getGameFactory().getAvailableConditions());
         accessDeleteButton(headerHBox.getChildren()::add);
     }
 
     @Override
     public IConditionDefinition packageData() {
-        Map<String, Object> paramsMap = new HashMap<>();
-        for (LabeledTextField p : parameters) {
-            paramsMap.put(p.getLabel(), p.getPromptText());
-        }
         try {
-            return getContext().getGameFactory().createCondition(names.getValue(), paramsMap);
+            return getContext().getGameFactory().createCondition(names.getValue(), makeParamsMap());
         } catch (Exception e) {
             getContext().displayConsoleMessage(getContext().getString("ErrorCreatingCondition"), ConsolePane.Level.ERROR);
+            e.printStackTrace();
             return null;
         }
     }

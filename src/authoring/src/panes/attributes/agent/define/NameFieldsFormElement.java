@@ -12,7 +12,9 @@ import panes.attributes.LabeledTextField;
 import util.AuthoringContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public abstract class NameFieldsFormElement extends FormElement {
@@ -80,5 +82,22 @@ public abstract class NameFieldsFormElement extends FormElement {
         names.getSelectionModel().selectedItemProperty().addListener(changeListener);
         names.getSelectionModel().selectLast();
         names.getSelectionModel().selectFirst();
+    }
+
+    protected Map<String, Object> makeParamsMap() {
+        Map<String, Object> paramsMap = new HashMap<>();
+        for (LabeledTextField p : parameters) {
+            switch (p.getPromptText()) {
+                case "int":
+                    paramsMap.put(p.getLabel(), Integer.parseInt(p.packageData()));
+                    break;
+                case "double":
+                    paramsMap.put(p.getLabel(), Double.parseDouble(p.packageData()));
+                    break;
+                case "string":
+                    paramsMap.put(p.getLabel(), p.packageData());
+            }
+        }
+        return paramsMap;
     }
 }

@@ -23,7 +23,7 @@ public class ActionDecisionFormElement extends FormElement {
 
     @Override
     public IActionDecisionDefinition packageData() {
-        return null;
+        return getContext().getGameFactory().createActionDecision(action.packageData(), conditionsForm.packageData());
     }
 
     private void init() {

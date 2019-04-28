@@ -1,6 +1,7 @@
 package panes.tools;
 
 import javafx.scene.Scene;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import panes.MapPane;
 import panes.Path;
@@ -25,7 +26,21 @@ public abstract class PathTool extends MapTool{
     }
 
     protected void addPath(Path path){
-        pathOptions.add(path);
+        if(!pathOptions.contains(path)){
+            pathOptions.add(path);
+        }
+    }
+
+    protected void removePath(Path path){
+        if(pathOptions.contains(path)){
+            pathOptions.remove(path);
+            for(Line l: path.getLines()){
+                map.removeShape(l);
+            }
+            for(Circle c: path.getPoints()){
+                map.removeShape(c);
+            }
+        }
     }
 
     protected void updatePathLines(Path path){
@@ -41,10 +56,6 @@ public abstract class PathTool extends MapTool{
         map.accessMap(node -> node.setOnMousePressed(null));
         map.accessMap(node -> node.setOnMouseDragged(null));
         map.accessMap(node -> node.setOnMouseReleased(null));
-    }
-
-    protected void removePath(Path path){
-        pathOptions.remove(path);
     }
 
     protected Path getPath(int pathIndex){

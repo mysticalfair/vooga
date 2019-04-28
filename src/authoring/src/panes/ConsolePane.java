@@ -1,5 +1,6 @@
 package panes;
 
+import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -43,7 +44,7 @@ public class ConsolePane extends AuthoringPane {
         fullBox = new VBox();
         fullBox.getStylesheets().add(getContext().getString("ConsoleStyle"));
         fullBox.setId(getContext().getString("ConsoleGeneralStyle"));
-        fullBox.setPrefSize(getContext().getDouble("DefaultWidth"), getContext().getDouble("ConsoleHeight"));
+        fullBox.setPrefSize(getContext().getDouble("ConsoleWidth"), getContext().getDouble("ConsoleHeight"));
         myVBox = new VBox();
         scrollPane = new ScrollPane();
         formatScrollPane(scrollPane);

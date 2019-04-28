@@ -24,10 +24,16 @@ public class Path {
 
     private List<PathPoint> points;
     private List<Line> lines;
+    private int pathID;
 
-    public Path(){
+    public Path(int id){
         points = new ArrayList<>();
         lines = new ArrayList<>();
+        pathID = id;
+    }
+
+    public int getID(){
+        return pathID;
     }
 
     /**
@@ -38,9 +44,8 @@ public class Path {
      */
     public List<Point2D> getPathLocations(){
         var list = new ArrayList<Point2D>();
-        for(PathPoint p: points){
-            var circle = (Circle) p.getPoint();
-            list.add(new Point2D(circle.getCenterX(), circle.getCenterY()));
+        for(Circle c: getPoints()){
+            list.add(new Point2D(c.getCenterX(), c.getCenterY()));
         }
         return list;
     }
@@ -87,18 +92,21 @@ public class Path {
         if(pointsCount <= MINIMUM_SIZE){
             return List.of();
         }
+        buildLines(lines);
+        return lines;
+    }
 
+    private void buildLines(List<Line> linesList){
         Circle currentCircle = (Circle) points.get(FIRST_POINT).getPoint();
         Circle previousCircle;
 
-        for(int i=FIRST_POINT + 1; i<pointsCount; i++){
+        for(int i=FIRST_POINT + 1; i<points.size(); i++){
             previousCircle = currentCircle;
             currentCircle = (Circle) points.get(i).getPoint();
             var line = new Line(currentCircle.getCenterX(), currentCircle.getCenterY(), previousCircle.getCenterX(), previousCircle.getCenterY());
             line.getStrokeDashArray().addAll(DASH_ARRAY);
             line.setStroke(LINE_COLOR);
-            lines.add(line);
+            linesList.add(line);
         }
-        return lines;
     }
 }

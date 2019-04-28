@@ -23,7 +23,7 @@ public class PathDeleteTool extends PathModifyTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var selected = checkPointSelected(event.getX() + getContext().getInt("CursorXAdjustment"), event.getY() + getContext().getInt("CursorYAdjustment"));
+        var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
             selectedPath.removePoint(selectedPoint);
             map.removeShape(selectedPoint.getPoint());
@@ -34,7 +34,7 @@ public class PathDeleteTool extends PathModifyTool{
     @Override
     protected void enableTool() {
         var delete = new Image(getContext().getString("DeleteFile"));
-        ImageCursor deleteCursor = new ImageCursor(delete, delete.getWidth() / 2, delete.getWidth()/2);
+        ImageCursor deleteCursor = new ImageCursor(delete, 0, 0);
         scene.setCursor(deleteCursor);
         setMouseActions();
     }

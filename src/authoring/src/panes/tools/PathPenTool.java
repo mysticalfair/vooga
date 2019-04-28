@@ -5,6 +5,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import panes.ConsolePane;
 import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
@@ -19,25 +20,61 @@ public class PathPenTool extends PathTool{
         super(context, otherMap, otherScene, fileName, paths);
     }
 
+    public void enableToolWithPath(int pathID){
+        selectPath(pathID);
+        setupPen();
+    }
+
+    public void removePathFromID(int id){
+        var pathToRemove = pathOptions.get(id);
+        if(pathToRemove != null){
+            removePath(pathToRemove);
+        }
+    }
+
+    private void selectPath(int index){
+        String messageContent;
+        ConsolePane.Level messageLevel;
+        if(index == pathOptions.size()){
+            currentPath = new Path(index);
+            addPath(currentPath);
+            messageContent = "PathCreatedMessage";
+            messageLevel = ConsolePane.Level.NEUTRAL;
+        }
+        else if(index < 0 || index > pathOptions.size()){
+            messageContent = "InvalidPathError";
+            messageLevel = ConsolePane.Level.ERROR;
+        }
+        else{
+            currentPath = pathOptions.get(index);
+            messageContent = "PathSelectedMessage";
+            messageLevel = ConsolePane.Level.NEUTRAL;
+        }
+        getContext().displayConsoleMessage(getContext().getString(messageContent) + index, messageLevel);
+    }
+
+    private void setupPen(){
+        var pen = new Image(getContext().getString("PenFile"));
+        ImageCursor penCursor = new ImageCursor(pen, 0, 0);
+        scene.setCursor(penCursor);
+        setMouseActions();
+    }
+
     public void setMouseActions(){
         map.accessMap(node -> node.setOnMousePressed(e -> onMapClick(e)));
     }
 
     @Override
     public void onMapClick(MouseEvent event) {
-        var circle = currentPath.addPoint(event.getX() + getContext().getInt("CursorXAdjustment"), event.getY() + getContext().getInt("CursorYAdjustment"));
+        var circle = currentPath.addPoint(event.getX(), event.getY());
         map.spawnShape(circle);
         updatePathLines(currentPath);
     }
 
     @Override
     protected void enableTool() {
-        var pen = new Image(getContext().getString("PenFile"));
-        ImageCursor penCursor = new ImageCursor(pen, pen.getWidth() / 2, pen.getWidth()/2);
-        scene.setCursor(penCursor);
-        currentPath = new Path();
-        addPath(currentPath);
-        setMouseActions();
+        selectPath(pathOptions.size());
+        setupPen();
     }
 
     @Override

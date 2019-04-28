@@ -4,7 +4,9 @@ import frontend_objects.AgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Ellipse;
+import util.AuthoringContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -13,10 +15,30 @@ public class MapState {
     private String backgroundURL;
     private List<DraggableAgentView> agents;
     private SimpleIntegerProperty selectCount = new SimpleIntegerProperty();
+    private AuthoringContext context;
 
-    public MapState(String backgroundURL, List<DraggableAgentView> agents) {
+    public MapState(AuthoringContext context, String backgroundURL, List<DraggableAgentView> agents) {
+        this.context = context;
         this.backgroundURL = backgroundURL;
         this.agents = agents;
+        selectCount.set(0);
+    }
+
+    public MapState(MapState other, MapPane map, ConsolePane console) {
+        this.context = other.context;
+        this.backgroundURL = other.backgroundURL;
+        this.agents = new ArrayList<>();
+        for (DraggableAgentView agent : other.agents) {
+            this.agents.add(new DraggableAgentView(context, agent));
+        }
+        for (DraggableAgentView agent : this.agents) {
+            agent.setMouseActionsForDrag(map, console);
+        }
+        for (int i = 0; i < this.agents.size(); i++) {
+            this.agents.get(i).setMouseActionsForDrag(map, console);
+            this.agents.get(i).setTranslateX(other.agents.get(i).getTranslateX());
+            this.agents.get(i).setTranslateY(other.agents.get(i).getTranslateY());
+        }
         selectCount.set(0);
     }
 
@@ -36,7 +58,7 @@ public class MapState {
         return agents.size();
     }
 
-    void removeAgent(AgentView agent) {
+    public void removeAgent(AgentView agent) {
         agents.remove(agent);
     }
 

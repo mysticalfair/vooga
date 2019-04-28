@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import panes.attributes.FormElement;
 import util.AuthoringContext;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class AgentPropertyFormElement extends FormElement {

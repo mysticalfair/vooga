@@ -34,7 +34,6 @@ public class ActionDecisionFormElement extends FormElement {
         // and http://javawiki.sowas.com/doku.php?id=javafx:titledpane-with-checkbox
         HBox titleHBox = new HBox();
         Label titleLabel = new Label();
-        //titleLabel.textProperty().bind(actionDecisionTitledPane.textProperty());
         titleHBox.getChildren().add(titleLabel);
         accessDeleteButton(titleHBox.getChildren()::add);
         actionDecisionTitledPane.setGraphic(titleHBox);

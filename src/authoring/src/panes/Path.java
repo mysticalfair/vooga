@@ -32,6 +32,22 @@ public class Path {
         pathID = id;
     }
 
+    public void setStyleSelected(boolean selected){
+        Color styleId;
+        if(selected){
+            styleId = Color.ORCHID;
+        }
+        else{
+            styleId = Color.BLUE;
+        }
+        for(Circle c: getPoints()){
+            c.setStroke(styleId);
+        }
+        for(Line l: lines){
+            l.setStroke(styleId);
+        }
+    }
+
     public int getID(){
         return pathID;
     }

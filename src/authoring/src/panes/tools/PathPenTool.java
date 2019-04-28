@@ -33,6 +33,9 @@ public class PathPenTool extends PathTool{
     }
 
     private void selectPath(int index){
+        if(currentPath != null){
+            currentPath.setStyleSelected(false);
+        }
         String messageContent;
         ConsolePane.Level messageLevel;
         if(index == pathOptions.size()){
@@ -50,6 +53,7 @@ public class PathPenTool extends PathTool{
             messageContent = "PathSelectedMessage";
             messageLevel = ConsolePane.Level.NEUTRAL;
         }
+        currentPath.setStyleSelected(true);
         getContext().displayConsoleMessage(getContext().getString(messageContent) + index, messageLevel);
     }
 

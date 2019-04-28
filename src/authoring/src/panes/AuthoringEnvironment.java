@@ -1,7 +1,6 @@
 package panes;
 
 import authoring.GameFactory;
-import frontend_objects.CloneableAgentView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -17,10 +16,9 @@ import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
 import util.AuthoringContext;
 
-import java.util.ResourceBundle;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
 
@@ -105,9 +103,15 @@ public class AuthoringEnvironment extends Application {
         initAgentPane();
     }
 
+    private void initAttributesPane() {
+        attributesPane = new AttributesPane(context);
+        attributesPane.accessContainer(borderPane::setLeft);
+    }
+
     private void initMapPane(int level) {
         map = new MapPane(context, consolePane);
         map.accessContainer(borderPane::setCenter);
+        // TODO: add reference to GameState.addLevel
         map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.setLevel(level);
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
@@ -135,24 +139,17 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"), context.getDouble("ButtonImageSize"), e -> attributesPane.createNewAgentForm());
-        for (CloneableAgentView o : agentPane.getAgentList()) {
-            o.setId(context.getString("ButtonStyle"));
-            o.setOnMousePressed(e -> o.mousePressedOnClone(e, map, consolePane));
-        }
-    }
-
-    private void initAttributesPane() {
-        attributesPane = new AttributesPane(context);
-        attributesPane.accessContainer(borderPane::setLeft);
+        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"), context.getDouble("ButtonImageSize"),
+                e -> attributesPane.createNewAgentForm(agent -> agentPane.refreshAgentList(1, map)));
+        agentPane.refreshAgentList(1, map);
     }
 
     private void initBottomPanes() {
         consolePane = new ConsolePane(context);
         pathPane = new PathPane(context, map, scene, currentPaths, pen);
         var bottomBox = new HBox();
-        consolePane.accessContainer(node -> bottomBox.getChildren().add(node));
-        pathPane.accessContainer(node -> bottomBox.getChildren().add(node));
+        consolePane.accessContainer(bottomBox.getChildren()::add);
+        pathPane.accessContainer(bottomBox.getChildren()::add);
         borderPane.setBottom(bottomBox);
     }
 
@@ -179,13 +176,14 @@ public class AuthoringEnvironment extends Application {
 
     private void clearLevel() {
         map.clearMap();
+        // TODO: add reference to GameState.addLevel
         map.getStateMapping().put((int)(double) toolbarPane.getLevelChanger().getValue(), new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
     }
 
     private void makeFromExistingWrapper() {
         if (toolbarPane.getExistingLevelValue() != -1) {
-            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map, consolePane), true);
+            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map), true);
         }
     }
 
@@ -200,6 +198,7 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.setMaxLevel(newLevel);
         toolbarPane.addToExistingLevelCreator(newLevel);
         consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
+        //TODO: add reference to GameState.addLevel
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
@@ -219,13 +218,13 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void updateDimensions(double width, double height){
-        var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentWidth");
+        var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentPaneWidth");
         var middleHeight = height - context.getDouble("ConsoleHeight") - context.getDouble("ToolbarPaneHeight") - context.getDouble("MiddleRowPadding");
         consolePane.updateSize(width/2, context.getDouble("ConsoleHeight"));
         toolbarPane.updateSize(width, context.getDouble("ToolbarPaneHeight"));
         map.updateSize(middleWidth, middleHeight);
         attributesPane.updateSize(context.getDouble("AttributesWidth"), middleHeight);
-        agentPane.updateSize(context.getDouble("AgentWidth"), middleHeight);
+        agentPane.updateSize(context.getDouble("AgentPaneWidth"), middleHeight);
     }
 
     private void initStage(Stage stage) {

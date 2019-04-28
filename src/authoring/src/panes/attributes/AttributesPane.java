@@ -1,11 +1,14 @@
 package panes.attributes;
 
 import authoring.IAgentDefinition;
+import javafx.event.EventHandler;
 import javafx.scene.control.ScrollPane;
 import panes.AuthoringPane;
 import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
 import util.AuthoringContext;
+
+import java.util.function.Consumer;
 
 public class AttributesPane extends AuthoringPane {
 
@@ -31,7 +34,7 @@ public class AttributesPane extends AuthoringPane {
         return scrollPane.getWidth();
     }
 
-    public void createNewAgentForm() {
+    public void createNewAgentForm(Consumer<IAgentDefinition> onCreated) {
         scrollPane.setContent(null);
         DefineAgentForm defineAgentForm = new DefineAgentForm(getContext());
         defineAgentForm.accessContainer(scrollPane::setContent);
@@ -51,6 +54,8 @@ public class AttributesPane extends AuthoringPane {
                     a.getActionDecisions().size()
                     );
             getContext().displayConsoleMessage(testString, ConsolePane.Level.SUCCESS);
+            getContext().getState().addDefinedAgent(a);
+            onCreated.accept(a);
         });
     }
 

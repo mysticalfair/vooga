@@ -93,6 +93,7 @@ public class CommonAgentFieldsForm extends FormElement {
         imageField.setPreserveRatio(true);
         imageField.setSmooth(true);
         imageField.setCache(true);
+        imageUrl = imageField.getImage().getUrl();
 
         AnchorPane imageLabelAnchorPane = new AnchorPane();
         Label chooseImageLabel = new Label(getContext().getString("ChooseImage"));

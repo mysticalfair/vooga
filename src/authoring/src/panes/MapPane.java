@@ -58,7 +58,7 @@ public class MapPane extends AuthoringPane {
             for (DraggableAgentView agent: currentLevel.getAgents()) {
                 agent.setOnMousePressed(event -> agent.mousePressed(event));
                 agent.setOnMouseDragged(event -> agent.mouseDragged(event, this));
-                agent.setOnMouseReleased(event -> agent.mouseReleased(this, console));
+                agent.setOnMouseReleased(event -> agent.mouseReleased(this));
             }
         }
     }
@@ -86,7 +86,7 @@ public class MapPane extends AuthoringPane {
         List<DraggableAgentView> agentsCopy = new ArrayList<>(currentLevel.getAgents());
         for (DraggableAgentView agent : agentsCopy) {
             if (agent.getSelect()) {
-                agent.mouseReleased(this, console);
+                agent.mouseReleased(this);
             }
         }
     }
@@ -174,8 +174,7 @@ public class MapPane extends AuthoringPane {
     /**
      *
      */
-    public void formatBackground(){
-        // TODO: replace System.err.println with Console display
+    public void formatBackground() {
         AuthoringUtil.openFileChooser(
                 getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),

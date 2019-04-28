@@ -26,7 +26,7 @@ public class MapState {
         this.paths = paths;
     }
 
-    public MapState(MapState other, MapPane map, ConsolePane console) {
+    public MapState(MapState other, MapPane map) {
         this.context = other.context;
         this.backgroundURL = other.backgroundURL;
         this.agents = new ArrayList<>();
@@ -34,10 +34,10 @@ public class MapState {
             this.agents.add(new DraggableAgentView(context, agent));
         }
         for (DraggableAgentView agent : this.agents) {
-            agent.setMouseActionsForDrag(map, console);
+            agent.setMouseActionsForDrag(map);
         }
         for (int i = 0; i < this.agents.size(); i++) {
-            this.agents.get(i).setMouseActionsForDrag(map, console);
+            this.agents.get(i).setMouseActionsForDrag(map);
             this.agents.get(i).setTranslateX(other.agents.get(i).getTranslateX());
             this.agents.get(i).setTranslateY(other.agents.get(i).getTranslateY());
         }

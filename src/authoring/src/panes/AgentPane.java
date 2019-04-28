@@ -6,30 +6,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class AgentPane extends AuthoringPane {
 
-    private VBox inventoryContainer;
-    private HBox buttonPane;
-    private ScrollPane scrollInventory;
-    private GridPane inventory;
-    private List<CloneableAgentView> agentList;
-    private ImageView trash;
+    private VBox inventoryContainer; // overall VBox
+    private HBox buttonPane; // button panes at top of VBox
+    private ScrollPane scrollInventory; // scrollpane that contains inventory
+    private FlowPane inventory; // the inventory itself inside the scrollpane
+    private ImageView trash; // trash for deleting agents from map
 
     public AgentPane(AuthoringContext context) {
         super(context);
@@ -48,7 +39,7 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        inventoryContainer.setPrefSize(getContext().getDouble("AgentWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        inventoryContainer.setPrefSize(getContext().getDouble("AgentPaneWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         inventoryContainer.getStylesheets().add(getContext().getString("AgentPaneStyle"));
     }
 
@@ -65,51 +56,31 @@ public class AgentPane extends AuthoringPane {
     private void initScrollPane() {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentWidth"));
+        //scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentPaneWidth"));
         scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }
 
     private void initInventory() {
-        inventory = new GridPane();
-        inventory.setVgap(4);
-        inventory.setHgap(4);
-        int rowIterator = 0;
-        int colIterator = 0;
-        agentList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            CloneableAgentView newAgent = new CloneableAgentView(getContext(), getContext().getString("MonkeyImageFile"));
-            inventory.add(newAgent, colIterator, rowIterator);
-            agentList.add(newAgent);
-            colIterator++;
-            if (colIterator > 1) {
-                colIterator = 0;
-            }
-            if ((i + 1) % 2 == 0) {
-                rowIterator++;
-            }
-        }
+        inventory = new FlowPane();
+        inventory.setPrefWrapLength(getContext().getDouble("AgentSize") * 2);
         scrollInventory.setContent(inventory);
     }
 
-    public List<CloneableAgentView> getAgentList() {
-        return agentList;
-    }
-
-    public VBox getVBoxContainer() {
-        return inventoryContainer;
+    public void refreshAgentList(int level, MapPane map) {
+        inventory.getChildren().clear();
+        getContext().getState().getDefinedAgents().forEach(agent -> {
+            CloneableAgentView newAgent = new CloneableAgentView(getContext(), agent.getName(), agent.getImageURL());
+            newAgent.setOnMousePressed(e -> newAgent.mousePressedOnClone(e, map));
+            inventory.getChildren().add(newAgent);
+            // TODO: add delete and edit buttons, checkbox to enable, and only set to enabled if in current level
+        });
     }
 
     public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
         Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
         buttonPane.getChildren().addAll(button);
-    }
-
-
-    @Override
-    public void setStylesheet(String url) {
-
     }
 
     @Override

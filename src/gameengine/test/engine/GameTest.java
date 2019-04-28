@@ -226,9 +226,10 @@ class GameTest {
     }
 
     private IAgentDefinition createZombie(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
-        double initHealth = 10.0; // 10 hits from a pea
+        double initHealth = 5.0; // 10 hits from a pea
         double damage = 1.0;
         String team = "badGuys";
+        String otherTeam = "goodGuys";
 
         // list of ADs
         List<IActionDecisionDefinition> AD = new ArrayList<>();
@@ -236,21 +237,38 @@ class GameTest {
         // create Movement AD
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100.0);
+        moveParams.put("speed", 10.0);
         IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
         List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
-//        List<IConditionDefinition> cond3 = new ArrayList<>();
-//        Map<String, Object> healthCheckParams = new HashMap<>();
-//        healthCheckParams.put("property", "health");
-//        healthCheckParams.put("value", 0.0);
-//        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
-//        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
+        List<IConditionDefinition> cond3 = new ArrayList<>();
+        Map<String, Object> healthCheckParams = new HashMap<>();
+        healthCheckParams.put("property", "health");
+        healthCheckParams.put("value", 0.0);
+        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
 
         // create attack
+        List<IConditionDefinition> cond2 = new ArrayList<>();
+        cond2.add(factory.createCondition("Collision", new HashMap<>()));
+        Map<String, Object> teamCheckParams = new HashMap<>();
+        teamCheckParams.put("property", "team");
+        teamCheckParams.put("value", otherTeam);
+        cond2.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
+        Map intervalParams = new HashMap();
+        intervalParams.put("interval", 5.0);
+        cond2.add(factory.createCondition("Interval", intervalParams));
+        Map<String, Object> damageParams = new HashMap<>();
+        damageParams.put("value", damage);
+        damageParams.put("property", "health");
+        AD.add(factory.createActionDecision(
+                factory.createAction("DecrementProperty", damageParams), cond2));
+
+        // stop moving when attacking
+
 
         // create properties
         List<IPropertyDefinition> properties = new ArrayList<>();

@@ -91,10 +91,13 @@ public class DefineAgentForm extends AuthoringPane {
             return null;
         }
         List<IActionDecisionDefinition> actionDecisions = actionDecisionForm.packageData();
-
+        if (actionDecisions.contains(null)) {
+            printAgentNotCreated();
+            return null;
+        }
         return getContext().getGameFactory().createAgent(0, 0, commonAgentFieldsForm.getWidth(), commonAgentFieldsForm.getHeight(),
                 0, commonAgentFieldsForm.getName(), commonAgentFieldsForm.getImageUrl(),
-                actionDecisionForm.packageData(), properties);
+                actionDecisions, properties);
     }
 
     private void printAgentNotCreated() {

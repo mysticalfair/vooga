@@ -233,7 +233,7 @@ class GameTest {
         // create Movement AD
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
         IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
         List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
@@ -288,7 +288,7 @@ class GameTest {
         // making move action
         Map<String, Object> moveParams = new HashMap<>();
         moveParams.put("angle", 0.0);
-        moveParams.put("speed", 100);
+        moveParams.put("speed", 100.0);
 
         List<IActionDecisionDefinition> AD1 = new ArrayList<>();
         List<IConditionDefinition> cond1 = new ArrayList<>();

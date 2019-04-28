@@ -95,11 +95,11 @@ class GameTest {
             state.addDefinedAgent(createZombie("zombie"));
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("peashooter", 50, 50 + 50 * i, 0);
+                level.addAgent("peashooter", 50, 50 + 100 * i, 0);
             }
 
             for (int i = 0; i < 5; i++) {
-                level.addAgent("zombie", 350, 50 + 50 * i, 180);
+                level.addAgent("zombie", 350, 50 + 100 * i, 180);
             }
 
 
@@ -224,7 +224,8 @@ class GameTest {
     }
 
     private IAgentDefinition createZombie(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
-        int initHealth = 100;
+        double initHealth = 10.0; // 10 hits from a pea
+        double damage = 1.0;
         String team = "badGuys";
 
         // list of ADs
@@ -261,7 +262,7 @@ class GameTest {
 
     private IAgentDefinition createPeashooter(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
         String team = "goodGuys";
-        int initHealth = 100;
+        double initHealth = 4.0; // 4 zombie bites
 
         // MAKING peashooter
         List<IActionDecisionDefinition> AD2 = new ArrayList<>();
@@ -290,6 +291,7 @@ class GameTest {
     private IAgentDefinition createPea(String name) throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         String team = "goodGuys";
         String otherTeam = "badGuys";
+        double damage = 1.0;
 
         // MAKING PROJECTILE
         // making move action
@@ -315,7 +317,7 @@ class GameTest {
 
         // use the same conditions as the previous action because disappearance and damage should always happen together
         Map<String, Object> damageParams = new HashMap<>();
-        damageParams.put("value", 50.0);
+        damageParams.put("value", damage);
         damageParams.put("property", "health");
         AD1.add(factory.createActionDecision(
                 factory.createAction("DecrementProperty", damageParams), cond2));
@@ -331,7 +333,7 @@ class GameTest {
     private IAgentDefinition createHealthAgent() throws ConditionDoesNotExistException, ReflectionException, ActionDoesNotExistException {
         Map<String, Object> condParams = new HashMap<>();
         condParams.put("property", "health");
-        condParams.put("value", 0);
+        condParams.put("value", 0.0);
         Map<String, Object> actionParams = new HashMap<>();
         Map<String, Object> action2Params = new HashMap<>();
         action2Params.put("propertyName", "health");

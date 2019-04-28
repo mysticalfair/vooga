@@ -139,8 +139,10 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 
     @Override
     public PlayerAgent clone() throws CloneNotSupportedException {
-        PlayerAgent clone = (PlayerAgent) super.clone();
-        clone.pcs = new PropertyChangeSupport(clone);
-        return clone;
+        return (PlayerAgent)AgentUtils.deepClone(this);
+//        PlayerAgent clone = (PlayerAgent) super.clone();
+//        clone.pcs = new PropertyChangeSupport(clone);
+//        clone.properties = (List<Property>)AgentUtils.deepClone(properties);
+//        return clone;
     }
 }

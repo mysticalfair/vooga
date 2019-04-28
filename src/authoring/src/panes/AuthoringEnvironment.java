@@ -134,7 +134,6 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void mouseReleased(DraggableAgentView draggableAgent) {
-        System.out.println(draggableAgent.getTranslateX() + " " + draggableAgent.getTranslateY());
         if (outOfBounds(draggableAgent)) {
             draggableAgent.setImage(null);
             map.removeAgent(draggableAgent);

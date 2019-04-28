@@ -2,10 +2,13 @@ package state.action.spawn;
 
 import state.AgentReference;
 import state.IRequiresBaseAgent;
+import state.Property;
 import state.agent.Agent;
 import state.agent.AgentUtils;
 import state.agent.Agent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +46,7 @@ public class SpawnAgentInitialDirection extends SpawnAgent implements IRequiresB
      */
     @Override
     public void execute(Agent agent, double deltaTime) throws CloneNotSupportedException {
-        spawnAgent(new AgentReference(spawnAgentName, baseAgent.getX(), baseAgent.getY(), baseAgent.getDirection()));
+        spawnAgent(new AgentReference(spawnAgentName, baseAgent.getX(), baseAgent.getY(), baseAgent.getDirection(), new ArrayList<Property>()));
     }
 
 }

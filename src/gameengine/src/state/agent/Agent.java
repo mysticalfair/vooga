@@ -5,16 +5,21 @@ import authoring.IAgentDefinition;
 import authoring.IPropertyDefinition;
 import authoring.exception.PropertyDoesNotExistException;
 import state.IRequiresBaseAgent;
+import state.IRequiresPaths;
 import state.Property;
+import state.action.Action;
 import state.actiondecision.ActionDecision;
 import state.condition.Condition;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author David Miron
  * @author Luke_Truitt
@@ -210,9 +215,9 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         playerAgent.setDirection(direction);
     }
 
-    public List<IActionDecisionDefinition> getActionDecisions() {
+    public List<? extends IActionDecisionDefinition> getActionDecisions() {
         // TODO:
-        return null;
+        return this.actionDecisions;
     }
 
     public void removeActionDecision(int i) {
@@ -227,7 +232,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public List<? extends IPropertyDefinition> getProperties() {
-        return null;
+        return this.playerAgent.getProperties();
     }
 
     @Override
@@ -255,6 +260,14 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
             }
         }
         return null;
+    }
+
+    public void injectPathsWhereNecessary(Map<String, List<Point2D>> paths) {
+        for (ActionDecision ad: actionDecisions) {
+            if (IRequiresPaths.class.isAssignableFrom(ad.getAction().getClass())) {
+                ((IRequiresPaths)ad.getAction()).injectPaths(paths);
+            }
+        }
     }
 
     public void updateProperties(String[] properties, Object[] values) throws PropertyDoesNotExistException {

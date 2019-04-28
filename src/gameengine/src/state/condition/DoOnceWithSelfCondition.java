@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DoOnceCondition extends Condition implements IRequiresBaseAgent {
+public class DoOnceWithSelfCondition extends Condition implements IRequiresBaseAgent {
     private Agent baseAgent;
-    public DoOnceCondition(Map<String, Object> params) {
+    public DoOnceWithSelfCondition(Map<String, Object> params) {
         super(params);
     }
 

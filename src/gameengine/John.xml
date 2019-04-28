@@ -72,6 +72,11 @@
                 <baseAgent reference="../../../.."/>
               </action>
               <conditions>
+                <state.condition.DoOnceCondition>
+                  <name>DoOnce</name>
+                  <params/>
+                  <baseAgent reference="../../../../.."/>
+                </state.condition.DoOnceCondition>
                 <state.condition.propertyCondition.PropertyLessThanOrEqualToCondition>
                   <name>PropertyLessThanOrEqualTo</name>
                   <params>
@@ -108,7 +113,6 @@
                 </params>
                 <name>DecrementProperty</name>
                 <baseAgent reference="../../../.."/>
-                <onBaseAgent>true</onBaseAgent>
                 <propertyName>health</propertyName>
                 <amount>5.0</amount>
               </action>
@@ -116,6 +120,7 @@
                 <state.condition.DoOnceCondition>
                   <name>DoOnce</name>
                   <params/>
+                  <baseAgent reference="../../../../.."/>
                 </state.condition.DoOnceCondition>
                 <state.condition.IntervalCondition>
                   <name>Interval</name>

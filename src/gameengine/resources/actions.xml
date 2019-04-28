@@ -68,7 +68,6 @@
         <fields>
             <string>property</string>
             <double>value</double>
-            <boolean>onBaseAgent</boolean>
         </fields>
     </actionDefinition>
 
@@ -77,7 +76,6 @@
         <fields>
             <string>propertyName</string>
             <double>value</double>
-            <boolean>onBaseAgent</boolean>
         </fields>
     </actionDefinition>
 

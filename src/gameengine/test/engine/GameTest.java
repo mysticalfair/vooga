@@ -239,10 +239,12 @@ class GameTest {
         zombieMoveConditions.add(factory.createCondition("DoOnce", new HashMap<>()));
         AD.add(factory.createActionDecision(move, zombieMoveConditions));
 
-//        Map<String, Object> healthCheckParams = new HashMap<>();
-//        healthCheckParams.put("property", "health");
-//        healthCheckParams.put("value", 0.0);
-//        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+        List<IConditionDefinition> cond3 = new ArrayList<>();
+        Map<String, Object> healthCheckParams = new HashMap<>();
+        healthCheckParams.put("property", "health");
+        healthCheckParams.put("value", 0.0);
+        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
+        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
 
         // create attack

@@ -82,7 +82,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public void setX(int x) {
+    public void setX(double x) {
         playerAgent.setX(x);
     }
 
@@ -95,7 +95,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public void setY(int y) {
+    public void setY(double y) {
         playerAgent.setY(y);
     }
 

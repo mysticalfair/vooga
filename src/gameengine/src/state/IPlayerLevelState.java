@@ -16,6 +16,7 @@ public interface IPlayerLevelState {
     List<IPlayerAgent> getImmutableAgents();
     List<IPlayerObjective> getImmutableObjectives();
     List<IPlayerAttribute> getImmutableAttributes();
+    boolean addAgentFromStore(int index, double x, double y);
 
     void addPropertyChangeListener(PropertyChangeListener listener);
 }

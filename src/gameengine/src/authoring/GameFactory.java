@@ -72,6 +72,9 @@ public class GameFactory {
 
         this.conditionClasses = new Properties();
         this.actionClasses = new Properties();
+        this.objectiveConditionClasses = new Properties();
+        this.objectiveOutcomeClasses = new Properties();
+
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
         objectiveConditionClasses.load(getClass().getClassLoader().getResourceAsStream(OBJECTIVE_CONDITION_CLASSNAMES_FILE));

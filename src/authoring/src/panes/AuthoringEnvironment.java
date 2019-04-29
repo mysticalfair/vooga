@@ -169,7 +169,7 @@ public class AuthoringEnvironment extends Application {
 
     private void getUserFileName(){
         AuthoringUtil.openDirectoryChooser(
-                null, file -> context.getGame().saveState(file.toString()),
+                null, file -> context.getGame().saveState(file),
                 () -> context.displayConsoleMessage(context.getString("GameSaveError"), ConsolePane.Level.ERROR)
         );
     }
@@ -193,5 +193,6 @@ public class AuthoringEnvironment extends Application {
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add(context.getString("MainStyle"));
         stage.show();
+        map.formatBackground();
     }
 }

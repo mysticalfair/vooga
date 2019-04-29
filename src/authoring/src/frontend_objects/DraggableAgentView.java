@@ -164,4 +164,9 @@ public class DraggableAgentView extends AgentView {
         return selected;
     }
 
+    public void syncWithReference() {
+        setTranslateX(reference.getX());
+        setTranslateY(reference.getY());
+    }
+
 }

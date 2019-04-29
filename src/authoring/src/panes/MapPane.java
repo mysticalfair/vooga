@@ -11,6 +11,7 @@ import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -179,7 +180,7 @@ public class MapPane extends AuthoringPane {
     public void formatBackground() {
         AuthoringUtil.openFileChooser(
                 getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
-                file -> setMapImage(level, file.toURI().toString()),
+                file -> setMapImage(level, file.getAbsolutePath()),
                 () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );
     }
@@ -189,11 +190,13 @@ public class MapPane extends AuthoringPane {
      * @param fileName
      */
     public void setMapImage(int level, String fileName){
-        levelToState.get(level).setBackgroundURL(fileName);
+        var file = new File(fileName);
+        var filestring = file.toURI().toString();
+        levelToState.get(level).setBackgroundURL(filestring);
         getContext().getState().getLevels().get(level-1).setBackgroundImageURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +
-                        fileName +
+                        filestring +
                         "); " +
                         "-fx-background-size: cover;"
         );

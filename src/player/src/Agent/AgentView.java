@@ -9,7 +9,8 @@ import java.beans.PropertyChangeListener;
 
 /**
  * @author: Mary Gooneratne
- * @author:Luke_Truitt
+ * @author: Joanna Li
+ * @author: Luke_Truitt
  * Frontend object for Agents
  */
 public class AgentView extends ImageView implements PropertyChangeListener {
@@ -46,7 +47,7 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       // TODO: Make sure coordinate systems align
       this.setFitHeight(playerAgent.getHeight());
       this.setFitWidth(playerAgent.getWidth());
-      this.setDirection(playerAgent.getDirection());
+      this.setRotate(playerAgent.getDirection());
       this.setImage(new Image(playerAgent.getImageURL()));
 
       //this.setImage(new Image(AgentView.class.getResourceAsStream(playerAgent.getImageURL())));
@@ -56,9 +57,6 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       this.url = playerAgent.getImageURL();
    }
 
-   private void setDirection(double direction) {
-      this.direction = direction;
-   }
 
    public void propertyChange(PropertyChangeEvent e) {
       if (e.getPropertyName().equals("x")) {
@@ -74,7 +72,7 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       } else if(e.getPropertyName().equals("height")) {
          this.setFitHeight((Double) e.getNewValue());
       } else if(e.getPropertyName().equals("direction")) {
-         this.setDirection((Double) e.getNewValue());
+         this.setRotate((Double) e.getNewValue());
       }
 
    }

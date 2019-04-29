@@ -18,6 +18,8 @@ import state.action.Action;
 import state.actiondecision.ActionDecision;
 import state.agent.Agent;
 import state.condition.Condition;
+import state.objective.objectivecondition.ObjectiveCondition;
+import state.objective.objectiveoutcome.ObjectiveOutcome;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,17 +39,25 @@ public class GameFactory {
 
     public static final String CONDITION_DEFINITIONS_FILE = "conditions.xml";
     public static final String ACTION_DEFINITIONS_FILE = "actions.xml";
+    public static final String OBJECTIVE_CONDITION_DEFINITIONS_FILE = "objective-conditions.xml";
+    public static final String OBJECTIVE_OUTCOME_DEFINITIONS_FILE = "objective-outcomes.xml";
 
     public static final String CONDITION_CLASSNAMES_FILE = "conditions.properties";
     public static final String ACTION_CLASSNAMES_FILE = "actions.properties";
+    public static final String OBJECTIVE_CONDITION_CLASSNAMES_FILE = "objective-conditions.properties";
+    public static final String OBJECTIVE_OUTCOME_CLASSNAMES_FILE = "objective-outcomes.properties";
 
     private GameEventMaster eventMaster;
 
     private List<AvailableCondition> availableConditions;
     private List<AvailableAction> availableActions;
+    private List<AvailableObjectiveCondition> availableObjectiveConditions;
+    private List<AvailableObjectiveOutcome> availableObjectiveOutcomes;
 
     private Properties conditionClasses;
     private Properties actionClasses;
+    private Properties objectiveConditionClasses;
+    private Properties objectiveOutcomeClasses;
 
     private List<Agent> masterDefinedAgents;
 
@@ -59,11 +69,18 @@ public class GameFactory {
         XMLToAvailableObjectsParser parser = new XMLToAvailableObjectsParser();
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
         availableActions = parser.getNameFieldsList(ACTION_DEFINITIONS_FILE);
+        availableObjectiveConditions = parser.getNameFieldsList(OBJECTIVE_CONDITION_DEFINITIONS_FILE);
+        availableObjectiveOutcomes = parser.getNameFieldsList(OBJECTIVE_OUTCOME_DEFINITIONS_FILE);
 
         this.conditionClasses = new Properties();
         this.actionClasses = new Properties();
+        this.objectiveConditionClasses = new Properties();
+        this.objectiveOutcomeClasses = new Properties();
+
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
+        objectiveConditionClasses.load(getClass().getClassLoader().getResourceAsStream(OBJECTIVE_CONDITION_CLASSNAMES_FILE));
+        objectiveOutcomeClasses.load(getClass().getClassLoader().getResourceAsStream(OBJECTIVE_OUTCOME_CLASSNAMES_FILE));
 
         masterDefinedAgents = new ArrayList<>();
     }
@@ -74,6 +91,14 @@ public class GameFactory {
 
     public List<AvailableAction> getAvailableActions() {
         return this.availableActions;
+    }
+
+    public List<AvailableObjectiveCondition> getAvailableObjectiveConditions() {
+        return this.availableObjectiveConditions;
+    }
+
+    public List<AvailableObjectiveOutcome> getAvailableObjectiveOutcomes() {
+        return this.availableObjectiveOutcomes;
     }
 
     /**
@@ -160,6 +185,24 @@ public class GameFactory {
         Condition c = instantiateClass(conditionClasses.getProperty(name), params);
         c.setName(name);
         return c;
+    }
+
+    public IObjectiveConditionDefinition createObjectiveCondition(String name, Map<String, Object> params) throws ObjectiveConditionDoesNotExistException,
+            ReflectionException {
+        if (!nameFieldsExists(availableObjectiveConditions, name))
+            throw new ObjectiveConditionDoesNotExistException();
+
+        ObjectiveCondition oc = instantiateClass(objectiveConditionClasses.getProperty(name), params);
+        return oc;
+    }
+
+    public IObjectiveOutcomeDefinition createObjectiveOutcome(String name, Map<String, Object> params) throws ObjectiveOutcomeDoesNotExistException,
+            ReflectionException {
+        if (!nameFieldsExists(availableObjectiveConditions, name))
+            throw new ObjectiveOutcomeDoesNotExistException();
+
+        ObjectiveOutcome oo = instantiateClass(objectiveOutcomeClasses.getProperty(name), params);
+        return oo;
     }
 
     /**

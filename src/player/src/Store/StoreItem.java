@@ -5,7 +5,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-//import frontend_objects;
 
 /**
  * @author: Mary Gooneratne

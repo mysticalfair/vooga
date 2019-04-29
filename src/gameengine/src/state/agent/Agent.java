@@ -82,7 +82,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public void setX(int x) {
+    public void setX(double x) {
         playerAgent.setX(x);
     }
 
@@ -95,7 +95,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     @Override
-    public void setY(int y) {
+    public void setY(double y) {
         playerAgent.setY(y);
     }
 
@@ -216,16 +216,15 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public List<? extends IActionDecisionDefinition> getActionDecisions() {
-        // TODO:
         return this.actionDecisions;
     }
 
-    public void removeActionDecision(int i) {
-        // TODO:
+    public void removeActionDecision(int index) {
+        actionDecisions.remove(index);
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {
-        // TODO:
+        actionDecisions.add((ActionDecision) def);
     }
 
     // TODO:  fill out all property-related methods
@@ -237,11 +236,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
+        playerAgent.removeProperty(name);
     }
 
     @Override
     public void addProperty(IPropertyDefinition property) {
-
+        playerAgent.addProperty((Property) property);
     }
 
     @Override
@@ -253,13 +253,18 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         actionDecisions.add(decision);
     }
 
-    public Object getProperty(String name) {
-        for(Property property : this.playerAgent.getProperties()) {
-            if(property.getName().equals(name)) {
+
+    public Object getPropertyValue(String name) {
+        for (Property property : this.playerAgent.getProperties()) {
+            if (property.getName().equals(name)) {
                 return property.getValue();
             }
         }
         return null;
+    }
+
+    public Object getProperty(String name) {
+        return this.playerAgent.getProperty(name);
     }
 
     public void injectPathsWhereNecessary(Map<String, List<Point2D>> paths) {

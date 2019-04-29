@@ -1,7 +1,9 @@
-package state.objective;
+package state.objective.objectiveoutcome;
 
 import state.State;
 import state.agent.Agent;
+import state.objective.ObjectiveUtils;
+import state.objective.objectiveoutcome.ObjectiveOutcome;
 
 import java.util.Map;
 

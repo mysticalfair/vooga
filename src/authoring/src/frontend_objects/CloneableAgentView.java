@@ -20,7 +20,7 @@ public class CloneableAgentView extends AgentView {
     public void mousePressedOnClone(MouseEvent e, MapPane map) {
         if (e.getClickCount() == getContext().getInt("CloneClickCount")) {
             DraggableAgentView copy = new DraggableAgentView(getContext(), this);
-            map.addAgent(map.getLevel(), copy);
+            map.addAgent(copy);
             getContext().displayConsoleMessage(getContext().getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
             copy.setMouseActionsForDrag(map);
         } else {

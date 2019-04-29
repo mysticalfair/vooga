@@ -15,6 +15,7 @@ import state.agent.AgentUtils;
 import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -238,4 +239,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         return (Level) AgentUtils.deepClone(this);
     }
 
+    public void resetImageURLs(File imageDir) {
+        levelState.resetBackgroundImageURL(imageDir);
+        for (Agent agent: levelState.getCurrentAgents()) {
+            agent.resetImageURL(imageDir);
+        }
+    }
 }

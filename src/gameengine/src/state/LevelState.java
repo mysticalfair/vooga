@@ -8,7 +8,9 @@ import state.attribute.IAttribute;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,6 +162,11 @@ public class LevelState implements Serializable, IPlayerLevelState {
     @Override
     public void setBackgroundImageURL(String imageURL) {
         backgroundImageURL = imageURL;
+    }
+
+    public void resetBackgroundImageURL(File imageDir) {
+        String fileName = new File(backgroundImageURL).getName();
+        backgroundImageURL = Paths.get(imageDir.getPath(), fileName).toString();
     }
 }
 

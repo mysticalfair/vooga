@@ -10,6 +10,7 @@ import state.objective.Objective;
 import state.attribute.Attribute;
 
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -177,5 +178,22 @@ public class State implements IStateDefinition, Serializable {
         for (Level level: levels) {
             level.initializeAgents();
         }
+    }
+
+    public void resetImageURLs(File imageDir) {
+        for (Level level: levels) {
+            level.resetImageURLs(imageDir);
+        }
+    }
+
+    public List<String> getAllImages() {
+        List<String> images = new ArrayList<>();
+        for (Level level: levels) {
+            images.add(level.getBackgroundImageURL());
+            for (Agent agent: level.getLevelAgents()) {
+                images.add(agent.getImageURL());
+            }
+        }
+        return images;
     }
 }

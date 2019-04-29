@@ -15,7 +15,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -299,5 +301,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.playerAgent.addPropertyChangeListener(listener);
+    }
+
+    public void resetImageURL(File imageDir) {
+        String fileName = new File(getImageURL()).getName();
+        setImageURL(Paths.get(imageDir.getPath(), fileName).toString());
     }
 }

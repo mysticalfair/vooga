@@ -13,7 +13,9 @@ import utils.SerializationException;
 import utils.Serializer;
 import utils.SerializerSingleton;
 
+import java.awt.image.ImagingOpException;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +29,14 @@ import java.util.List;
  */
 public class Game implements IGameDefinition, IPlayerGame {
 
+    public static final String IMAGES_DIR = "resources";
+
     public static double nanoTrans = 1000000000.0;
     private boolean runFlag = false;
     public static final double DELTA_TIME = 0.0167;
     private Serializer serializer;
 
+    private File imageDir;
 
     private State state;
 
@@ -45,6 +50,9 @@ public class Game implements IGameDefinition, IPlayerGame {
     @Deprecated
     public void run() {
         runFlag = true;
+
+        if(state.getGameOverStatus()) { runFlag = false; }
+
         // TODO: throw exception if state not initialized?
         double nextTime = System.nanoTime() / nanoTrans;
 
@@ -68,13 +76,26 @@ public class Game implements IGameDefinition, IPlayerGame {
     }
 
     /**
-     * @param gameFileLocation String containing file path of the stored game
+     * @param gameDirLocation Directory containing game file and images
      */
     @Override
-    public void loadState(String gameFileLocation){
+    public void loadState(File gameDirLocation){
         try {
-            state = (State) serializer.load(new File(gameFileLocation));
+            File gameFile = gameDirLocation.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.indexOf(".xml") >= 0;
+                }
+            })[0];
+            state = (State) serializer.load(gameFile);
+            imageDir = gameDirLocation.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.equals(IMAGES_DIR);
+                }
+            })[0];
             state.initializeLevelAgents();
+            state.resetImageURLs(imageDir);
         } catch (SerializationException | IOException e) {
             // TODO: Deal with Exceptions by letting player know invalid file was chosen.
             e.printStackTrace();
@@ -92,10 +113,10 @@ public class Game implements IGameDefinition, IPlayerGame {
     }
 
     @Override
-    public void saveState(String saveName){
+    public void saveState(File saveLocation){
         try {
-            serializer.save(state, new File(saveName));
-        } catch (SerializationException | IOException e) {
+            serializer.save(state, saveLocation, state.getAllImages());
+        } catch (SerializationException e) {
             // TODO: Deal with Exceptions by letting player know about problem.
             e.printStackTrace();
         }

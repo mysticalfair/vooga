@@ -2,36 +2,39 @@ package state;
 
 import state.agent.Agent;
 import state.agent.IPlayerAgent;
+import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.objective.IPlayerObjective;
-import state.objective.Objective;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Version of state that is passed to player
  * @author David Miron
- * @Author:Luke_Truitt
+ * @author Luke Truitt
+ * @author Jamie Palka
  */
 public class LevelState implements Serializable, IPlayerLevelState {
 
     private List<Agent> placeableAgents;
     private List<Agent> agentsCurrent;
-    private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private boolean gameOver = false;
+    private String backgroundImageURL;
     private PropertyChangeSupport pcs;
+
     public LevelState() {
         this.placeableAgents = new ArrayList<>();
         this.agentsCurrent = new ArrayList<>();
-        this.objectivesCurrent = new ArrayList<>();
         this.attributesCurrent = new ArrayList<>();
-        this.pcs =  new PropertyChangeSupport(this);
+        this.pcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -44,6 +47,26 @@ public class LevelState implements Serializable, IPlayerLevelState {
     public void removePlaceableAgent(int index) {
         if (placeableAgents.size() > index)
             placeableAgents.remove(index);
+    }
+
+    public boolean addAgentFromStore(int index, double x, double y) {
+        try {
+            if(index < 0 || this.placeableAgents.size() - 1 > index ) {
+                return false;
+            }
+
+            Agent agent = this.placeableAgents.get(index).clone();
+
+            agent.setX(x);
+            agent.setY(y);
+
+            addPlaceableAgent(agent);
+
+            return true;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public void addPlaceableAgent(Agent agent) {
@@ -68,18 +91,34 @@ public class LevelState implements Serializable, IPlayerLevelState {
         }
     }
 
-    public List<Objective> getObjectives() {
-        return this.objectivesCurrent;
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+        this.pcs.firePropertyChange("Game Over", !gameOver, gameOver);
     }
 
-    public void setObjectives(List<Objective> objectivesCurrent) {
-        this.objectivesCurrent = objectivesCurrent;
+    public void addAttribute(Attribute attribute) {
+        attributesCurrent.add(attribute);
+        this.pcs.firePropertyChange("Add Attribute", null, attribute);
     }
 
-    public List<IAttribute> getMutableAttributes() { return this.attributesCurrent; }
+    public void removeAttribute(Attribute attribute) {
+        if (this.attributesCurrent.contains(attribute)){
+            attributesCurrent.remove(attribute);
+            //TODO: change back to agent
+            this.pcs.firePropertyChange("Remove Attribute", attribute, null);
+        }
+    }
+
+    public List<IAttribute> getMutableAttributes() {
+        return this.attributesCurrent;
+    }
 
     public void setAttributes(List<IAttribute> attributesCurrent) {
         this.attributesCurrent = attributesCurrent;
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return attributesCurrent;
     }
 
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
@@ -91,13 +130,12 @@ public class LevelState implements Serializable, IPlayerLevelState {
     /*
      * For Author
      */
+
     public void placeAgent(Agent agent) {
         var agentsOld = this.agentsCurrent;
         this.agentsCurrent.add(agent);
     }
-    public void defineObjective(Objective objective) {
-        this.objectivesCurrent.add(objective);
-    }
+
     public void defineAttribute(IAttribute attribute) {
         this.attributesCurrent.add(attribute);
     }
@@ -105,14 +143,12 @@ public class LevelState implements Serializable, IPlayerLevelState {
     /*
      * For Player - Iterate through and update your copy based on the corresponding ID.
      */
+
     public List<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.placeableAgents); }
+
 
     public List<IPlayerAgent> getImmutableAgents() {
         return List.copyOf(this.agentsCurrent);
-    }
-
-    public List<IPlayerObjective> getImmutableObjectives() {
-        return List.copyOf(this.objectivesCurrent);
     }
 
     public List<IPlayerAttribute> getImmutableAttributes() {
@@ -124,4 +160,19 @@ public class LevelState implements Serializable, IPlayerLevelState {
         this.pcs.addPropertyChangeListener(listener);
     }
 
+    @Override
+    public String getBackgroundImageURL() {
+        return backgroundImageURL;
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        backgroundImageURL = imageURL;
+    }
+
+    public void resetBackgroundImageURL(File imageDir) {
+        String fileName = new File(backgroundImageURL).getName();
+        backgroundImageURL = Paths.get(imageDir.getPath(), fileName).toString();
+    }
 }
+

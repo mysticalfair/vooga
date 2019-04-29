@@ -1,8 +1,9 @@
 package state;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AgentReference {
+public class AgentReference implements Cloneable, Serializable {
 
 
     private String name;

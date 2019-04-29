@@ -2,6 +2,8 @@ package engine;
 
 import state.IPlayerLevelState;
 
+import java.io.File;
+
 /**
  * This interface is to be implemented by Game, giving player the methods necessary to run the game.
  * @author Jorge Raad
@@ -13,13 +15,13 @@ public interface IPlayerGame {
      * This is to be called by Player to load and display the game prior to running.
      * @param gameFileLocation
      */
-    void loadState(String gameFileLocation);
+    void loadState(File gameDirLocation);
 
     /**
      * Saves the current State held by the game into an XML file of the given name.
      * @param saveName
      */
-    void saveState(String saveName);
+    void saveState(File location);
 
     /**
      * Returns the current LevelState so that the player may take the current configuration of the level

@@ -58,7 +58,7 @@ public class MapPane extends AuthoringPane {
             for (DraggableAgentView agent: currentLevel.getAgents()) {
                 agent.setOnMousePressed(event -> agent.mousePressed(event));
                 agent.setOnMouseDragged(event -> agent.mouseDragged(event, this));
-                agent.setOnMouseReleased(event -> agent.mouseReleased(this, console));
+                agent.setOnMouseReleased(event -> agent.mouseReleased(this));
             }
         }
     }
@@ -86,7 +86,7 @@ public class MapPane extends AuthoringPane {
         List<DraggableAgentView> agentsCopy = new ArrayList<>(currentLevel.getAgents());
         for (DraggableAgentView agent : agentsCopy) {
             if (agent.getSelect()) {
-                agent.mouseReleased(this, console);
+                agent.mouseReleased(this);
             }
         }
     }
@@ -128,29 +128,21 @@ public class MapPane extends AuthoringPane {
      *
      * @param agent
      */
-    public void addAgent(int level, DraggableAgentView agent){
+    public void addAgent(DraggableAgentView agent){
         MapState currentLevel = levelToState.get(level);
         currentLevel.addToAgents(agent);
         mapPane.getChildren().add(agent);
     }
 
-    public void addPath(Path path){
-        MapState currentLevel = levelToState.get(level);
-        currentLevel.addToPaths(path);
-    }
-
-    public void removePath(Path path){
-        MapState currentLevel = levelToState.get(level);
-        currentLevel.removePath(path);
-    }
-
     /**
      *
-     * @param view
+     * @param agent
      */
-    public void removeAgent(AgentView view) {
+    public void removeAgent(DraggableAgentView agent) {
         MapState currentLevel = levelToState.get(level);
-        currentLevel.removeAgent(view);
+        currentLevel.removeAgent(agent);
+        getContext().getState().getLevels().get(level - 1).getCurrentAgents().remove(agent.getReference());
+        agent.setImage(null);
         //System.out.println("Removed: new size is " + levelToState.get(level).getAgentCount());
     }
 
@@ -184,8 +176,7 @@ public class MapPane extends AuthoringPane {
     /**
      *
      */
-    public void formatBackground(){
-        // TODO: replace System.err.println with Console display
+    public void formatBackground() {
         AuthoringUtil.openFileChooser(
                 getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
                 file -> setMapImage(level, file.toURI().toString()),
@@ -199,6 +190,7 @@ public class MapPane extends AuthoringPane {
      */
     public void setMapImage(int level, String fileName){
         levelToState.get(level).setBackgroundURL(fileName);
+        getContext().getState().getLevels().get(level-1).setBackgroundImageURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +
                         fileName +

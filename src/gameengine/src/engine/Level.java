@@ -186,6 +186,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+
                 index++;
 
             } catch (CloneNotSupportedException e) {
@@ -246,4 +247,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         }
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.levelState.setGameOver(gameOver);
+    }
 }

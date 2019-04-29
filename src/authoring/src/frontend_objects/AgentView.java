@@ -8,6 +8,9 @@ import util.AuthoringContext;
 import java.util.AbstractMap;
 import java.util.SimpleTimeZone;
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 public abstract class AgentView extends ImageView {
 

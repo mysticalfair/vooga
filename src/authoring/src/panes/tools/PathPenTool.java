@@ -11,7 +11,6 @@ import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
 
-
 public class PathPenTool extends PathTool{
 
     private Path currentPath;
@@ -81,9 +80,11 @@ public class PathPenTool extends PathTool{
 
     @Override
     public void onMapClick(MouseEvent event) {
+        map.getCurrentState().removePath(currentPath);
         var circle = currentPath.addPoint(event.getX(), event.getY());
         map.spawnShape(circle);
         updatePathLines(currentPath);
+        map.getCurrentState().addToPaths(currentPath);
     }
 
     @Override

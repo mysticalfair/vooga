@@ -41,8 +41,7 @@ public class PathDragTool extends PathModifyTool{
     private void selectedActions(String pointActionName, MouseEvent event){
         try{
             map.getCurrentState().removePath(selectedPath);
-
-            Method pointAction = getClass().getDeclaredMethod(pointActionName);
+            Method pointAction = selectedPoint.getClass().getDeclaredMethod(pointActionName, MouseEvent.class);
             pointAction.invoke(selectedPoint, event);
 
             updatePathLines(selectedPath);

@@ -32,7 +32,7 @@
     </objectiveOutcomeDefinition>
 
     <objectiveOutcomeDefinition>
-        <name>RemoveAgent</name>
+        <name>Win</name>
         <fields>
             <string>title</string>
         </fields>

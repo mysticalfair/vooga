@@ -80,7 +80,12 @@ public class DefineAgentForm extends FormElement {
             getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
             return null;
         }
-        // TODO: Check to make sure name is unique
+        for (IAgentDefinition agent : getContext().getState().getDefinedAgents()) {
+            if (agent.getName().equals(commonAgentFieldsForm.getName())) {
+                getContext().displayConsoleMessage(String.format(getContext().getString("AgentAlreadyExists"), agent.getName()), ConsolePane.Level.ERROR);
+                return null;
+            }
+        };
         if (commonAgentFieldsForm.getWidth() == getContext().getInt("ErrorInt")) {
             getContext().displayConsoleMessage(getContext().getString("WidthMustBeInt"), ConsolePane.Level.ERROR);
             return null;

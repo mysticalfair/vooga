@@ -7,10 +7,11 @@ import panes.AuthoringPane;
 import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
 import panes.attributes.agent.instance.EditAgentInstanceForm;
-import panes.attributes.state.ObjectiveForm;
+import panes.attributes.state.StateForm;
 import state.AgentReference;
 import util.AuthoringContext;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class AttributesPane extends AuthoringPane {
@@ -117,41 +118,25 @@ public class AttributesPane extends AuthoringPane {
     }
 
     /**
-     * Creates the new objective in the attributes pane. Has the option
-     * to modify an existing objective, or to create a new objective based off an
-     * existing one. If creating a new objective, the form will save to the context
-     * state's objective list. If modifying an existing objective, the form
-     * will update all of the attributes of the existing objective passed in. If
-     * an objective is unsuccessfully created, will notify user of problem to fix
-     * and will not clear form.
-     * @param onSuccess callback for successful agent creation
-     * @param existingObjective an existing objective to modify or copy, if null creates new objective
-     * @param copyExisting if true and existingObjective not null, creates a new
-     *                     objective based off of existingObjective
+     * Loads the list of objectives and attributes via a state form, and allows adding, editing, and removing of them.
+     * @param onSuccess callback for successful modification
      */
-    public void createNewObjectiveForm(Consumer<IObjectiveDefinition> onSuccess, IObjectiveDefinition existingObjective, boolean copyExisting) {
+    public void displayStateForm(Consumer<List<IObjectiveDefinition>> onSuccess) {
         scrollPane.setContent(null);
-        ObjectiveForm objectiveForm = new ObjectiveForm(getContext());
-        if (existingObjective != null) {
-            objectiveForm.loadFromExisting(existingObjective);
-        }
-        objectiveForm.accessContainer(scrollPane::setContent);
-        objectiveForm.setOnCancel(e -> scrollPane.setContent(null));
-        objectiveForm.setOnSave(e -> {
-            IObjectiveDefinition a = objectiveForm.packageData();
+        StateForm stateForm = new StateForm(getContext());
+        stateForm.loadFromExisting(getContext().getState().getObjectives());
+        stateForm.accessContainer(scrollPane::setContent);
+        stateForm.setOnCancel(e -> scrollPane.setContent(null));
+        stateForm.setOnSave(e -> {
+            List<IObjectiveDefinition> a = stateForm.packageData();
             if (a == null) {
-                getContext().displayConsoleMessage(getContext().getString("ObjectiveNotCreated"), ConsolePane.Level.ERROR);
+                getContext().displayConsoleMessage(getContext().getString("ObjectivesAttributesNotUpdated"), ConsolePane.Level.ERROR);
                 return;
             }
-            if (existingObjective != null && !copyExisting) {
-                existingObjective.setCondition(a.getCondition());
-                existingObjective.setOutcome(a.getOutcome());
-            }
-            else {
-                getContext().getState().defineObjective(a);
-                onSuccess.accept(a);
-            }
-            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getCondition().getName()), ConsolePane.Level.SUCCESS);
+            getContext().getState().getObjectives().clear();
+            a.forEach(getContext().getState()::defineObjective);
+            onSuccess.accept(a);
+            getContext().displayConsoleMessage(getContext().getString("ObjectivesAttributesUpdated"), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }

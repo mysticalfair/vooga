@@ -1,43 +1,37 @@
 package panes.attributes.state;
 
-import authoring.IObjectiveConditionDefinition;
 import authoring.IObjectiveDefinition;
-import authoring.IObjectiveOutcomeDefinition;
 import panes.attributes.TitledSaveableFormElement;
+import panes.attributes.state.objective.ObjectivesForm;
 import util.AuthoringContext;
 
-public class ObjectiveForm extends TitledSaveableFormElement {
+import java.util.List;
 
-    private ObjectiveConditionFormElement condition;
-    private ObjectiveOutcomeFormElement outcome;
+public class StateForm extends TitledSaveableFormElement {
 
-    public ObjectiveForm(AuthoringContext context) {
+    private ObjectivesForm objectivesForm;
+
+    public StateForm(AuthoringContext context) {
         super(context);
-
-        condition = new ObjectiveConditionFormElement(getContext());
-        condition.accessContainer(container -> accessVBox(vBox -> vBox.getChildren().add(container)));
-
-        outcome = new ObjectiveOutcomeFormElement(getContext());
-        outcome.accessContainer(container -> accessVBox(vBox -> vBox.getChildren().add(container)));
+        init();
     }
 
-    public void loadFromExisting(IObjectiveDefinition objective) {
-        condition.loadFromExisting(objective.getCondition());
-        outcome.loadFromExisting(objective.getOutcome());
+    private void init() {
+        objectivesForm = new ObjectivesForm(getContext());
+        objectivesForm.accessContainer(container -> accessVBox(vBox -> vBox.getChildren().add(container)));
+    }
+
+    public void loadFromExisting(List<? extends IObjectiveDefinition> objectives) {
+        objectivesForm.loadFromExisting(objectives);
     }
 
     /**
-     * Packages the data from this form into an IObjectiveDefinition
-     * @return the IObjectiveDefinition containing the data from this form.
+     * Packages the data from this form into a ______
+     * @return the ____ containing the data from this form.
      */
     @Override
-    public IObjectiveDefinition packageData() {
-        IObjectiveConditionDefinition conditionDef = condition.packageData();
-        IObjectiveOutcomeDefinition outcomeDef = outcome.packageData();
-        if (conditionDef == null || outcomeDef == null) {
-            return null;
-        }
-        return getContext().getGameFactory().createObjective(conditionDef, outcomeDef);
+    public List<IObjectiveDefinition> packageData() {
+        return objectivesForm.packageData();
     }
 
 }

@@ -1,4 +1,4 @@
-package panes.attributes.state;
+package panes.attributes.state.objective;
 
 import authoring.IConditionDefinition;
 import authoring.IObjectiveConditionDefinition;

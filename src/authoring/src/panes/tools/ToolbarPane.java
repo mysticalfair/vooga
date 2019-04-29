@@ -112,7 +112,8 @@ public class ToolbarPane extends AuthoringPane {
 
     private void initExistingLevelCreator() {
         existingLevelCreator = new ComboBox<>(FXCollections.observableArrayList(1));
-        existingLevelCreator.setPromptText(getContext().getString("ChooserPrompt"));
+        //existingLevelCreator.setPromptText(getContext().getString("ChooserPrompt"));
+        existingLevelCreator.getSelectionModel().selectFirst();
     }
 
     public int getExistingLevelValue() {

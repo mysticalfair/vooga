@@ -3,9 +3,7 @@ package panes;
 import authoring.GameFactory;
 import authoring.ILevelDefinition;
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,13 +13,9 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
-import state.AgentReference;
 import util.AuthoringContext;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AuthoringEnvironment extends Application {
 
@@ -34,9 +28,9 @@ public class AuthoringEnvironment extends Application {
     private AgentPane agentPane;
     private AttributesPane attributesPane;
     private ToolbarPane toolbarPane;
+    LevelHandler levelHandler;
     private MapPane map;
     private Scene scene;
-    private List<MapState> levels;
     private ObservableList<Path> currentPaths;
     private PathPenTool pen;
 
@@ -60,31 +54,14 @@ public class AuthoringEnvironment extends Application {
         stackPane.getChildren().add(borderPane);
         scene = new Scene(stackPane, context.getDouble("DefaultWidth"), context.getDouble("DefaultHeight"));
         initAllPanes();
-        initPathListeners();
+        //initPathListeners();
         initStage(stage);
+        levelHandler = new LevelHandler(context, map, pathPane, consolePane, toolbarPane, currentPaths);
 
         // This is needed here because the context needs to be created to be passed to the consolePane, but it also
         // needs access to this method from the consolePane. It is a bit of circular referencing, but since it's
         // via a lambda it is not as bad.
         context.setDisplayConsoleMessage((message, level) -> consolePane.displayMessage(message, level));
-    }
-
-    private void initPathListeners(){
-        currentPaths.addListener((ListChangeListener<Path>) c -> onPathListChange(c));
-    }
-
-    // Code adapted from https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
-    private void onPathListChange(ListChangeListener.Change<? extends Path> c){
-        while (c.next()) {
-            for (Path removed : c.getRemoved()) {
-                pathPane.removePathRow(removed);
-                map.getCurrentState().removePath(removed);
-            }
-            for (Path added : c.getAddedSubList()) {
-                pathPane.addPathRow(added);
-                map.getCurrentState().addToPaths(added);
-            }
-        }
     }
 
     private GameFactory initGameFactory() {
@@ -120,26 +97,6 @@ public class AuthoringEnvironment extends Application {
 
         map.getStateMapping().put(level, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
         map.setLevel(level);
-        map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-    }
-
-    private void establishSelectCountListener(SimpleIntegerProperty selectCount) {
-        selectCount.addListener((observable, oldValue, newValue) -> updateOnLevelSelection((int) newValue));
-    }
-
-    private void updateOnLevelSelection(int newValue){
-        map.handleSelectionChange(newValue);
-        currentPaths.removeListener((ListChangeListener<Path>) c -> onPathListChange(c));
-        for(Path path: currentPaths){
-            currentPaths.remove(path);
-            pathPane.removePathRow(path);
-        }
-        for(Path path: map.getCurrentState().getPaths()){
-            currentPaths.add(path);
-            pathPane.addPathRow(path);
-        }
-        initPathListeners();
-        //pathPane.setNewPathList(map.getCurrentState().getPaths());
     }
 
     private void initAgentPane() {
@@ -163,9 +120,9 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane(context, map, scene, currentPaths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
-        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()), false)));
-        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> makeFromExistingWrapper()));
-        toolbarPane.accessClear(button -> button.setOnAction(e -> clearLevel()));
+        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()), false)));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e ->  levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map), true)));
+        toolbarPane.accessClear(button -> button.setOnAction(e -> levelHandler.clearLevel()));
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));
@@ -175,72 +132,9 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> context.getGame().saveState(context.getString("GameSaveName")));
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
-        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> changeToExistingLevel((int)((double) newValue)));
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> levelHandler.changeToExistingLevel((int)((double) newValue)));
 
         pen = toolbarPane.getPen();
-    }
-
-    private void clearLevel() {
-        map.clearMap();
-        int levelIndex = (int)(double) toolbarPane.getLevelChanger().getValue();
-        ILevelDefinition gameLevel = context.getState().getLevels().get(levelIndex);
-        clearGameLevelContents(gameLevel);
-        map.getStateMapping().put(levelIndex, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()));
-        map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-    }
-
-    private void clearGameLevelContents(ILevelDefinition gameLevel){
-        for(String pathName: gameLevel.getPaths().keySet()){
-            gameLevel.removePath(pathName);
-        }
-        for(String agent: gameLevel.getPlaceableAgents()){
-            gameLevel.removePlaceableAgent(agent);
-        }
-        // TODO: is this needed?
-        for(int i=0; i<gameLevel.getCurrentAgents().size(); i++){
-            gameLevel.removeAgent(i);
-        }
-    }
-
-    private void makeFromExistingWrapper() {
-        if (toolbarPane.getExistingLevelValue() != -1) {
-            makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map), true);
-        }
-    }
-
-    private void makeLevel(int newLevel, MapState state, boolean fromExisting) {
-        String newLevelDisplay;
-        if (fromExisting) {
-            newLevelDisplay = "Level " + newLevel + " created from Level: " + toolbarPane.getExistingLevelValue();
-        } else {
-            newLevelDisplay = "Level " + newLevel + " created";
-        }
-        map.setLevel(newLevel);
-        toolbarPane.setMaxLevel(newLevel);
-        toolbarPane.addToExistingLevelCreator(newLevel);
-        consolePane.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
-        if (!map.getStateMapping().containsKey(newLevel)) {
-            map.getStateMapping().put(newLevel, state);
-
-            ILevelDefinition level = context.getGameFactory().createLevel();
-            context.getState().addLevel(level);
-            // TODO: add code to add Level contents
-
-
-            map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-            MapState revertToState = map.getStateMapping().get(newLevel);
-            revertToState.updateMap(map);
-        }
-        int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
-        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);
-    }
-
-    private void changeToExistingLevel(int newValue) {
-        if (map.getStateMapping().containsKey(newValue)) {
-            map.setLevel(newValue);
-            MapState revertToState = map.getStateMapping().get(newValue);
-            revertToState.updateMap(map);
-        }
     }
 
     private void updateDimensions(double width, double height){

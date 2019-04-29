@@ -37,17 +37,25 @@ public class GameFactory {
 
     public static final String CONDITION_DEFINITIONS_FILE = "conditions.xml";
     public static final String ACTION_DEFINITIONS_FILE = "actions.xml";
+    public static final String OBJECTIVE_CONDITION_DEFINITIONS_FILE = "objective-conditions.xml";
+    public static final String OBJECTIVE_OUTCOME_DEFINITIONS_FILE = "objective-outcomes.xml";
 
     public static final String CONDITION_CLASSNAMES_FILE = "conditions.properties";
     public static final String ACTION_CLASSNAMES_FILE = "actions.properties";
+    public static final String OBJECTIVE_CONDITION_CLASSNAMES_FILE = "objective-conditions.properties";
+    public static final String OBJECTIVE_OUTCOME_CLASSNAMES_FILE = "objective-outcomes.properties";
 
     private GameEventMaster eventMaster;
 
     private List<AvailableCondition> availableConditions;
     private List<AvailableAction> availableActions;
+    private List<AvailableObjectiveCondition> availableObjectiveConditions;
+    private List<AvailableObjectiveOutcome> availableObjectiveOutcomes;
 
     private Properties conditionClasses;
     private Properties actionClasses;
+    private Properties objectiveConditionClasses;
+    private Properties objectiveOutcomeClasses;
 
     private List<Agent> masterDefinedAgents;
 
@@ -59,11 +67,18 @@ public class GameFactory {
         XMLToAvailableObjectsParser parser = new XMLToAvailableObjectsParser();
         availableConditions = parser.getNameFieldsList(CONDITION_DEFINITIONS_FILE);
         availableActions = parser.getNameFieldsList(ACTION_DEFINITIONS_FILE);
+        availableObjectiveConditions = parser.getNameFieldsList(OBJECTIVE_CONDITION_DEFINITIONS_FILE);
+        availableObjectiveOutcomes = parser.getNameFieldsList(OBJECTIVE_OUTCOME_DEFINITIONS_FILE);
 
         this.conditionClasses = new Properties();
         this.actionClasses = new Properties();
+        this.objectiveConditionClasses = new Properties();
+        this.objectiveOutcomeClasses = new Properties();
+
         conditionClasses.load(getClass().getClassLoader().getResourceAsStream(CONDITION_CLASSNAMES_FILE));
         actionClasses.load(getClass().getClassLoader().getResourceAsStream(ACTION_CLASSNAMES_FILE));
+        objectiveConditionClasses.load(getClass().getClassLoader().getResourceAsStream(OBJECTIVE_CONDITION_CLASSNAMES_FILE));
+        objectiveOutcomeClasses.load(getClass().getClassLoader().getResourceAsStream(OBJECTIVE_OUTCOME_CLASSNAMES_FILE));
 
         masterDefinedAgents = new ArrayList<>();
     }

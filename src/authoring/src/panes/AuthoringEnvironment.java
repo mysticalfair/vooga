@@ -168,9 +168,8 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void getUserFileName(){
-        AuthoringUtil.openFileChooser(
-                context.getString("GameFile"), AuthoringUtil.GAME_EXTENSIONS, true, null,
-                file -> context.getGame().saveState(file.toString()),
+        AuthoringUtil.openDirectoryChooser(
+                null, file -> context.getGame().saveState(file.toString()),
                 () -> context.displayConsoleMessage(context.getString("GameSaveError"), ConsolePane.Level.ERROR)
         );
     }

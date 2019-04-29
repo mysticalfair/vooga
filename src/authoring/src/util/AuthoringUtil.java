@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -47,6 +48,18 @@ public class AuthoringUtil {
         }
         if (file != null) {
             actionOnCompletion.accept(file);
+        }
+        else {
+            actionOnNull.run();
+        }
+    }
+
+    public static void openDirectoryChooser(Window window, Consumer<File> actionOnCompletion, Runnable actionOnNull) {
+        DirectoryChooser dc = new DirectoryChooser();
+        File directory = dc.showDialog(window);
+
+        if (directory != null) {
+            actionOnCompletion.accept(directory);
         }
         else {
             actionOnNull.run();

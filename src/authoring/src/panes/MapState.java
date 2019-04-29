@@ -48,6 +48,7 @@ public class MapState {
         selectCount.set(0);
     }
 
+
     public void addToPaths(Path path){
         paths.add(path);
 

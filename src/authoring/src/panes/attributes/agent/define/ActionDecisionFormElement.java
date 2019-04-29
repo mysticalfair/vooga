@@ -53,4 +53,9 @@ public class ActionDecisionFormElement extends FormElement {
         getContentChildren().add(actionDecisionTitledPane);
     }
 
+    public void loadFromExisting(IActionDecisionDefinition actionDecision) {
+        action.loadFromExisting(actionDecision.getAction());
+        conditionsForm.loadFromExisting(actionDecision.getConditions());
+    }
+
 }

@@ -112,7 +112,8 @@ public class ToolbarPane extends AuthoringPane {
 
     private void initExistingLevelCreator() {
         existingLevelCreator = new ComboBox<>(FXCollections.observableArrayList(1));
-        existingLevelCreator.setPromptText(getContext().getString("ChooserPrompt"));
+        //existingLevelCreator.setPromptText(getContext().getString("ChooserPrompt"));
+        existingLevelCreator.getSelectionModel().selectFirst();
     }
 
     public int getExistingLevelValue() {
@@ -179,8 +180,8 @@ public class ToolbarPane extends AuthoringPane {
         menu.getItems().add(menuItem);
     }
 
-    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
+    public void addButton(String buttonImageName, double buttonSize, EventHandler action){
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, action);
         EventHandler handler = e -> toggleTool(toolImageMap.get(buttonImageName));
         button.addEventHandler(ActionEvent.ACTION, handler);
         toolBar.getItems().addAll(button);
@@ -196,7 +197,7 @@ public class ToolbarPane extends AuthoringPane {
     }
 
     public void addButton(String buttonImageName, EventHandler action) {
-        addButton(buttonImageName, getContext().getDouble("ToolbarButtonSize"), getContext().getDouble("ButtonImageSize"), action);
+        addButton(buttonImageName, getContext().getDouble("ToolbarButtonSize"), action);
     }
 
     public double getHeight() {

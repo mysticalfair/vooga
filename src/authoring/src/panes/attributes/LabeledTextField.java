@@ -32,6 +32,10 @@ public class LabeledTextField extends FormElement {
         return textField.getText();
     }
 
+    public void loadFromExisting(String text) {
+        textField.setText(text);
+    }
+
     public void setLabel(String labelString) {
         label.setText(labelString);
     }

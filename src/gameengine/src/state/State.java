@@ -195,6 +195,7 @@ public class State implements IStateDefinition, Serializable {
                 images.add(agent.getImageURL());
             }
         }
+        images.removeIf(p -> p == null);
         return images;
     }
 }

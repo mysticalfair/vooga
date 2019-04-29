@@ -252,6 +252,16 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         actionDecisions.add(decision);
     }
 
+
+    public Object getPropertyValue(String name) {
+        for (Property property : this.playerAgent.getProperties()) {
+            if (property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
+    }
+
     public Object getProperty(String name) {
         return this.playerAgent.getProperty(name);
     }

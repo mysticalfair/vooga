@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class AttributesPanel extends IDynamic {
     private IDynamic correspondingAgent;
 

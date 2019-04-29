@@ -51,6 +51,7 @@ public class DraggableAgentView extends AgentView {
         super(authoringContext, other.url);
         url = other.url;
         selected = false;
+        this.reference = other.reference;
         myStartSceneX = other.myStartSceneX;
         myStartSceneY = other.myStartSceneY;
         myStartXOffset = other.myStartXOffset;

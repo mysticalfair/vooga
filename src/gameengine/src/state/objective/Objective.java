@@ -13,12 +13,10 @@ public class Objective implements IObjectiveDefinition, Serializable {
 
     private ObjectiveCondition condition;
     private ObjectiveOutcome outcome;
-    private String name;
 
-    public Objective(String name, ObjectiveCondition condition, ObjectiveOutcome outcome) {
+    public Objective(ObjectiveCondition condition, ObjectiveOutcome outcome) {
         this.condition = condition;
         this.outcome = outcome;
-        this.name = name;
     }
 
     public void execute(State state) {

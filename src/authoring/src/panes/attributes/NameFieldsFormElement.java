@@ -30,7 +30,7 @@ public abstract class NameFieldsFormElement extends FormElement {
     protected List<? extends AvailableNameFields> nameFields;
 
     /**
-     * Creates a new name field form element has a title, a dropdown, and a list of parameters.
+     * Creates a new name field form element has a name, a dropdown, and a list of parameters.
      * Is front-end version of the game engine's AvailableNameFields class.
      *
      * @param context the context that makes relevant instances available

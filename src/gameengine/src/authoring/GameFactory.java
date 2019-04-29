@@ -190,14 +190,13 @@ public class GameFactory {
 
     /**
      * Create an objective with a condition and an outcome
-     * @param name The name
      * @param condition The condition
      * @param outcome The outcome
      * @return The new outcome
      */
-    public IObjectiveDefinition createObjective(String name, IObjectiveConditionDefinition condition,
+    public IObjectiveDefinition createObjective(IObjectiveConditionDefinition condition,
                                                           IObjectiveOutcomeDefinition outcome) {
-        return new Objective(name, (ObjectiveCondition) condition, (ObjectiveOutcome) outcome);
+        return new Objective((ObjectiveCondition) condition, (ObjectiveOutcome) outcome);
     }
 
     public IObjectiveConditionDefinition createObjectiveCondition(String name, Map<String, Object> params) throws ObjectiveConditionDoesNotExistException,

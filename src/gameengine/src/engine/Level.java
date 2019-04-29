@@ -15,6 +15,7 @@ import state.agent.AgentUtils;
 import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -235,7 +236,14 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     @Override
     public ILevelDefinition clone() throws CloneNotSupportedException {
-        return (Level) AgentUtils.deepClone(this);
+        try {
+            Level clonedLevel = (Level) AgentUtils.deepClone(this);
+            clonedLevel.eventMaster = this.eventMaster;
+            clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
+            return clonedLevel;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new CloneNotSupportedException();
+        }
     }
 
 }

@@ -23,6 +23,7 @@
     <actionDefinition>
         <name>MoveOnPointPath</name>
         <fields>
+            <string>pathName</string>
             <double>speed</double>
         </fields>
     </actionDefinition>
@@ -67,6 +68,14 @@
         <name>SpawnAgentInitialDirection</name>
         <fields>
             <string>agent</string>
+        </fields>
+    </actionDefinition>
+
+    <actionDefinition>
+        <name>SpawnAgentInjectProperties</name>
+        <fields>
+            <string>agent</string>
+            <propertyList>properties</propertyList>
         </fields>
     </actionDefinition>
 </actions>

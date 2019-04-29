@@ -1,4 +1,4 @@
-package state.objective;
+package state.objective.objectiveoutcome;
 
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
@@ -46,6 +46,6 @@ abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition, S
      * Executes the ObjectiveOutcome on the respective state.
      * @param state the current state which the outcome will be executed on.
      */
-    abstract String execute(State state);
+    abstract public String execute(State state);
 
 }

@@ -36,6 +36,6 @@ public interface IStateDefinition {
     void addDefinedAgent(IAgentDefinition agent);
 
     void defineObjective(IObjectiveDefinition objective);
-    List<IObjectiveDefinition> getObjectives();
+    List<? extends IObjectiveDefinition> getObjectives();
 
 }

@@ -1,6 +1,7 @@
 package state;
 
 import authoring.IAgentDefinition;
+import authoring.IObjectiveDefinition;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
@@ -92,8 +93,13 @@ public class State implements IStateDefinition, Serializable {
      * Add an objective to the current list of objectives.
      * @param objective the objective to be added
      */
-    public void defineObjective(Objective objective) {
-        currentObjectives.add(objective);
+    public void defineObjective(IObjectiveDefinition objective) {
+        Objective addObjective = (Objective)objective;
+        currentObjectives.add(addObjective);
+    }
+
+    public List<Objective> getObjectives() {
+        return currentObjectives;
     }
 
     /**

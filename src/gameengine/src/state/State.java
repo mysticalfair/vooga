@@ -7,7 +7,6 @@ import authoring.IStateDefinition;
 import state.agent.Agent;
 import state.attribute.IAttribute;
 import state.objective.Objective;
-import state.objective.ObjectiveCondition;
 import state.attribute.Attribute;
 
 

@@ -1,8 +1,5 @@
 package authoring;
 
-import state.objective.ObjectiveCondition;
-import state.objective.ObjectiveOutcome;
-
 public interface IObjectiveDefinition {
 
     IObjectiveOutcomeDefinition getOutcome();

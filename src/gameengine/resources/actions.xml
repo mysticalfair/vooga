@@ -70,4 +70,12 @@
             <string>agent</string>
         </fields>
     </actionDefinition>
+
+    <actionDefinition>
+        <name>SpawnAgentInjectProperties</name>
+        <fields>
+            <string>agent</string>
+            <propertyList>properties</propertyList>
+        </fields>
+    </actionDefinition>
 </actions>

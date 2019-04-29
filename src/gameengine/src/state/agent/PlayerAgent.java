@@ -158,4 +158,8 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 //        clone.properties = (List<Property>)AgentUtils.deepClone(properties);
 //        return clone;
     }
+
+    public void removeProperty(String name) {
+        properties.removeIf(p -> p.getName().equals(name));
+    }
 }

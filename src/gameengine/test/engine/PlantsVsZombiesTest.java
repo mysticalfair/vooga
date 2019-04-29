@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import state.Property;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,7 @@ class PlantsVsZombiesTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
+            gameEngine.saveState(new File("/Users/davidmiron/Desktop/testgame"));
         } catch (Exception e) {
             e.printStackTrace();
         }

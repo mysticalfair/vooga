@@ -17,14 +17,13 @@ import java.util.List;
 
 public class DefineAgentForm extends AuthoringPane {
 
+    private Button saveButton, cancelButton;
     private CommonAgentFieldsForm commonAgentFieldsForm;
     private AgentPropertiesForm agentPropertiesForm;
     private ActionDecisionForm actionDecisionForm;
-    private Button saveButton, cancelButton;
 
     public DefineAgentForm(AuthoringContext context) {
         super(context);
-
         init();
     }
 
@@ -54,6 +53,12 @@ public class DefineAgentForm extends AuthoringPane {
         actionDecisionForm.accessContainer(vBox.getChildren()::add);
 
         getContentChildren().add(vBox);
+    }
+
+    public void loadFromExisting(IAgentDefinition agent) {
+        commonAgentFieldsForm.loadFromExisting(agent.getName(), agent.getWidth(), agent.getHeight(), agent.getImageURL());
+        agentPropertiesForm.loadFromExisting(agent.getProperties());
+        actionDecisionForm.loadFromExisting(agent.getActionDecisions());
     }
 
     public void setOnSave(EventHandler onSave) {

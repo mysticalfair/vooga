@@ -1,9 +1,11 @@
 package panes;
 
+import authoring.ILevelDefinition;
 import frontend_objects.AgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Ellipse;
+import state.AgentReference;
 import util.AuthoringContext;
 
 import java.util.ArrayList;
@@ -31,8 +33,9 @@ public class MapState {
         this.context = other.context;
         this.backgroundURL = other.backgroundURL;
         this.agents = new ArrayList<>();
-        for (DraggableAgentView agent : other.agents) {
-            this.agents.add(new DraggableAgentView(context, agent));
+        List<? extends ILevelDefinition> levels = context.getState().getLevels();
+        for (AgentReference ref : levels.get(levels.size() - 1).getCurrentAgents()) {
+            this.agents.add(new DraggableAgentView(context, ref));
         }
         for (DraggableAgentView agent : this.agents) {
             agent.setMouseActionsForDrag(map);

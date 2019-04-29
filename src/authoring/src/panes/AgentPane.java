@@ -1,18 +1,19 @@
 package panes;
 
-import frontend_objects.CloneableAgentView;
+import authoring.IAgentDefinition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.BiConsumer;
 
 public class AgentPane extends AuthoringPane {
 
@@ -21,6 +22,10 @@ public class AgentPane extends AuthoringPane {
     private ScrollPane scrollInventory; // scrollpane that contains inventory
     private FlowPane inventory; // the inventory itself inside the scrollpane
     private ImageView trash; // trash for deleting agents from map
+
+    private BiConsumer<MouseEvent, IAgentDefinition> imageAction;
+    private BiConsumer<ActionEvent, IAgentDefinition> editAction, copyAction, deleteAction;
+    private BiConsumer<Boolean, IAgentDefinition> checkListener;
 
     public AgentPane(AuthoringContext context) {
         super(context);
@@ -68,25 +73,50 @@ public class AgentPane extends AuthoringPane {
         scrollInventory.setContent(inventory);
     }
 
-    public void refreshAgentList(int level, MapPane map) {
+    public void setOnImageClicked(BiConsumer<MouseEvent, IAgentDefinition> imageAction) {
+        this.imageAction = imageAction;
+    }
+
+    public void setOnEdit(BiConsumer<ActionEvent, IAgentDefinition> editAction) {
+        this.editAction = editAction;
+    }
+
+    public void setOnCopy(BiConsumer<ActionEvent, IAgentDefinition> copyAction) {
+        this.copyAction = copyAction;
+    }
+
+    public void setOnDelete(BiConsumer<ActionEvent, IAgentDefinition> deleteAction) {
+        this.deleteAction = deleteAction;
+    }
+
+    public void setOnCheckChanged(BiConsumer<Boolean, IAgentDefinition> checkListener) {
+        this.checkListener = checkListener;
+    }
+
+    public void refreshAgentList(int level) {
         inventory.getChildren().clear();
         getContext().getState().getDefinedAgents().forEach(agent -> {
-            CloneableAgentView newAgent = new CloneableAgentView(getContext(), agent.getName(), agent.getImageURL());
-            newAgent.setOnMousePressed(e -> newAgent.mousePressedOnClone(e, map));
-            inventory.getChildren().add(newAgent);
-            // TODO: add delete and edit buttons, checkbox to enable, and only set to enabled if in current level
+            AgentPaneElement newAgent = new AgentPaneElement(getContext(), agent);
+            newAgent.accessContainer(inventory.getChildren()::add);
+            newAgent.setOnImageClicked(imageAction);
+            newAgent.setOnEdit(editAction);
+            newAgent.setOnCopy(copyAction);
+            newAgent.setOnDelete(deleteAction);
+            newAgent.setOnCheckChanged(checkListener);
+
+            // TODO: only set to enabled if in current level
         });
     }
 
-    public void addButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
-        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, buttonImageSize, action);
+    public void addButton(String buttonImageName, double buttonSize, EventHandler action){
+        Button button = AuthoringUtil.createSquareImageButton(buttonImageName, buttonSize, action);
         buttonPane.getChildren().addAll(button);
     }
 
     @Override
     public void updateSize(double width, double height) {
         inventoryContainer.setPrefSize(width, height);
-        scrollInventory.setPrefViewportWidth(width);
-        scrollInventory.setPrefViewportHeight(height);
+        //scrollInventory.setPrefViewportWidth(width);
+        //scrollInventory.setPrefViewportHeight(height);
     }
 }

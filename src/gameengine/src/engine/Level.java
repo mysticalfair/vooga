@@ -1,5 +1,6 @@
 package engine;
 
+import authoring.IPropertyDefinition;
 import authoring.exception.PropertyDoesNotExistException;
 import engine.event.GameEventMaster;
 import authoring.ILevelDefinition;
@@ -119,8 +120,8 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public void addAgent(String agentName, int x, int y, double direction, List<Property> instanceProperties) {
-        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction, instanceProperties));
+    public void addAgent(String agentName, int x, int y, double direction, List<? extends IPropertyDefinition> instanceProperties) {
+        authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction, (List<Property>) instanceProperties));
     }
 
     public List<Agent> getLevelAgents() {

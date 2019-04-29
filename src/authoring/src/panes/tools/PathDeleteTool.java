@@ -25,9 +25,11 @@ public class PathDeleteTool extends PathModifyTool{
     public void onMapClick(MouseEvent event) {
         var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
+            map.getCurrentState().removePath(selectedPath);
             selectedPath.removePoint(selectedPoint);
             map.removeShape(selectedPoint.getPoint());
             updatePathLines(selectedPath);
+            map.getCurrentState().addToPaths(selectedPath);
         }
     }
 

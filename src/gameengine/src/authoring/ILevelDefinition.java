@@ -20,7 +20,7 @@ public interface ILevelDefinition {
      */
     List<AgentReference> getCurrentAgents();
     void removeAgent(int index);
-    void addAgent(String agentName, int x, int y, double direction, List<Property> instanceProperties);
+    void addAgent(String agentName, int x, int y, double direction, List<? extends IPropertyDefinition> instanceProperties);
 
     List<String> getPlaceableAgents();
     void removePlaceableAgent(int index);

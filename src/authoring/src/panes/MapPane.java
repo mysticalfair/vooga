@@ -128,7 +128,7 @@ public class MapPane extends AuthoringPane {
      *
      * @param agent
      */
-    public void addAgent(int level, DraggableAgentView agent){
+    public void addAgent(DraggableAgentView agent){
         MapState currentLevel = levelToState.get(level);
         currentLevel.addToAgents(agent);
         mapPane.getChildren().add(agent);
@@ -136,11 +136,13 @@ public class MapPane extends AuthoringPane {
 
     /**
      *
-     * @param view
+     * @param agent
      */
-    public void removeAgent(AgentView view) {
+    public void removeAgent(DraggableAgentView agent) {
         MapState currentLevel = levelToState.get(level);
-        currentLevel.removeAgent(view);
+        currentLevel.removeAgent(agent);
+        getContext().getState().getLevels().get(level - 1).getCurrentAgents().remove(agent.getReference());
+        agent.setImage(null);
         //System.out.println("Removed: new size is " + levelToState.get(level).getAgentCount());
     }
 
@@ -188,6 +190,7 @@ public class MapPane extends AuthoringPane {
      */
     public void setMapImage(int level, String fileName){
         levelToState.get(level).setBackgroundURL(fileName);
+        getContext().getState().getLevels().get(level-1).setBackgroundImageURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +
                         fileName +

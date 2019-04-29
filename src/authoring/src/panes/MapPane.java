@@ -180,7 +180,7 @@ public class MapPane extends AuthoringPane {
     public void formatBackground() {
         AuthoringUtil.openFileChooser(
                 getContext().getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
-                file -> setMapImage(level, file.toURI().toString()),
+                file -> setMapImage(level, file.getAbsolutePath()),
                 () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
         );
     }
@@ -191,11 +191,12 @@ public class MapPane extends AuthoringPane {
      */
     public void setMapImage(int level, String fileName){
         var file = new File(fileName);
-        levelToState.get(level).setBackgroundURL(file.getAbsolutePath());
+        var filestring = file.toURI().toString();
+        levelToState.get(level).setBackgroundURL(filestring);
         getContext().getState().getLevels().get(level-1).setBackgroundImageURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +
-                        fileName +
+                        filestring +
                         "); " +
                         "-fx-background-size: cover;"
         );

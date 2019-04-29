@@ -5,7 +5,9 @@ import authoring.IObjectiveDefinition;
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
 
-public class Objective implements IObjectiveDefinition {
+import java.io.Serializable;
+
+public class Objective implements IObjectiveDefinition, Serializable {
 
     private ObjectiveCondition condition;
     private ObjectiveOutcome outcome;

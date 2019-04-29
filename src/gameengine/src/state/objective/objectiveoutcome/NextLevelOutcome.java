@@ -1,4 +1,4 @@
-package state.objective;
+package state.objective.objectiveoutcome;
 
 import state.State;
 

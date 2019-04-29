@@ -4,6 +4,8 @@ import authoring.IObjectiveConditionDefinition;
 import authoring.IObjectiveDefinition;
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
+import state.objective.objectivecondition.ObjectiveCondition;
+import state.objective.objectiveoutcome.ObjectiveOutcome;
 
 import java.io.Serializable;
 

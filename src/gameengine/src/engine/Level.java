@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
+public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable, Cloneable {
 
     private LevelState levelState;
     private GameEventMaster eventMaster;

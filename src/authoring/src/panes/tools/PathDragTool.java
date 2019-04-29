@@ -6,9 +6,11 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import panes.ConsolePane;
 import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
+import java.lang.reflect.Method;
 
 public class PathDragTool extends PathModifyTool{
 
@@ -25,16 +27,31 @@ public class PathDragTool extends PathModifyTool{
     public void onMapClick(MouseEvent event) {
         var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
-            selectedPoint.dragSetup(event);
-            updatePathLines(selectedPath);
+            selectedActions(getContext().getString("DragSetupMethod"), event);
         }
     }
 
     private void onMapDrag(MouseEvent event){
         var selected = checkPointSelected(event.getX(), event.getY());
         if(selected){
-            selectedPoint.onDrag(event);
+            selectedActions(getContext().getString("OnDragMethod"), event);
+        }
+    }
+
+    private void selectedActions(String pointActionName, MouseEvent event){
+        try{
+            map.getCurrentState().removePath(selectedPath);
+
+            Method pointAction = getClass().getDeclaredMethod(pointActionName);
+            pointAction.invoke(selectedPoint, event);
+
             updatePathLines(selectedPath);
+            map.getCurrentState().addToPaths(selectedPath);
+        }
+        catch(NoSuchMethodException e){
+            getContext().displayConsoleMessage(getContext().getString("ReflectionError"), ConsolePane.Level.ERROR);
+        } catch (Exception e) {
+            getContext().displayConsoleMessage(getContext().getString("ReflectionInvocationError"), ConsolePane.Level.ERROR);
         }
     }
 

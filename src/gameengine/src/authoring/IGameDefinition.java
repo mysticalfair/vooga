@@ -1,5 +1,7 @@
 package authoring;
 
+import java.io.File;
+
 /**
  * Interface to represent the game as the authoring environment should see it
  * @author David Miron
@@ -7,6 +9,6 @@ package authoring;
 public interface IGameDefinition {
 
     void setState(IStateDefinition state);
-    void saveState(String filename);
+    void saveState(File location);
 
 }

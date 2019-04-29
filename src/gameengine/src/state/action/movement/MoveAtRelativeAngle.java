@@ -9,6 +9,7 @@ import java.util.Map;
  * Allows an agent to move at a constant angle, relative to its orientation
  * @author Jamie Palka
  * @author David Miron
+ * @author Luke Truitt
  */
 public class MoveAtRelativeAngle extends MovementAction {
 

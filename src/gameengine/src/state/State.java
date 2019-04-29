@@ -1,6 +1,7 @@
 package state;
 
 import authoring.IAgentDefinition;
+import authoring.IObjectiveDefinition;
 import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
@@ -19,11 +20,8 @@ import java.util.List;
  * Interface to represent the game as the authoring environment should see it
  * @author Jorge Raad
  * @author David Miron
-<<<<<<< HEAD
- * @auhor Jamie Palka
-=======
+ * @author Jamie Palka
  * @author Luke Truitt
->>>>>>> 31482d5383475d8d6dc993689a79c8f78dcb52b7
  */
 public class State implements IStateDefinition, Serializable {
 
@@ -95,8 +93,13 @@ public class State implements IStateDefinition, Serializable {
      * Add an objective to the current list of objectives.
      * @param objective the objective to be added
      */
-    public void defineObjective(Objective objective) {
-        currentObjectives.add(objective);
+    public void defineObjective(IObjectiveDefinition objective) {
+        Objective addObjective = (Objective)objective;
+        currentObjectives.add(addObjective);
+    }
+
+    public List<Objective> getObjectives() {
+        return currentObjectives;
     }
 
     /**

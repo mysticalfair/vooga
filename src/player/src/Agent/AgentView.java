@@ -48,7 +48,7 @@ public class AgentView extends ImageView implements PropertyChangeListener {
       this.setFitHeight(playerAgent.getHeight());
       this.setFitWidth(playerAgent.getWidth());
       this.setRotate(playerAgent.getDirection());
-      this.setImage(new Image(playerAgent.getImageURL()));
+      this.setImage(new Image("file:" + playerAgent.getImageURL()));
 
       //this.setImage(new Image(AgentView.class.getResourceAsStream(playerAgent.getImageURL())));
       //System.out.println(playerAgent.getImageURL());

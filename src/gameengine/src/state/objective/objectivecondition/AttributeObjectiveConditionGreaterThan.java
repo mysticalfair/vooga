@@ -1,6 +1,7 @@
 package state.objective.objectivecondition;
 
 import state.State;
+import state.objective.ObjectiveUtils;
 
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class AttributeObjectiveConditionGreaterThan extends AttributeObjectiveCo
      * Returns true if the given attribute has a value greater than or equal to the target value.
      */
     public boolean evaluate(State state) {
+
+        attribute = ObjectiveUtils.getAttributeFromName(state, attributeName);
 
         return ((state.getCurrentLevelInt() == level || level == -1) && attribute.getValue() >= targetValue);
     }

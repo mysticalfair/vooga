@@ -2,6 +2,7 @@ package state.objective.objectiveoutcome;
 
 import state.State;
 import state.attribute.IAttribute;
+import state.objective.ObjectiveUtils;
 
 import java.util.Map;
 
@@ -25,11 +26,7 @@ public class ChangeAttributeOutcome extends ObjectiveOutcome {
 
     public String execute(State state) {
 
-        for(IAttribute attribute : state.getCurrentAttributes()) {
-            if (attribute.getName().equals(attributeName)) {
-                this.attribute = attribute;
-            }
-        }
+        attribute = ObjectiveUtils.getAttributeFromName(state, attributeName);
 
         attribute.setValue(attribute.getValue() + change);
         return null;

@@ -13,6 +13,7 @@ abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
 
     protected Attribute attribute;
     protected int targetValue;
+    protected String attributeName;
 
     public AttributeObjectiveCondition(Map<String, Object> params) {
         super(params);
@@ -21,7 +22,7 @@ abstract public class AttributeObjectiveCondition extends ObjectiveCondition {
     @Override
     public void setParams(Map<String, Object> params) {
 
-        this.attribute = (Attribute) params.get("attribute");
+        this.attributeName = (String) params.get("attributeName");
         this.targetValue = (Integer) params.get("targetPropertyValue");
         super.setParams(params);
     }

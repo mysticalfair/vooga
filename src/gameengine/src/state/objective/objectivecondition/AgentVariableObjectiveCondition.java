@@ -26,7 +26,7 @@ abstract public class AgentVariableObjectiveCondition extends ObjectiveCondition
     public void setParams(Map<String, Object> params) {
 
         this.variableName = (String) params.get("variableName");
-        this.targetValue = (Double) params.get("targetPropertyValue");
+        this.targetValue = (Double) params.get("targetValue");
         this.objectiveIdentificationPropertyValue = (String) params.get(OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS);
         super.setParams(params);
     }

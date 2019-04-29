@@ -58,7 +58,7 @@ public class MoveOnPointPath extends MovementAction implements IRequiresPaths {
         }
 
         Point2D p = points.get(currPoint);
-        double angle = Math.atan((p.getY() - baseAgent.getY()) / (p.getX() - baseAgent.getY()));
+        double angle = Math.atan((p.getY() - baseAgent.getY()) / (p.getX() - baseAgent.getX()));
         double vx = speed * Math.cos(angle);
         double vy = speed * Math.sin(angle);
         baseAgent.setLocation(baseAgent.getX() + vx * deltaTime,

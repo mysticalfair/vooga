@@ -8,13 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import state.Property;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlantsVsZombiesTest {
     public static final String GAME_FILE_NAME = "resources/gamefiles/pvzTest.xml";
@@ -170,24 +168,6 @@ class PlantsVsZombiesTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    void setState() {
-    }
-
-    @Test
-    void saveState() {
-        // deletes GameTestXML
-        if(new File(GAME_FILE_NAME).exists()){
-            new File(GAME_FILE_NAME).delete();
-        }
-        gameEngine.saveState(GAME_FILE_NAME);
-        assertTrue(new File(GAME_FILE_NAME).exists());
-    }
-
-    @Test
-    void stop() {
     }
 
     private IAgentDefinition createZombie(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {

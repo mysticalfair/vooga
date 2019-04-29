@@ -35,5 +35,5 @@ public interface ILevelDefinition {
     String getBackgroundImageURL();
     void setBackgroundImageURL(String imageURL);
 
-    ILevelDefinition cloneLevel() throws IOException, ClassNotFoundException;
+    ILevelDefinition clone() throws CloneNotSupportedException;
 }

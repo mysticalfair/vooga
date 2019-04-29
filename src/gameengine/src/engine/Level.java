@@ -235,11 +235,15 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     }
 
     @Override
-    public ILevelDefinition cloneLevel() throws IOException, ClassNotFoundException {
-        Level clonedLevel = (Level) AgentUtils.deepClone(this);
-        clonedLevel.eventMaster = this.eventMaster;
-        clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
-        return clonedLevel;
+    public ILevelDefinition clone() throws CloneNotSupportedException {
+        try {
+            Level clonedLevel = (Level) AgentUtils.deepClone(this);
+            clonedLevel.eventMaster = this.eventMaster;
+            clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
+            return clonedLevel;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new CloneNotSupportedException();
+        }
     }
 
 }

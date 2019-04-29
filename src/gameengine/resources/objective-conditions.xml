@@ -65,23 +65,14 @@
             <string>objectiveIdentificationPropertyValue</string>
         </fields>
     </objectiveConditionDefinition>
-
-
-
-
-
-
-
-
-
-
-
-
+    
     <objectiveConditionDefinition>
         <name>AttributeEqualToValue</name>
         <fields>
             <string>title</string>
             <int>level</int>
+            <string>attributeName</string>
+            <int>targetValue</int>
         </fields>
     </objectiveConditionDefinition>
 
@@ -90,6 +81,8 @@
         <fields>
             <string>title</string>
             <int>level</int>
+            <string>attributeName</string>
+            <int>targetValue</int>
         </fields>
     </objectiveConditionDefinition>
 
@@ -98,6 +91,8 @@
         <fields>
             <string>title</string>
             <int>level</int>
+            <string>attributeName</string>
+            <int>targetValue</int>
         </fields>
     </objectiveConditionDefinition>
 

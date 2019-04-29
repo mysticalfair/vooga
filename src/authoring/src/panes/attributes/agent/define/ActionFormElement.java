@@ -2,6 +2,7 @@ package panes.attributes.agent.define;
 
 import authoring.IActionDefinition;
 import panes.ConsolePane;
+import panes.attributes.NameFieldsFormElement;
 import util.AuthoringContext;
 
 public class ActionFormElement extends NameFieldsFormElement {

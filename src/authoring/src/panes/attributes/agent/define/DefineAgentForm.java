@@ -10,12 +10,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import panes.AuthoringPane;
 import panes.ConsolePane;
+import panes.attributes.FormElement;
 import util.AuthoringContext;
 
 import java.util.List;
 
 
-public class DefineAgentForm extends AuthoringPane {
+public class DefineAgentForm extends FormElement {
 
     private Button saveButton, cancelButton;
     private CommonAgentFieldsForm commonAgentFieldsForm;
@@ -69,11 +70,17 @@ public class DefineAgentForm extends AuthoringPane {
         cancelButton.setOnAction(onCancel);
     }
 
-    public IAgentDefinition getAgentDefinition() {
+    /**
+     * Packages the data from this form into an IAgentDefinition.
+     * @return the IAgentDefinition containing the data from this form.
+     */
+    @Override
+    public IAgentDefinition packageData() {
         if (commonAgentFieldsForm.getName().equals("")) {
             getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
             return null;
         }
+        // TODO: Check to make sure name is unique
         if (commonAgentFieldsForm.getWidth() == getContext().getInt("ErrorInt")) {
             getContext().displayConsoleMessage(getContext().getString("WidthMustBeInt"), ConsolePane.Level.ERROR);
             return null;

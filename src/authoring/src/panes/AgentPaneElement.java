@@ -1,8 +1,9 @@
 package panes;
 
 import authoring.IAgentDefinition;
-import frontend_objects.AgentView;
-import frontend_objects.DraggableAgentView;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -12,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import util.AuthoringContext;
 import util.AuthoringUtil;
+
+import java.util.function.BiConsumer;
 
 /**
  * @author Samuel Rabinowitz
@@ -71,15 +74,20 @@ public class AgentPaneElement extends AuthoringPane {
         controlsHBox.getChildren().add(checkBox);
     }
 
-    public void mousePressedOnClone(MouseEvent e, MapPane map) {
-        if (e.getClickCount() == getContext().getInt("CloneClickCount")) {
-            DraggableAgentView copy = new DraggableAgentView(getContext(), agent.getImageURL());
-            map.addAgent(map.getLevel(), copy);
-            getContext().displayConsoleMessage(getContext().getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
-            copy.setMouseActionsForDrag(map);
-        } else {
-            // code to open up attributes pane.
-        }
+    public void setOnImageClicked(BiConsumer<MouseEvent, IAgentDefinition> imageAction) {
+        image.setOnMouseClicked(e -> imageAction.accept(e, agent));
+    }
+
+    public void setOnEdit(BiConsumer<ActionEvent, IAgentDefinition> editAction) {
+        editButton.setOnAction(e -> editAction.accept(e, agent));
+    }
+
+    public void setOnDelete(BiConsumer<ActionEvent, IAgentDefinition> deleteAction) {
+        deleteButton.setOnAction(e -> deleteAction.accept(e, agent));
+    }
+
+    public void setOnCheckChanged(BiConsumer<Boolean, IAgentDefinition> checkListener) {
+        checkBox.selectedProperty().addListener(((observableValue, oldValue, newValue) -> checkListener.accept(newValue, agent)));
     }
 
 }

@@ -1,14 +1,21 @@
 package panes;
 
+import authoring.IAgentDefinition;
+import frontend_objects.DraggableAgentView;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import util.AuthoringContext;
 import util.AuthoringUtil;
+
+import java.util.function.BiConsumer;
 
 public class AgentPane extends AuthoringPane {
 
@@ -17,6 +24,10 @@ public class AgentPane extends AuthoringPane {
     private ScrollPane scrollInventory; // scrollpane that contains inventory
     private FlowPane inventory; // the inventory itself inside the scrollpane
     private ImageView trash; // trash for deleting agents from map
+
+    private BiConsumer<MouseEvent, IAgentDefinition> imageAction;
+    private BiConsumer<ActionEvent, IAgentDefinition> editAction, deleteAction;
+    private BiConsumer<Boolean, IAgentDefinition> checkListener;
 
     public AgentPane(AuthoringContext context) {
         super(context);
@@ -53,7 +64,7 @@ public class AgentPane extends AuthoringPane {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         //scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentPaneWidth"));
-        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        //scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }
@@ -64,13 +75,33 @@ public class AgentPane extends AuthoringPane {
         scrollInventory.setContent(inventory);
     }
 
-    public void refreshAgentList(int level, MapPane map) {
+    public void setOnImageClicked(BiConsumer<MouseEvent, IAgentDefinition> imageAction) {
+        this.imageAction = imageAction;
+    }
+
+    public void setOnEdit(BiConsumer<ActionEvent, IAgentDefinition> editAction) {
+        this.editAction = editAction;
+    }
+
+    public void setOnDelete(BiConsumer<ActionEvent, IAgentDefinition> deleteAction) {
+        this.deleteAction = deleteAction;
+    }
+
+    public void setOnCheckChanged(BiConsumer<Boolean, IAgentDefinition> checkListener) {
+        this.checkListener = checkListener;
+    }
+
+    public void refreshAgentList(int level) {
         inventory.getChildren().clear();
         getContext().getState().getDefinedAgents().forEach(agent -> {
             AgentPaneElement newAgent = new AgentPaneElement(getContext(), agent);
-            //newAgent.setOnMousePressed(e -> newAgent.mousePressedOnClone(e, map));
             newAgent.accessContainer(inventory.getChildren()::add);
-            // TODO: add delete and edit button actions, checkbox to enable, and only set to enabled if in current level
+            newAgent.setOnImageClicked(imageAction);
+            newAgent.setOnEdit(editAction);
+            newAgent.setOnDelete(deleteAction);
+            newAgent.setOnCheckChanged(checkListener);
+
+            // TODO: only set to enabled if in current level
         });
     }
 
@@ -82,7 +113,7 @@ public class AgentPane extends AuthoringPane {
     @Override
     public void updateSize(double width, double height) {
         inventoryContainer.setPrefSize(width, height);
-        scrollInventory.setPrefViewportWidth(width);
-        scrollInventory.setPrefViewportHeight(height);
+        //scrollInventory.setPrefViewportWidth(width);
+        //scrollInventory.setPrefViewportHeight(height);
     }
 }

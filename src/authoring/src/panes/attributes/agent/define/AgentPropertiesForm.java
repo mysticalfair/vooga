@@ -30,4 +30,13 @@ public class AgentPropertiesForm extends LabeledEditableFormList {
         return properties;
     }
 
+    public void loadFromExisting(List<? extends IPropertyDefinition> properties) {
+        properties.forEach(property -> {
+            AgentPropertyFormElement element = new AgentPropertyFormElement(getContext());
+            element.loadFromExisting(property);
+            add(element);
+            element.setOnDelete(e2 -> remove(element));
+        });
+    }
+
 }

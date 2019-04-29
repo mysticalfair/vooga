@@ -2,6 +2,7 @@ package panes;
 
 import authoring.GameFactory;
 import authoring.ILevelDefinition;
+import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -146,8 +147,25 @@ public class AuthoringEnvironment extends Application {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
         agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"),
-                e -> attributesPane.createNewAgentForm(agent -> agentPane.refreshAgentList(1, map)));
-        agentPane.refreshAgentList(1, map);
+                e -> attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), null, false));
+        agentPane.setOnImageClicked((e, agent) -> {
+            //if (e.getClickCount() == getContext().getInt("CloneClickCount")) { // Only add on double click to allow editing action on single click
+            DraggableAgentView copy = new DraggableAgentView(context, agent.getImageURL());
+            map.addAgent(map.getLevel(), copy);
+            context.displayConsoleMessage(context.getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            copy.setMouseActionsForDrag(map);
+            //}
+        });
+        agentPane.setOnEdit((e, agent) -> {
+            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, false);
+        });
+        agentPane.setOnDelete((e, agent) -> {
+            // TODO: Delete agent from overall list of defined agents, and all references of it in levels
+        });
+        agentPane.setOnCheckChanged((b, agent) -> {
+            // TODO: Add or remove agent from list of placeables in current level
+        });
+        agentPane.refreshAgentList(1);
     }
 
     private void initBottomPanes() {

@@ -54,15 +54,15 @@
       <authoringAgentsPlaced>
         <state.AgentReference>
           <name>red</name>
-          <x>50.0</x>
-          <y>50.0</y>
+          <x>0.0</x>
+          <y>100.0</y>
           <direction>0.0</direction>
           <instanceProperties/>
         </state.AgentReference>
         <state.AgentReference>
           <name>red</name>
           <x>50.0</x>
-          <y>100.0</y>
+          <y>50.0</y>
           <direction>0.0</direction>
           <instanceProperties/>
         </state.AgentReference>

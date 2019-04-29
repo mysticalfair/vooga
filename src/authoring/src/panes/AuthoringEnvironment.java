@@ -18,8 +18,9 @@ import panes.tools.ToolbarPane;
 import state.AgentReference;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
 

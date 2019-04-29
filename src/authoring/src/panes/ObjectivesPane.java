@@ -17,25 +17,25 @@ import util.AuthoringUtil;
 
 import java.util.function.BiConsumer;
 
-public class AgentPane extends AuthoringPane {
+public class ObjectivesPane extends AuthoringPane{
 
     private VBox inventoryContainer; // overall VBox
     private HBox buttonPane; // button panes at top of VBox
     private ScrollPane scrollInventory; // scrollpane that contains inventory
     private FlowPane inventory; // the inventory itself inside the scrollpane
     private ImageView trash; // trash for deleting agents from map
-    private TabPane tabPane = new TabPane();
+    private TabPane tabPane;
 
     private BiConsumer<MouseEvent, IAgentDefinition> imageAction;
     private BiConsumer<ActionEvent, IAgentDefinition> editAction, copyAction, deleteAction;
     private BiConsumer<Boolean, IAgentDefinition> checkListener;
 
-    public AgentPane(AuthoringContext context) {
+    public ObjectivesPane(AuthoringContext context, TabPane tabs) {
         super(context);
         initElements();
         openTab("TEST");
-        getContentChildren().add(tabPane);
-
+        tabPane = tabs;
+        //getContentChildren().add(tabPane);
     }
 
     private void openTab(String tabName){
@@ -104,7 +104,7 @@ public class AgentPane extends AuthoringPane {
         this.checkListener = checkListener;
     }
 
-    public void refreshAgentList(int level) {
+    public void refreshObjectiveList(int level) {
         inventory.getChildren().clear();
         getContext().getState().getDefinedAgents().forEach(agent -> {
             AgentPaneElement newAgent = new AgentPaneElement(getContext(), agent);
@@ -130,4 +130,26 @@ public class AgentPane extends AuthoringPane {
         //scrollInventory.setPrefViewportWidth(width);
         //scrollInventory.setPrefViewportHeight(height);
     }
+
+    // Text label
+    /*
+    Edit button
+    Delete button
+    Add button
+     */
+
+
+    /*
+    Objective condition
+    Objective outcome
+
+    if(condition is true)
+        outcome.execute
+
+     */
+
+    /*
+    Attributes - thing the player has
+    Exclusively integer
+     */
 }

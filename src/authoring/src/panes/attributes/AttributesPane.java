@@ -6,6 +6,8 @@ import javafx.scene.control.ScrollPane;
 import panes.AuthoringPane;
 import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
+import panes.attributes.agent.instance.EditAgentInstanceForm;
+import state.AgentReference;
 import util.AuthoringContext;
 
 import java.util.function.Consumer;
@@ -42,13 +44,13 @@ public class AttributesPane extends AuthoringPane {
      * will update all of the attributes of the existing agent passed in. If
      * an agent is unsuccessfully created, will notify user of problem to fix
      * and will not clear form.
-     * @param onCreated callback for successful agent creation
+     * @param onSuccess callback for successful agent creation
      * @param existingAgent an existing agent to modify or copy, if null
      *                      creates new agent
      * @param copyExisting if true and existingAgent not null, creates a new
      *                     agent based off of existingAgent
      */
-    public void createNewAgentForm(Consumer<IAgentDefinition> onCreated, IAgentDefinition existingAgent, boolean copyExisting) {
+    public void createNewAgentForm(Consumer<IAgentDefinition> onSuccess, IAgentDefinition existingAgent, boolean copyExisting) {
         scrollPane.setContent(null);
         DefineAgentForm defineAgentForm = new DefineAgentForm(getContext());
         if (existingAgent != null) {
@@ -57,7 +59,7 @@ public class AttributesPane extends AuthoringPane {
         defineAgentForm.accessContainer(scrollPane::setContent);
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
         defineAgentForm.setOnSave(e -> {
-            IAgentDefinition a = defineAgentForm.getAgentDefinition();
+            IAgentDefinition a = defineAgentForm.packageData();
             if (a == null) {
                 getContext().displayConsoleMessage(getContext().getString("AgentNotCreated"), ConsolePane.Level.ERROR);
                 return;
@@ -80,12 +82,42 @@ public class AttributesPane extends AuthoringPane {
                 a.getProperties().forEach(existingAgent::addProperty);
                 existingAgent.getActionDecisions().clear();
                 a.getActionDecisions().forEach(existingAgent::addActionDecision);
-                onCreated.accept(existingAgent);
+                onSuccess.accept(existingAgent);
             }
             else {
                 getContext().getState().addDefinedAgent(a);
-                onCreated.accept(a);
+                onSuccess.accept(a);
             }
+            scrollPane.setContent(null);
+        });
+    }
+
+    /**
+     * Allows editing of agent instances.
+     * @param onSuccess callback for successful agent instance modification
+     * @param agentReference the reference to edit
+     */
+    public void editAgentInstanceForm(Consumer<AgentReference> onSuccess, AgentReference agentReference) {
+        scrollPane.setContent(null);
+        if (agentReference == null) {
+            System.err.println("Agent reference cannot be null when editing.");
+            return;
+        }
+        EditAgentInstanceForm editAgentInstanceForm = new EditAgentInstanceForm(getContext());
+        editAgentInstanceForm.loadFromExisting(agentReference);
+        editAgentInstanceForm.accessContainer(scrollPane::setContent);
+        editAgentInstanceForm.setOnCancel(e -> scrollPane.setContent(null));
+        editAgentInstanceForm.setOnSave(e -> {
+            AgentReference a = editAgentInstanceForm.packageData();
+            if (a == null) {
+                getContext().displayConsoleMessage(getContext().getString("AgentInstanceNotModified"), ConsolePane.Level.ERROR);
+                return;
+            }
+            agentReference.setX(a.getX());
+            agentReference.setY(a.getY());
+            agentReference.setDirection(a.getDirection());
+            agentReference.setInstanceProperties(a.getInstanceProperties());
+            onSuccess.accept(agentReference);
             scrollPane.setContent(null);
         });
     }

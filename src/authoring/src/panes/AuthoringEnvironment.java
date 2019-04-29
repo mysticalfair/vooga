@@ -18,8 +18,9 @@ import panes.tools.ToolbarPane;
 import state.AgentReference;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
 
@@ -108,14 +109,17 @@ public class AuthoringEnvironment extends Application {
         agentPane.accessContainer(borderPane::setRight);
         agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"),
                 e -> attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), null, false));
+        // TODO: on editing of agent definition that already exists, update images (and widths and heights and names) of all DraggableAgentViews and AgentReferences in all levels
         agentPane.setOnImageClicked((e, agent) -> {
             //if (e.getClickCount() == getContext().getInt("CloneClickCount")) { // Only add on double click to allow editing action on single click
             context.getState().getLevels().get(map.getLevel() - 1).addAgent(agent.getName(), 0, 0, 0, new ArrayList<IPropertyDefinition>());
             List<AgentReference> agentReferences = context.getState().getLevels().get(map.getLevel() - 1).getCurrentAgents();
-            DraggableAgentView copy = new DraggableAgentView(context, agent.getImageURL(), agentReferences.get(agentReferences.size() - 1));
-            map.addAgent(copy);
+            AgentReference ref = agentReferences.get(agentReferences.size() - 1);
+            DraggableAgentView draggableAgentView = new DraggableAgentView(context, agent.getImageURL(), ref);
+            draggableAgentView.setOnMouseClicked(e2 -> attributesPane.editAgentInstanceForm(editedRef -> draggableAgentView.syncWithReference(), ref));
+            map.addAgent(draggableAgentView);
             context.displayConsoleMessage(context.getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
-            copy.setMouseActionsForDrag(map);
+            draggableAgentView.setMouseActionsForDrag(map);
             //}
         });
         agentPane.setOnEdit((e, agent) ->
@@ -158,21 +162,20 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addButton(context.getString("DeleteFile"), e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", context.getString("MenuItemUpload"), e -> map.formatBackground());
-        toolbarPane.addAction("File", context.getString("MenuItemSave"), null);
+        toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> getUserFileName());
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> levelHandler.changeToExistingLevel((int)((double) newValue)));
 
         pen = toolbarPane.getPen();
     }
-/*
+
     private void getUserFileName(){
-        AuthoringUtil.openFileChooser(
-                context.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
-                file -> context.getGame().saveState(file.toURI().toString()),
-                () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
+        AuthoringUtil.openDirectoryChooser(
+                null, file -> context.getGame().saveState(file),
+                () -> context.displayConsoleMessage(context.getString("GameSaveError"), ConsolePane.Level.ERROR)
         );
-    }*/
+    }
 
     private void updateDimensions(double width, double height){
         var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentPaneWidth");
@@ -193,5 +196,6 @@ public class AuthoringEnvironment extends Application {
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add(context.getString("MainStyle"));
         stage.show();
+        map.formatBackground();
     }
 }

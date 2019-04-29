@@ -11,6 +11,7 @@ import javafx.scene.shape.Shape;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +190,8 @@ public class MapPane extends AuthoringPane {
      * @param fileName
      */
     public void setMapImage(int level, String fileName){
-        levelToState.get(level).setBackgroundURL(fileName);
+        var file = new File(fileName);
+        levelToState.get(level).setBackgroundURL(file.getAbsolutePath());
         getContext().getState().getLevels().get(level-1).setBackgroundImageURL(fileName);
         mapPane.setStyle(
                 "-fx-background-image: url(" +

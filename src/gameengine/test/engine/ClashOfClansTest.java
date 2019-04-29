@@ -37,9 +37,9 @@ public class ClashOfClansTest {
             ILevelDefinition level = factory.createLevel();
 
             state.addDefinedAgent(createTownHall("home"));
-
+            state.addDefinedAgent(createBarbarian("barb"));
             level.addAgent("home", 300, 300, 0, new ArrayList<>());
-
+            level.addAgent("barb", 350, 300, 0, new ArrayList<>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState(CLASH_FILE);
@@ -53,9 +53,15 @@ public class ClashOfClansTest {
         List<IPropertyDefinition> properties = new ArrayList<>();
         var prop = factory.createProperty("health", 100.0);
         properties.add(prop);
-        return factory.createAgent(0, 0, 50, 50 ,1, "home", "clash/TH10.png", actionDecisions, properties);
+        return factory.createAgent(0, 0, 50, 50 ,1, name, "clash/TH10.png", actionDecisions, properties);
     }
 
-
+    private IAgentDefinition createBarbarian(String name) {
+        List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
+        List<IPropertyDefinition> properties = new ArrayList<>();
+        var prop = factory.createProperty("health", 20.0);
+        properties.add(prop);
+        return factory.createAgent(0, 0, 10, 10 ,1, name, "clash/Barbarian.png", actionDecisions, properties);
+    }
 
 }

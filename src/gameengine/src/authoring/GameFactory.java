@@ -18,8 +18,8 @@ import state.action.Action;
 import state.actiondecision.ActionDecision;
 import state.agent.Agent;
 import state.condition.Condition;
-import state.objective.ObjectiveCondition;
-import state.objective.ObjectiveOutcome;
+import state.objective.objectivecondition.ObjectiveCondition;
+import state.objective.objectiveoutcome.ObjectiveOutcome;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -219,12 +219,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
         return this.actionDecisions;
     }
 
-    public void removeActionDecision(int i) {
-        // TODO:
+    public void removeActionDecision(int index) {
+        actionDecisions.remove(index);
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {
-        // TODO:
+        actionDecisions.add((ActionDecision) def);
     }
 
     // TODO:  fill out all property-related methods
@@ -236,11 +236,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
+        playerAgent.removeProperty(name);
     }
 
     @Override
     public void addProperty(IPropertyDefinition property) {
-
+        playerAgent.addProperty((Property) property);
     }
 
     @Override

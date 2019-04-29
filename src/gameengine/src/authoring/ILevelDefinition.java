@@ -33,4 +33,6 @@ public interface ILevelDefinition {
 
     String getBackgroundImageURL();
     void setBackgroundImageURL(String imageURL);
+
+    ILevelDefinition clone() throws CloneNotSupportedException;
 }

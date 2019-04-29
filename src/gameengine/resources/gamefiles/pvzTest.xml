@@ -4,7 +4,6 @@
       <levelState>
         <placeableAgents/>
         <agentsCurrent/>
-        <objectivesCurrent/>
         <attributesCurrent/>
         <pcs serialization="custom">
           <java.beans.PropertyChangeSupport>
@@ -505,5 +504,7 @@
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>
+  <currentObjectives/>
+  <gameOver>false</gameOver>
   <definedAgents reference="../levels/engine.Level/masterDefinedAgents"/>
 </state.State>

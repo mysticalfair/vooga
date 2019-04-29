@@ -39,14 +39,18 @@ public class NetworkedClient extends NetworkedBase implements ConnectableClient 
 
     @Override
     public void connect(String ip, int port) throws NetworkException {
-        if (socket == null) {
+        if (!isConnected()) {
             try {
-                socket = new Socket(ip, port);
-                createStreams();
+                setupSocket(new Socket(ip, port));
             } catch (IOException ex) {
                 throw new NetworkException(CONNECTION_ERROR, ex, ip, port);
             }
         }
+    }
+
+    @Override
+    void handleNetworkDisconnection() {
+        disconnect();
     }
 
     private Object getServerIface() throws NetworkException {

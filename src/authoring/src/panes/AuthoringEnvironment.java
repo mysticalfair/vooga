@@ -136,7 +136,7 @@ public class AuthoringEnvironment extends Application {
                 context.getState().getDefinedAgents().removeIf(agentDefinition -> agentDefinition.getName().equals(agent.getName()));
                 agentPane.refreshAgentList(map.getLevel());
                 context.getState().getLevels().forEach(level -> {
-                    level.getPlaceableAgents().remove(agent.getName());
+                    level.removePlaceableAgent(agent.getName());
                     level.getCurrentAgents().removeIf(agentReference -> agentReference.getName().equals(agent.getName()));
                 });
                 map.getStateMapping().values().forEach(mapState ->
@@ -145,8 +145,13 @@ public class AuthoringEnvironment extends Application {
                 context.displayConsoleMessage(String.format(context.getString("AgentDefinitionDeleted"), agent.getName()), ConsolePane.Level.NEUTRAL);
             });
         });
-        agentPane.setOnCheckChanged((b, agent) -> {
-            // TODO: Add or remove agent from list of placeables in current level
+        agentPane.setOnCheckChanged((checked, agent) -> {
+            if (checked) {
+                context.getState().getLevels().get(map.getLevel() - 1).addPlaceableAgent(agent.getName());
+            }
+            else {
+                context.getState().getLevels().get(map.getLevel() - 1).removePlaceableAgent(agent.getName());
+            }
         });
         agentPane.refreshAgentList(1);
     }
@@ -164,9 +169,15 @@ public class AuthoringEnvironment extends Application {
         toolbarPane = new ToolbarPane(context, map, scene, currentPaths);
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
-        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, false)));
+        toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> {
+            levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, false);
+            agentPane.refreshAgentList(map.getLevel()); // FIXME: This line isn't getting called for some reason
+        }));
 
-        toolbarPane.accessAddExisting(button -> button.setOnAction(e ->  levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, true)));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e -> {
+            levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, true);
+            agentPane.refreshAgentList(map.getLevel()); // FIXME: This line isn't getting called for some reason
+        }));
 
         toolbarPane.accessClear(button -> button.setOnAction(e -> levelHandler.clearLevel()));
 
@@ -179,7 +190,10 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> getUserFileName());
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
-        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> levelHandler.changeToExistingLevel((int)((double) newValue)));
+        toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> {
+            levelHandler.changeToExistingLevel((int)((double) newValue));
+            agentPane.refreshAgentList(map.getLevel()); // FIXME: This line isn't getting called for some reason
+        });
 
         pen = toolbarPane.getPen();
     }

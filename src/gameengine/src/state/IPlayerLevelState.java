@@ -1,6 +1,7 @@
 package state;
 
 import state.agent.IPlayerAgent;
+import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 
 import java.beans.PropertyChangeListener;
@@ -18,6 +19,8 @@ public interface IPlayerLevelState {
     List<IPlayerAttribute> getImmutableAttributes();
     boolean addAgentFromStore(int index, double x, double y);
 
+    void addAttribute(Attribute attribute);
+    void removeAttribute(Attribute attribute);
     void addPropertyChangeListener(PropertyChangeListener listener);
 
     String getBackgroundImageURL();

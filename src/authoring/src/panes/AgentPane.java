@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +24,7 @@ public class AgentPane extends AuthoringPane {
     private ScrollPane scrollInventory; // scrollpane that contains inventory
     private FlowPane inventory; // the inventory itself inside the scrollpane
     private ImageView trash; // trash for deleting agents from map
+    private TabPane tabPane = new TabPane();
 
     private BiConsumer<MouseEvent, IAgentDefinition> imageAction;
     private BiConsumer<ActionEvent, IAgentDefinition> editAction, copyAction, deleteAction;
@@ -30,7 +33,15 @@ public class AgentPane extends AuthoringPane {
     public AgentPane(AuthoringContext context) {
         super(context);
         initElements();
-        getContentChildren().add(inventoryContainer);
+        openTab("TEST");
+        getContentChildren().add(tabPane);
+
+    }
+
+    private void openTab(String tabName){
+        var tab = new Tab(tabName);
+        tab.setContent(inventoryContainer);
+        tabPane.getTabs().add(tab);
     }
 
     private void initElements() {
@@ -44,7 +55,7 @@ public class AgentPane extends AuthoringPane {
         inventoryContainer = new VBox();
         inventoryContainer.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        inventoryContainer.setPrefSize(getContext().getDouble("AgentPaneWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        tabPane.setPrefSize(getContext().getDouble("AgentPaneWidth"), getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         inventoryContainer.getStylesheets().add(getContext().getString("AgentPaneStyle"));
     }
 

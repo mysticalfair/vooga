@@ -17,6 +17,7 @@ import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
 import state.AgentReference;
 import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.*;
 
@@ -157,13 +158,21 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addButton(context.getString("DeleteFile"), e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", context.getString("MenuItemUpload"), e -> map.formatBackground());
-        toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> context.getGame().saveState(context.getString("GameSaveName")));
+        toolbarPane.addAction("File", context.getString("MenuItemSave"), null);
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> levelHandler.changeToExistingLevel((int)((double) newValue)));
 
         pen = toolbarPane.getPen();
     }
+/*
+    private void getUserFileName(){
+        AuthoringUtil.openFileChooser(
+                context.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
+                file -> context.getGame().saveState(file.toURI().toString()),
+                () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
+        );
+    }*/
 
     private void updateDimensions(double width, double height){
         var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentPaneWidth");

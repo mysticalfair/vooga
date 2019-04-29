@@ -2,7 +2,6 @@ package state.objective.objectivecondition;
 
 import authoring.IObjectiveConditionDefinition;
 import state.State;
-import state.agent.Agent;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,7 +17,7 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
     public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
 
     protected Map<String, Object> params;
-    protected String title;
+    protected String name;
     protected int level;
 
     public ObjectiveCondition(Map<String, Object> params) {
@@ -31,19 +30,16 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
     }
 
     public void setParams(Map<String, Object> params) {
-        this.title = (String) params.get("title");
+        this.name = (String) params.get("name");
         this.level = (Integer) params.get("level");
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getName() {
+        return this.name;
     }
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public int getLevel() { return this.level; }
-    public void setLevel(int level) { this.level = level; }
 
     /**
      * Checks necessary conditions and

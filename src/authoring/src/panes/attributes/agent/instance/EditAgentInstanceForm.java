@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import panes.ConsolePane;
 import panes.attributes.FormElement;
+import panes.attributes.TitledSaveableFormElement;
 import panes.attributes.agent.define.AgentPropertiesForm;
 import state.AgentReference;
 import state.Property;
@@ -18,11 +19,8 @@ import util.AuthoringContext;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Abstract this and DefineAgentForm since there are so many similarities
+public class EditAgentInstanceForm extends TitledSaveableFormElement {
 
-public class EditAgentInstanceForm extends FormElement {
-
-    private Button saveButton, cancelButton;
     private CommonAgentInstanceFieldsForm commonAgentInstanceFieldsForm;
     private AgentPropertiesForm agentPropertiesForm;
 
@@ -32,34 +30,13 @@ public class EditAgentInstanceForm extends FormElement {
     }
 
     private void init() {
-        VBox vBox = new VBox();
-
-        saveButton = new Button(getContext().getString("Save"));
-        cancelButton = new Button(getContext().getString("Cancel"));
-
-        HBox buttonsHBox = new HBox();
-        buttonsHBox.getChildren().addAll(saveButton, cancelButton);
-        vBox.getChildren().add(buttonsHBox);
-
-        vBox.getChildren().add(new Label(""));
-
         commonAgentInstanceFieldsForm = new CommonAgentInstanceFieldsForm(getContext());
-        commonAgentInstanceFieldsForm.accessContainer(vBox.getChildren()::add);
+        commonAgentInstanceFieldsForm.accessContainer(container -> accessVBox(vBox -> vBox.getChildren().add(container)));
 
-        vBox.getChildren().add(new Label(""));
+        accessVBox(vBox -> vBox.getChildren().add(new Label("")));
 
         agentPropertiesForm = new AgentPropertiesForm(getContext());
-        agentPropertiesForm.accessContainer(vBox.getChildren()::add);
-
-        getContentChildren().add(vBox);
-    }
-
-    public void setOnSave(EventHandler onSave) {
-        saveButton.setOnAction(onSave);
-    }
-
-    public void setOnCancel(EventHandler onCancel) {
-        cancelButton.setOnAction(onCancel);
+        agentPropertiesForm.accessContainer(container -> accessVBox(vBox -> vBox.getChildren().add(container)));
     }
 
     public void loadFromExisting(AgentReference ref) {
@@ -73,11 +50,10 @@ public class EditAgentInstanceForm extends FormElement {
      */
     @Override
     public AgentReference packageData() {
-        if (commonAgentInstanceFieldsForm.getName().equals("")) {
+        /*if (commonAgentInstanceFieldsForm.getName().equals("")) {
             getContext().displayConsoleMessage(getContext().getString("AgentNeedsName"), ConsolePane.Level.ERROR);
             return null;
-        }
-
+        }*/
         if (commonAgentInstanceFieldsForm.getX() == getContext().getDouble("ErrorDouble")) {
             getContext().displayConsoleMessage(getContext().getString("XMustBeDouble"), ConsolePane.Level.ERROR);
             return null;

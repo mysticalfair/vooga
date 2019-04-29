@@ -100,6 +100,13 @@ public class AgentPane extends AuthoringPane {
         this.deleteAction = deleteAction;
     }
 
+    /**
+     * Sets a listener that fires when a checkbox on an agent in the agent pane is toggled.
+     * This checkbox is meant to indicate whether the agent is placeable (available in the store) in this level.
+     * @param checkListener a BiConsumer that fires when the checkbox is toggled<br>
+     *                      The first parameter, Boolean, is the updated value of the checkbox.<br>
+     *                      The second parameter, IAgentDefinition, is the agent on which the toggle occurred.
+     */
     public void setOnCheckChanged(BiConsumer<Boolean, IAgentDefinition> checkListener) {
         this.checkListener = checkListener;
     }
@@ -114,8 +121,7 @@ public class AgentPane extends AuthoringPane {
             newAgent.setOnCopy(copyAction);
             newAgent.setOnDelete(deleteAction);
             newAgent.setOnCheckChanged(checkListener);
-
-            // TODO: only set to enabled if in current level
+            newAgent.setChecked(getContext().getState().getLevels().get(level - 1).getPlaceableAgents().contains(agent.getName()));
         });
     }
 

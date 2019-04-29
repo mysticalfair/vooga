@@ -73,6 +73,7 @@ public abstract class NameFieldsFormElement extends FormElement {
         AvailableNameFields selectedNameField = nameFields.stream().filter(p -> p.getName().equals(selectedName)).collect(Collectors.toList()).get(0);
 
         for (Field f : selectedNameField.getFields()) {
+            // TODO: Load more than just text fields as parameter entry options
             LabeledTextField field = new LabeledTextField(getContext(), f.getName());
             field.setPromptText(f.getType());
             parameters.add(field);

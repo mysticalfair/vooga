@@ -1,9 +1,9 @@
 package panes.attributes.state;
 
-import authoring.INameFieldsDefinition;
 import authoring.IObjectiveConditionDefinition;
 import authoring.IObjectiveDefinition;
 import authoring.IObjectiveOutcomeDefinition;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,18 +45,26 @@ public class ObjectiveForm extends FormElement {
         outcome.loadFromExisting(objective.getOutcome());
     }
 
+    public void setOnSave(EventHandler onSave) {
+        saveButton.setOnAction(onSave);
+    }
+
+    public void setOnCancel(EventHandler onCancel) {
+        cancelButton.setOnAction(onCancel);
+    }
+
     /**
-     * Packages the data from this form into an array of objective condition and outcome.
-     * @return the array containing the data from this form.
+     * Packages the data from this form into an IObjectiveDefinition
+     * @return the IObjectiveDefinition containing the data from this form.
      */
     @Override
-    public INameFieldsDefinition[] packageData() {
+    public IObjectiveDefinition packageData() {
         IObjectiveConditionDefinition conditionDef = condition.packageData();
         IObjectiveOutcomeDefinition outcomeDef = outcome.packageData();
         if (conditionDef == null || outcomeDef == null) {
             return null;
         }
-        return new INameFieldsDefinition[]{conditionDef, outcomeDef};
+        return getContext().getGameFactory().createObjective("", conditionDef, outcomeDef);
     }
 
 }

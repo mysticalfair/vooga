@@ -15,7 +15,7 @@ public class Objective implements IObjectiveDefinition, Serializable {
     private ObjectiveOutcome outcome;
     private String name;
 
-    public Objective(ObjectiveCondition condition, ObjectiveOutcome outcome, String name) {
+    public Objective(String name, ObjectiveCondition condition, ObjectiveOutcome outcome) {
         this.condition = condition;
         this.outcome = outcome;
         this.name = name;

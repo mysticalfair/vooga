@@ -1,12 +1,13 @@
 package panes.attributes;
 
 import authoring.IAgentDefinition;
-import javafx.event.EventHandler;
+import authoring.IObjectiveDefinition;
 import javafx.scene.control.ScrollPane;
 import panes.AuthoringPane;
 import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
 import panes.attributes.agent.instance.EditAgentInstanceForm;
+import panes.attributes.state.ObjectiveForm;
 import state.AgentReference;
 import util.AuthoringContext;
 
@@ -88,6 +89,7 @@ public class AttributesPane extends AuthoringPane {
                 getContext().getState().addDefinedAgent(a);
                 onSuccess.accept(a);
             }
+            getContext().displayConsoleMessage(String.format(getContext().getString("AgentDefinitionUpdated"), a.getName()), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }
@@ -118,6 +120,47 @@ public class AttributesPane extends AuthoringPane {
             agentReference.setDirection(a.getDirection());
             agentReference.setInstanceProperties(a.getInstanceProperties());
             onSuccess.accept(agentReference);
+            getContext().displayConsoleMessage(String.format(getContext().getString("AgentInstanceEdited"), a.getName()), ConsolePane.Level.SUCCESS);
+            scrollPane.setContent(null);
+        });
+    }
+
+    /**
+     * Creates the new objective in the attributes pane. Has the option
+     * to modify an existing objective, or to create a new objective based off an
+     * existing one. If creating a new objective, the form will save to the context
+     * state's objective list. If modifying an existing objective, the form
+     * will update all of the attributes of the existing objective passed in. If
+     * an objective is unsuccessfully created, will notify user of problem to fix
+     * and will not clear form.
+     * @param onSuccess callback for successful agent creation
+     * @param existingObjective an existing objective to modify or copy, if null creates new objective
+     * @param copyExisting if true and existingObjective not null, creates a new
+     *                     objective based off of existingObjective
+     */
+    public void createNewObjectiveForm(Consumer<IObjectiveDefinition> onSuccess, IObjectiveDefinition existingObjective, boolean copyExisting) {
+        scrollPane.setContent(null);
+        ObjectiveForm objectiveForm = new ObjectiveForm(getContext());
+        if (existingObjective != null) {
+            objectiveForm.loadFromExisting(existingObjective);
+        }
+        objectiveForm.accessContainer(scrollPane::setContent);
+        objectiveForm.setOnCancel(e -> scrollPane.setContent(null));
+        objectiveForm.setOnSave(e -> {
+            IObjectiveDefinition a = objectiveForm.packageData();
+            if (a == null) {
+                getContext().displayConsoleMessage(getContext().getString("ObjectiveNotCreated"), ConsolePane.Level.ERROR);
+                return;
+            }
+            if (existingObjective != null && !copyExisting) {
+                existingObjective.setCondition(a.getCondition());
+                existingObjective.setOutcome(a.getOutcome());
+            }
+            else {
+                getContext().getState().defineObjective(a);
+                onSuccess.accept(a);
+            }
+            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getName()), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }

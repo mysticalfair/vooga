@@ -2,7 +2,6 @@ package engine;
 
 import authoring.exception.PropertyDoesNotExistException;
 import engine.event.GameEventMaster;
-import authoring.IAgentDefinition;
 import authoring.ILevelDefinition;
 import engine.event.events.AddAgentEvent;
 import engine.event.events.RemoveAgentEvent;
@@ -12,9 +11,11 @@ import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.Property;
 import state.agent.Agent;
-import state.objective.Objective;
+import state.agent.AgentUtils;
+import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +54,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                     setAgentToRemove(removeAgentEvent.getAgent()));
         this.eventMaster.addAddAgentListener((Consumer<AddAgentEvent> & Serializable) addAgentEvent ->
                     setAgentToAdd(createAgentFromReference(addAgentEvent.getAgentReference())));
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return levelState.getCurrentAttributes();
     }
 
     @Override
@@ -118,6 +123,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction, instanceProperties));
     }
 
+    public List<Agent> getLevelAgents() {
+        return levelState.getCurrentAgents();
+    }
+
     @Override
     public List<String> getPlaceableAgents() {
         return authoringPlaceableAgents;
@@ -126,6 +135,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     @Override
     public void removePlaceableAgent(int index) {
         authoringPlaceableAgents.remove(index);
+    }
+
+    public void removeAgent(Agent agent) {
+        levelState.removeAgent(agent);
     }
 
     @Override
@@ -158,11 +171,22 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         paths.put(name, path);
     }
 
+    @Override
+    public String getBackgroundImageURL() {
+        return levelState.getBackgroundImageURL();
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        levelState.setBackgroundImageURL(imageURL);
+    }
+
     public void step(double deltaTime) {
         int index = 0;
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+
                 index++;
 
             } catch (CloneNotSupportedException e) {
@@ -172,9 +196,6 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                 System.out.println(e.getMessage());
             }
         }
-
-        for (Objective objective: levelState.getObjectives())
-            objective.execute(levelState);
 
         updateAgentsList();
     }
@@ -214,4 +235,27 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         }
     }
 
+    @Override
+    public ILevelDefinition clone() throws CloneNotSupportedException {
+        try {
+            Level clonedLevel = (Level) super.clone();
+            clonedLevel.levelState = (LevelState) AgentUtils.deepClone(this.levelState);
+            clonedLevel.agentsToAdd = new ArrayList<>();
+            clonedLevel.agentsToRemove = new ArrayList<>();
+            clonedLevel.authoringAgentsPlaced =
+                    (List<AgentReference>) AgentUtils.deepClone(this.authoringAgentsPlaced);
+            clonedLevel.authoringPlaceableAgents =
+                    (List<String>) AgentUtils.deepClone(this.authoringPlaceableAgents);
+            clonedLevel.paths =
+                    (Map<String, List<Point2D>>) AgentUtils.deepClone(this.paths);
+            clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
+            return clonedLevel;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new CloneNotSupportedException();
+        }
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.levelState.setGameOver(gameOver);
+    }
 }

@@ -4,7 +4,6 @@
       <levelState>
         <placeableAgents/>
         <agentsCurrent/>
-        <objectivesCurrent/>
         <attributesCurrent/>
         <pcs serialization="custom">
           <java.beans.PropertyChangeSupport>
@@ -54,9 +53,16 @@
       <agentsToRemove/>
       <authoringAgentsPlaced>
         <state.AgentReference>
-          <name>home</name>
-          <x>300.0</x>
-          <y>300.0</y>
+          <name>red</name>
+          <x>50.0</x>
+          <y>50.0</y>
+          <direction>0.0</direction>
+          <instanceProperties/>
+        </state.AgentReference>
+        <state.AgentReference>
+          <name>red</name>
+          <x>50.0</x>
+          <y>100.0</y>
           <direction>0.0</direction>
           <instanceProperties/>
         </state.AgentReference>
@@ -64,20 +70,44 @@
       <authoringPlaceableAgents/>
       <masterDefinedAgents>
         <state.agent.Agent>
-          <actionDecisions/>
+          <actionDecisions>
+            <state.actiondecision.ActionDecision>
+              <action class="state.action.movement.MoveOnPointPath">
+                <eventMaster reference="../../../../../../eventMaster"/>
+                <params>
+                  <entry>
+                    <string>speed</string>
+                    <double>100.0</double>
+                  </entry>
+                </params>
+                <name>MoveOnPointPath</name>
+                <speed>100.0</speed>
+                <baseAgent reference="../../../.."/>
+                <hasDoneFirstExecute>false</hasDoneFirstExecute>
+                <currPoint>0</currPoint>
+              </action>
+              <conditions>
+                <state.condition.DoOnceWithSelfCondition>
+                  <name>DoOnceWithSelf</name>
+                  <params/>
+                  <baseAgent reference="../../../../.."/>
+                </state.condition.DoOnceWithSelfCondition>
+              </conditions>
+            </state.actiondecision.ActionDecision>
+          </actionDecisions>
           <playerAgent>
             <id>0</id>
             <x>0.0</x>
             <y>0.0</y>
-            <imageURL>clash/TH10.png</imageURL>
-            <name>home</name>
-            <direction>1.0</direction>
-            <width>50</width>
-            <height>50</height>
+            <imageURL>bloons/redBloon.png</imageURL>
+            <name>red</name>
+            <direction>180.0</direction>
+            <width>12</width>
+            <height>15</height>
             <properties>
               <state.Property>
-                <name>health</name>
-                <value class="double">100.0</value>
+                <name>pathName</name>
+                <value class="string">bloonPath</value>
               </state.Property>
             </properties>
             <pcs serialization="custom">
@@ -101,9 +131,37 @@
           </pcs>
         </state.agent.Agent>
       </masterDefinedAgents>
-      <paths/>
+      <paths>
+        <entry>
+          <string>bloonPath</string>
+          <list>
+            <java.awt.geom.Point2D_-Double>
+              <x>0.0</x>
+              <y>0.0</y>
+            </java.awt.geom.Point2D_-Double>
+            <java.awt.geom.Point2D_-Double>
+              <x>200.0</x>
+              <y>0.0</y>
+            </java.awt.geom.Point2D_-Double>
+            <java.awt.geom.Point2D_-Double>
+              <x>200.0</x>
+              <y>200.0</y>
+            </java.awt.geom.Point2D_-Double>
+            <java.awt.geom.Point2D_-Double>
+              <x>400.0</x>
+              <y>200.0</y>
+            </java.awt.geom.Point2D_-Double>
+            <java.awt.geom.Point2D_-Double>
+              <x>400.0</x>
+              <y>400.0</y>
+            </java.awt.geom.Point2D_-Double>
+          </list>
+        </entry>
+      </paths>
     </engine.Level>
   </levels>
   <currentLevel>0</currentLevel>
+  <currentObjectives/>
+  <gameOver>false</gameOver>
   <definedAgents reference="../levels/engine.Level/masterDefinedAgents"/>
 </state.State>

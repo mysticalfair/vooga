@@ -58,5 +58,9 @@ public class LevelController implements PropertyChangeListener {
       {
          this.attributeController.addAttribute((IPlayerAttribute)(e.getNewValue()));
       }
+      else if (e.getPropertyName().equals("Game Over"))
+      {
+
+      }
    }
 }

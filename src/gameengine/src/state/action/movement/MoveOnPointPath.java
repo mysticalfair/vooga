@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author David Miron
+ * @author Jorge Raad
  * Allows an agent to move on a pre-defined path.
  */
 public class MoveOnPointPath extends MovementAction implements IRequiresPaths {

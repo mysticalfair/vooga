@@ -70,10 +70,10 @@
                   <angularSpeed>90.0</angularSpeed>
                 </action>
                 <conditions>
-                  <state.condition.DoOnceCondition>
+                  <state.condition.DoOnceWithSelfCondition>
                     <name>DoOnce</name>
                     <params/>
-                  </state.condition.DoOnceCondition>
+                  </state.condition.DoOnceWithSelfCondition>
                 </conditions>
               </state.actiondecision.ActionDecision>
               <state.actiondecision.ActionDecision>

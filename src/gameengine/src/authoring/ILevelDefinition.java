@@ -4,6 +4,7 @@ import state.AgentReference;
 import state.Property;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +31,9 @@ public interface ILevelDefinition {
     void removePath(int index);
     void removePath(String name);
     void addPath(String name, List<Point2D> path);
+
+    String getBackgroundImageURL();
+    void setBackgroundImageURL(String imageURL);
+
+    ILevelDefinition clone() throws CloneNotSupportedException;
 }

@@ -30,7 +30,10 @@ public class CollisionCondition extends Condition implements IRequiresBaseAgent 
 
     @Override
     public List<Agent> getValid(List<Agent> agents) {
+        return getCollidingAgents(agents);
+    }
 
+    protected List<Agent> getCollidingAgents(List<Agent> agents) {
         List<Agent> newAgents = new ArrayList<>();
         for (Agent agent: agents){
             if(baseAgent.isColliding(agent)){

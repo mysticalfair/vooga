@@ -78,7 +78,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - X location of the agent
      */
     public double getX() {
-        return (int) playerAgent.getX();
+        return playerAgent.getX();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - Y location of the agent
      */
     public double getY() {
-        return (int) playerAgent.getY();
+        return playerAgent.getY();
     }
 
     @Override
@@ -216,16 +216,15 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public List<? extends IActionDecisionDefinition> getActionDecisions() {
-        // TODO:
         return this.actionDecisions;
     }
 
-    public void removeActionDecision(int i) {
-        // TODO:
+    public void removeActionDecision(int index) {
+        actionDecisions.remove(index);
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {
-        // TODO:
+        actionDecisions.add((ActionDecision) def);
     }
 
     // TODO:  fill out all property-related methods
@@ -237,11 +236,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
+        playerAgent.removeProperty(name);
     }
 
     @Override
     public void addProperty(IPropertyDefinition property) {
-
+        playerAgent.addProperty((Property) property);
     }
 
     @Override
@@ -251,6 +251,16 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+
+    public Object getPropertyValue(String name) {
+        for (Property property : this.playerAgent.getProperties()) {
+            if (property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
     }
 
     public Object getProperty(String name) {

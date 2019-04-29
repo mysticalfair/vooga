@@ -62,26 +62,19 @@ public class AgentView extends ImageView implements PropertyChangeListener {
 
    public void propertyChange(PropertyChangeEvent e) {
       if (e.getPropertyName().equals("x")) {
-         System.out.println("PC for object listening to " + this.listen + ". The image is " + this.url + ", the X currently is " + this.getX() + " and it's changing to" +  e.getNewValue());
          this.setX((Double) e.getNewValue());
 
-         System.out.println("*****" + this.url + " " + selfCount + ": "+ "X- "+ this.getX() + "********");
 
       } else if(e.getPropertyName().equals("y")) {
          this.setY((Double) e.getNewValue());
-         System.out.println("*****" + this.url + " " + selfCount + ": "+ "Y- "+ this.getY() + "********");
       } else if(e.getPropertyName().equals("imageUrl")) {
          this.setImage(new Image((String) e.getNewValue()));
-         System.out.println("Changed Image");
       } else if(e.getPropertyName().equals("width")) {
          this.setFitWidth((Double) e.getNewValue());
-         System.out.println("Changed Width");
       } else if(e.getPropertyName().equals("height")) {
          this.setFitHeight((Double) e.getNewValue());
-         System.out.println("Changed Height");
       } else if(e.getPropertyName().equals("direction")) {
          this.setDirection((Double) e.getNewValue());
-         System.out.println("Changed Direction");
       }
 
    }

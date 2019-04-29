@@ -121,8 +121,9 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.accessContainer(borderPane::setTop);
         // TODO: Eliminate magic numbers/text here, switch to for loop through buttons
         toolbarPane.accessAddEmpty(button -> button.setOnAction(e -> levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(context, null, new ArrayList<>(), FXCollections.observableArrayList()), false)));
-        toolbarPane.accessAddExisting(button -> button.setOnAction(e ->  levelHandler.makeLevel(toolbarPane.getMaxLevel() + 1, new MapState(map.getStateMapping().get(toolbarPane.getExistingLevelValue()), map), true)));
+        toolbarPane.accessAddExisting(button -> button.setOnAction(e ->  levelHandler.makeLevelFromExisting(toolbarPane.getExistingLevelValue(), toolbarPane.getMaxLevel() + 1)));
         toolbarPane.accessClear(button -> button.setOnAction(e -> levelHandler.clearLevel()));
+
         toolbarPane.addButton(context.getString("LassoFile"), e -> consolePane.displayMessage("Multi-select tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("PenFile"), e -> consolePane.displayMessage("Path drawing tool enabled", ConsolePane.Level.NEUTRAL));
         toolbarPane.addButton(context.getString("GrabFile"), e -> consolePane.displayMessage("Path dragging tool enabled", ConsolePane.Level.NEUTRAL));

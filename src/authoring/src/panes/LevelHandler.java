@@ -119,12 +119,6 @@ public class LevelHandler {
         console.displayMessage(newLevelDisplay, ConsolePane.Level.NEUTRAL);
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
-
-            ILevelDefinition level = context.getGameFactory().createLevel();
-            context.getState().addLevel(level);
-            // TODO: add code to add Level contents
-
-
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
 
             // Front end sets itself to this new state.

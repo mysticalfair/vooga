@@ -18,8 +18,9 @@ import panes.tools.ToolbarPane;
 import state.AgentReference;
 import util.AuthoringContext;
 import util.AuthoringUtil;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class AuthoringEnvironment extends Application {
 
@@ -158,21 +159,20 @@ public class AuthoringEnvironment extends Application {
         toolbarPane.addButton(context.getString("DeleteFile"), e -> consolePane.displayMessage("Path removal tool enabled", ConsolePane.Level.NEUTRAL));
 
         toolbarPane.addAction("File", context.getString("MenuItemUpload"), e -> map.formatBackground());
-        toolbarPane.addAction("File", context.getString("MenuItemSave"), null);
+        toolbarPane.addAction("File", context.getString("MenuItemSave"), e -> getUserFileName());
         // TODO: implement loading an old game
         toolbarPane.addAction("File", context.getString("MenuItemOpen"), null);
         toolbarPane.getLevelChanger().valueProperty().addListener((obs, oldValue, newValue) -> levelHandler.changeToExistingLevel((int)((double) newValue)));
 
         pen = toolbarPane.getPen();
     }
-/*
+
     private void getUserFileName(){
-        AuthoringUtil.openFileChooser(
-                context.getString("ImageFile"), AuthoringUtil.IMAGE_EXTENSIONS, false, null,
-                file -> context.getGame().saveState(file.toURI().toString()),
-                () -> getContext().displayConsoleMessage(getContext().getString("MapImageLoadError"), ConsolePane.Level.ERROR)
+        AuthoringUtil.openDirectoryChooser(
+                null, file -> context.getGame().saveState(file),
+                () -> context.displayConsoleMessage(context.getString("GameSaveError"), ConsolePane.Level.ERROR)
         );
-    }*/
+    }
 
     private void updateDimensions(double width, double height){
         var middleWidth = width - context.getDouble("AttributesWidth") - context.getDouble("AgentPaneWidth");
@@ -193,5 +193,6 @@ public class AuthoringEnvironment extends Application {
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add(context.getString("MainStyle"));
         stage.show();
+        map.formatBackground();
     }
 }

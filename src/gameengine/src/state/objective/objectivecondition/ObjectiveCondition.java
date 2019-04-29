@@ -1,4 +1,4 @@
-package state.objective;
+package state.objective.objectivecondition;
 
 import authoring.IObjectiveConditionDefinition;
 import state.State;
@@ -32,7 +32,7 @@ public abstract class ObjectiveCondition implements IObjectiveConditionDefinitio
 
     public void setParams(Map<String, Object> params) {
         this.title = (String) params.get("title");
-        this.level = (int) params.get("level");
+        this.level = (Integer) params.get("level");
     }
 
     public String getTitle() {

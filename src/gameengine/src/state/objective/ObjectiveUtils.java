@@ -2,6 +2,8 @@ package state.objective;
 
 import state.State;
 import state.agent.Agent;
+import state.attribute.Attribute;
+import state.attribute.IAttribute;
 
 public class ObjectiveUtils {
 
@@ -16,5 +18,15 @@ public class ObjectiveUtils {
             }
         }
         return significantAgent;
+    }
+
+    public static Attribute getAttributeFromName(State state, String attributeName) {
+
+        for(IAttribute attribute : state.getCurrentAttributes()) {
+            if (attribute.getName().equals(attributeName)) {
+                return (Attribute) attribute;
+            }
+        }
+        return null;
     }
 }

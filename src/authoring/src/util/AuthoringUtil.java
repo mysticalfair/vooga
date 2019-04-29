@@ -23,6 +23,7 @@ public class AuthoringUtil {
      * @author Samuel Rabinowitz
      */
     public static final String[] IMAGE_EXTENSIONS = {"*.jpg", "*.gif", "*.jpeg", "*.bmp", "*.png"};
+    public static final String[] GAME_EXTENSIONS = {"*.xml"};
 
     /**
      * Open the default system file chooser for opening or saving, and get the resulting file.

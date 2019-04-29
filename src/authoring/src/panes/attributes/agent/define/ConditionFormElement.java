@@ -2,6 +2,7 @@ package panes.attributes.agent.define;
 
 import authoring.IConditionDefinition;
 import panes.ConsolePane;
+import panes.attributes.NameFieldsFormElement;
 import util.AuthoringContext;
 
 public class ConditionFormElement extends NameFieldsFormElement {

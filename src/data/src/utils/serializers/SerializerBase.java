@@ -59,7 +59,9 @@ public abstract class SerializerBase implements Serializer {
 
     private void moveResources(String baseFilePath, List<String> resources) throws IOException {
         String folderFileName = baseFilePath + SUBFOLDER_KEY + RESOURCES_FOLDER_NAME;
-        Files.createDirectory(new File(folderFileName).toPath());
+        File resourceFile = new File(folderFileName);
+        if (!resourceFile.exists())
+            Files.createDirectory(resourceFile.toPath());
         for (String resourcePath : resources) {
             File resourceToCopy = new File(resourcePath);
             File targetResourceDest = new File(folderFileName + SUBFOLDER_KEY + resourceToCopy.getName());

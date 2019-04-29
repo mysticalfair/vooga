@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -33,7 +35,7 @@ public class AuthoringEnvironment extends Application {
     private AgentPane agentPane;
     private AttributesPane attributesPane;
     private ToolbarPane toolbarPane;
-    LevelHandler levelHandler;
+    private LevelHandler levelHandler;
     private MapPane map;
     private Scene scene;
     private ObservableList<Path> currentPaths;
@@ -94,7 +96,7 @@ public class AuthoringEnvironment extends Application {
     }
 
     private void initMapPane(int level) {
-        map = new MapPane(context, consolePane);
+        map = new MapPane(context);
         map.accessContainer(borderPane::setCenter);
 
         ILevelDefinition gameLevel = context.getGameFactory().createLevel();
@@ -109,7 +111,6 @@ public class AuthoringEnvironment extends Application {
         agentPane.accessContainer(borderPane::setRight);
         agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"),
                 e -> attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), null, false));
-        // TODO: on editing of agent definition that already exists, update images (and widths and heights and names) of all DraggableAgentViews and AgentReferences in all levels
         agentPane.setOnImageClicked((e, agent) -> {
             //if (e.getClickCount() == getContext().getInt("CloneClickCount")) { // Only add on double click to allow editing action on single click
             context.getState().getLevels().get(map.getLevel() - 1).addAgent(agent.getName(), 0, 0, 0, new ArrayList<IPropertyDefinition>());
@@ -124,12 +125,25 @@ public class AuthoringEnvironment extends Application {
         });
         agentPane.setOnEdit((e, agent) ->
             attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, false)
+                // TODO: on editing of agent definition that already exists, update images (and widths and heights and names) of all DraggableAgentViews and AgentReferences in all levels
         );
         agentPane.setOnCopy((e, agent) ->
             attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, true)
         );
         agentPane.setOnDelete((e, agent) -> {
-            // TODO: Delete agent from overall list of defined agents, and all references of it in levels
+            Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION, String.format(context.getString("ConfirmAgentDeletion"), agent.getName()));
+            confirmDelete.showAndWait().filter(response -> response == ButtonType.OK).ifPresent(response -> {
+                context.getState().getDefinedAgents().removeIf(agentDefinition -> agentDefinition.getName().equals(agent.getName()));
+                agentPane.refreshAgentList(map.getLevel());
+                context.getState().getLevels().forEach(level -> {
+                    level.getPlaceableAgents().remove(agent.getName());
+                    level.getCurrentAgents().removeIf(agentReference -> agentReference.getName().equals(agent.getName()));
+                });
+                map.getStateMapping().values().forEach(mapState ->
+                        mapState.getAgents().removeIf(draggableAgentView -> draggableAgentView.getReference().getName().equals(agent.getName())));
+                levelHandler.refreshCurrentLevel();
+                context.displayConsoleMessage(String.format(context.getString("AgentDefinitionDeleted"), agent.getName()), ConsolePane.Level.NEUTRAL);
+            });
         });
         agentPane.setOnCheckChanged((b, agent) -> {
             // TODO: Add or remove agent from list of placeables in current level

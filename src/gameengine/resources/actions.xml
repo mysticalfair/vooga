@@ -23,6 +23,7 @@
     <actionDefinition>
         <name>MoveOnPointPath</name>
         <fields>
+            <string>pathName</string>
             <double>speed</double>
         </fields>
     </actionDefinition>

@@ -156,9 +156,12 @@ public class AuthoringEnvironment extends Application {
             copy.setMouseActionsForDrag(map);
             //}
         });
-        agentPane.setOnEdit((e, agent) -> {
-            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, false);
-        });
+        agentPane.setOnEdit((e, agent) ->
+            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, false)
+        );
+        agentPane.setOnCopy((e, agent) ->
+            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, true)
+        );
         agentPane.setOnDelete((e, agent) -> {
             // TODO: Delete agent from overall list of defined agents, and all references of it in levels
         });

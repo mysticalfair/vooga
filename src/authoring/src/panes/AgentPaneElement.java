@@ -1,18 +1,13 @@
 package panes;
 
 import authoring.IAgentDefinition;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import util.AuthoringContext;
-import util.AuthoringUtil;
 
 import java.util.function.BiConsumer;
 
@@ -28,8 +23,10 @@ public class AgentPaneElement extends AuthoringPane {
     private Label name;
 
     private HBox controlsHBox;
-    private Button editButton;
-    private Button deleteButton;
+    private Menu optionsMenu;
+    private MenuItem editMenuItem;
+    private MenuItem copyMenuItem;
+    private MenuItem deleteMenuItem;
     private CheckBox checkBox;
 
     public AgentPaneElement(AuthoringContext authoringContext, IAgentDefinition agent) {
@@ -55,17 +52,14 @@ public class AgentPaneElement extends AuthoringPane {
         controlsHBox = new HBox();
         overallVBox.getChildren().add(controlsHBox);
 
-        editButton = AuthoringUtil.createSquareImageButton(
-                getContext().getString("EditPenImageFile"),
-                getContext().getDouble("AgentEditButtonSize"),
-                null);
-        controlsHBox.getChildren().add(editButton);
-
-        deleteButton = AuthoringUtil.createSquareImageButton(
-                getContext().getString("TrashImageFile"),
-                getContext().getDouble("AgentEditButtonSize"),
-                null);
-        controlsHBox.getChildren().add(deleteButton);
+        optionsMenu = new Menu(getContext().getString("Options"));
+        editMenuItem = new MenuItem(getContext().getString("Edit"));
+        copyMenuItem = new MenuItem(getContext().getString("Copy"));
+        deleteMenuItem = new MenuItem(getContext().getString("Delete"));
+        optionsMenu.getItems().addAll(editMenuItem, copyMenuItem, deleteMenuItem);
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(optionsMenu);
+        controlsHBox.getChildren().add(menuBar);
 
         checkBox = new CheckBox();
         checkBox.setAllowIndeterminate(false);
@@ -79,11 +73,15 @@ public class AgentPaneElement extends AuthoringPane {
     }
 
     public void setOnEdit(BiConsumer<ActionEvent, IAgentDefinition> editAction) {
-        editButton.setOnAction(e -> editAction.accept(e, agent));
+        editMenuItem.setOnAction(e -> editAction.accept(e, agent));
+    }
+
+    public void setOnCopy(BiConsumer<ActionEvent, IAgentDefinition> copyAction) {
+        copyMenuItem.setOnAction(e -> copyAction.accept(e, agent));
     }
 
     public void setOnDelete(BiConsumer<ActionEvent, IAgentDefinition> deleteAction) {
-        deleteButton.setOnAction(e -> deleteAction.accept(e, agent));
+        deleteMenuItem.setOnAction(e -> deleteAction.accept(e, agent));
     }
 
     public void setOnCheckChanged(BiConsumer<Boolean, IAgentDefinition> checkListener) {

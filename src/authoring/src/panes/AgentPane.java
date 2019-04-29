@@ -1,8 +1,6 @@
 package panes;
 
 import authoring.IAgentDefinition;
-import frontend_objects.DraggableAgentView;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -26,7 +24,7 @@ public class AgentPane extends AuthoringPane {
     private ImageView trash; // trash for deleting agents from map
 
     private BiConsumer<MouseEvent, IAgentDefinition> imageAction;
-    private BiConsumer<ActionEvent, IAgentDefinition> editAction, deleteAction;
+    private BiConsumer<ActionEvent, IAgentDefinition> editAction, copyAction, deleteAction;
     private BiConsumer<Boolean, IAgentDefinition> checkListener;
 
     public AgentPane(AuthoringContext context) {
@@ -64,7 +62,7 @@ public class AgentPane extends AuthoringPane {
         scrollInventory = new ScrollPane();
         scrollInventory.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         //scrollInventory.setPrefViewportWidth(getContext().getDouble("AgentPaneWidth"));
-        //scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
+        scrollInventory.setPrefViewportHeight(getContext().getDouble("MiddleRowHeight") - getContext().getDouble("MiddleRowPadding"));
         scrollInventory.getStyleClass().add(getContext().getString("ScrollPaneStyle"));
         inventoryContainer.getChildren().add(scrollInventory);
     }
@@ -83,6 +81,10 @@ public class AgentPane extends AuthoringPane {
         this.editAction = editAction;
     }
 
+    public void setOnCopy(BiConsumer<ActionEvent, IAgentDefinition> copyAction) {
+        this.copyAction = copyAction;
+    }
+
     public void setOnDelete(BiConsumer<ActionEvent, IAgentDefinition> deleteAction) {
         this.deleteAction = deleteAction;
     }
@@ -98,6 +100,7 @@ public class AgentPane extends AuthoringPane {
             newAgent.accessContainer(inventory.getChildren()::add);
             newAgent.setOnImageClicked(imageAction);
             newAgent.setOnEdit(editAction);
+            newAgent.setOnCopy(copyAction);
             newAgent.setOnDelete(deleteAction);
             newAgent.setOnCheckChanged(checkListener);
 

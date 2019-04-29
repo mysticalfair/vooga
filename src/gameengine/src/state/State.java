@@ -160,6 +160,7 @@ public class State implements IStateDefinition, Serializable {
      */
     public void makeGameOver() {
         gameOver = true;
+        this.getCurrentLevel().setGameOver(true);
     }
 
     /**

@@ -12,7 +12,7 @@ import state.LevelState;
 import state.Property;
 import state.agent.Agent;
 import state.agent.AgentUtils;
-import state.objective.Objective;
+import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -53,6 +53,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                     setAgentToRemove(removeAgentEvent.getAgent()));
         this.eventMaster.addAddAgentListener((Consumer<AddAgentEvent> & Serializable) addAgentEvent ->
                     setAgentToAdd(createAgentFromReference(addAgentEvent.getAgentReference())));
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return levelState.getCurrentAttributes();
     }
 
     @Override
@@ -118,6 +122,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         authoringAgentsPlaced.add(new AgentReference(agentName, x, y, direction, instanceProperties));
     }
 
+    public List<Agent> getLevelAgents() {
+        return levelState.getCurrentAgents();
+    }
+
     @Override
     public List<String> getPlaceableAgents() {
         return authoringPlaceableAgents;
@@ -126,6 +134,10 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
     @Override
     public void removePlaceableAgent(int index) {
         authoringPlaceableAgents.remove(index);
+    }
+
+    public void removeAgent(Agent agent) {
+        levelState.removeAgent(agent);
     }
 
     @Override
@@ -182,9 +194,6 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
                 System.out.println(e.getMessage());
             }
         }
-
-        for (Objective objective: levelState.getObjectives())
-            objective.execute(levelState);
 
         updateAgentsList();
     }

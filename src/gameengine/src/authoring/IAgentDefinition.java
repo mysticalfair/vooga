@@ -35,5 +35,6 @@ public interface IAgentDefinition {
     List<? extends IPropertyDefinition> getProperties();
     void removeProperty(String name);
     void addProperty(IPropertyDefinition property);
-    <T> void setProperty(String name, T value) throws PropertyDoesNotExistException;
+    <T> void setProperty(String name, T value)  throws PropertyDoesNotExistException;
+    Object getPropertyValue(String name);
 }

@@ -5,7 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
 /**
- * @Author:Luke_Truitt
+ * @author Luke Truitt
  * Entire Attribute, used by Engine and Author
  */
 public class Attribute implements IAttribute, Serializable {

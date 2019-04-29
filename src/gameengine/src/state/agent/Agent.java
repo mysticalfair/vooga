@@ -216,7 +216,6 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public List<? extends IActionDecisionDefinition> getActionDecisions() {
-        // TODO:
         return this.actionDecisions;
     }
 
@@ -251,6 +250,16 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+
+    public Object getPropertyValue(String name) {
+        for (Property property : this.playerAgent.getProperties()) {
+            if (property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
     }
 
     public Object getProperty(String name) {

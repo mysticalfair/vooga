@@ -1,4 +1,4 @@
-package state.objective;
+package state.objective.objectivecondition;
 
 import state.State;
 import state.attribute.Attribute;

@@ -1,4 +1,4 @@
-package state.objective;
+package state.objective.objectivecondition;
 
 import authoring.IObjectiveConditionDefinition;
 import state.State;

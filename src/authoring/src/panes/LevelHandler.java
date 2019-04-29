@@ -131,5 +131,9 @@ public class LevelHandler {
         }
     }
 
+    public void refreshCurrentLevel() {
+        changeToExistingLevel(map.getLevel());
+    }
+
 }
 

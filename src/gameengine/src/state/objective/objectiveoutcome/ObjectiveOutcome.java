@@ -2,7 +2,6 @@ package state.objective.objectiveoutcome;
 
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
-import state.agent.Agent;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,19 +17,20 @@ abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition, S
     public static final String OBJECTIVE_IDENTIFICATION_PROPERTY_PARAMS = "objectiveIdentificationValue";
 
     protected Map<String, Object> params;
-    protected String title;
+    protected String name;
 
     public ObjectiveOutcome(Map<String, Object> params) {
         this.params = params;
         setParams(params);
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Map<String, Object> getParams() {
@@ -38,7 +38,7 @@ abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition, S
     }
 
     public void setParams(Map<String, Object> params) {
-        this.title = (String) params.get("title");
+        this.name = (String) params.get("name");
         // ObjectiveOutcome classes that need parameters will implement this
     }
 

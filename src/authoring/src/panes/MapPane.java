@@ -20,17 +20,14 @@ import java.util.function.Consumer;
 
 public class MapPane extends AuthoringPane {
 
-    private List<AgentView> agentList;
     private Pane mapPane;
     private StackPane overallPane;
     private int level;
-    private ConsolePane console;
     private Map<Integer, MapState> levelToState;
     private SimpleBooleanProperty selection = new SimpleBooleanProperty();
 
-    public MapPane(AuthoringContext context, ConsolePane console) {
+    public MapPane(AuthoringContext context) {
         super(context);
-        this.console = console;
         selection.set(false);
         levelToState = new HashMap<>();
         initPanes();

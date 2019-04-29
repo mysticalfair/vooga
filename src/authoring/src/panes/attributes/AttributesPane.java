@@ -1,15 +1,17 @@
 package panes.attributes;
 
 import authoring.IAgentDefinition;
-import javafx.event.EventHandler;
+import authoring.IObjectiveDefinition;
 import javafx.scene.control.ScrollPane;
 import panes.AuthoringPane;
 import panes.ConsolePane;
 import panes.attributes.agent.define.DefineAgentForm;
 import panes.attributes.agent.instance.EditAgentInstanceForm;
+import panes.attributes.state.StateForm;
 import state.AgentReference;
 import util.AuthoringContext;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class AttributesPane extends AuthoringPane {
@@ -64,15 +66,6 @@ public class AttributesPane extends AuthoringPane {
                 getContext().displayConsoleMessage(getContext().getString("AgentNotCreated"), ConsolePane.Level.ERROR);
                 return;
             }
-            String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n" +
-                    "number of properties: %d\nnumber of action decisions: %d",
-                    a.getName(),
-                    (int) a.getX(), (int) a.getY(), a.getWidth(), a.getHeight(),
-                    a.getImageURL(),
-                    a.getProperties().size(),
-                    a.getActionDecisions().size()
-                    );
-            getContext().displayConsoleMessage(testString, ConsolePane.Level.SUCCESS);
             if (existingAgent != null && !copyExisting) {
                 existingAgent.setName(a.getName());
                 existingAgent.setWidth(a.getWidth());
@@ -88,6 +81,7 @@ public class AttributesPane extends AuthoringPane {
                 getContext().getState().addDefinedAgent(a);
                 onSuccess.accept(a);
             }
+            getContext().displayConsoleMessage(String.format(getContext().getString("AgentDefinitionUpdated"), a.getName()), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }
@@ -118,6 +112,31 @@ public class AttributesPane extends AuthoringPane {
             agentReference.setDirection(a.getDirection());
             agentReference.setInstanceProperties(a.getInstanceProperties());
             onSuccess.accept(agentReference);
+            getContext().displayConsoleMessage(String.format(getContext().getString("AgentInstanceEdited"), a.getName()), ConsolePane.Level.SUCCESS);
+            scrollPane.setContent(null);
+        });
+    }
+
+    /**
+     * Loads the list of objectives and attributes via a state form, and allows adding, editing, and removing of them.
+     * @param onSuccess callback for successful modification
+     */
+    public void displayStateForm(Consumer<List<IObjectiveDefinition>> onSuccess) {
+        scrollPane.setContent(null);
+        StateForm stateForm = new StateForm(getContext());
+        stateForm.loadFromExisting(getContext().getState().getObjectives());
+        stateForm.accessContainer(scrollPane::setContent);
+        stateForm.setOnCancel(e -> scrollPane.setContent(null));
+        stateForm.setOnSave(e -> {
+            List<IObjectiveDefinition> a = stateForm.packageData();
+            if (a == null) {
+                getContext().displayConsoleMessage(getContext().getString("ObjectivesAttributesNotUpdated"), ConsolePane.Level.ERROR);
+                return;
+            }
+            getContext().getState().getObjectives().clear();
+            a.forEach(getContext().getState()::defineObjective);
+            onSuccess.accept(a);
+            getContext().displayConsoleMessage(getContext().getString("ObjectivesAttributesUpdated"), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }

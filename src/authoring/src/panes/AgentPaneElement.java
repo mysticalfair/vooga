@@ -88,4 +88,8 @@ public class AgentPaneElement extends AuthoringPane {
         checkBox.selectedProperty().addListener(((observableValue, oldValue, newValue) -> checkListener.accept(newValue, agent)));
     }
 
+    public void setChecked(boolean checked) {
+        checkBox.setSelected(checked);
+    }
+
 }

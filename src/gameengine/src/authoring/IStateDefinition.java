@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Interface implemented by State such as the Authoring Environment should see it.
  * @author Jorge Raad
+ * @author Jamie Palka
  */
 public interface IStateDefinition {
 
@@ -34,5 +35,7 @@ public interface IStateDefinition {
     void removeDefinedAgent(int index);
     void addDefinedAgent(IAgentDefinition agent);
 
+    void defineObjective(IObjectiveDefinition objective);
+    List<IObjectiveDefinition> getObjectives();
 
 }

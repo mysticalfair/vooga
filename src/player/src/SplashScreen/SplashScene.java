@@ -2,34 +2,38 @@ package SplashScreen;
 import engine.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import java.io.File;
-import Level.Level;
+import Level.GameApplication;
 
 
 public class SplashScene {
 
     private static final String GAMEDIR = "gamefiles/";
     private Stage myStage;
-    private String myGame;
+    private File myGame;
     private Pane root;
     private Scene scene;
+    private GameApplication a;
 
-    public SplashScene(Stage stage)
+    public SplashScene(Stage stage, GameApplication a)
     {
         myStage = stage;
         root = new Pane();
         scene = new Scene(root, 1000,600);
         scene.getStylesheets().add(this.getClass().getClassLoader().getResource("splashstyle.css").toExternalForm());
-        root.setId("pane");
+        this.a = a;
 
     }
 
     public Scene pickGame()
     {
         root = new BorderPane();
+        root.setId("pane");
+        scene.setRoot(root);
         HBox box = new HBox();
         box.setSpacing(200);
         box.setLayoutX(380);
@@ -47,7 +51,7 @@ public class SplashScene {
 
 
         game1.setOnMouseClicked(e -> handleLoad());
-        game2.setOnMouseClicked(e->selectGame());
+        game2.setOnMouseClicked(e-> selectGame());
 
         Text instructions= new Text("Load your game!");
         instructions.getStyleClass().add("text");
@@ -87,7 +91,8 @@ public class SplashScene {
    public Scene pickPlayerMode()
    {
        root = new Pane();
-
+       root.setId("pane");
+       scene.setRoot(root);
        //b.setOnMouseClicked(e -> myStage.setScene(pickGame()));
        Text instructions= new Text("Select single SplashScreen or multiplayer");
        //root.getChildren().add(a);
@@ -99,7 +104,7 @@ public class SplashScene {
        SplashButton single = new SplashButton ("user.png", box.getPrefWidth(), box.getPrefHeight() );
        SplashButton multi = new SplashButton ("multi.png", box.getPrefWidth(), box.getPrefHeight());
        multi.setOnMouseClicked(e -> myStage.setScene(pickMultiMode()));
-       single.setOnMouseClicked(e -> selectGame());
+       single.setOnMouseClicked(e -> a.setup());
        box.getChildren().addAll(single,multi);
        instructions.relocate(500,200);
        root.getChildren().addAll(box,instructions);
@@ -108,29 +113,32 @@ public class SplashScene {
    }
 
 
-   public Level selectGame()
+   public Game selectGame()
    {
 
        Game game = new Game();
        game.loadState(this.getGame());
-       var levelState = game.getLevelState();
-       Level level = new Level(levelState);
-       return level;
+       return game;
 
    }
 
     private void handleLoad() {
-        FileChooser fileChooser = new FileChooser();
+        DirectoryChooser fileChooser = new DirectoryChooser();
         fileChooser.setTitle("Choose game");
-        fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource(GAMEDIR).getFile()));
-        File gameFile = fileChooser.showOpenDialog(myStage);
+        //System.out.println(this.getClass().getClassLoader().getResourceAsStream(GAMEDIR));
+////        System.out.println(getClass().getResource(GAMEDIR));
+        //fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource(GAMEDIR).toString()));
+        File gameFile = fileChooser.showDialog(myStage);
         if (gameFile == null)
             return;
-        myGame = gameFile.getPath();
-        myStage.setScene(pickPlayerMode());
+        else {
+            System.out.println("in else");
+            myGame = gameFile;
+            myStage.setScene(pickPlayerMode());
+        }
     }
 
-    public String getGame()
+    public File getGame()
     {
         System.out.println(myGame);
         return myGame;

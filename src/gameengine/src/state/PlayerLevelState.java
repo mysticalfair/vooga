@@ -30,7 +30,14 @@ public class PlayerLevelState implements IPlayerLevelState {
     }
 
     @Override
+    public boolean addAgentFromStore(int index, double x, double y) {
+        return false;
+    }
+
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
 
     }
+
+
 }

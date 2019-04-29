@@ -79,40 +79,57 @@ public class LevelHandler {
     }
 
 
-    private void clearGameLevelContents(ILevelDefinition gameLevel){
+    private void clearGameLevelContents(ILevelDefinition gameLevel) {
+        gameLevel.setBackgroundImageURL(null);
         for(String pathName: gameLevel.getPaths().keySet()){
             gameLevel.removePath(pathName);
         }
-        for(String agent: gameLevel.getPlaceableAgents()){
-            gameLevel.removePlaceableAgent(agent);
-        }
-        // TODO: is this needed?
         for(int i=0; i<gameLevel.getCurrentAgents().size(); i++){
             gameLevel.removeAgent(i);
         }
     }
 
-    public void makeLevelFromExisting(int existingLevel, int newLevel) {
+    /*
+
+    public void makeLevelFromExisting(int existingLevel, int newLevel, MapState state) {
+        map.setLevel(newLevel);
+        toolbarPane.setMaxLevel(newLevel);
+        toolbarPane.addToExistingLevelCreator(newLevel);
         console.displayMessage("Level " + newLevel + " created from Level: " + toolbarPane.getExistingLevelValue(), ConsolePane.Level.NEUTRAL);
         // Deal with making new level from existing level's "backend" state.
         ILevelDefinition oldLevel = context.getState().getLevels().get(existingLevel - 1);
         ILevelDefinition level = context.getGameFactory().createLevel();
         try {
-            // Clone old level onto new level
+            // Clone old level onto new level if POSSIBLE
             level = oldLevel.clone();
         } catch (CloneNotSupportedException e) {
             System.out.println("F");
         }
+        // add cloned level to back-end state.
         context.getState().addLevel(level);
+        // Update front-end display by using back-end state
+        map.getStateMapping().put(newLevel, state);
+        map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
+        loadFromState(newLevel);
+        // Update spinner value
+        int currentSpinnerValue = (int)(double)toolbarPane.getLevelChanger().getValue();
+        toolbarPane.updateSpinner(currentSpinnerValue, newLevel);
     }
-
+    */
     void makeLevel(int newLevel, MapState state, boolean fromExisting) {
         String newLevelDisplay;
+        ILevelDefinition level = context.getGameFactory().createLevel();
         if (fromExisting) {
             newLevelDisplay = "Level " + newLevel + " created from Level: " + toolbarPane.getExistingLevelValue();
+            try {
+                level = context.getState().getLevels().get(toolbarPane.getExistingLevelValue() - 1).clone();
+            } catch (CloneNotSupportedException e) {
+                System.out.println("F");
+            }
         } else {
             newLevelDisplay = "Level " + newLevel + " created";
         }
+        context.getState().addLevel(level);
         map.setLevel(newLevel);
         toolbarPane.setMaxLevel(newLevel);
         toolbarPane.addToExistingLevelCreator(newLevel);
@@ -120,8 +137,6 @@ public class LevelHandler {
         if (!map.getStateMapping().containsKey(newLevel)) {
             map.getStateMapping().put(newLevel, state);
             map.getCurrentState().accessSelectCount(countProperty -> establishSelectCountListener(countProperty));
-
-            // Front end sets itself to this new state.
             MapState revertToState = map.getStateMapping().get(newLevel);
             revertToState.updateMap(map);
         }
@@ -136,5 +151,21 @@ public class LevelHandler {
             revertToState.updateMap(map);
         }
     }
+
+    /*
+    private void loadFromState(int level) {
+        map.clearMap();
+        ILevelDefinition levelToLoad = context.getState().getLevels().get(level-1);
+        String backgroundURL = levelToLoad.getBackgroundImageURL();
+        map.setMapImage(level, backgroundURL);
+        for (AgentReference ref : levelToLoad.getCurrentAgents()) {
+            DraggableAgentView agent = new DraggableAgentView(context, ref);
+            map.getCurrentState().getAgents().add(agent);
+            map.getMapPane().getChildren().add(agent);
+        }
+        // Add paths.
+
+    }
+    */
 }
 

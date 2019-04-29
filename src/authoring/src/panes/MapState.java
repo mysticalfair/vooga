@@ -18,6 +18,7 @@ public class MapState {
     private SimpleIntegerProperty selectCount = new SimpleIntegerProperty();
     private AuthoringContext context;
 
+    // FRONT END STUFF NOT BACK-END. ONLY THING THIS NEEDS TO HOLD IS THE SELECTCOUNT.
     public MapState(AuthoringContext context, String backgroundURL, List<DraggableAgentView> agents, List<Path> paths) {
         this.context = context;
         this.backgroundURL = backgroundURL;

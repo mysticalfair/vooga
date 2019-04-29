@@ -65,15 +65,6 @@ public class AttributesPane extends AuthoringPane {
                 getContext().displayConsoleMessage(getContext().getString("AgentNotCreated"), ConsolePane.Level.ERROR);
                 return;
             }
-            String testString = String.format("New agent created: %s\nx: %d y: %d w: %d h: %d\nimage: %s\n" +
-                    "number of properties: %d\nnumber of action decisions: %d",
-                    a.getName(),
-                    (int) a.getX(), (int) a.getY(), a.getWidth(), a.getHeight(),
-                    a.getImageURL(),
-                    a.getProperties().size(),
-                    a.getActionDecisions().size()
-                    );
-            getContext().displayConsoleMessage(testString, ConsolePane.Level.SUCCESS);
             if (existingAgent != null && !copyExisting) {
                 existingAgent.setName(a.getName());
                 existingAgent.setWidth(a.getWidth());
@@ -160,7 +151,7 @@ public class AttributesPane extends AuthoringPane {
                 getContext().getState().defineObjective(a);
                 onSuccess.accept(a);
             }
-            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getCondition().getTitle()), ConsolePane.Level.SUCCESS);
+            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getCondition().getName()), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }

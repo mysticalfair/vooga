@@ -64,7 +64,7 @@ public class ObjectiveForm extends FormElement {
         if (conditionDef == null || outcomeDef == null) {
             return null;
         }
-        return getContext().getGameFactory().createObjective("", conditionDef, outcomeDef);
+        return getContext().getGameFactory().createObjective(conditionDef, outcomeDef);
     }
 
 }

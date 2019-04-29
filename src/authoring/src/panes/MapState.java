@@ -1,10 +1,11 @@
 package panes;
 
+import authoring.ILevelDefinition;
 import frontend_objects.AgentView;
 import frontend_objects.DraggableAgentView;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.shape.Ellipse;
+import state.AgentReference;
 import util.AuthoringContext;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MapState {
     private SimpleIntegerProperty selectCount = new SimpleIntegerProperty();
     private AuthoringContext context;
 
+    // FRONT END STUFF NOT BACK-END. ONLY THING THIS NEEDS TO HOLD IS THE SELECTCOUNT.
     public MapState(AuthoringContext context, String backgroundURL, List<DraggableAgentView> agents, List<Path> paths) {
         this.context = context;
         this.backgroundURL = backgroundURL;
@@ -27,18 +29,19 @@ public class MapState {
         this.paths = paths;
     }
 
-    public MapState(MapState other, MapPane map, ConsolePane console) {
+    public MapState(MapState other, MapPane map) {
         this.context = other.context;
         this.backgroundURL = other.backgroundURL;
         this.agents = new ArrayList<>();
-        for (DraggableAgentView agent : other.agents) {
-            this.agents.add(new DraggableAgentView(context, agent));
+        List<? extends ILevelDefinition> levels = context.getState().getLevels();
+        for (AgentReference ref : levels.get(levels.size() - 1).getCurrentAgents()) {
+            this.agents.add(new DraggableAgentView(context, ref));
         }
         for (DraggableAgentView agent : this.agents) {
-            agent.setMouseActionsForDrag(map, console);
+            agent.setMouseActionsForDrag(map);
         }
         for (int i = 0; i < this.agents.size(); i++) {
-            this.agents.get(i).setMouseActionsForDrag(map, console);
+            this.agents.get(i).setMouseActionsForDrag(map);
             this.agents.get(i).setTranslateX(other.agents.get(i).getTranslateX());
             this.agents.get(i).setTranslateY(other.agents.get(i).getTranslateY());
         }
@@ -49,8 +52,10 @@ public class MapState {
         selectCount.set(0);
     }
 
+
     public void addToPaths(Path path){
         paths.add(path);
+
     }
 
     public void removePath(Path path){

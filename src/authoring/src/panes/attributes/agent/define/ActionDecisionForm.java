@@ -1,6 +1,7 @@
 package panes.attributes.agent.define;
 
 import authoring.IActionDecisionDefinition;
+import authoring.IPropertyDefinition;
 import panes.attributes.LabeledEditableFormList;
 import util.AuthoringContext;
 
@@ -28,6 +29,15 @@ public class ActionDecisionForm extends LabeledEditableFormList {
         List<IActionDecisionDefinition> actionDecisions = new ArrayList<>();
         iterateElements(e -> actionDecisions.add(((ActionDecisionFormElement) e).packageData()));
         return actionDecisions;
+    }
+
+    public void loadFromExisting(List<? extends IActionDecisionDefinition> actionDecisions) {
+        actionDecisions.forEach(actionDecision -> {
+            ActionDecisionFormElement element = new ActionDecisionFormElement(getContext());
+            element.loadFromExisting(actionDecision);
+            add(element);
+            element.setOnDelete(e2 -> remove(element));
+        });
     }
 
 }

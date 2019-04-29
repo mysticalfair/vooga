@@ -88,8 +88,8 @@ public class PathPane extends AuthoringPane {
         var pathLabel = new Label(getContext().getString("PathLabel") + id);
         pathLabel.setId(getContext().getString("PathLabelId"));
 
-        var addButton = AuthoringUtil.createSquareImageButton(getContext().getString("PenFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> pen.enableToolWithPath(id));
-        var deleteButton = AuthoringUtil.createSquareImageButton(getContext().getString("PathTrashFile"), getContext().getDouble("ButtonSize"), getContext().getDouble("ButtonImageSize"), e -> pen.removePathFromID(id));
+        var addButton = AuthoringUtil.createSquareImageButton(getContext().getString("PenFile"), getContext().getDouble("ButtonSize"), e -> pen.enableToolWithPath(id));
+        var deleteButton = AuthoringUtil.createSquareImageButton(getContext().getString("PathTrashFile"), getContext().getDouble("ButtonSize"), e -> pen.removePathFromID(id));
         row.getChildren().addAll(pathLabel, addButton, deleteButton);
         pathDisplayMap.put(path, row);
         pathsBox.getChildren().add(row);

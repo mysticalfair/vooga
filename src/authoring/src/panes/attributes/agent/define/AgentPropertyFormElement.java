@@ -89,4 +89,19 @@ public class AgentPropertyFormElement extends FormElement {
 
         getContentChildren().add(propertyHBox);
     }
+
+    public void loadFromExisting(IPropertyDefinition property) {
+        nameField.setText(property.getName());
+        Object valueType = property.getValue();
+        if (valueType instanceof Integer) {
+            typeBox.getSelectionModel().select(DEFAULT_TYPES.get(getContext().getInt("IntIndex")));
+        }
+        else if (valueType instanceof Double) {
+            typeBox.getSelectionModel().select(DEFAULT_TYPES.get(getContext().getInt("DoubleIndex")));
+        }
+        else if (valueType instanceof String) {
+            typeBox.getSelectionModel().select(DEFAULT_TYPES.get(getContext().getInt("StringIndex")));
+        }
+        valueField.setText("" + valueType);
+    }
 }

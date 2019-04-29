@@ -60,6 +60,13 @@ public class CommonAgentFieldsForm extends FormElement {
         return imageUrl;
     }
 
+    public void loadFromExisting(String name, int width, int height, String imageUrl) {
+        nameField.setText(name);
+        widthField.setText("" + width);
+        heightField.setText("" + height);
+        imageField.setImage(new Image(imageUrl));
+    }
+
     /**
      * Initialize fields common to all agents.
      * @return a node that contains those common fields
@@ -93,6 +100,7 @@ public class CommonAgentFieldsForm extends FormElement {
         imageField.setPreserveRatio(true);
         imageField.setSmooth(true);
         imageField.setCache(true);
+        imageUrl = imageField.getImage().getUrl();
 
         AnchorPane imageLabelAnchorPane = new AnchorPane();
         Label chooseImageLabel = new Label(getContext().getString("ChooseImage"));

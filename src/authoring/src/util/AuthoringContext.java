@@ -51,18 +51,18 @@ public class AuthoringContext {
     }
 
     /**
-     * Get a string from the resource bundle in the current language
-     * @param key the key for the string
-     * @return the string
+     * Get a double from the resource bundle in the current language
+     * @param key the key for the double
+     * @return the double
      */
     public double getDouble(String key) {
         return Double.parseDouble(resourceBundle.getString(key));
     }
 
     /**
-     * Get a string from the resource bundle in the current language
-     * @param key the key for the string
-     * @return the string
+     * Get an int from the resource bundle in the current language
+     * @param key the key for the int
+     * @return the int
      */
     public int getInt(String key) {
         return Integer.parseInt(resourceBundle.getString(key));

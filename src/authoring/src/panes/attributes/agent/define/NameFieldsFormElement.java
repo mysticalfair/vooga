@@ -2,6 +2,7 @@ package panes.attributes.agent.define;
 
 import authoring.AvailableNameFields;
 import authoring.Field;
+import authoring.INameFieldsDefinition;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -24,6 +25,7 @@ public abstract class NameFieldsFormElement extends FormElement {
     protected ChoiceBox<String> names;
     protected VBox parametersVBox;
     protected List<LabeledTextField> parameters;
+    // TODO: Make this whole shebang work with more than only parameters that are strings
 
     protected List<? extends AvailableNameFields> nameFields;
 
@@ -101,5 +103,16 @@ public abstract class NameFieldsFormElement extends FormElement {
             }
         }
         return paramsMap;
+    }
+
+    public void loadFromExisting(INameFieldsDefinition definition) {
+        names.getSelectionModel().select(definition.getName());
+        definition.getParams().forEach((name, object) -> {
+            parameters.forEach(labeledTextField -> {
+                if (labeledTextField.getLabel().equals(name)) {
+                    labeledTextField.loadFromExisting(object.toString());
+                }
+            });
+        });
     }
 }

@@ -14,7 +14,7 @@ public class SplashScene {
 
     private static final String GAMEDIR = "gamefiles/";
     private Stage myStage;
-    private String myGame;
+    private File myGame;
     private Pane root;
     private Scene scene;
     private GameApplication a;
@@ -123,23 +123,23 @@ public class SplashScene {
    }
 
     private void handleLoad() {
-        //DirectoryChooser fileChooser = new DirectoryChooser();
-        FileChooser fileChooser = new FileChooser();
+        DirectoryChooser fileChooser = new DirectoryChooser();
+        //ileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose game");
         //System.out.println(this.getClass().getClassLoader().getResourceAsStream(GAMEDIR));
 ////        System.out.println(getClass().getResource(GAMEDIR));
         //fileChooser.setInitialDirectory(new File(getClass().getClassLoader().getResource(GAMEDIR).toString()));
-        File gameFile = fileChooser.showOpenDialog(myStage);
+        File gameFile = fileChooser.showDialog(myStage);
         if (gameFile == null)
             return;
         else {
             System.out.println("in else");
-            myGame = gameFile.getPath();
+            myGame = gameFile;
             myStage.setScene(pickPlayerMode());
         }
     }
 
-    public String getGame()
+    public File getGame()
     {
         System.out.println(myGame);
         return myGame;

@@ -18,6 +18,8 @@ import state.action.Action;
 import state.actiondecision.ActionDecision;
 import state.agent.Agent;
 import state.condition.Condition;
+import state.objective.ObjectiveCondition;
+import state.objective.ObjectiveOutcome;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -89,6 +91,14 @@ public class GameFactory {
 
     public List<AvailableAction> getAvailableActions() {
         return this.availableActions;
+    }
+
+    public List<AvailableObjectiveCondition> getAvailableObjectiveConditions() {
+        return this.availableObjectiveConditions;
+    }
+
+    public List<AvailableObjectiveOutcome> getAvailableObjectiveOutcomes() {
+        return this.availableObjectiveOutcomes;
     }
 
     /**
@@ -175,6 +185,24 @@ public class GameFactory {
         Condition c = instantiateClass(conditionClasses.getProperty(name), params);
         c.setName(name);
         return c;
+    }
+
+    public IObjectiveConditionDefinition createObjectiveCondition(String name, Map<String, Object> params) throws ObjectiveConditionDoesNotExistException,
+            ReflectionException {
+        if (!nameFieldsExists(availableObjectiveConditions, name))
+            throw new ObjectiveConditionDoesNotExistException();
+
+        ObjectiveCondition oc = instantiateClass(objectiveConditionClasses.getProperty(name), params);
+        return oc;
+    }
+
+    public IObjectiveOutcomeDefinition createObjectiveOutcome(String name, Map<String, Object> params) throws ObjectiveOutcomeDoesNotExistException,
+            ReflectionException {
+        if (!nameFieldsExists(availableObjectiveConditions, name))
+            throw new ObjectiveOutcomeDoesNotExistException();
+
+        ObjectiveOutcome oo = instantiateClass(objectiveOutcomeClasses.getProperty(name), params);
+        return oo;
     }
 
     /**

@@ -36,7 +36,7 @@ class GameTest {
         if(new File(GAME_FILE_NAME).exists()){
             new File(GAME_FILE_NAME).delete();
         }
-        gameEngine.saveState(GAME_FILE_NAME);
+        //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         assertTrue(new File(GAME_FILE_NAME).exists());
     }
 

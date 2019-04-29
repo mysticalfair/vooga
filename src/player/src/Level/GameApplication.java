@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GameApplication extends Application {
-   private static final int MILLISECOND_DELAY = 100;
+   private static final int MILLISECOND_DELAY = 10;
 
    public static void main(String[] args) {
       launch(args);

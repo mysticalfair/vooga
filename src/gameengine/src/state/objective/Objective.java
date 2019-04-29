@@ -1,39 +1,33 @@
 package state.objective;
 
-import state.LevelState;
+import authoring.IObjectiveConditionDefinition;
+import authoring.IObjectiveDefinition;
+import authoring.IObjectiveOutcomeDefinition;
+import state.State;
 
 import java.io.Serializable;
 
-public class Objective implements IPlayerObjective, Serializable {
-    private int id;
-    private boolean met;
-    private String title;
+public class Objective implements IObjectiveDefinition, Serializable {
 
-    public Objective(int id, String title, boolean met) {
-        this.id = id;
-        this.title = title;
-        this.met = met;
+    private ObjectiveCondition condition;
+    private ObjectiveOutcome outcome;
+
+    public Objective(ObjectiveCondition condition, ObjectiveOutcome outcome) {
+        this.condition = condition;
+        this.outcome = outcome;
     }
 
-    public int getId() { return this.id; }
-    public String getTitle() {
-        return this.title;
+    public void execute(State state) {
+
+        if(condition.evaluate(state)) {
+            outcome.execute(state);
+        }
     }
 
-    public boolean getMet() {
-        return this.met;
-    }
+    public IObjectiveOutcomeDefinition getOutcome() { return outcome; }
+    public void setOutcome(IObjectiveOutcomeDefinition outcome) { this.outcome = (ObjectiveOutcome) outcome; }
 
-    public void setId(int id) {this.id = id; }
-    public void setMet(boolean met) {
-        this.met = met;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void execute(LevelState levelState) {
-        //TODO: David
-    }
+    public IObjectiveConditionDefinition getCondition() { return condition; }
+    public void setCondition(IObjectiveConditionDefinition condition) { this.condition = (ObjectiveCondition) condition; }
 }
+

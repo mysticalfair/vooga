@@ -6,7 +6,7 @@
     </conditionDefinition>
 
     <conditionDefinition>
-        <name>DoOnce</name>
+        <name>DoOnceWithSelf</name>
         <fields />
     </conditionDefinition>
 
@@ -58,6 +58,11 @@
 
     <conditionDefinition>
         <name>Collision</name>
+        <fields />
+    </conditionDefinition>
+
+    <conditionDefinition>
+        <name>IsNotColliding</name>
         <fields />
     </conditionDefinition>
 

@@ -30,5 +30,7 @@ The subclass of `AuthoringPane` that can be added to various places within the A
     * `ActionDecisionForm`
         * List of `ActionDecisionFormElement`s
             * `ActionFormElement` (subclass of `NameFieldsFormElement`)
+                * List of `LabeledTextField` (parameters)
             * `ConditionsForm`
-                * List of `ConditionFormElement`s (subclass of `NameFieldsFormElement`)                  
+                * List of `ConditionFormElement`s (subclass of `NameFieldsFormElement`)
+                    * List of `LabeledTextField` (parameters)                  

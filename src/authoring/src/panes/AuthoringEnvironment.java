@@ -2,6 +2,8 @@ package panes;
 
 import authoring.GameFactory;
 import authoring.ILevelDefinition;
+import authoring.IPropertyDefinition;
+import frontend_objects.DraggableAgentView;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import panes.attributes.AttributesPane;
 import panes.tools.PathPenTool;
 import panes.tools.ToolbarPane;
+import state.AgentReference;
 import util.AuthoringContext;
 import util.AuthoringUtil;
 
@@ -103,9 +106,31 @@ public class AuthoringEnvironment extends Application {
     private void initAgentPane() {
         agentPane = new AgentPane(context);
         agentPane.accessContainer(borderPane::setRight);
-        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"), context.getDouble("ButtonImageSize"),
-                e -> attributesPane.createNewAgentForm(agent -> agentPane.refreshAgentList(1, map)));
-        agentPane.refreshAgentList(1, map);
+        agentPane.addButton(context.getString("AddButtonImageFile"), context.getDouble("ButtonSize"),
+                e -> attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), null, false));
+        agentPane.setOnImageClicked((e, agent) -> {
+            //if (e.getClickCount() == getContext().getInt("CloneClickCount")) { // Only add on double click to allow editing action on single click
+            context.getState().getLevels().get(map.getLevel() - 1).addAgent(agent.getName(), 0, 0, 0, new ArrayList<IPropertyDefinition>());
+            List<AgentReference> agentReferences = context.getState().getLevels().get(map.getLevel() - 1).getCurrentAgents();
+            DraggableAgentView copy = new DraggableAgentView(context, agent.getImageURL(), agentReferences.get(agentReferences.size() - 1));
+            map.addAgent(copy);
+            context.displayConsoleMessage(context.getString("AgentAdded") + map.getAgentCount(), ConsolePane.Level.NEUTRAL);
+            copy.setMouseActionsForDrag(map);
+            //}
+        });
+        agentPane.setOnEdit((e, agent) ->
+            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, false)
+        );
+        agentPane.setOnCopy((e, agent) ->
+            attributesPane.createNewAgentForm(a -> agentPane.refreshAgentList(1), agent, true)
+        );
+        agentPane.setOnDelete((e, agent) -> {
+            // TODO: Delete agent from overall list of defined agents, and all references of it in levels
+        });
+        agentPane.setOnCheckChanged((b, agent) -> {
+            // TODO: Add or remove agent from list of placeables in current level
+        });
+        agentPane.refreshAgentList(1);
     }
 
     private void initBottomPanes() {

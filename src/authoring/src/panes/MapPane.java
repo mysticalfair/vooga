@@ -131,7 +131,6 @@ public class MapPane extends AuthoringPane {
     public void addAgent(DraggableAgentView agent){
         MapState currentLevel = levelToState.get(level);
         currentLevel.addToAgents(agent);
-        getContext().getState().getLevels().get(level - 1).getCurrentAgents().add(agent.getReference());
         mapPane.getChildren().add(agent);
     }
 

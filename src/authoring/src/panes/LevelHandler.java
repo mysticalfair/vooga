@@ -125,6 +125,7 @@ public class LevelHandler {
                 level = context.getState().getLevels().get(toolbarPane.getExistingLevelValue() - 1).clone();
             } catch (CloneNotSupportedException e) {
                 context.displayConsoleMessage(context.getString("CloneError"), ConsolePane.Level.ERROR);
+                return;
             }
         } else {
             newLevelDisplay = "Level " + newLevel + " created";

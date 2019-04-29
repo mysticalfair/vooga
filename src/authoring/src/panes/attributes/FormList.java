@@ -26,7 +26,6 @@ public abstract class FormList extends FormElement {
         addButton = AuthoringUtil.createSquareImageButton(
                 getContext().getString("AddButtonImageFile"),
                 getContext().getDouble("ButtonSize"),
-                getContext().getDouble("ButtonImageSize"),
                 null);
         vBox = new VBox();
         getContentChildren().add(vBox);

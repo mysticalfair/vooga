@@ -160,7 +160,7 @@ public class AttributesPane extends AuthoringPane {
                 getContext().getState().defineObjective(a);
                 onSuccess.accept(a);
             }
-            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getName()), ConsolePane.Level.SUCCESS);
+            getContext().displayConsoleMessage(String.format(getContext().getString("ObjectiveUpdated"), a.getCondition().getTitle()), ConsolePane.Level.SUCCESS);
             scrollPane.setContent(null);
         });
     }

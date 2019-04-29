@@ -5,8 +5,6 @@ import state.agent.IPlayerAgent;
 import state.attribute.Attribute;
 import state.attribute.IPlayerAttribute;
 import state.attribute.IAttribute;
-import state.objective.IPlayerObjective;
-import state.objective.Objective;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -17,22 +15,23 @@ import java.util.List;
 /**
  * Version of state that is passed to player
  * @author David Miron
- * @Author:Luke_Truitt
+ * @author Luke Truitt
+ * @author Jamie Palka
  */
 public class LevelState implements Serializable, IPlayerLevelState {
 
     private List<Agent> placeableAgents;
     private List<Agent> agentsCurrent;
-    private List<Objective> objectivesCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private String backgroundImageURL;
     private PropertyChangeSupport pcs;
+
     public LevelState() {
         this.placeableAgents = new ArrayList<>();
         this.agentsCurrent = new ArrayList<>();
-        this.objectivesCurrent = new ArrayList<>();
         this.attributesCurrent = new ArrayList<>();
-        this.pcs =  new PropertyChangeSupport(this);
+        this.pcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -102,18 +101,16 @@ public class LevelState implements Serializable, IPlayerLevelState {
         }
     }
 
-    public List<Objective> getObjectives() {
-        return this.objectivesCurrent;
+    public List<IAttribute> getMutableAttributes() {
+        return this.attributesCurrent;
     }
-
-    public void setObjectives(List<Objective> objectivesCurrent) {
-        this.objectivesCurrent = objectivesCurrent;
-    }
-
-    public List<IAttribute> getMutableAttributes() { return this.attributesCurrent; }
 
     public void setAttributes(List<IAttribute> attributesCurrent) {
         this.attributesCurrent = attributesCurrent;
+    }
+
+    public List<IAttribute> getCurrentAttributes() {
+        return attributesCurrent;
     }
 
     public List<Agent> getMutableAgentsExcludingSelf(Agent agent) {
@@ -125,13 +122,12 @@ public class LevelState implements Serializable, IPlayerLevelState {
     /*
      * For Author
      */
+
     public void placeAgent(Agent agent) {
         var agentsOld = this.agentsCurrent;
         this.agentsCurrent.add(agent);
     }
-    public void defineObjective(Objective objective) {
-        this.objectivesCurrent.add(objective);
-    }
+
     public void defineAttribute(IAttribute attribute) {
         this.attributesCurrent.add(attribute);
     }
@@ -139,14 +135,12 @@ public class LevelState implements Serializable, IPlayerLevelState {
     /*
      * For Player - Iterate through and update your copy based on the corresponding ID.
      */
+
     public List<IPlayerAgent> getImmutableOptions() { return List.copyOf(this.placeableAgents); }
+
 
     public List<IPlayerAgent> getImmutableAgents() {
         return List.copyOf(this.agentsCurrent);
-    }
-
-    public List<IPlayerObjective> getImmutableObjectives() {
-        return List.copyOf(this.objectivesCurrent);
     }
 
     public List<IPlayerAttribute> getImmutableAttributes() {
@@ -158,4 +152,14 @@ public class LevelState implements Serializable, IPlayerLevelState {
         this.pcs.addPropertyChangeListener(listener);
     }
 
+    @Override
+    public String getBackgroundImageURL() {
+        return backgroundImageURL;
+    }
+
+    @Override
+    public void setBackgroundImageURL(String imageURL) {
+        backgroundImageURL = imageURL;
+    }
 }
+

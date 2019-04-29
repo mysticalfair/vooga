@@ -193,6 +193,5 @@ public class AuthoringEnvironment extends Application {
         scene.heightProperty().addListener((observable, oldvalue, newvalue) -> updateDimensions(scene.getWidth (), (double) newvalue));
         stage.getScene().getStylesheets().add(context.getString("MainStyle"));
         stage.show();
-        map.formatBackground();
     }
 }

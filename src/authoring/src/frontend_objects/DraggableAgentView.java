@@ -7,7 +7,9 @@ import javafx.scene.paint.Color;
 import panes.ConsolePane;
 import panes.MapPane;
 import state.AgentReference;
+import state.agent.Agent;
 import util.AuthoringContext;
+import util.AuthoringUtil;
 
 import java.util.stream.Collectors;
 
@@ -34,7 +36,7 @@ public class DraggableAgentView extends AgentView {
     private String url;
 
     public DraggableAgentView(AuthoringContext authoringContext, String url, AgentReference reference) {
-        super(authoringContext, url);//authoringContext.getState().getDefinedAgents().stream().filter(name -> name.equals(reference.getName())).collect(Collectors.toList()).get(0).getImageURL());
+        super(authoringContext, url);
         this.url = url;
         this.reference = reference;
         this.setTranslateX(reference.getX());
@@ -42,10 +44,15 @@ public class DraggableAgentView extends AgentView {
         selected = false;
     }
 
+    public DraggableAgentView(AuthoringContext authoringContext, AgentReference reference) {
+        this(authoringContext, authoringContext.getState().getDefinedAgents().stream().filter(agentDefinition -> agentDefinition.getName().equals(reference.getName())).collect(Collectors.toList()).get(0).getImageURL(), reference);
+    }
+
     public DraggableAgentView(AuthoringContext authoringContext, DraggableAgentView other) {
         super(authoringContext, other.url);
         url = other.url;
         selected = false;
+        this.reference = other.reference;
         myStartSceneX = other.myStartSceneX;
         myStartSceneY = other.myStartSceneY;
         myStartXOffset = other.myStartXOffset;

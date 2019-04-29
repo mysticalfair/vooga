@@ -11,6 +11,7 @@ import state.IRequiresGameEventMaster;
 import state.LevelState;
 import state.Property;
 import state.agent.Agent;
+import state.agent.AgentUtils;
 import state.objective.Objective;
 
 import java.awt.geom.Point2D;
@@ -221,6 +222,11 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         for (Agent agent: getAgentsFromNames(authoringPlaceableAgents)) {
             levelState.addPlaceableAgent(agent);
         }
+    }
+
+    @Override
+    public ILevelDefinition clone() throws CloneNotSupportedException {
+        return (Level) AgentUtils.deepClone(this);
     }
 
 }

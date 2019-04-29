@@ -30,4 +30,9 @@ public interface ILevelDefinition {
     void removePath(int index);
     void removePath(String name);
     void addPath(String name, List<Point2D> path);
+
+    String getBackgroundImageURL();
+    void setBackgroundImageURL(String imageURL);
+
+    ILevelDefinition clone() throws CloneNotSupportedException;
 }

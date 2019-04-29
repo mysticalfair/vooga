@@ -11,10 +11,10 @@ import java.util.List;
 public interface IAgentDefinition {
 
     double getX();
-    void setX(int x);
+    void setX(double x);
 
     double getY();
-    void setY(int y);
+    void setY(double y);
 
     int getWidth();
     void setWidth(int width);
@@ -35,5 +35,6 @@ public interface IAgentDefinition {
     List<? extends IPropertyDefinition> getProperties();
     void removeProperty(String name);
     void addProperty(IPropertyDefinition property);
-    <T> void setProperty(String name, T value) throws PropertyDoesNotExistException;
+    <T> void setProperty(String name, T value)  throws PropertyDoesNotExistException;
+    Object getPropertyValue(String name);
 }

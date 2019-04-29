@@ -45,6 +45,9 @@ public class Game implements IGameDefinition, IPlayerGame {
     @Deprecated
     public void run() {
         runFlag = true;
+
+        if(state.getGameOverStatus()) { runFlag = false; }
+
         // TODO: throw exception if state not initialized?
         double nextTime = System.nanoTime() / nanoTrans;
 

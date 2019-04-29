@@ -52,7 +52,7 @@ public class ClashOfClansTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(CLASH_FILE);
+            //DAVIDCOMMENTgameEngine.saveState(CLASH_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }

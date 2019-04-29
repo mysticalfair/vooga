@@ -116,7 +116,7 @@ public class Game implements IGameDefinition, IPlayerGame {
     public void saveState(File saveLocation){
         try {
             serializer.save(state, saveLocation, state.getAllImages());
-        } catch (SerializationException | IOException e) {
+        } catch (SerializationException e) {
             // TODO: Deal with Exceptions by letting player know about problem.
             e.printStackTrace();
         }

@@ -15,6 +15,7 @@ import state.agent.AgentUtils;
 import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -185,6 +186,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+
                 index++;
 
             } catch (CloneNotSupportedException e) {
@@ -235,7 +237,25 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     @Override
     public ILevelDefinition clone() throws CloneNotSupportedException {
-        return (Level) AgentUtils.deepClone(this);
+        try {
+            Level clonedLevel = (Level) super.clone();
+            clonedLevel.levelState = (LevelState) AgentUtils.deepClone(this.levelState);
+            clonedLevel.agentsToAdd = new ArrayList<>();
+            clonedLevel.agentsToRemove = new ArrayList<>();
+            clonedLevel.authoringAgentsPlaced =
+                    (List<AgentReference>) AgentUtils.deepClone(this.authoringAgentsPlaced);
+            clonedLevel.authoringPlaceableAgents =
+                    (List<String>) AgentUtils.deepClone(this.authoringPlaceableAgents);
+            clonedLevel.paths =
+                    (Map<String, List<Point2D>>) AgentUtils.deepClone(this.paths);
+            clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
+            return clonedLevel;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new CloneNotSupportedException();
+        }
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.levelState.setGameOver(gameOver);
+    }
 }

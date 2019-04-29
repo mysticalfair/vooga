@@ -25,7 +25,7 @@ public class GameApplication extends Application {
    public static final int SCREEN_HEIGHT = 800;
    public static final Paint BACKGROUND = Color.WHITE;
    public static final String GAME_NAME = "Game Time";
-   public static final String GAME_FILE_NAME = "resources/gamefiles/pvzTest.xml";
+   public static final String GAME_FILE_NAME = "resources/gamefiles/bloonsTest.xml";
    private Timeline animation;
    private IPlayerGame game;
 

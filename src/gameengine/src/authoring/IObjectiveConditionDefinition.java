@@ -1,7 +1,5 @@
 package authoring;
 
-import state.objective.ObjectiveOutcome;
-
 import java.util.Map;
 
 /**

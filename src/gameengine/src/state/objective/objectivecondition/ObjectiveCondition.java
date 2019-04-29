@@ -1,16 +1,17 @@
-package state.objective;
+package state.objective.objectivecondition;
 
 import authoring.IObjectiveConditionDefinition;
 import state.State;
 import state.agent.Agent;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * @author Jamie Palka
  * An abstract class to define the common functionality of Objectives.
  */
-public abstract class ObjectiveCondition implements IObjectiveConditionDefinition {
+public abstract class ObjectiveCondition implements IObjectiveConditionDefinition, Serializable {
 
     // name that corresponds to the value of the OBJECTIVE_IDENTIFICATION_PROPERTY in params (from authoring) that
     // the target agent has

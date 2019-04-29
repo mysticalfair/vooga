@@ -4,8 +4,12 @@ import authoring.IObjectiveConditionDefinition;
 import authoring.IObjectiveDefinition;
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
+import state.objective.objectivecondition.ObjectiveCondition;
+import state.objective.objectiveoutcome.ObjectiveOutcome;
 
-public class Objective implements IObjectiveDefinition {
+import java.io.Serializable;
+
+public class Objective implements IObjectiveDefinition, Serializable {
 
     private ObjectiveCondition condition;
     private ObjectiveOutcome outcome;

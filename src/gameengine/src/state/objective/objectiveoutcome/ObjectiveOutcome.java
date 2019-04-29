@@ -1,16 +1,17 @@
-package state.objective;
+package state.objective.objectiveoutcome;
 
 import authoring.IObjectiveOutcomeDefinition;
 import state.State;
 import state.agent.Agent;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * @author Jamie Palka
  * Abstract class to define functions necessary for all ObjectiveOutcomes.
  */
-abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition {
+abstract public class ObjectiveOutcome implements IObjectiveOutcomeDefinition, Serializable {
 
     // name that corresponds to the value of the OBJECTIVE_IDENTIFICATION_PROPERTY in params (from authoring) that
     // the target agent has

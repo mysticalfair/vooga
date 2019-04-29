@@ -1,3 +1,5 @@
+package Level;
+
 import Attribute.AttributeView;
 import Controllers.LevelController;
 import Panes.AttributePane;
@@ -84,7 +86,8 @@ public class Level extends Scene {
    }
 
    private void setStyles(){
-      this.getStylesheets().add(getClass().getResource(GAME_CSS).toExternalForm());
+//      this.getStylesheets().add(getClass().getResource(GAME_CSS).toExternalForm());
+      this.getStylesheets().add(GAME_CSS);
       this.getStylesheets().add(FONT);
       this.centerPane.getStyleClass().add(CENTER_PANE_STYLE);
    }

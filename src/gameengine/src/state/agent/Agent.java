@@ -15,7 +15,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -78,11 +80,11 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - X location of the agent
      */
     public double getX() {
-        return (int) playerAgent.getX();
+        return playerAgent.getX();
     }
 
     @Override
-    public void setX(int x) {
+    public void setX(double x) {
         playerAgent.setX(x);
     }
 
@@ -91,11 +93,11 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - Y location of the agent
      */
     public double getY() {
-        return (int) playerAgent.getY();
+        return playerAgent.getY();
     }
 
     @Override
-    public void setY(int y) {
+    public void setY(double y) {
         playerAgent.setY(y);
     }
 
@@ -216,16 +218,15 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     }
 
     public List<? extends IActionDecisionDefinition> getActionDecisions() {
-        // TODO:
         return this.actionDecisions;
     }
 
-    public void removeActionDecision(int i) {
-        // TODO:
+    public void removeActionDecision(int index) {
+        actionDecisions.remove(index);
     }
 
     public void addActionDecision(IActionDecisionDefinition def) {
-        // TODO:
+        actionDecisions.add((ActionDecision) def);
     }
 
     // TODO:  fill out all property-related methods
@@ -237,11 +238,12 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     @Override
     public void removeProperty(String name) {
+        playerAgent.removeProperty(name);
     }
 
     @Override
     public void addProperty(IPropertyDefinition property) {
-
+        playerAgent.addProperty((Property) property);
     }
 
     @Override
@@ -251,6 +253,16 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
 
     public void addActionDecisionRaw(ActionDecision decision) {
         actionDecisions.add(decision);
+    }
+
+
+    public Object getPropertyValue(String name) {
+        for (Property property : this.playerAgent.getProperties()) {
+            if (property.getName().equals(name)) {
+                return property.getValue();
+            }
+        }
+        return null;
     }
 
     public Object getProperty(String name) {
@@ -289,5 +301,10 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.playerAgent.addPropertyChangeListener(listener);
+    }
+
+    public void resetImageURL(File imageDir) {
+        String fileName = new File(getImageURL()).getName();
+        setImageURL(Paths.get(imageDir.getPath(), fileName).toString());
     }
 }

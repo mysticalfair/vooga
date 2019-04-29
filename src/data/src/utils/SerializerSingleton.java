@@ -11,6 +11,10 @@ public class SerializerSingleton {
 
     private static Serializer serializer;
 
+    private SerializerSingleton() {
+
+    }
+
     /**
      * Get the singleton Serializer instance that exists, or create one if there is none.
      * @return

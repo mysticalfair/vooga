@@ -5,8 +5,12 @@ import engine.Level;
 import authoring.ILevelDefinition;
 import authoring.IStateDefinition;
 import state.agent.Agent;
+import state.attribute.IAttribute;
+import state.objective.Objective;
 import state.attribute.Attribute;
 
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +19,20 @@ import java.util.List;
  * Interface to represent the game as the authoring environment should see it
  * @author Jorge Raad
  * @author David Miron
+<<<<<<< HEAD
+ * @auhor Jamie Palka
+=======
+ * @author Luke Truitt
+>>>>>>> 31482d5383475d8d6dc993689a79c8f78dcb52b7
  */
 public class State implements IStateDefinition, Serializable {
 
     private static final int START_LEVEL = 0;
     private List<Level> levels;
     private int currentLevel;
+    private List<Objective> currentObjectives;
+    private boolean gameOver;
+
     private List<Agent> agentsCurrent;
     private List<Agent> agentsOptions;
     private List<Attribute> attributes;
@@ -29,7 +41,9 @@ public class State implements IStateDefinition, Serializable {
 
     public State(List<Agent> masterDefinedAgents){
         this.currentLevel = START_LEVEL;
-        levels = new ArrayList<>();
+        this.levels = new ArrayList<>();
+        this.currentObjectives = new ArrayList<>();
+        this.gameOver = false;
         this.definedAgents = masterDefinedAgents;
     }
 
@@ -78,18 +92,83 @@ public class State implements IStateDefinition, Serializable {
     }
 
     /**
+     * Add an objective to the current list of objectives.
+     * @param objective the objective to be added
+     */
+    public void defineObjective(Objective objective) {
+        currentObjectives.add(objective);
+    }
+
+    /**
+     * For Player - Iterate through and update your copy based on the corresponding ID.
+     */
+    public Iterable<Objective> getImmutableObjectives() {
+        return List.copyOf(this.currentObjectives);
+    }
+
+    /**
      * Switches the current level being played to the next level. Currently the order in which the levels of a game are
      * played are simply determined by their order within the levels list.
      */
-    private void nextLevel(){
+    public void nextLevel(){
         if (levels.get(currentLevel) != levels.get(levels.size() - 1)){
             currentLevel++;
         }
     }
 
-    public void step(double deltaTime) {
-        // TODO: check "general" objectives (e.g. level change, game over, victory)
+    public List<IAttribute> getCurrentAttributes() {
+        return levels.get(currentLevel).getCurrentAttributes();
+    }
+
+    /**
+     * Executes any outcomes necessary for existing objectives and then calls step() on the current level.
+     * @param deltaTime the change in time
+     */
+    public void step(double deltaTime){
+
+        for(Objective objective : currentObjectives) {
+            objective.execute(this);
+        }
+
         levels.get(currentLevel).step(deltaTime);
+    }
+
+    /**
+     * @return level the current level
+     */
+    public Level getCurrentLevel() {
+        return levels.get(currentLevel);
+    }
+
+    /**
+     * @return int the current level
+     */
+    public int getCurrentLevelInt() {
+        return currentLevel;
+    }
+
+    /**
+     * Gives the Game the status of the state regarding gameOver.
+     * @return a boolean value representing if the game is over or not
+     */
+    public boolean getGameOverStatus() {
+
+        return gameOver;
+    }
+
+    /**
+     * Changes the value of gameOver to true.
+     */
+    public void makeGameOver() {
+        gameOver = true;
+        this.getCurrentLevel().setGameOver(true);
+    }
+
+    /**
+     * Returns the list of agents that exist in the current level.
+     */
+    public List<Agent> getCurrentAgents() {
+        return levels.get(currentLevel).getLevelAgents();
     }
 
     public IPlayerLevelState getLevelState(){
@@ -100,5 +179,22 @@ public class State implements IStateDefinition, Serializable {
         for (Level level: levels) {
             level.initializeAgents();
         }
+    }
+
+    public void resetImageURLs(File imageDir) {
+        for (Level level: levels) {
+            level.resetImageURLs(imageDir);
+        }
+    }
+
+    public List<String> getAllImages() {
+        List<String> images = new ArrayList<>();
+        for (Level level: levels) {
+            images.add(level.getBackgroundImageURL());
+            for (Agent agent: level.getLevelAgents()) {
+                images.add(agent.getImageURL());
+            }
+        }
+        return images;
     }
 }

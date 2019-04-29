@@ -11,6 +11,7 @@ import Panes.MapPane;
 import Store.StorePane;
 import state.IPlayerLevelState;
 import state.agent.IPlayerAgent;
+import state.attribute.IPlayerAttribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -52,6 +53,13 @@ public class LevelController implements PropertyChangeListener {
       else if (e.getPropertyName().equals("Remove Agent"))
       {
          this.mapController.removeAgent((IPlayerAgent)(e.getOldValue()));
+      }
+      else if (e.getPropertyName().equals("Add Attribute"))
+      {
+         this.attributeController.addAttribute((IPlayerAttribute)(e.getNewValue()));
+      }
+      else if (e.getPropertyName().equals("Game Over"))
+      {
 
       }
    }

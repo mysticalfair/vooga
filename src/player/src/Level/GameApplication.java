@@ -1,5 +1,7 @@
+package Level;
 
-import engine.Game;
+import Level.Level;
+import SplashScreen.SplashScene;
 import engine.IPlayerGame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GameApplication extends Application {
-   private static final int MILLISECOND_DELAY = 100;
+   private static final int MILLISECOND_DELAY = 10;
 
    public static void main(String[] args) {
       launch(args);
@@ -27,19 +29,32 @@ public class GameApplication extends Application {
    public static final String GAME_NAME = "Game Time";
    private Timeline animation;
    private IPlayerGame game;
+   private SplashScene ss;
 
    @Override
    public void start(Stage primaryStage) {
       this.primaryStage = primaryStage;
-      primaryStage.show();
-      setAnimation();
-      game = new Game();
-      game.loadState("src/gameengine/John.xml");
-      var levelState = this.game.getLevelState();
+      ss = new SplashScene(primaryStage, this);
+      primaryStage.setScene(ss.pickGame());
+      this.primaryStage.show();
+     /* game = ss.selectGame();
+      var levelState = game.getLevelState();
+      Level level = new Level(levelState);
+      this.primaryStage.setScene(level);
+      this.primaryStage.show();*/
+      //setAnimation();
+
+   }
+
+   public void setup()
+   {
+      System.out.println("in setup");
+      game = ss.selectGame();
+      var levelState = game.getLevelState();
       Level level = new Level(levelState);
       this.primaryStage.setScene(level);
       this.primaryStage.show();
-     // this.game.run("gameengine/John.xml");
+      setAnimation();
    }
 
    private void step(){

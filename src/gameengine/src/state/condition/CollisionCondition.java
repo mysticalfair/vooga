@@ -13,6 +13,8 @@ import java.util.Map;
  * with the baseAgent.
  * @author Jorge Raad
  */
+
+//TODO: fix collision code so zombies coming in from right hit the pea
 public class CollisionCondition extends Condition implements IRequiresBaseAgent {
 
     private Agent baseAgent;
@@ -28,7 +30,10 @@ public class CollisionCondition extends Condition implements IRequiresBaseAgent 
 
     @Override
     public List<Agent> getValid(List<Agent> agents) {
+        return getCollidingAgents(agents);
+    }
 
+    protected List<Agent> getCollidingAgents(List<Agent> agents) {
         List<Agent> newAgents = new ArrayList<>();
         for (Agent agent: agents){
             if(baseAgent.isColliding(agent)){

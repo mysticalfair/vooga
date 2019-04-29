@@ -41,13 +41,18 @@ public class AgentView extends ImageView implements PropertyChangeListener {
    }
 
    public void init(IPlayerAgent playerAgent){
-      this.setX(playerAgent.getX() - (playerAgent.getWidth()/2));
-      this.setY(playerAgent.getY() - (playerAgent.getHeight()/2));
+      this.setX(playerAgent.getX());
+      this.setY(playerAgent.getY() + (playerAgent.getHeight()));
       // TODO: Make sure coordinate systems align
       this.setFitHeight(playerAgent.getHeight());
       this.setFitWidth(playerAgent.getWidth());
       this.setDirection(playerAgent.getDirection());
-      this.setImage(new Image(this.getClass().getClassLoader().getResourceAsStream(playerAgent.getImageURL())));
+      this.setImage(new Image(playerAgent.getImageURL()));
+
+      //this.setImage(new Image(AgentView.class.getResourceAsStream(playerAgent.getImageURL())));
+      //System.out.println(playerAgent.getImageURL());
+      //System.out.println(this.class.)
+      //System.out.println(AgentView.class.getResourceAsStream(playerAgent.getImageURL()));
       this.url = playerAgent.getImageURL();
    }
 
@@ -57,26 +62,19 @@ public class AgentView extends ImageView implements PropertyChangeListener {
 
    public void propertyChange(PropertyChangeEvent e) {
       if (e.getPropertyName().equals("x")) {
-         System.out.println("PC for object listening to " + this.listen + ". The image is " + this.url + ", the X currently is " + this.getLayoutX() + " and it's changing to" +  e.getNewValue());
          this.setX((Double) e.getNewValue());
 
-         System.out.println("*****" + this.url + " " + selfCount + ": "+ "X- "+ this.getX() + "********");
 
       } else if(e.getPropertyName().equals("y")) {
          this.setY((Double) e.getNewValue());
-         System.out.println("*****" + this.url + " " + selfCount + ": "+ "Y- "+ this.getY() + "********");
       } else if(e.getPropertyName().equals("imageUrl")) {
          this.setImage(new Image((String) e.getNewValue()));
-         System.out.println("Changed Image");
       } else if(e.getPropertyName().equals("width")) {
          this.setFitWidth((Double) e.getNewValue());
-         System.out.println("Changed Width");
       } else if(e.getPropertyName().equals("height")) {
          this.setFitHeight((Double) e.getNewValue());
-         System.out.println("Changed Height");
       } else if(e.getPropertyName().equals("direction")) {
          this.setDirection((Double) e.getNewValue());
-         System.out.println("Changed Direction");
       }
 
    }

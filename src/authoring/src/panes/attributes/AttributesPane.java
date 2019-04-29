@@ -34,9 +34,26 @@ public class AttributesPane extends AuthoringPane {
         return scrollPane.getWidth();
     }
 
-    public void createNewAgentForm(Consumer<IAgentDefinition> onCreated) {
+    /**
+     * Creates the define new agent form in the attributes pane. Has the option
+     * to modify an existing agent, or to create a new agent based off an
+     * existing one. If creating a new agent, the form will save to the context
+     * state's defined agent list. If modifying an existing agent, the form
+     * will update all of the attributes of the existing agent passed in. If
+     * an agent is unsuccessfully created, will notify user of problem to fix
+     * and will not clear form.
+     * @param onCreated callback for successful agent creation
+     * @param existingAgent an existing agent to modify or copy, if null
+     *                      creates new agent
+     * @param copyExisting if true and existingAgent not null, creates a new
+     *                     agent based off of existingAgent
+     */
+    public void createNewAgentForm(Consumer<IAgentDefinition> onCreated, IAgentDefinition existingAgent, boolean copyExisting) {
         scrollPane.setContent(null);
         DefineAgentForm defineAgentForm = new DefineAgentForm(getContext());
+        if (existingAgent != null) {
+            defineAgentForm.loadFromExisting(existingAgent);
+        }
         defineAgentForm.accessContainer(scrollPane::setContent);
         defineAgentForm.setOnCancel(e -> scrollPane.setContent(null));
         defineAgentForm.setOnSave(e -> {
@@ -54,8 +71,22 @@ public class AttributesPane extends AuthoringPane {
                     a.getActionDecisions().size()
                     );
             getContext().displayConsoleMessage(testString, ConsolePane.Level.SUCCESS);
-            getContext().getState().addDefinedAgent(a);
-            onCreated.accept(a);
+            if (existingAgent != null && !copyExisting) {
+                existingAgent.setName(a.getName());
+                existingAgent.setWidth(a.getWidth());
+                existingAgent.setHeight(a.getHeight());
+                existingAgent.setImageURL(a.getImageURL());
+                existingAgent.getProperties().clear();
+                a.getProperties().forEach(existingAgent::addProperty);
+                existingAgent.getActionDecisions().clear();
+                a.getActionDecisions().forEach(existingAgent::addActionDecision);
+                onCreated.accept(existingAgent);
+            }
+            else {
+                getContext().getState().addDefinedAgent(a);
+                onCreated.accept(a);
+            }
+            scrollPane.setContent(null);
         });
     }
 

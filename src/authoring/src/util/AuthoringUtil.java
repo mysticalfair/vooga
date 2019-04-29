@@ -57,20 +57,18 @@ public class AuthoringUtil {
      * Create a button that has an image instead of text.
      * @param buttonImageName the file URL for the image
      * @param buttonSize the width and height of the button, in pixels
-     * @param buttonImageSize the width and height of the button's image, in pixels
      * @param action the action for the button to execute on click
      * @return the newly-created button
      *
      * @author Mary Stuart Elder
      * javadoc @author Samuel Rabinowitz
      */
-    public static Button createSquareImageButton(String buttonImageName, double buttonSize, double buttonImageSize, EventHandler action){
+    public static Button createSquareImageButton(String buttonImageName, double buttonSize, EventHandler action){
         var button = new Button();
-        var image = new ImageView(new Image(buttonImageName));
+        var image = new ImageView(buttonImageName);
         image.setFitWidth(buttonSize);
         image.setFitHeight(buttonSize);
         button.setGraphic(image);
-        button.setPrefSize(buttonImageSize, buttonImageSize);
         button.setOnAction(action);
         return button;
     }

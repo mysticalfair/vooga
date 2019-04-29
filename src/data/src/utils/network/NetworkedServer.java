@@ -14,6 +14,8 @@ public class NetworkedServer extends NetworkedBase implements ConnectableServer 
 
     private static final String ACCEPTOR_THREAD_FOR_SERVER_FAILED = "Acceptor thread for server failed! ";
 
+    private int openedPort;
+
     public NetworkedServer(Object parent) {
         super(parent);
     }
@@ -25,16 +27,22 @@ public class NetworkedServer extends NetworkedBase implements ConnectableServer 
 
     @Override
     public void accept(int port) {
-        if (socket == null) {
+        if (!isConnected()) {
             Thread acceptThread = new Thread(() -> {
                 try {
-                    socket = new ServerSocket(port).accept();
-                    createStreams();
+                    setupSocket(new ServerSocket(port).accept());
+                    openedPort = port;
                 } catch (IOException ex) {
                     LOGGER.log(Level.SEVERE, ACCEPTOR_THREAD_FOR_SERVER_FAILED + ex.getMessage());
                 }
             });
             acceptThread.start();
         }
+    }
+
+    @Override
+    void handleNetworkDisconnection() {
+        disconnect();
+        accept(openedPort);
     }
 }

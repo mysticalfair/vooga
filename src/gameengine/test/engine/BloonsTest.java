@@ -59,7 +59,7 @@ class BloonsTest {
             level.addAgent("red", 50,50, 0, new ArrayList<>());
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }

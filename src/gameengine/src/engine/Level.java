@@ -16,6 +16,7 @@ import state.agent.AgentUtils;
 import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -254,6 +255,13 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
             throw new CloneNotSupportedException();
+        }
+    }
+
+    public void resetImageURLs(File imageDir) {
+        levelState.resetBackgroundImageURL(imageDir);
+        for (Agent agent : levelState.getCurrentAgents()) {
+            agent.resetImageURL(imageDir);
         }
     }
 

@@ -68,7 +68,7 @@ class PlantsVsZombiesTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +96,7 @@ class PlantsVsZombiesTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +118,7 @@ class PlantsVsZombiesTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +142,7 @@ class PlantsVsZombiesTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -164,7 +164,7 @@ class PlantsVsZombiesTest {
             level.addAgent("zombieshooter", 50, 250, 0, new ArrayList<Property>());
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(GAME_FILE_NAME);
+            //DAVIDCOMMENTgameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }

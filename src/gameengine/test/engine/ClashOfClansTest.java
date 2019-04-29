@@ -52,7 +52,7 @@ public class ClashOfClansTest {
 
             state.addLevel(level);
             gameEngine.setState(state);
-            gameEngine.saveState(CLASH_FILE);
+            //DAVIDCOMMENTgameEngine.saveState(CLASH_FILE);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,8 +77,9 @@ public class ClashOfClansTest {
         moveParams.put("speed", 10.0);
         IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
         List<IConditionDefinition> moveConditions = new ArrayList<>();
+        IActionDefinition point = factory.createAction("", new HashMap<>());
         moveConditions.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
-        moveConditions.add(factory.createCondition("IsNotColliding", new HashMap<>()));
+        moveConditions.add(factory.createCondition("Closest", new HashMap<>()));
         moveConditions.add(factory.createCondition("DoOnceWithSelf", new HashMap<>()));
         actionDecisions.add(factory.createActionDecision(move, moveConditions));
         List<IPropertyDefinition> properties = new ArrayList<>();

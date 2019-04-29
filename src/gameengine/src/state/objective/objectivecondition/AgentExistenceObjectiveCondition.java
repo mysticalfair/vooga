@@ -1,6 +1,5 @@
-package state.objective;
+package state.objective.objectivecondition;
 
-import authoring.IAgentDefinition;
 import state.State;
 import state.agent.Agent;
 

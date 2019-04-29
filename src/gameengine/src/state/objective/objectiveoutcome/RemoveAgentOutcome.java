@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * @author Jamie Palka
+ * @author Luke Truitt
  * Class to define the functionality of removing an agent.
  */
 public class RemoveAgentOutcome extends ObjectiveOutcome {

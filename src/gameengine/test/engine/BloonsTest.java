@@ -55,8 +55,8 @@ class BloonsTest {
 
             state.addDefinedAgent(createBloon("red"));
 
+            level.addAgent("red", 0, 100, 0, new ArrayList<>());
             level.addAgent("red", 50,50, 0, new ArrayList<>());
-            level.addAgent("red", 50,100, 0, new ArrayList<>());
             state.addLevel(level);
             gameEngine.setState(state);
             gameEngine.saveState(GAME_FILE_NAME);

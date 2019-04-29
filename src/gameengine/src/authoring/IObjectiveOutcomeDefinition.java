@@ -2,7 +2,7 @@ package authoring;
 
 import java.util.Map;
 
-public interface IObjectiveOutcomeDefinition {
+public interface IObjectiveOutcomeDefinition extends INameFieldsDefinition {
 
     String getTitle();
     void setTitle(String title);

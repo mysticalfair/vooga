@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import state.Property;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,107 +45,47 @@ class BloonsTest {
         try {
             ILevelDefinition level = factory.createLevel();
 
-            state.addDefinedAgent(createZombie("zombie"));
+            List<Point2D> path = new ArrayList<>();
+            path.add(new Point2D.Double(0.0, 0.0));
+            path.add(new Point2D.Double(200.0, 0.0));
+            path.add(new Point2D.Double(200.0, 200.0));
+            path.add(new Point2D.Double(400.0, 200.0));
+            path.add(new Point2D.Double(400.0, 400.0));
+            level.addPath("bloonPath", path);
 
-            for(int k = 0; k < AGENT_NUM; k++){
-                level.addAgent("zombie", 10 + 20 * k, 10, 0, new ArrayList<Property>());
-            }
+            state.addDefinedAgent(createBloon("red"));
+
+            level.addAgent("red", 0, 100, 0, new ArrayList<>());
+            level.addAgent("red", 50,50, 0, new ArrayList<>());
             state.addLevel(level);
             gameEngine.setState(state);
+            gameEngine.saveState(GAME_FILE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private IAgentDefinition createZombie(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
-        double initHealth = 10.0; // 10 hits from a pea
-        double damage = 1.0;
-        String team = "badGuys";
-        String otherTeam = "goodGuys";
-
-        // list of ADs
+    private IAgentDefinition createBloon(String name) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
         List<IActionDecisionDefinition> AD = new ArrayList<>();
 
-        List<IConditionDefinition> cond3 = new ArrayList<>();
-        Map<String, Object> healthCheckParams = new HashMap<>();
-        healthCheckParams.put("property", "health");
-        healthCheckParams.put("value", 0.0);
-        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
-        AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
+        List<IConditionDefinition> pathConditions = new ArrayList<>();
+        pathConditions.add(factory.createCondition("DoOnceWithSelf", new HashMap<>()));
+        Map<String, Object> pathParams = new HashMap<>();
+        pathParams.put("speed", 100.0);
+        AD.add(factory.createActionDecision(factory.createAction("MoveOnPointPath", pathParams), pathConditions));
 
+        List<Property> properties = new ArrayList<>();
 
-        // create attack
-        List<IConditionDefinition> cond2 = new ArrayList<>();
-        cond2.add(factory.createCondition("Collision", new HashMap<>()));
-        Map<String, Object> teamCheckParams = new HashMap<>();
-        teamCheckParams.put("property", "team");
-        teamCheckParams.put("value", otherTeam);
-        cond2.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
-        Map intervalParams = new HashMap();
-        intervalParams.put("interval", 2.0);
-        cond2.add(factory.createCondition("Interval", intervalParams));
-        Map<String, Object> damageParams = new HashMap<>();
-        damageParams.put("value", damage);
-        damageParams.put("property", "health");
-        AD.add(factory.createActionDecision(
-                factory.createAction("DecrementProperty", damageParams), cond2));
-
-        // create Movement AD
-        Map<String, Object> moveParams = new HashMap<>();
-        moveParams.put("angle", 0.0);
-        moveParams.put("speed", 10.0);
-        IActionDefinition move = factory.createAction("MoveAtRelativeAngle", moveParams);
-        List<IConditionDefinition> zombieMoveConditions = new ArrayList<>();
-        zombieMoveConditions.add(factory.createCondition("PropertyEqualTo", teamCheckParams));
-        zombieMoveConditions.add(factory.createCondition("IsNotColliding", new HashMap<>()));
-        zombieMoveConditions.add(factory.createCondition("DoOnceWithSelf", new HashMap<>()));
-        AD.add(factory.createActionDecision(move, zombieMoveConditions));
-
-        // create properties
-        List<IPropertyDefinition> properties = new ArrayList<>();
-        properties.add(factory.createProperty("health", initHealth));
-        properties.add(factory.createProperty("team", team));
-
-        //create zombie
-        return factory.createAgent(0, 0, 30, 30,
-                180, name, "pvz/zombie.gif", AD, properties);
+        properties.add((Property)factory.createProperty("pathName", "bloonPath"));
+        return factory.createAgent(0, 0, 12, 15,
+                180, name, "bloons/redBloon.png", AD, properties);
     }
 
-    private IAgentDefinition createPeashooter(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
-        String team = "goodGuys";
-        double initHealth = 20.0; // 4 zombie bites
-
-        // MAKING peashooter
-        List<IActionDecisionDefinition> AD2 = new ArrayList<>();
-
-        //making spawn action
-        Map<String, Object> spawnParams = new HashMap<>();
-        spawnParams.put("agent", projectileName);
-        IActionDefinition spawnAction = factory.createAction("SpawnAgentInitialDirection", spawnParams);
-        List<IConditionDefinition> conditions = new ArrayList<>();
-        Map condParams = new HashMap();
-        condParams.put("interval", 5.0);
-        conditions.add(factory.createCondition("DoOnceWithSelf", condParams));
-        conditions.add(factory.createCondition("Interval", condParams));
-        IActionDecisionDefinition spawnAD = factory.createActionDecision(spawnAction, conditions);
-        AD2.add(spawnAD);
-
-        List<IConditionDefinition> cond3 = new ArrayList<>();
-        cond3.add(factory.createCondition("DoOnceWithSelf", new HashMap<>()));
-        Map<String, Object> healthCheckParams = new HashMap<>();
-        healthCheckParams.put("property", "health");
-        healthCheckParams.put("value", 0.0);
-        cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
-        AD2.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
-
-        // add properties
-        List<IPropertyDefinition> properties = new ArrayList<>();
-        properties.add(factory.createProperty("team", team));
-        properties.add(factory.createProperty("health", initHealth));
-
-        return factory.createAgent(50, 50, 20, 20,
-                0,name, "pvz/peashooter.gif", AD2, properties);
-    }
+//    private IAgentDefinition createTower(String name, String projectileName) throws ActionDoesNotExistException, ReflectionException, ConditionDoesNotExistException {
+//
+//        return factory.createAgent(50, 50, 20, 20,
+//                0,name, "pvz/peashooter.gif", AD2, properties);
+//    }
 
 }

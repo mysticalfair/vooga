@@ -16,6 +16,7 @@ import state.attribute.IAttribute;
 
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable {
+public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serializable, Cloneable {
 
     private LevelState levelState;
     private GameEventMaster eventMaster;
@@ -186,6 +187,7 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
         for (Agent agent: levelState.getCurrentAgents()) {
             try {
                 agent.update(levelState.getMutableAgentsExcludingSelf(agent), deltaTime);
+
                 index++;
 
             } catch (CloneNotSupportedException e) {
@@ -236,13 +238,33 @@ public class Level implements ILevelDefinition, IRequiresGameEventMaster, Serial
 
     @Override
     public ILevelDefinition clone() throws CloneNotSupportedException {
-        return (Level) AgentUtils.deepClone(this);
+        try {
+            Level clonedLevel = (Level) super.clone();
+            clonedLevel.levelState = (LevelState) AgentUtils.deepClone(this.levelState);
+            clonedLevel.agentsToAdd = new ArrayList<>();
+            clonedLevel.agentsToRemove = new ArrayList<>();
+            clonedLevel.authoringAgentsPlaced =
+                    (List<AgentReference>) AgentUtils.deepClone(this.authoringAgentsPlaced);
+            clonedLevel.authoringPlaceableAgents =
+                    (List<String>) AgentUtils.deepClone(this.authoringPlaceableAgents);
+            clonedLevel.paths =
+                    (Map<String, List<Point2D>>) AgentUtils.deepClone(this.paths);
+            clonedLevel.masterDefinedAgents = this.masterDefinedAgents;
+            return clonedLevel;
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+            throw new CloneNotSupportedException();
+        }
     }
 
     public void resetImageURLs(File imageDir) {
         levelState.resetBackgroundImageURL(imageDir);
-        for (Agent agent: levelState.getCurrentAgents()) {
+        for (Agent agent : levelState.getCurrentAgents()) {
             agent.resetImageURL(imageDir);
         }
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.levelState.setGameOver(gameOver);
     }
 }

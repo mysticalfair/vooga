@@ -80,7 +80,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - X location of the agent
      */
     public double getX() {
-        return (int) playerAgent.getX();
+        return playerAgent.getX();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Agent implements IAgentDefinition, IPlayerAgent, Cloneable, Seriali
      * @return int - Y location of the agent
      */
     public double getY() {
-        return (int) playerAgent.getY();
+        return playerAgent.getY();
     }
 
     @Override

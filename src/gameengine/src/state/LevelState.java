@@ -26,6 +26,7 @@ public class LevelState implements Serializable, IPlayerLevelState {
     private List<Agent> agentsCurrent;
     private List<IAttribute> attributesCurrent;
 
+    private boolean gameOver = false;
     private String backgroundImageURL;
     private PropertyChangeSupport pcs;
 
@@ -88,6 +89,11 @@ public class LevelState implements Serializable, IPlayerLevelState {
             //TODO: change back to agent
             this.pcs.firePropertyChange("Remove Agent", agent, null);
         }
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+        this.pcs.firePropertyChange("Game Over", !gameOver, gameOver);
     }
 
     public void addAttribute(Attribute attribute) {

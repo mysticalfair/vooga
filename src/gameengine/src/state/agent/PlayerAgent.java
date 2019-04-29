@@ -6,6 +6,7 @@ import utils.Serializer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,11 @@ public class PlayerAgent implements IPlayerAgent, Serializable, Cloneable {
 
     @Override
     public PlayerAgent clone() throws CloneNotSupportedException {
-        return (PlayerAgent)AgentUtils.deepClone(this);
+        try {
+            return (PlayerAgent)AgentUtils.deepClone(this);
+        } catch (Exception e) {
+            throw new CloneNotSupportedException();
+        }
 //        PlayerAgent clone = (PlayerAgent) super.clone();
 //        clone.pcs = new PropertyChangeSupport(clone);
 //        clone.properties = (List<Property>)AgentUtils.deepClone(properties);

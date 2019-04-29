@@ -186,7 +186,6 @@ class PlantsVsZombiesTest {
         cond3.add(factory.createCondition("PropertyLessThanOrEqualTo", healthCheckParams));
         AD.add(factory.createActionDecision(factory.createAction("DestroyAgent", new HashMap<>()), cond3));
 
-
         // create attack
         List<IConditionDefinition> cond2 = new ArrayList<>();
         cond2.add(factory.createCondition("Collision", new HashMap<>()));

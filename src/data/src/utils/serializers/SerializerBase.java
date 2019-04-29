@@ -18,6 +18,9 @@ public abstract class SerializerBase implements Serializer {
 
     protected static final String SERIALIZATION_ERR = "Object could not be serialized due to ";
     protected static final String DESERIALIZATION_ERR = "Object could not be deserialized due to ";
+    private static final String SUBFOLDER_KEY = "/";
+    private static final String GAME_XML_NAME = "game.xml";
+    private static final String RESOURCES_FOLDER_NAME = "resources";
 
     @Override
     public final void save(Serializable state, File fileLocation) throws SerializationException{
@@ -33,7 +36,7 @@ public abstract class SerializerBase implements Serializer {
 
     @Override
     public void save(Serializable state, File fileLocation, List<String> resourcesToMove) throws SerializationException {
-        save(state, fileLocation);
+        save(state, new File(fileLocation.getAbsolutePath() + SUBFOLDER_KEY + GAME_XML_NAME));
         try {
             moveResources(fileLocation.getAbsolutePath(), resourcesToMove);
         } catch (IOException ex) {
@@ -55,15 +58,11 @@ public abstract class SerializerBase implements Serializer {
     }
 
     private void moveResources(String baseFilePath, List<String> resources) throws IOException {
-        String resourcesFolderName = "resources";
-        String folderFileName = baseFilePath + resourcesFolderName;
-        File folderFile = new File(folderFileName);
-        if (!folderFile.exists()) {
-            folderFile.mkdir();
-        }
+        String folderFileName = baseFilePath + SUBFOLDER_KEY + RESOURCES_FOLDER_NAME;
+        Files.createDirectory(new File(folderFileName).toPath());
         for (String resourcePath : resources) {
             File resourceToCopy = new File(resourcePath);
-            File targetResourceDest = new File(folderFileName + "/" + resourceToCopy.getName());
+            File targetResourceDest = new File(folderFileName + SUBFOLDER_KEY + resourceToCopy.getName());
             Files.copy(resourceToCopy.toPath(), targetResourceDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }

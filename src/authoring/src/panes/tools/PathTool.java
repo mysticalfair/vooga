@@ -8,6 +8,9 @@ import panes.MapPane;
 import panes.Path;
 import util.AuthoringContext;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+
 
 public abstract class PathTool extends MapTool{
 
@@ -26,18 +29,27 @@ public abstract class PathTool extends MapTool{
     }
 
     protected void addPath(Path path){
+        String pathName = path.getID();
+        List<Point2D> locations = path.getPathLocations();
+        getContext().getState().getLevels().get(map.getLevel() - 1).addPath(pathName, locations);
         if(!pathOptions.contains(path)){
             pathOptions.add(path);
         }
     }
 
-    protected void removeVisualPath(Path path){
+    protected boolean containsPath(String pathName){
+        return getContext().getState().getLevels().get(map.getLevel() - 1).getPaths().containsKey(pathName);
+    }
+
+    protected void removePath(Path path){
         for(Line l: path.getLines()){
             map.removeShape(l);
         }
         for(Circle c: path.getPoints()){
             map.removeShape(c);
         }
+        getContext().getState().getLevels().get(map.getLevel() - 1).removePath(path.getID());
+        pathOptions.remove(path);
     }
 
     protected void updatePathLines(Path path){
@@ -55,7 +67,14 @@ public abstract class PathTool extends MapTool{
         map.accessMap(node -> node.setOnMouseReleased(null));
     }
 
-    protected Path getPath(int pathIndex){
-        return pathOptions.get(pathIndex);
+    protected Path getPath(String pathName){
+        Path pathToRemove = null;
+        for(Path path: pathOptions){
+            if(path.getID().equals(pathName)){
+                pathToRemove = path;
+                break;
+            }
+        }
+        return pathToRemove;
     }
 }

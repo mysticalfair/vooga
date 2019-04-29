@@ -1,12 +1,28 @@
 package panes;
 
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * When are paths messed with?
+ *
+ * Adding paths:
+ *      On add -
+ *          add initial list of points to level (game engine)
+ *          add initial path object to map, pathpane
+ * Removing paths:
+ *      On remove -
+ *          remove list of points from level
+ *          remove path from map (shapes) and pathpane (row)
+ * Adding/dragging/removing points:
+ *      Update list of points in level
+ *      Update path object (map, pathpane)
+ */
 
 public class Path {
 
@@ -23,17 +39,12 @@ public class Path {
      *  Set circle's onMouseClick and onMouseDrag to be like a draggable image
      */
 
-    // getPaths (map string to point2d
-    // removePath(index)
-    // removePath(string)
-    // addPath(string, list<point2d>)
-
     private List<PathPoint> points;
     private List<Line> lines;
-    private int pathID;
+    private String pathID;
     private Color pathColor;
 
-    public Path(int id){
+    public Path(String id){
         points = new ArrayList<>();
         lines = new ArrayList<>();
         pathID = id;
@@ -58,7 +69,7 @@ public class Path {
         }
     }
 
-    public int getID(){
+    public String getID(){
         return pathID;
     }
 
@@ -71,7 +82,7 @@ public class Path {
     public List<Point2D> getPathLocations(){
         var list = new ArrayList<Point2D>();
         for(Circle c: getPoints()){
-            list.add(new Point2D(c.getCenterX(), c.getCenterY()));
+            list.add(new Point2D.Double(c.getCenterX(), c.getCenterY()));
         }
         return list;
     }
